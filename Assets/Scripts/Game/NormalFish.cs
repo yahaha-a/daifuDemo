@@ -14,7 +14,7 @@ namespace daifuDemo
 		CAUGHT
 	}
 	
-	public partial class NormalFish : ViewController
+	public partial class NormalFish : ViewController, IController
 	{
 		private FishState _fishState = FishState.SWIM;
 		
@@ -104,7 +104,7 @@ namespace daifuDemo
 				if (Vector3.Distance(playerPosition, transform.position) <= 1f)
 				{
 					_fishState = FishState.CAUGHT;
-					Player._numberOfFish.Value += 1;
+					this.SendCommand<FishCountAddOneCommand>();
 					gameObject.DestroySelf();
 				}
 				else
@@ -113,6 +113,11 @@ namespace daifuDemo
 					transform.position = Vector3.Lerp(position, playerPosition, 1 - Mathf.Exp(-Time.deltaTime * 30));
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+		}
+
+		public IArchitecture GetArchitecture()
+		{
+			return Global.Interface;
 		}
 	}
 }

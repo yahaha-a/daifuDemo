@@ -11,13 +11,12 @@ namespace daifuDemo
 		CATCH_FISH
 	}
 	
-	public partial class Player : ViewController
+	public partial class Player : ViewController, IController
 	{
 		private Rigidbody2D _mRigidbody2D;
 
 		private PlayState _playState = PlayState.SWIM;
 
-		public static BindableProperty<int> _numberOfFish = new BindableProperty<int>(0);
 		
 		private void Awake()
 		{
@@ -32,14 +31,6 @@ namespace daifuDemo
 			{
 				_playState = PlayState.SWIM;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-
-			_numberOfFish.Register(number =>
-			{
-				if (number >= 1)
-				{
-					UIKit.OpenPanel<UIGamePassPanel>();
-				}
-			});
 		}
 
 		private void Update()
@@ -82,6 +73,11 @@ namespace daifuDemo
 			{
 				_mRigidbody2D.velocity = Vector2.zero;
 			}
+		}
+
+		public IArchitecture GetArchitecture()
+		{
+			return Global.Interface;
 		}
 	}
 }

@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using QFramework;
+using UnityEngine.SceneManagement;
 
 namespace daifuDemo
 {
 	public class UIGamePassPanelData : UIPanelData
 	{
 	}
-	public partial class UIGamePassPanel : UIPanel
+	public partial class UIGamePassPanel : UIPanel, IController
 	{
 		protected override void OnInit(IUIData uiData = null)
 		{
@@ -15,7 +16,8 @@ namespace daifuDemo
 			
 			BackToStartPanelButton.onClick.AddListener(() =>
 			{
-				UIKit.OpenPanel<UIGameStartPanel>();
+				this.SendCommand<ReloadDataCommand>();
+				SceneManager.LoadScene("GameStart");
 				this.CloseSelf();
 			});
 		}
@@ -34,7 +36,12 @@ namespace daifuDemo
 		
 		protected override void OnClose()
 		{
-			Player._numberOfFish.Value = 0;
+			
+		}
+
+		public IArchitecture GetArchitecture()
+		{
+			return Global.Interface;
 		}
 	}
 }

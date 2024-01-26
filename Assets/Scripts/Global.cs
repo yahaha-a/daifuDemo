@@ -14,7 +14,7 @@ namespace daifuDemo
         
         protected override void Init()
         {
-            
+            this.RegisterModel<IPlayerModel>(new PlayerModel());
         }
     }
 }
