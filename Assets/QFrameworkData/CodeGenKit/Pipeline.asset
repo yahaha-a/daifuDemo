@@ -18,16 +18,12 @@ MonoBehaviour:
     GameObject: {fileID: 0}
     From: 0
     NameToFullName: []
-    BindInfos:
-    - TypeName: Transform
-      PathToRoot: FishForkHeadTemplate
-      MemberName: FishForkHeadTemplate
+    BindInfos: []
     ScriptsFolder: Assets/Scripts/Game
-    ClassName: FishFork
+    ClassName: GameStartController
     Namespace: daifuDemo
     MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace daifuDemo\r\n{\r\n\tpublic
-      partial class FishFork : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
+      partial class GameStartController : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
       Code Here\r\n\t\t}\r\n\t}\r\n}\r\n"
-    DesignerCode: "// Generate Id:7f4386ac-3866-4b38-b506-17710034577c\r\nusing UnityEngine;\r\n\r\nnamespace
-      daifuDemo\r\n{\r\n\tpublic partial class FishFork\r\n\t{\r\n\r\n\t\tpublic
-      Transform FishForkHeadTemplate;\r\n\r\n\t}\r\n}\r\n"
+    DesignerCode: "// Generate Id:3d9a6878-5ce7-4cd8-aa4a-b68b777d684f\r\nusing UnityEngine;\r\n\r\nnamespace
+      daifuDemo\r\n{\r\n\tpublic partial class GameStartController\r\n\t{\r\n\r\n\t}\r\n}\r\n"

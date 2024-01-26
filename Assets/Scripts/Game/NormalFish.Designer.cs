@@ -1,10 +1,12 @@
-// Generate Id:f853cfc2-8c52-4d3e-a51d-ef943259f5b3
+// Generate Id:e8b865d9-574f-41e6-8a62-770872e5f693
 using UnityEngine;
 
 namespace daifuDemo
 {
 	public partial class NormalFish
 	{
+
+		public CircleCollider2D HitBox;
 
 	}
 }

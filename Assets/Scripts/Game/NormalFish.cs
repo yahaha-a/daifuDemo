@@ -24,7 +24,7 @@ namespace daifuDemo
 
 		private Vector2 _direction;
 
-		private Vector2 _startPosition;
+		private Vector3 _startPosition;
 		
 		private void OnTriggerEnter2D(Collider2D other)
 		{
@@ -104,6 +104,7 @@ namespace daifuDemo
 				if (Vector3.Distance(playerPosition, transform.position) <= 1f)
 				{
 					_fishState = FishState.CAUGHT;
+					Player._numberOfFish.Value += 1;
 					gameObject.DestroySelf();
 				}
 				else

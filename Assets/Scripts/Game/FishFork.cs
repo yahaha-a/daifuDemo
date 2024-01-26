@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using QFramework;
+using Unity.Mathematics;
+using UnityEngine.Serialization;
 
 namespace daifuDemo
 {
@@ -16,7 +18,11 @@ namespace daifuDemo
 	{
 		private float _rotationRate = 50f;
 
-		public static FishForkState _fishForkState = FishForkState.READY;
+		public FishForkState _fishForkState = FishForkState.READY;
+
+		public bool _ifLeft = false;
+
+		public GameObject FlyerRoot;
 
 		private void Update()
 		{
@@ -98,7 +104,15 @@ namespace daifuDemo
 					FishForkHeadTemplate.InstantiateWithParent(this)
 						.Self(self =>
 						{
-							self.GetComponent<FishForkHead>().originTransform = transform;
+							if (_ifLeft)
+							{
+								self.GetComponent<FishForkHead>().Direction = -1;
+							}
+							else
+							{
+								self.GetComponent<FishForkHead>().Direction = 1;
+							}
+							self.parent = FlyerRoot.transform;
 							self.Show();
 						});
 					break;
