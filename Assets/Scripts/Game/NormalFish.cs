@@ -1,27 +1,22 @@
 using System;
 using UnityEngine;
 using QFramework;
+using Unity.VisualScripting;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace daifuDemo
 {
-	public enum FishState
+	public partial class NormalFish : ViewController, IFish
 	{
-		SWIM,
-		FRIGHTENED,
-		HIT,
-		CAUGHT
-	}
-	
-	public partial class NormalFish : ViewController, IController
-	{
-		private FishState _fishState = FishState.SWIM;
+		public FishState FishState { get; private set; }
 		
-		private float _toggleDirectionTime = 3.0f;
-
-		private float _swimRate = 2.0f;
-
+		public float ToggleDirectionTime { get; private set; }
+		
+		public float SwimRate { get; private set; }
+		
+		public string FishKey { get; private set; }
+		
 		private Vector2 _direction;
 
 		private Vector3 _startPosition;
@@ -30,7 +25,7 @@ namespace daifuDemo
 		{
 			if (other.CompareTag("Player"))
 			{
-				_fishState = FishState.FRIGHTENED;
+				FishState = FishState.Frightened;
 			}
 		}
 
@@ -38,20 +33,32 @@ namespace daifuDemo
 		{
 			if (other.CompareTag("Player"))
 			{
-				_fishState = FishState.SWIM;
+				FishState = FishState.Swim;
 			}
 		}
 
-		private void Awake()
+		private void Start()
 		{
+			var fishModel = this.GetModel<IFishMode>();
+			FishKey = fishModel.NormalFishKey;
+			
 			_direction = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 			_startPosition = transform.position;
 
+			var fishSystem = this.GetSystem<IFishSystem>();
+
+			fishSystem.FishInfosAddComplete.Register(() =>
+			{
+				FishState = this.SendQuery(new FindFishState(FishKey));
+				ToggleDirectionTime = this.SendQuery(new FindFishToggleDirectionTime(FishKey));
+				SwimRate = this.SendQuery(new FindFishSwimRate(FishKey));
+			});
+			
 			FishForkHead.HitFish.Register(() =>
 			{
 				HitByFishFork();
                 
-				if (_fishState == FishState.CAUGHT)
+				if (FishState == FishState.Caught)
 				{
 					FishForkHead.CatchFish?.Trigger();
 				}
@@ -65,29 +72,29 @@ namespace daifuDemo
 				_direction = -_direction;
 			}
 
-			if (_fishState == FishState.FRIGHTENED)
+			if (FishState == FishState.Frightened)
 			{
 				var playerPosition = FindObjectOfType<Player>().transform.position;
 				_direction = (transform.position - playerPosition).normalized;
-				_swimRate = 5.0f;
+				SwimRate = 5.0f;
 			}
-			else if (_fishState == FishState.SWIM)
+			else if (FishState == FishState.Swim)
 			{
-				_swimRate = 3.0f;
-				_toggleDirectionTime -= Time.deltaTime;
-				if (_toggleDirectionTime <= 0)
+				SwimRate = 3.0f;
+				ToggleDirectionTime -= Time.deltaTime;
+				if (ToggleDirectionTime <= 0)
 				{
-					_toggleDirectionTime = 3.0f;
+					ToggleDirectionTime = 3.0f;
 					_direction = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 				}
 			}
 			else
 			{
-				_swimRate = 0;
+				SwimRate = 0;
 				_direction = Vector2.zero;
 			}
 			
-			var swimSpeed = _swimRate * _direction;
+			var swimSpeed = SwimRate * _direction;
 			var position = transform.position;
 			transform.position = new Vector3(position.x + swimSpeed.x * Time.deltaTime,
 				position.y + swimSpeed.y * Time.deltaTime, position.z);
@@ -95,7 +102,7 @@ namespace daifuDemo
 
 		private void HitByFishFork()
 		{
-			_fishState = FishState.HIT;
+			FishState = FishState.Hit;
 
 			ActionKit.OnUpdate.Register(() =>
 			{
@@ -103,7 +110,7 @@ namespace daifuDemo
 
 				if (Vector3.Distance(playerPosition, transform.position) <= 1f)
 				{
-					_fishState = FishState.CAUGHT;
+					FishState = FishState.Caught;
 					this.SendCommand<FishCountAddOneCommand>();
 					gameObject.DestroySelf();
 				}

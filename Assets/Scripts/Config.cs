@@ -4,6 +4,6 @@ namespace daifuDemo
     {
         public static float PlayerWalkingRate = 5.0f;
 
-        public static int NUMBEROFFISH = 0;
+        public static int NumberOfFish = 0;
     }
 }

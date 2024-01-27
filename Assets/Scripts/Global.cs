@@ -14,7 +14,9 @@ namespace daifuDemo
         
         protected override void Init()
         {
+            this.RegisterSystem<IFishSystem>(new FishSystem());
             this.RegisterModel<IPlayerModel>(new PlayerModel());
+            this.RegisterModel<IFishMode>(new FishModel());
         }
     }
 }
