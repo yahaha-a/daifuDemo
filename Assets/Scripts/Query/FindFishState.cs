@@ -1,4 +1,5 @@
 using QFramework;
+using UnityEngine;
 
 namespace daifuDemo
 {
@@ -13,7 +14,7 @@ namespace daifuDemo
         
         protected override FishState OnDo()
         {
-            var fishSystem = this.GetSystem<FishSystem>();
+            var fishSystem = this.GetSystem<IFishSystem>();
             var fishState = fishSystem.FishInfos[_fishKey].FishState;
             return fishState;
         }

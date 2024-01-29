@@ -22,7 +22,11 @@ namespace daifuDemo
         
         float ToggleDirectionTime { get; }
         
+        float RangeOfMovement { get; }
+        
         float SwimRate { get; }
+        
+        float FrightenedSwimRate { get; }
     }
     
     public class FishInfo : IFishInfo
@@ -37,7 +41,11 @@ namespace daifuDemo
         
         public float ToggleDirectionTime { get; private set; }
         
+        public float RangeOfMovement { get; private set; }
+
         public float SwimRate { get; private set; }
+        
+        public float FrightenedSwimRate { get; private set; }
 
         public FishInfo WithFishName(string fishName)
         {
@@ -45,10 +53,10 @@ namespace daifuDemo
             return this;
         }
 
-        public string WithFishKey(string fishKey)
+        public FishInfo WithFishKey(string fishKey)
         {
             FishKey = fishKey;
-            return FishKey;
+            return this;
         }
 
         public FishInfo WithFishPrefab(GameObject fishPrefab)
@@ -69,9 +77,21 @@ namespace daifuDemo
             return this;
         }
 
+        public FishInfo WithRangeOfMovement(float rangeOfMovement)
+        {
+            RangeOfMovement = rangeOfMovement;
+            return this;
+        }
+
         public FishInfo WithSwimRate(float swimRate)
         {
             SwimRate = swimRate;
+            return this;
+        }
+
+        public FishInfo WithFrightenedSwimRate(float frightenedSwimRate)
+        {
+            FrightenedSwimRate = frightenedSwimRate;
             return this;
         }
     }

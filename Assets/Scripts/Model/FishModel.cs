@@ -4,7 +4,7 @@ namespace daifuDemo
 {
     public interface IFishMode : IModel
     {
-        string NormalFishKey { get; }
+        
     }
     
     public class FishModel : AbstractModel, IFishMode
@@ -14,6 +14,5 @@ namespace daifuDemo
             
         }
 
-        public string NormalFishKey { get; } = "normal_fish";
     }
 }

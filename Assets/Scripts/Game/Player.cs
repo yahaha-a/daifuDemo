@@ -6,16 +6,16 @@ namespace daifuDemo
 {
 	public enum PlayState
 	{
-		SWIM,
-		AIM,
-		CATCH_FISH
+		Swim,
+		Aim,
+		CatchFish
 	}
 	
 	public partial class Player : ViewController, IController
 	{
 		private Rigidbody2D _mRigidbody2D;
 
-		private PlayState _playState = PlayState.SWIM;
+		private PlayState _playState = PlayState.Swim;
 
 		
 		private void Awake()
@@ -24,27 +24,27 @@ namespace daifuDemo
 
 			FishForkHead.HitFish.Register(() =>
 			{
-				_playState = PlayState.CATCH_FISH;
+				_playState = PlayState.CatchFish;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
 			FishForkHead.CatchFish.Register(() =>
 			{
-				_playState = PlayState.SWIM;
+				_playState = PlayState.Swim;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
 		private void Update()
 		{
-			if (FishFork._fishForkState == FishForkState.AIM || FishFork._fishForkState == FishForkState.REVOLVE)
+			if (FishFork._fishForkState == FishForkState.Aim || FishFork._fishForkState == FishForkState.Revolve)
 			{
-				_playState = PlayState.AIM;
+				_playState = PlayState.Aim;
 			}
 			else
 			{
-				_playState = PlayState.SWIM;
+				_playState = PlayState.Swim;
 			}
 			
-			if (_playState == PlayState.SWIM)
+			if (_playState == PlayState.Swim)
 			{
 				var inputHorizontal = Input.GetAxis("Horizontal");
 				var inputVertical = Input.GetAxis("Vertical");
@@ -65,11 +65,11 @@ namespace daifuDemo
 				_mRigidbody2D.velocity = Vector2.Lerp(_mRigidbody2D.velocity, playerTargetWalkingSpeed,
 					1 - Mathf.Exp(-Time.deltaTime * 10));
 			}
-			else if (_playState == PlayState.AIM)
+			else if (_playState == PlayState.Aim)
 			{
 				_mRigidbody2D.velocity = Vector2.zero;
 			}
-			else if (_playState == PlayState.CATCH_FISH)
+			else if (_playState == PlayState.CatchFish)
 			{
 				_mRigidbody2D.velocity = Vector2.zero;
 			}

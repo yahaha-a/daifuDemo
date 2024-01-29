@@ -6,8 +6,8 @@ namespace daifuDemo
 {
 	public enum FishForkHeadState
 	{
-		FLY,
-		HIT
+		Fly,
+		Hit
 	}
 	
 	public partial class FishForkHead : ViewController
@@ -20,7 +20,7 @@ namespace daifuDemo
 
 		private Rigidbody2D _rigidbody2D;
 
-		private FishForkHeadState _fishForkHeadState = FishForkHeadState.FLY;
+		private FishForkHeadState _fishForkHeadState = FishForkHeadState.Fly;
 
 		private Vector3 _originPosition;
 		
@@ -33,7 +33,7 @@ namespace daifuDemo
 			if (other.CompareTag("Fish"))
 			{
 				transform.parent = other.transform;
-				_fishForkHeadState = FishForkHeadState.HIT;
+				_fishForkHeadState = FishForkHeadState.Hit;
 				HitFish?.Trigger();
 			}
 		}
@@ -47,7 +47,7 @@ namespace daifuDemo
 
 		private void Update()
 		{
-			if (_fishForkHeadState == FishForkHeadState.FLY)
+			if (_fishForkHeadState == FishForkHeadState.Fly)
 			{
 				var speed = transform.right.normalized * _speed * Direction;
 				var position = transform.position;

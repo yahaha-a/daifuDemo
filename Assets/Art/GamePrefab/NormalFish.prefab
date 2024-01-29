@@ -220,7 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Namespace: daifuDemo
   ScriptName: NormalFish
-  ScriptsFolder: Assets/Scripts/Game
+  ScriptsFolder: Assets\Scripts\Game\Fish
   GeneratePrefab: 0
   PrefabFolder: Assets/Art/Prefab
   ArchitectureFullTypeName: 

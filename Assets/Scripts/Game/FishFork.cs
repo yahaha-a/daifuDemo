@@ -8,17 +8,17 @@ namespace daifuDemo
 {
 	public enum FishForkState
 	{
-		READY,
-		AIM,
-		REVOLVE,
-		LAUNCH
+		Ready,
+		Aim,
+		Revolve,
+		Launch
 	}
 	
 	public partial class FishFork : ViewController
 	{
 		private float _rotationRate = 50f;
 
-		public FishForkState _fishForkState = FishForkState.READY;
+		public FishForkState _fishForkState = FishForkState.Ready;
 
 		public bool _ifLeft = false;
 
@@ -34,42 +34,42 @@ namespace daifuDemo
 		{
 			switch (_fishForkState)
 			{
-				case FishForkState.READY:
+				case FishForkState.Ready:
 					if (Input.GetKeyDown(KeyCode.I))
 					{
-						_fishForkState = FishForkState.AIM;
+						_fishForkState = FishForkState.Aim;
 					}
 					break;
-				case FishForkState.AIM:
+				case FishForkState.Aim:
 					if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.C))
 					{
-						_fishForkState = FishForkState.REVOLVE;
+						_fishForkState = FishForkState.Revolve;
 					}
 					else if (Input.GetKeyUp(KeyCode.I))
 					{
-						_fishForkState = FishForkState.READY;
+						_fishForkState = FishForkState.Ready;
 					}
 					else if (Input.GetKeyDown(KeyCode.J))
 					{
-						_fishForkState = FishForkState.LAUNCH;
+						_fishForkState = FishForkState.Launch;
 					}
 					break;
-				case FishForkState.REVOLVE:
+				case FishForkState.Revolve:
 					if (Input.GetKeyDown(KeyCode.J))
 					{
-						_fishForkState = FishForkState.LAUNCH;
+						_fishForkState = FishForkState.Launch;
 					}
 					else if (Input.GetKeyUp(KeyCode.Z) || Input.GetKeyUp(KeyCode.C))
 					{
-						_fishForkState = FishForkState.AIM;
+						_fishForkState = FishForkState.Aim;
 					}
 					else if (Input.GetKeyUp(KeyCode.I))
 					{
-						_fishForkState = FishForkState.READY;
+						_fishForkState = FishForkState.Ready;
 					}
 					break;
-				case FishForkState.LAUNCH:
-					_fishForkState = FishForkState.READY;
+				case FishForkState.Launch:
+					_fishForkState = FishForkState.Ready;
 					break;
 			}
 		}
@@ -78,11 +78,11 @@ namespace daifuDemo
 		{
 			switch (_fishForkState)
 			{
-				case FishForkState.READY:
+				case FishForkState.Ready:
 					break;
-				case FishForkState.AIM:
+				case FishForkState.Aim:
 					break;
-				case FishForkState.REVOLVE:
+				case FishForkState.Revolve:
 					if (Input.GetKey(KeyCode.Z))
 					{
 						if (transform.eulerAngles.z < 70f || transform.eulerAngles.z > 289f)
@@ -100,7 +100,7 @@ namespace daifuDemo
 						}
 					}
 					break;
-				case FishForkState.LAUNCH:
+				case FishForkState.Launch:
 					FishForkHeadTemplate.InstantiateWithParent(this)
 						.Self(self =>
 						{
