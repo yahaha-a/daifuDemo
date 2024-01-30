@@ -29,6 +29,8 @@ namespace daifuDemo
 
 		public float CurrentToggleDirectionTime { get; private set; }
 		
+		public float Hp { get; set; }
+
 		private void OnTriggerEnter2D(Collider2D other)
 		{
 			if (other.CompareTag("Player"))
@@ -47,20 +49,7 @@ namespace daifuDemo
 		
 		private void Start()
 		{
-			FishKey = Config.PteroisKey;
-			
-			FishState = this.SendQuery(new FindFishState(FishKey));
-			ToggleDirectionTime = this.SendQuery(new FindFishToggleDirectionTime(FishKey));
-			SwimRate = this.SendQuery(new FindFishSwimRate(FishKey));
-			FrightenedSwimRate = this.SendQuery(new FindFishFrightenedSwimRate(FishKey));
-			RangeOfMovement = this.SendQuery(new FindFishRangeOfMovement(FishKey));
-			Damage = this.SendQuery(new FindFishDamage(FishKey));
-			PursuitSwimRate = this.SendQuery(new FindFishPursuitSwimRate(FishKey));
-
-			CurrentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
-			StartPosition = transform.position;
-			CurrentToggleDirectionTime = ToggleDirectionTime;
-			CurrentSwimRate = SwimRate;
+			InitData();
 			
 			FishForkHead.HitFish.Register(() =>
 			{
@@ -74,6 +63,30 @@ namespace daifuDemo
 		}
 		
 		private void Update()
+		{
+			Movement();
+		}
+
+		private void InitData()
+		{
+			FishKey = Config.PteroisKey;
+			
+			FishState = this.SendQuery(new FindFishState(FishKey));
+			ToggleDirectionTime = this.SendQuery(new FindFishToggleDirectionTime(FishKey));
+			SwimRate = this.SendQuery(new FindFishSwimRate(FishKey));
+			FrightenedSwimRate = this.SendQuery(new FindFishFrightenedSwimRate(FishKey));
+			RangeOfMovement = this.SendQuery(new FindFishRangeOfMovement(FishKey));
+			Damage = this.SendQuery(new FindFishDamage(FishKey));
+			PursuitSwimRate = this.SendQuery(new FindFishPursuitSwimRate(FishKey));
+			Hp = this.SendQuery(new FindFishHp(FishKey));
+
+			CurrentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+			StartPosition = transform.position;
+			CurrentToggleDirectionTime = ToggleDirectionTime;
+			CurrentSwimRate = SwimRate;
+		}
+
+		private void Movement()
 		{
 			if (Vector3.Distance(transform.position, StartPosition) >= RangeOfMovement)
 			{

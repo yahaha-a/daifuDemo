@@ -24,6 +24,8 @@ namespace daifuDemo
         float CurrentSwimRate { get; }
 
         float CurrentToggleDirectionTime { get; }
+        
+        float Hp { get; set; }
     }
 
     public interface IAggressiveFish : IFish

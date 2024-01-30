@@ -8,7 +8,8 @@ namespace daifuDemo
         Frightened,
         Attack,
         Hit,
-        Caught
+        Caught,
+        Dead
     }
     
     public interface IFishInfo
@@ -29,6 +30,8 @@ namespace daifuDemo
         
         float FrightenedSwimRate { get; }
         
+        float Hp { get; }
+        
         IFishInfo WithFishName(string fishName);
 
         IFishInfo WithFishKey(string fishKey);
@@ -44,6 +47,8 @@ namespace daifuDemo
         IFishInfo WithSwimRate(float swimRate);
 
         IFishInfo WithFrightenedSwimRate(float frightenedSwimRate);
+
+        IFishInfo WithHp(float hp);
     }
     
     public class FishInfo : IFishInfo
@@ -64,6 +69,8 @@ namespace daifuDemo
         
         public float FrightenedSwimRate { get; private set; }
         
+        public float Hp { get; private set; }
+
         public IFishInfo WithFishName(string fishName)
         {
             FishName = fishName;
@@ -109,6 +116,12 @@ namespace daifuDemo
         public IFishInfo WithFrightenedSwimRate(float frightenedSwimRate)
         {
             FrightenedSwimRate = frightenedSwimRate;
+            return this;
+        }
+
+        public IFishInfo WithHp(float hp)
+        {
+            Hp = hp;
             return this;
         }
     }

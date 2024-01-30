@@ -20,9 +20,24 @@ namespace daifuDemo
 
 		public FishForkState _fishForkState = FishForkState.Ready;
 
-		public bool _ifLeft = false;
+		private bool _ifLeft = false;
 
 		public GameObject FlyerRoot;
+
+		private bool FishForkIfShooting = false;
+
+		private void Start()
+		{
+			FishForkHead.FishForkHeadDestroy.Register(() =>
+			{
+				FishForkIfShooting = false;
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			Events.PlayerVeer.Register(value =>
+			{
+				_ifLeft = value;
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+		}
 
 		private void Update()
 		{
@@ -101,20 +116,24 @@ namespace daifuDemo
 					}
 					break;
 				case FishForkState.Launch:
-					FishForkHeadTemplate.InstantiateWithParent(this)
-						.Self(self =>
-						{
-							if (_ifLeft)
+					if (!FishForkIfShooting)
+					{
+						FishForkHeadTemplate.InstantiateWithParent(this)
+							.Self(self =>
 							{
-								self.GetComponent<FishForkHead>().Direction = -1;
-							}
-							else
-							{
-								self.GetComponent<FishForkHead>().Direction = 1;
-							}
-							self.parent = FlyerRoot.transform;
-							self.Show();
-						});
+								if (_ifLeft)
+								{
+									self.GetComponent<FishForkHead>().Direction = -1;
+								}
+								else
+								{
+									self.GetComponent<FishForkHead>().Direction = 1;
+								}
+								self.parent = FlyerRoot.transform;
+								self.Show();
+							});
+						FishForkIfShooting = true;
+					}
 					break;
 			}
 		}

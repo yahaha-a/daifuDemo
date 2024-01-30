@@ -18,16 +18,12 @@ MonoBehaviour:
     GameObject: {fileID: 0}
     From: 0
     NameToFullName: []
-    BindInfos:
-    - TypeName: CircleCollider2D
-      PathToRoot: HitBox
-      MemberName: HitBox
-    ScriptsFolder: Assets/Scripts/Game
-    ClassName: Pterois
+    BindInfos: []
+    ScriptsFolder: Assets/Scripts/Game/Weapon
+    ClassName: Dagger
     Namespace: daifuDemo
     MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace daifuDemo\r\n{\r\n\tpublic
-      partial class Pterois : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
+      partial class Dagger : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
       Code Here\r\n\t\t}\r\n\t}\r\n}\r\n"
-    DesignerCode: "// Generate Id:6401d8e2-516a-488c-9cb7-c7c855e78654\r\nusing UnityEngine;\r\n\r\nnamespace
-      daifuDemo\r\n{\r\n\tpublic partial class Pterois\r\n\t{\r\n\r\n\t\tpublic CircleCollider2D
-      HitBox;\r\n\r\n\t}\r\n}\r\n"
+    DesignerCode: "// Generate Id:cb4552ba-766b-4f69-a9d9-2972bf7e657b\r\nusing UnityEngine;\r\n\r\nnamespace
+      daifuDemo\r\n{\r\n\tpublic partial class Dagger\r\n\t{\r\n\r\n\t}\r\n}\r\n"

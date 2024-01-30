@@ -29,6 +29,8 @@ namespace daifuDemo
 
 		public float CurrentToggleDirectionTime { get; private set; }
 		
+		public float Hp { get; set; }
+
 		private void OnTriggerEnter2D(Collider2D other)
 		{
 			if (other.CompareTag("Player"))
@@ -74,6 +76,7 @@ namespace daifuDemo
 			SwimRate = this.SendQuery(new FindFishSwimRate(FishKey));
 			FrightenedSwimRate = this.SendQuery(new FindFishFrightenedSwimRate(FishKey));
 			RangeOfMovement = this.SendQuery(new FindFishRangeOfMovement(FishKey));
+			Hp = this.SendQuery(new FindFishHp(FishKey));
 
 			CurrentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 			StartPosition = transform.position;

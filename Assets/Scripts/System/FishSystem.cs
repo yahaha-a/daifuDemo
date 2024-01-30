@@ -24,6 +24,7 @@ namespace daifuDemo
                 .WithFrightenedSwimRate(5f)
                 .WithToggleDirectionTime(5f)
                 .WithRangeOfMovement(10f)
+                .WithHp(20f)
             },
             {Config.PteroisKey, new AggressiveFishInfo()
                 .WithDamage(5f)
@@ -37,12 +38,21 @@ namespace daifuDemo
                 .WithFrightenedSwimRate(6f)
                 .WithToggleDirectionTime(3f)
                 .WithRangeOfMovement(5f)
+                .WithHp(10f)
             },
         };
         
         protected override void OnInit()
         {
-            
+            Events.WeaponAttackFish.Register((damage, fish) =>
+            {
+                fish.GetComponent<IFish>().Hp -= damage;
+                Debug.Log(fish.GetComponent<IFish>().Hp);
+                if (Mathf.Approximately(fish.GetComponent<IFish>().Hp, 0))
+                {
+                    fish.DestroySelf();
+                }
+            });
         }
         
         private Dictionary<string, IFishInfo> Add(string key, IFishInfo fishInfo)

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 814042672152033946}
   m_Layer: 0
   m_Name: HitBox
-  m_TagString: Fish
+  m_TagString: FishHitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 5745128389735993902}
   m_Layer: 0
   m_Name: Pterois
-  m_TagString: Untagged
+  m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

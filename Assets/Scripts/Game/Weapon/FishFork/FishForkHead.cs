@@ -28,9 +28,11 @@ namespace daifuDemo
 
 		public static EasyEvent CatchFish = new EasyEvent();
 
+		public static EasyEvent FishForkHeadDestroy = new EasyEvent();
+
 		private void OnTriggerEnter2D(Collider2D other)
 		{
-			if (other.CompareTag("Fish"))
+			if (other.CompareTag("FishHitBox"))
 			{
 				transform.parent = other.transform;
 				_fishForkHeadState = FishForkHeadState.Hit;
@@ -56,6 +58,7 @@ namespace daifuDemo
 				
 				if (Vector3.Distance(transform.position, _originPosition) > _fishForkLength)
 				{
+					FishForkHeadDestroy?.Trigger();
 					gameObject.DestroySelf();
 				}
 			}

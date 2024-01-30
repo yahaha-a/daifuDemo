@@ -52,12 +52,12 @@ namespace daifuDemo
 				if (inputHorizontal < 0)
 				{
 					transform.localScale = new Vector3(-1, 1, 0);
-					FishFork._ifLeft = true;
+					this.SendCommand<PlayerTurnToLeft>();
 				}
 				else if (inputHorizontal > 0)
 				{
 					transform.localScale = new Vector3(1, 1, 0);
-					FishFork._ifLeft = false;
+					this.SendCommand<PlayerTurnToRight>();
 				}
 				
 				var direction = new Vector2(inputHorizontal, inputVertical).normalized;
