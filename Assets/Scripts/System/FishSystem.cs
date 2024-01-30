@@ -17,13 +17,27 @@ namespace daifuDemo
         {
             {Config.NormalFishKey, new FishInfo()
                 .WithFishName("普通鱼")
-                .WithFishKey("normal_fish")
+                .WithFishKey(Config.NormalFishKey)
                 .WithFishPrefab(_resLoader.LoadSync<GameObject>("NormalFish"))
                 .WithFishState(FishState.Swim)
                 .WithSwimRate(3f)
                 .WithFrightenedSwimRate(5f)
                 .WithToggleDirectionTime(5f)
-                .WithRangeOfMovement(10f)}
+                .WithRangeOfMovement(10f)
+            },
+            {Config.PteroisKey, new AggressiveFishInfo()
+                .WithDamage(5f)
+                .WithPursuitSwimRate(5f)
+                .WithSwimRate(5f)
+                .WithFishName("狮子鱼")
+                .WithFishKey(Config.PteroisKey)
+                .WithFishPrefab(_resLoader.LoadSync<GameObject>("Pterois"))
+                .WithFishState(FishState.Swim)
+                .WithSwimRate(4f)
+                .WithFrightenedSwimRate(6f)
+                .WithToggleDirectionTime(3f)
+                .WithRangeOfMovement(5f)
+            },
         };
         
         protected override void OnInit()

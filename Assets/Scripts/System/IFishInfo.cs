@@ -6,6 +6,7 @@ namespace daifuDemo
     {
         Swim,
         Frightened,
+        Attack,
         Hit,
         Caught
     }
@@ -27,6 +28,22 @@ namespace daifuDemo
         float SwimRate { get; }
         
         float FrightenedSwimRate { get; }
+        
+        IFishInfo WithFishName(string fishName);
+
+        IFishInfo WithFishKey(string fishKey);
+
+        IFishInfo WithFishPrefab(GameObject fishPrefab);
+
+        IFishInfo WithFishState(FishState fishState);
+
+        IFishInfo WithToggleDirectionTime(float toggleDirectionTime);
+
+        IFishInfo WithRangeOfMovement(float rangeOfMovement);
+
+        IFishInfo WithSwimRate(float swimRate);
+
+        IFishInfo WithFrightenedSwimRate(float frightenedSwimRate);
     }
     
     public class FishInfo : IFishInfo
@@ -46,50 +63,50 @@ namespace daifuDemo
         public float SwimRate { get; private set; }
         
         public float FrightenedSwimRate { get; private set; }
-
-        public FishInfo WithFishName(string fishName)
+        
+        public IFishInfo WithFishName(string fishName)
         {
             FishName = fishName;
             return this;
         }
 
-        public FishInfo WithFishKey(string fishKey)
+        public IFishInfo WithFishKey(string fishKey)
         {
             FishKey = fishKey;
             return this;
         }
 
-        public FishInfo WithFishPrefab(GameObject fishPrefab)
+        public IFishInfo WithFishPrefab(GameObject fishPrefab)
         {
             FishPrefab = fishPrefab;
             return this;
         }
 
-        public FishInfo WithFishState(FishState fishState)
+        public IFishInfo WithFishState(FishState fishState)
         {
             FishState = fishState;
             return this;
         }
 
-        public FishInfo WithToggleDirectionTime(float toggleDirectionTime)
+        public IFishInfo WithToggleDirectionTime(float toggleDirectionTime)
         {
             ToggleDirectionTime = toggleDirectionTime;
             return this;
         }
 
-        public FishInfo WithRangeOfMovement(float rangeOfMovement)
+        public IFishInfo WithRangeOfMovement(float rangeOfMovement)
         {
             RangeOfMovement = rangeOfMovement;
             return this;
         }
 
-        public FishInfo WithSwimRate(float swimRate)
+        public IFishInfo WithSwimRate(float swimRate)
         {
             SwimRate = swimRate;
             return this;
         }
 
-        public FishInfo WithFrightenedSwimRate(float frightenedSwimRate)
+        public IFishInfo WithFrightenedSwimRate(float frightenedSwimRate)
         {
             FrightenedSwimRate = frightenedSwimRate;
             return this;

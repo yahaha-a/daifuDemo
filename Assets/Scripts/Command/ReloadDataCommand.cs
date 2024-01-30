@@ -8,6 +8,7 @@ namespace daifuDemo
         {
             var playModel = this.GetModel<IPlayerModel>();
             playModel.NumberOfFish.Value = Config.NumberOfFish;
+            playModel.PlayerOxygen.Value = Config.PlayerOxygen;
         }
     }
 }

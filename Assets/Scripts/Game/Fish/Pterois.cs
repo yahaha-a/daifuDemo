@@ -1,13 +1,9 @@
-using System;
 using UnityEngine;
 using QFramework;
-using Unity.VisualScripting;
-using UnityEngine.Serialization;
-using Random = UnityEngine.Random; 
 
 namespace daifuDemo
 {
-	public partial class NormalFish : ViewController, IFish
+	public partial class Pterois : ViewController, IAggressiveFish
 	{
 		public string FishKey { get; private set; }
 		
@@ -20,6 +16,10 @@ namespace daifuDemo
 		public float SwimRate { get; private set; }
 		
 		public float FrightenedSwimRate { get; private set; }
+		
+		public float Damage { get; private set; }
+		
+		public float PursuitSwimRate { get; private set; }
 
 		public Vector2 CurrentDirection { get; private set; }
 
@@ -33,7 +33,7 @@ namespace daifuDemo
 		{
 			if (other.CompareTag("Player"))
 			{
-				FishState = FishState.Frightened;
+				FishState = FishState.Attack;
 			}
 		}
 
@@ -44,10 +44,23 @@ namespace daifuDemo
 				FishState = FishState.Swim;
 			}
 		}
-
+		
 		private void Start()
 		{
-			InitData();
+			FishKey = Config.PteroisKey;
+			
+			FishState = this.SendQuery(new FindFishState(FishKey));
+			ToggleDirectionTime = this.SendQuery(new FindFishToggleDirectionTime(FishKey));
+			SwimRate = this.SendQuery(new FindFishSwimRate(FishKey));
+			FrightenedSwimRate = this.SendQuery(new FindFishFrightenedSwimRate(FishKey));
+			RangeOfMovement = this.SendQuery(new FindFishRangeOfMovement(FishKey));
+			Damage = this.SendQuery(new FindFishDamage(FishKey));
+			PursuitSwimRate = this.SendQuery(new FindFishPursuitSwimRate(FishKey));
+
+			CurrentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+			StartPosition = transform.position;
+			CurrentToggleDirectionTime = ToggleDirectionTime;
+			CurrentSwimRate = SwimRate;
 			
 			FishForkHead.HitFish.Register(() =>
 			{
@@ -59,29 +72,8 @@ namespace daifuDemo
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
-
+		
 		private void Update()
-		{
-			Movement();
-		}
-
-		private void InitData()
-		{
-			FishKey = Config.NormalFishKey;
-			
-			FishState = this.SendQuery(new FindFishState(FishKey));
-			ToggleDirectionTime = this.SendQuery(new FindFishToggleDirectionTime(FishKey));
-			SwimRate = this.SendQuery(new FindFishSwimRate(FishKey));
-			FrightenedSwimRate = this.SendQuery(new FindFishFrightenedSwimRate(FishKey));
-			RangeOfMovement = this.SendQuery(new FindFishRangeOfMovement(FishKey));
-
-			CurrentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
-			StartPosition = transform.position;
-			CurrentToggleDirectionTime = ToggleDirectionTime;
-			CurrentSwimRate = SwimRate;
-		}
-
-		private void Movement()
 		{
 			if (Vector3.Distance(transform.position, StartPosition) >= RangeOfMovement)
 			{
@@ -104,6 +96,12 @@ namespace daifuDemo
 					CurrentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 				}
 			}
+			else if (FishState == FishState.Attack)
+			{
+				var playerPosition = FindObjectOfType<Player>().transform.position;
+				CurrentDirection = (playerPosition - transform.position).normalized;
+				CurrentSwimRate = PursuitSwimRate;
+			}
 			else
 			{
 				CurrentSwimRate = 0;
@@ -115,7 +113,7 @@ namespace daifuDemo
 			transform.position = new Vector3(position.x + swimSpeed.x * Time.deltaTime,
 				position.y + swimSpeed.y * Time.deltaTime, position.z);
 		}
-
+		
 		private void HitByFishFork()
 		{
 			FishState = FishState.Hit;
