@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using QFramework;
 
@@ -8,43 +9,75 @@ namespace daifuDemo
 	{
 		Swim,
 		Aim,
-		CatchFish
+		CatchFish,
+		Attack
 	}
 	
 	public partial class Player : ViewController, IController
 	{
 		private Rigidbody2D _mRigidbody2D;
 
-		private PlayState _playState = PlayState.Swim;
+		private IPlayerModel _playerModel;
 
+		public List<GameObject> WeaponList;
+
+		BindableProperty<GameObject> CurrentWeapon = new BindableProperty<GameObject>();
 		
-		private void Awake()
+		private void Start()
 		{
+			_playerModel = this.GetModel<IPlayerModel>();
+			
 			_mRigidbody2D = GetComponent<Rigidbody2D>();
 
 			FishForkHead.HitFish.Register(() =>
 			{
-				_playState = PlayState.CatchFish;
+				_playerModel.State.Value = PlayState.CatchFish;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
 			FishForkHead.CatchFish.Register(() =>
 			{
-				_playState = PlayState.Swim;
+				_playerModel.State.Value = PlayState.Swim;
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			Events.FishForkIsNotUse.Register(value =>
+			{
+				if (value)
+				{
+					_playerModel.State.Value = PlayState.Swim;
+				}
+				else
+				{
+					_playerModel.State.Value = PlayState.Aim;
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			_playerModel.WeaponKey.RegisterWithInitValue(value =>
+			{
+				foreach (var weapon in WeaponList)
+				{
+					if (value == weapon.GetComponent<Iweapon>().Key)
+					{
+						CurrentWeapon.Value = weapon;
+					}
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			CurrentWeapon.RegisterWithInitValue(value =>
+			{
+				foreach (Transform child in transform)
+				{
+					child.gameObject.DestroySelf();
+				}
+
+				value.InstantiateWithParent(this);
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
 		private void Update()
 		{
-			if (FishFork._fishForkState == FishForkState.Aim || FishFork._fishForkState == FishForkState.Revolve)
-			{
-				_playState = PlayState.Aim;
-			}
-			else
-			{
-				_playState = PlayState.Swim;
-			}
+			SwitchWeapons();
 			
-			if (_playState == PlayState.Swim)
+			if (_playerModel.State.Value == PlayState.Swim)
 			{
 				var inputHorizontal = Input.GetAxis("Horizontal");
 				var inputVertical = Input.GetAxis("Vertical");
@@ -65,13 +98,29 @@ namespace daifuDemo
 				_mRigidbody2D.velocity = Vector2.Lerp(_mRigidbody2D.velocity, playerTargetWalkingSpeed,
 					1 - Mathf.Exp(-Time.deltaTime * 10));
 			}
-			else if (_playState == PlayState.Aim)
+			else if (_playerModel.State.Value == PlayState.Aim)
 			{
 				_mRigidbody2D.velocity = Vector2.zero;
 			}
-			else if (_playState == PlayState.CatchFish)
+			else if (_playerModel.State.Value == PlayState.CatchFish)
 			{
 				_mRigidbody2D.velocity = Vector2.zero;
+			}
+		}
+
+		private void SwitchWeapons()
+		{
+			if (Input.GetKeyDown(KeyCode.Alpha1))
+			{
+				this.GetModel<IPlayerModel>().WeaponKey.Value = Config.FishForkKey;
+			}
+			else if (Input.GetKeyDown(KeyCode.Alpha2))
+			{
+				this.GetModel<IPlayerModel>().WeaponKey.Value = Config.DaggerKey;
+			}
+			else if (Input.GetKeyDown(KeyCode.Alpha3))
+			{
+				this.GetModel<IPlayerModel>().WeaponKey.Value = Config.RifleKey;
 			}
 		}
 

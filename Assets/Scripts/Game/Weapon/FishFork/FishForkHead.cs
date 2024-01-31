@@ -12,9 +12,9 @@ namespace daifuDemo
 	
 	public partial class FishForkHead : ViewController
 	{
-		private float _speed = 10f;
+		private float _speed = 30f;
 
-		private float _fishForkLength = 20f;
+		private float _fishForkLength = 10f;
 
 		public int Direction = 1;
 
@@ -40,7 +40,7 @@ namespace daifuDemo
 			}
 		}
 
-		private void Awake()
+		private void Start()
 		{
 			_rigidbody2D = GetComponent<Rigidbody2D>();
 

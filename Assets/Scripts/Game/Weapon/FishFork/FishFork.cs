@@ -14,20 +14,24 @@ namespace daifuDemo
 		Launch
 	}
 	
-	public partial class FishFork : ViewController
+	public partial class FishFork : ViewController, Iweapon
 	{
+		public string Key { get; } = Config.FishForkKey;
+		
 		private float _rotationRate = 50f;
 
-		public FishForkState _fishForkState = FishForkState.Ready;
+		private FishForkState _fishForkState = FishForkState.Ready;
 
 		private bool _ifLeft = false;
 
-		public GameObject FlyerRoot;
+		private GameObject FlyerRoot;
 
-		private bool FishForkIfShooting = false;
+		public bool FishForkIfShooting = false;
 
 		private void Start()
 		{
+			FlyerRoot = GameObject.FindGameObjectWithTag("FlyerRoot");
+			
 			FishForkHead.FishForkHeadDestroy.Register(() =>
 			{
 				FishForkIfShooting = false;
@@ -94,10 +98,21 @@ namespace daifuDemo
 			switch (_fishForkState)
 			{
 				case FishForkState.Ready:
+					if (FishForkIfShooting == false)
+					{
+						Events.FishForkIsNotUse?.Trigger(true);
+					}
+					else
+					{
+						Events.FishForkIsNotUse?.Trigger(false);
+					}
 					break;
 				case FishForkState.Aim:
+					Events.FishForkIsNotUse?.Trigger(false);
 					break;
 				case FishForkState.Revolve:
+					Events.FishForkIsNotUse?.Trigger(false);
+					
 					if (Input.GetKey(KeyCode.Z))
 					{
 						if (transform.eulerAngles.z < 70f || transform.eulerAngles.z > 289f)
@@ -116,6 +131,8 @@ namespace daifuDemo
 					}
 					break;
 				case FishForkState.Launch:
+					Events.FishForkIsNotUse?.Trigger(false);
+					
 					if (!FishForkIfShooting)
 					{
 						FishForkHeadTemplate.InstantiateWithParent(this)
@@ -137,5 +154,6 @@ namespace daifuDemo
 					break;
 			}
 		}
+
 	}
 }

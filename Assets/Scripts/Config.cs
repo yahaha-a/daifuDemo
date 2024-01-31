@@ -11,5 +11,11 @@ namespace daifuDemo
         public static string NormalFishKey = "normal_fish";
 
         public static string PteroisKey = "pterois_fish";
+
+        public static string FishForkKey = "fishfork_weapon";
+
+        public static string DaggerKey = "dagger_weapon";
+
+        public static string RifleKey = "rifle_weapon";
     }
 }

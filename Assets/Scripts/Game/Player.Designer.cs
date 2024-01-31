@@ -1,12 +1,10 @@
-// Generate Id:b19ae649-7be2-4414-9a42-5afe397c1bfd
+// Generate Id:d0b74dd4-ae16-48c9-a265-c227dbfb6a08
 using UnityEngine;
 
 namespace daifuDemo
 {
 	public partial class Player
 	{
-
-		public daifuDemo.FishFork FishFork;
 
 	}
 }

@@ -47,7 +47,6 @@ namespace daifuDemo
             Events.WeaponAttackFish.Register((damage, fish) =>
             {
                 fish.GetComponent<IFish>().Hp -= damage;
-                Debug.Log(fish.GetComponent<IFish>().Hp);
                 if (Mathf.Approximately(fish.GetComponent<IFish>().Hp, 0))
                 {
                     fish.DestroySelf();

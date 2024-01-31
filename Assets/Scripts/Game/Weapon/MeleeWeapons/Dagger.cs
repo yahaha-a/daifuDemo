@@ -6,6 +6,8 @@ namespace daifuDemo
 {
 	public partial class Dagger : ViewController, IMeleeWeapons, IController
 	{
+		public string Key { get; } = Config.DaggerKey;
+		
 		public bool IfLeft { get; private set; } = false;
 
 		public float Damage { get; private set; } = 5f;
@@ -16,8 +18,12 @@ namespace daifuDemo
 
 		private Vector3 _menchoDirection;
 
+		private IPlayerModel _playerModel;
+
 		private void Start()
 		{
+			_playerModel = this.GetModel<IPlayerModel>();
+			
 			Events.PlayerVeer.Register(value =>
 			{
 				IfLeft = value;
@@ -37,21 +43,25 @@ namespace daifuDemo
 			
 			if (Input.GetKeyDown(KeyCode.J))
 			{
-				var fishes = GameObject.FindGameObjectsWithTag("Fish");
-				
-				foreach (var fish in fishes)
+				if (_playerModel.State.Value == PlayState.Swim)
 				{
-					var distance = Vector2.Distance(fish.transform.position, transform.position);
-					if (distance <= AttackRadius)
+					_playerModel.State.Value = PlayState.Attack;
+					var fishes = GameObject.FindGameObjectsWithTag("Fish");
+				
+					foreach (var fish in fishes)
 					{
-						var direction = fish.transform.position - transform.position;
-						var angle = Vector2.Angle(direction, _menchoDirection);
-						Debug.Log(angle);
-						if (angle <= 60f)
+						var distance = Vector2.Distance(fish.transform.position, transform.position);
+						if (distance <= AttackRadius)
 						{
-							Events.WeaponAttackFish?.Trigger(Damage, fish);
+							var direction = fish.transform.position - transform.position;
+							var angle = Vector2.Angle(direction, _menchoDirection);
+							if (angle <= 60f)
+							{
+								this.SendCommand(new WeaponAttackFishCommand(Damage, fish));
+							}
 						}
 					}
+					_playerModel.State.Value = PlayState.Swim;
 				}
 			}
 		}
@@ -60,5 +70,6 @@ namespace daifuDemo
 		{
 			return Global.Interface;
 		}
+
 	}
 }

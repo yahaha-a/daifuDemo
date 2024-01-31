@@ -1,6 +1,6 @@
 namespace daifuDemo
 {
-    public interface IMeleeWeapons
+    public interface IMeleeWeapons : Iweapon
     {
         bool IfLeft { get; }
         
