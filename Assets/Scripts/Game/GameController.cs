@@ -12,9 +12,11 @@ namespace daifuDemo
 		{
 			PlayerModel = this.GetModel<IPlayerModel>();
 
+			UIKit.OpenPanel<UIGamePanel>();
+
 			PlayerModel.NumberOfFish.Register(number =>
 			{
-				if (number == 1)
+				if (number == 5)
 				{
 					UIKit.OpenPanel<UIGamePassPanel>();
 				}

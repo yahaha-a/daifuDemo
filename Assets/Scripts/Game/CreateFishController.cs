@@ -10,11 +10,21 @@ namespace daifuDemo
 		public GameObject fishRoot;
 
 		private List<string> _fishKey = new List<string>();
-		
-		private void Start()
+
+		private float _refreshInterval = 0f;
+
+		private void Update()
 		{
-			var randomFishPrefab = this.SendQuery(new FindARandomFishPrefab());
-			Instantiate(randomFishPrefab, fishRoot.transform);
+			if (_refreshInterval <= 0f)
+			{
+				var randomFishPrefab = this.SendQuery(new FindARandomFishPrefab());
+				Instantiate(randomFishPrefab, fishRoot.transform);
+				_refreshInterval = 5f;
+			}
+			else
+			{
+				_refreshInterval -= Time.deltaTime;
+			}
 		}
 
 		public IArchitecture GetArchitecture()

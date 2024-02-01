@@ -9,7 +9,7 @@ namespace daifuDemo
 
         public static EasyEvent<bool> FishForkIsNotUse = new EasyEvent<bool>();
         
-        public static EasyEvent HitFish = new EasyEvent();
+        public static EasyEvent<GameObject> HitFish = new EasyEvent<GameObject>();
 
         public static EasyEvent CatchFish = new EasyEvent();
 

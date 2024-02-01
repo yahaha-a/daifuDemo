@@ -21,7 +21,7 @@ namespace daifuDemo
 			
 			_mRigidbody2D = GetComponent<Rigidbody2D>();
 
-			Events.HitFish.Register(() =>
+			Events.HitFish.Register(fish =>
 			{
 				_playerModel.State.Value = PlayState.CatchFish;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);

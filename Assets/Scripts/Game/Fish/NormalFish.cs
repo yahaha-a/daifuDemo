@@ -50,16 +50,6 @@ namespace daifuDemo
 		private void Start()
 		{
 			InitData();
-			
-			Events.HitFish.Register(() =>
-			{
-				HitByFishFork();
-                
-				if (FishState == FishState.Caught)
-				{
-					Events.CatchFish?.Trigger();
-				}
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
 		private void Update()
@@ -119,7 +109,7 @@ namespace daifuDemo
 				position.y + swimSpeed.y * Time.deltaTime, position.z);
 		}
 
-		private void HitByFishFork()
+		public void HitByFishFork()
 		{
 			FishState = FishState.Hit;
 
@@ -130,6 +120,7 @@ namespace daifuDemo
 				if (Vector3.Distance(playerPosition, transform.position) <= 1f)
 				{
 					FishState = FishState.Caught;
+					Events.CatchFish?.Trigger();
 					this.SendCommand<FishCountAddOneCommand>();
 					gameObject.DestroySelf();
 				}

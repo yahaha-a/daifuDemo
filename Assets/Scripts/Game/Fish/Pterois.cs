@@ -53,16 +53,6 @@ namespace daifuDemo
 		private void Start()
 		{
 			InitData();
-			
-			Events.HitFish.Register(() =>
-			{
-				HitByFishFork();
-                
-				if (FishState == FishState.Caught)
-				{
-					Events.CatchFish?.Trigger();
-				}
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
 			HitBox.OnTriggerEnter2DEvent(other =>
 			{
@@ -158,7 +148,7 @@ namespace daifuDemo
 				position.y + swimSpeed.y * Time.deltaTime, position.z);
 		}
 		
-		private void HitByFishFork()
+		public void HitByFishFork()
 		{
 			FishState = FishState.Hit;
 

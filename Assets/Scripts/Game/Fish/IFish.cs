@@ -26,6 +26,8 @@ namespace daifuDemo
         float CurrentToggleDirectionTime { get; }
         
         float Hp { get; set; }
+
+        void HitByFishFork();
     }
 
     public interface IAggressiveFish : IFish

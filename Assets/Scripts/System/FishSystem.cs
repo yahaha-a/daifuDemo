@@ -53,6 +53,11 @@ namespace daifuDemo
                     fish.DestroySelf();
                 }
             });
+
+            Events.HitFish.Register(fish =>
+            {
+                fish.GetComponent<IFish>().HitByFishFork();
+            });
         }
         
         private Dictionary<string, IFishInfo> Add(string key, IFishInfo fishInfo)
