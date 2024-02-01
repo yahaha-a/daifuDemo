@@ -1,3 +1,5 @@
+using System;
+
 namespace daifuDemo
 {
     public interface IAggressiveFishInfo : IFishInfo
@@ -5,6 +7,8 @@ namespace daifuDemo
         float Damage { get; }
 
         float PursuitSwimRate { get; }
+        
+        float AttackInterval { get; }
 
         IAggressiveFishInfo WithDamage(float damage);
 
@@ -17,6 +21,8 @@ namespace daifuDemo
         
         public float PursuitSwimRate { get; private set; }
         
+        public float AttackInterval { get; private set; }
+
         public IAggressiveFishInfo WithDamage(float damage)
         {
             Damage = damage;
@@ -26,6 +32,12 @@ namespace daifuDemo
         public IAggressiveFishInfo WithPursuitSwimRate(float pursuitSwimRate)
         {
             PursuitSwimRate = pursuitSwimRate;
+            return this;
+        }
+
+        public IAggressiveFishInfo WithAttackInterval(float attackInterval)
+        {
+            AttackInterval = attackInterval;
             return this;
         }
     }

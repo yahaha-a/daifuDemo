@@ -20,6 +20,8 @@ namespace daifuDemo
 		public float Damage { get; private set; }
 		
 		public float PursuitSwimRate { get; private set; }
+		
+		public float AttackInterval { get; private set; }
 
 		public Vector2 CurrentDirection { get; private set; }
 
@@ -30,6 +32,7 @@ namespace daifuDemo
 		public float CurrentToggleDirectionTime { get; private set; }
 		
 		public float Hp { get; set; }
+
 
 		private void OnTriggerEnter2D(Collider2D other)
 		{
@@ -51,14 +54,41 @@ namespace daifuDemo
 		{
 			InitData();
 			
-			FishForkHead.HitFish.Register(() =>
+			Events.HitFish.Register(() =>
 			{
 				HitByFishFork();
                 
 				if (FishState == FishState.Caught)
 				{
-					FishForkHead.CatchFish?.Trigger();
+					Events.CatchFish?.Trigger();
 				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			HitBox.OnTriggerEnter2DEvent(other =>
+			{
+				if (other.CompareTag("Player"))
+				{
+					this.SendCommand(new PlayerIsHitCommand(Damage));
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+			
+			var attackInterval = AttackInterval;
+			HitBox.OnTriggerStay2DEvent(other =>
+			{
+				if (attackInterval <= 0f)
+				{
+					if (other.CompareTag("Player"))
+					{
+						this.SendCommand(new PlayerIsHitCommand(Damage));
+					}
+					
+					attackInterval = AttackInterval;
+				}
+				else
+				{
+					attackInterval -= Time.deltaTime;
+				}
+				
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 		
@@ -79,6 +109,7 @@ namespace daifuDemo
 			Damage = this.SendQuery(new FindFishDamage(FishKey));
 			PursuitSwimRate = this.SendQuery(new FindFishPursuitSwimRate(FishKey));
 			Hp = this.SendQuery(new FindFishHp(FishKey));
+			AttackInterval = this.SendQuery(new FindFishAttackInterval(FishKey));
 
 			CurrentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 			StartPosition = transform.position;

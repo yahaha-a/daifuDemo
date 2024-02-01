@@ -19,6 +19,15 @@ namespace daifuDemo
 					UIKit.OpenPanel<UIGamePassPanel>();
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			PlayerModel.PlayerOxygen.Register(oxygen =>
+			{
+				if (oxygen <= 0)
+				{
+					GameObject.FindGameObjectWithTag("Player").DestroySelf();
+					UIKit.OpenPanel<UIGameOverPanel>();
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
 		public IArchitecture GetArchitecture()

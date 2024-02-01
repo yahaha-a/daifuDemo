@@ -5,14 +5,6 @@ using QFramework;
 
 namespace daifuDemo
 {
-	public enum PlayState
-	{
-		Swim,
-		Aim,
-		CatchFish,
-		Attack
-	}
-	
 	public partial class Player : ViewController, IController
 	{
 		private Rigidbody2D _mRigidbody2D;
@@ -29,12 +21,12 @@ namespace daifuDemo
 			
 			_mRigidbody2D = GetComponent<Rigidbody2D>();
 
-			FishForkHead.HitFish.Register(() =>
+			Events.HitFish.Register(() =>
 			{
 				_playerModel.State.Value = PlayState.CatchFish;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
-			FishForkHead.CatchFish.Register(() =>
+			Events.CatchFish.Register(() =>
 			{
 				_playerModel.State.Value = PlayState.Swim;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
@@ -85,12 +77,14 @@ namespace daifuDemo
 				if (inputHorizontal < 0)
 				{
 					transform.localScale = new Vector3(-1, 1, 0);
-					this.SendCommand<PlayerTurnToLeft>();
+					
+					_playerModel.IfLeft.Value = true;
 				}
 				else if (inputHorizontal > 0)
 				{
 					transform.localScale = new Vector3(1, 1, 0);
-					this.SendCommand<PlayerTurnToRight>();
+					
+					_playerModel.IfLeft.Value = false;
 				}
 				
 				var direction = new Vector2(inputHorizontal, inputVertical).normalized;

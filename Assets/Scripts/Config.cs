@@ -6,7 +6,9 @@ namespace daifuDemo
 
         public static int NumberOfFish = 0;
 
-        public static int PlayerOxygen = 100;
+        public static int PlayerOxygen = 20;
+
+        public static float PlayerInvincibleTime = 3f;
 
         public static string NormalFishKey = "normal_fish";
 

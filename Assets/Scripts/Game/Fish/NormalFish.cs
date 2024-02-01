@@ -51,13 +51,13 @@ namespace daifuDemo
 		{
 			InitData();
 			
-			FishForkHead.HitFish.Register(() =>
+			Events.HitFish.Register(() =>
 			{
 				HitByFishFork();
                 
 				if (FishState == FishState.Caught)
 				{
-					FishForkHead.CatchFish?.Trigger();
+					Events.CatchFish?.Trigger();
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}

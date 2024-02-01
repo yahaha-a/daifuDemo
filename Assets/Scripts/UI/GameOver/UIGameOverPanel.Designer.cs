@@ -5,15 +5,15 @@ using QFramework;
 
 namespace daifuDemo
 {
-	// Generate Id:d4a7bef3-c392-4d6a-a0d5-89a204bf8e8a
-	public partial class UIGamePassPanel
+	// Generate Id:b44766a0-a1bf-4aaf-b706-a23ab50977a0
+	public partial class UIGameOverPanel
 	{
-		public const string Name = "UIGamePassPanel";
+		public const string Name = "UIGameOverPanel";
 		
 		[SerializeField]
 		public UnityEngine.UI.Button BackToStartPanelButton;
 		
-		private UIGamePassPanelData mPrivateData = null;
+		private UIGameOverPanelData mPrivateData = null;
 		
 		protected override void ClearUIComponents()
 		{
@@ -22,7 +22,7 @@ namespace daifuDemo
 			mData = null;
 		}
 		
-		public UIGamePassPanelData Data
+		public UIGameOverPanelData Data
 		{
 			get
 			{
@@ -30,11 +30,11 @@ namespace daifuDemo
 			}
 		}
 		
-		UIGamePassPanelData mData
+		UIGameOverPanelData mData
 		{
 			get
 			{
-				return mPrivateData ?? (mPrivateData = new UIGamePassPanelData());
+				return mPrivateData ?? (mPrivateData = new UIGameOverPanelData());
 			}
 			set
 			{

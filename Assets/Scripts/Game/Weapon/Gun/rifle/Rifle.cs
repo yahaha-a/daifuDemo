@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 namespace daifuDemo
 {
-	public partial class Rifle : ViewController, Iweapon
+	public partial class Rifle : ViewController, IController, Iweapon
 	{
 		public string Key { get; } = Config.RifleKey;
 		
@@ -18,11 +18,15 @@ namespace daifuDemo
 
 		private GameObject FlyerRoot;
 
+		private IPlayerModel _playerModel;
+
 		private void Start()
 		{
-			FlyerRoot = GameObject.FindGameObjectWithTag("FlyerRoot");
+			_playerModel = this.GetModel<IPlayerModel>();
 			
-			Events.PlayerVeer.Register(value =>
+			FlyerRoot = GameObject.FindGameObjectWithTag("FlyerRoot");
+
+			_playerModel.IfLeft.RegisterWithInitValue(value =>
 			{
 				_ifLeft = value;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
@@ -129,5 +133,9 @@ namespace daifuDemo
 			}
 		}
 
+		public IArchitecture GetArchitecture()
+		{
+			return Global.Interface;
+		}
 	}
 }

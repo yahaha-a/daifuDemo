@@ -15,11 +15,14 @@ namespace daifuDemo
 
 		private void Update()
 		{
-			var position = transform.position;
-			var cameraTargetPosition = Vector2.Lerp(position, _mPlayerTransform.position,
-				1 - Mathf.Exp(-Time.deltaTime * 10));
-			position = new Vector3(cameraTargetPosition.x, cameraTargetPosition.y, position.z);
-			transform.position = position;
+			if (_mPlayerTransform != null)
+			{
+				var position = transform.position;
+				var cameraTargetPosition = Vector2.Lerp(position, _mPlayerTransform.position,
+					1 - Mathf.Exp(-Time.deltaTime * 10));
+				position = new Vector3(cameraTargetPosition.x, cameraTargetPosition.y, position.z);
+				transform.position = position;
+			}
 		}
 	}
 }

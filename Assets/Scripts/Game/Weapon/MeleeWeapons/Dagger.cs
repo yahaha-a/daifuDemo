@@ -23,8 +23,8 @@ namespace daifuDemo
 		private void Start()
 		{
 			_playerModel = this.GetModel<IPlayerModel>();
-			
-			Events.PlayerVeer.Register(value =>
+
+			_playerModel.IfLeft.RegisterWithInitValue(value =>
 			{
 				IfLeft = value;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);

@@ -27,6 +27,7 @@ namespace daifuDemo
                 .WithHp(20f)
             },
             {Config.PteroisKey, new AggressiveFishInfo()
+                .WithAttackInterval(2f)
                 .WithDamage(5f)
                 .WithPursuitSwimRate(5f)
                 .WithSwimRate(5f)

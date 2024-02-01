@@ -33,5 +33,7 @@ namespace daifuDemo
         float Damage { get; }
         
         float PursuitSwimRate { get; }
+        
+        float AttackInterval { get; }
     }
 }
