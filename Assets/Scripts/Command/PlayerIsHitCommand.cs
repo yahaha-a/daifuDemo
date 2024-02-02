@@ -16,7 +16,6 @@ namespace daifuDemo
         {
             var playerModel = this.GetModel<IPlayerModel>();
             playerModel.PlayerOxygen.Value -= _damage;
-            Debug.Log(playerModel.PlayerOxygen.Value);
             Events.PlayerIsHit?.Trigger();
         }
     }

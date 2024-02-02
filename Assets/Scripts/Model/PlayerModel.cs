@@ -26,6 +26,8 @@ namespace daifuDemo
         BindableProperty<PlayState> State { get; }
         
         BindableProperty<string> WeaponKey { get; }
+        
+        BindableProperty<float> OxygenIntervalTime { get; }
     }
     
     public class PlayerModel : AbstractModel, IPlayerModel
@@ -43,6 +45,9 @@ namespace daifuDemo
             new BindableProperty<float>(Config.PlayerInvincibleTime);
 
         public BindableProperty<string> WeaponKey { get; } = new BindableProperty<string>(Config.FishForkKey);
+
+        public BindableProperty<float> OxygenIntervalTime { get; } =
+            new BindableProperty<float>(Config.OxygenIntervalTime);
 
         public BindableProperty<bool> Invincibility { get; } = new BindableProperty<bool>(false);
 

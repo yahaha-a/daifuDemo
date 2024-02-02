@@ -9,25 +9,25 @@ namespace daifuDemo
 {
 	public partial class NormalFish : ViewController, IFish
 	{
-		public string FishKey { get; private set; }
+		public string FishKey { get; set; }
 		
-		public FishState FishState { get; private set; }
+		public FishState FishState { get; set; }
 		
-		public float ToggleDirectionTime { get; private set; }
+		public float ToggleDirectionTime { get; set; }
 		
-		public float RangeOfMovement { get; private set; }
+		public float RangeOfMovement { get; set; }
 
-		public float SwimRate { get; private set; }
+		public float SwimRate { get; set; }
 		
-		public float FrightenedSwimRate { get; private set; }
+		public float FrightenedSwimRate { get; set; }
 
-		public Vector2 CurrentDirection { get; private set; }
+		public Vector2 CurrentDirection { get; set; }
 
-		public Vector3 StartPosition { get; private set; }
+		public Vector3 StartPosition { get; set; }
 
-		public float CurrentSwimRate { get; private set; }
+		public float CurrentSwimRate { get; set; }
 
-		public float CurrentToggleDirectionTime { get; private set; }
+		public float CurrentToggleDirectionTime { get; set; }
 		
 		public float Hp { get; set; }
 

@@ -69,6 +69,8 @@ namespace daifuDemo
 		{
 			SwitchWeapons();
 			
+			this.SendCommand<PlayBreatheCommand>();
+			
 			if (_playerModel.State.Value == PlayState.Swim)
 			{
 				var inputHorizontal = Input.GetAxis("Horizontal");

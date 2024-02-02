@@ -5,31 +5,31 @@ namespace daifuDemo
 {
 	public partial class Pterois : ViewController, IAggressiveFish
 	{
-		public string FishKey { get; private set; }
+		public string FishKey { get; set; }
 		
-		public FishState FishState { get; private set; }
+		public FishState FishState { get; set; }
 		
-		public float ToggleDirectionTime { get; private set; }
+		public float ToggleDirectionTime { get; set; }
 		
-		public float RangeOfMovement { get; private set; }
+		public float RangeOfMovement { get; set; }
 
-		public float SwimRate { get; private set; }
+		public float SwimRate { get; set; }
 		
-		public float FrightenedSwimRate { get; private set; }
+		public float FrightenedSwimRate { get; set; }
 		
-		public float Damage { get; private set; }
+		public float Damage { get; set; }
 		
-		public float PursuitSwimRate { get; private set; }
+		public float PursuitSwimRate { get; set; }
 		
-		public float AttackInterval { get; private set; }
+		public float AttackInterval { get; set; }
 
-		public Vector2 CurrentDirection { get; private set; }
+		public Vector2 CurrentDirection { get; set; }
 
-		public Vector3 StartPosition { get; private set; }
+		public Vector3 StartPosition { get; set; }
 
-		public float CurrentSwimRate { get; private set; }
+		public float CurrentSwimRate { get; set; }
 
-		public float CurrentToggleDirectionTime { get; private set; }
+		public float CurrentToggleDirectionTime { get; set; }
 		
 		public float Hp { get; set; }
 
@@ -53,16 +53,8 @@ namespace daifuDemo
 		private void Start()
 		{
 			InitData();
-
-			HitBox.OnTriggerEnter2DEvent(other =>
-			{
-				if (other.CompareTag("Player"))
-				{
-					this.SendCommand(new PlayerIsHitCommand(Damage));
-				}
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 			
-			var attackInterval = AttackInterval;
+			var attackInterval = 0f;
 			HitBox.OnTriggerStay2DEvent(other =>
 			{
 				if (attackInterval <= 0f)
