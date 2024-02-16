@@ -41,31 +41,28 @@ namespace daifuDemo
 				if (value)
 				{
 					UIPackPanel.Show();
+					
+					foreach (Transform child in UIPackPanel.ItemListPanel.ItemListRoot.transform)
+					{
+						Destroy(child.gameObject);
+					}
+
+					foreach (var (key, caughtFishInfo) in _fishSystem.CaughtFish)
+					{
+						UIPackPanel.ItemListPanel.ItemTemplate.InstantiateWithParent(UIPackPanel.ItemListPanel.ItemListRoot)
+							.Self(self =>
+							{
+								self.ItemIcon.sprite = caughtFishInfo.FishIcon;
+								self.ItemName.text = caughtFishInfo.FishName;
+								self.ItemStar.text = caughtFishInfo.Star.ToString() + " 星";
+								self.ItemAmount.text = "× " + caughtFishInfo.Amount.ToString();
+								self.Show();
+							});
+					}
 				}
 				else
 				{
 					UIPackPanel.Hide();
-				}
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-
-			Events.CatchFish.Register(fish =>
-			{
-				foreach (Transform child in UIPackPanel.ItemListPanel.ItemListRoot.transform)
-				{
-					Destroy(child.gameObject);
-				}
-
-				foreach (var (key, value) in _fishSystem.CaughtFish)
-				{
-					UIPackPanel.ItemListPanel.ItemTemplate.InstantiateWithParent(UIPackPanel.ItemListPanel.ItemListRoot)
-						.Self(self =>
-						{
-							self.ItemIcon.sprite = value.FishIcon;
-							self.ItemName.text = value.FishName;
-							self.ItemStar.text = value.Star.ToString() + " 星";
-							self.ItemAmount.text = "× " + value.Amount.ToString();
-							self.Show();
-						});
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}

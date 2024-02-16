@@ -8,12 +8,16 @@ namespace daifuDemo
         {
             var playModel = this.GetModel<IPlayerModel>();
             var fishForkModel = this.GetModel<IFishForkModel>();
+            var fishSystem = this.GetSystem<IFishSystem>();
+            
             playModel.State.Value = PlayState.Swim;
             playModel.NumberOfFish.Value = Config.NumberOfFish;
             playModel.PlayerOxygen.Value = Config.PlayerOxygen;
 
             fishForkModel.FishForkState = FishForkState.Ready;
             fishForkModel.FishForkIfShooting = false;
+            
+            fishSystem.Reload();
         }
     }
 }

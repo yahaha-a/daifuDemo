@@ -19,6 +19,8 @@ namespace daifuDemo
         
         string FishKey { get; }
         
+        Sprite FishIcon { get; }
+        
         GameObject FishPrefab { get; }
         
         FishState FishState { get;}
@@ -42,6 +44,8 @@ namespace daifuDemo
         IFishInfo WithFishName(string fishName);
 
         IFishInfo WithFishKey(string fishKey);
+
+        IFishInfo WithFishIcon(Sprite fishIcon);
 
         IFishInfo WithFishPrefab(GameObject fishPrefab);
 
@@ -70,6 +74,8 @@ namespace daifuDemo
         
         public string FishKey { get; private set; }
         
+        public Sprite FishIcon { get; private set; }
+
         public GameObject FishPrefab { get; private set; }
 
         public FishState FishState { get; private set; }
@@ -99,6 +105,12 @@ namespace daifuDemo
         public IFishInfo WithFishKey(string fishKey)
         {
             FishKey = fishKey;
+            return this;
+        }
+
+        public IFishInfo WithFishIcon(Sprite fishIcon)
+        {
+            FishIcon = fishIcon;
             return this;
         }
 

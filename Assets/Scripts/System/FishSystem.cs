@@ -9,6 +9,8 @@ namespace daifuDemo
         Dictionary<string, IFishInfo> FishInfos { get; }
         
         Dictionary<string, ICaughtFishInfo> CaughtFish { get; }
+
+        void Reload();
     }
     
     public class FishSystem : AbstractSystem, IFishSystem
@@ -20,6 +22,7 @@ namespace daifuDemo
             {Config.NormalFishKey, new FishInfo()
                 .WithFishName("普通鱼")
                 .WithFishKey(Config.NormalFishKey)
+                .WithFishIcon(_resLoader.LoadSync<Sprite>(Config.NormalFishIcon))
                 .WithFishPrefab(_resLoader.LoadSync<GameObject>("NormalFish"))
                 .WithFishState(FishState.Swim)
                 .WithSwimRate(3f)
@@ -38,6 +41,7 @@ namespace daifuDemo
                 .WithSwimRate(5f)
                 .WithFishName("狮子鱼")
                 .WithFishKey(Config.PteroisKey)
+                .WithFishIcon(_resLoader.LoadSync<Sprite>(Config.PteroisIcon))
                 .WithFishPrefab(_resLoader.LoadSync<GameObject>("Pterois"))
                 .WithFishState(FishState.Swim)
                 .WithSwimRate(4f)
@@ -80,12 +84,17 @@ namespace daifuDemo
                 {
                     CaughtFish.Add(fish.FishKey, new CaughtFishInfo()
                         .WithFishName(FishInfos[fish.FishKey].FishName)
-                        .WithFishIcon(_resLoader.LoadSync<Sprite>(Config.NormalFishIcon))
+                        .WithFishIcon(FishInfos[fish.FishKey].FishIcon)
                         .WithStar(3)
                         .WithAmount(1)
                     );
                 }
             });
+        }
+
+        public void Reload()
+        {
+            CaughtFish.Clear();
         }
     }
 }
