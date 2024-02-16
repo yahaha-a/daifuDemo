@@ -26,7 +26,7 @@ namespace daifuDemo
 				_playerModel.State.Value = PlayState.CatchFish;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
-			Events.CatchFish.Register(() =>
+			Events.CatchFish.Register(fish =>
 			{
 				_playerModel.State.Value = PlayState.Swim;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);

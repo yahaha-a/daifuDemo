@@ -18,6 +18,7 @@ namespace daifuDemo
             this.RegisterModel<IPlayerModel>(new PlayerModel());
             this.RegisterModel<IFishForkModel>(new FishForkModel());
             this.RegisterModel<IFishForkHeadModel>(new FishForkHeadModel());
+            this.RegisterModel<IUIGamePanelModel>(new UIGamePanelModel());
         }
     }
 }

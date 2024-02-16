@@ -7,6 +7,8 @@ namespace daifuDemo
     public interface IFishSystem : ISystem
     {
         Dictionary<string, IFishInfo> FishInfos { get; }
+        
+        Dictionary<string, ICaughtFishInfo> CaughtFish { get; }
     }
     
     public class FishSystem : AbstractSystem, IFishSystem
@@ -25,6 +27,9 @@ namespace daifuDemo
                 .WithToggleDirectionTime(5f)
                 .WithRangeOfMovement(10f)
                 .WithHp(20f)
+                .WithFishStar1(1)
+                .WithFishStar2(3)
+                .WithFishStar3(5)
             },
             {Config.PteroisKey, new AggressiveFishInfo()
                 .WithAttackInterval(2f)
@@ -40,9 +45,15 @@ namespace daifuDemo
                 .WithToggleDirectionTime(3f)
                 .WithRangeOfMovement(5f)
                 .WithHp(10f)
+                .WithFishStar1(1)
+                .WithFishStar2(2)
+                .WithFishStar3(6)
             },
         };
-        
+
+        public Dictionary<string, ICaughtFishInfo> CaughtFish { get; } = new Dictionary<string, ICaughtFishInfo>();
+
+
         protected override void OnInit()
         {
             Events.WeaponAttackFish.Register((damage, fish) =>
@@ -58,12 +69,23 @@ namespace daifuDemo
             {
                 fish.GetComponent<IFish>().HitByFishFork();
             });
-        }
-        
-        private Dictionary<string, IFishInfo> Add(string key, IFishInfo fishInfo)
-        {
-            FishInfos.Add(key, fishInfo);
-            return FishInfos;
+
+            Events.CatchFish.Register(fish =>
+            {
+                if (CaughtFish.ContainsKey(fish.FishKey))
+                {
+                    CaughtFish[fish.FishKey].Amount += 1;
+                }
+                else
+                {
+                    CaughtFish.Add(fish.FishKey, new CaughtFishInfo()
+                        .WithFishName(FishInfos[fish.FishKey].FishName)
+                        .WithFishIcon(_resLoader.LoadSync<Sprite>(Config.NormalFishIcon))
+                        .WithStar(3)
+                        .WithAmount(1)
+                    );
+                }
+            });
         }
     }
 }

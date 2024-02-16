@@ -16,6 +16,10 @@ namespace daifuDemo
 
         public static string PteroisKey = "pterois_fish";
 
+        public static string NormalFishIcon = "normal_fish_icon";
+        
+        public static string PteroisIcon = "pterois_fish_icon";
+
         public static string FishForkKey = "fishfork_weapon";
 
         public static string DaggerKey = "dagger_weapon";

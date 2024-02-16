@@ -35,7 +35,7 @@ namespace daifuDemo
 				_ifLeft = value;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
-			Events.CatchFish.Register(() =>
+			Events.CatchFish.Register(fish =>
 			{
 				_fishForkModel.FishForkState = FishForkState.Ready;
 				_fishForkModel.FishForkIfShooting = false;

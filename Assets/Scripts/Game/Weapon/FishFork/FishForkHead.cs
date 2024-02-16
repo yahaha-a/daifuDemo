@@ -30,7 +30,6 @@ namespace daifuDemo
 				transform.parent = other.transform;
 				_fishForkHeadState = FishForkHeadState.Hit;
 				Events.HitFish?.Trigger(other.transform.parent.gameObject);
-				Events.CatchFish?.Trigger();
 			}
 		}
 

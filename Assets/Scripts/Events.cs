@@ -11,7 +11,7 @@ namespace daifuDemo
         
         public static EasyEvent<GameObject> HitFish = new EasyEvent<GameObject>();
 
-        public static EasyEvent CatchFish = new EasyEvent();
+        public static EasyEvent<IFish> CatchFish = new EasyEvent<IFish>();
 
         public static EasyEvent FishForkHeadDestroy = new EasyEvent();
 

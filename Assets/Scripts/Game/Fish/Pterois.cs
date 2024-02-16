@@ -151,6 +151,7 @@ namespace daifuDemo
 				if (Vector3.Distance(playerPosition, transform.position) <= 1f)
 				{
 					FishState = FishState.Caught;
+					Events.CatchFish?.Trigger(this);
 					this.SendCommand<FishCountAddOneCommand>();
 					gameObject.DestroySelf();
 				}

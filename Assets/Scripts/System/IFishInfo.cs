@@ -33,6 +33,12 @@ namespace daifuDemo
         
         float Hp { get; }
         
+        int FishStar1 { get; }
+        
+        int FishStar2 { get; }
+        
+        int FishStar3 { get; }
+        
         IFishInfo WithFishName(string fishName);
 
         IFishInfo WithFishKey(string fishKey);
@@ -50,6 +56,12 @@ namespace daifuDemo
         IFishInfo WithFrightenedSwimRate(float frightenedSwimRate);
 
         IFishInfo WithHp(float hp);
+        
+        IFishInfo WithFishStar1(int quantity);
+        
+        IFishInfo WithFishStar2(int quantity);
+
+        IFishInfo WithFishStar3(int quantity);
     }
     
     public class FishInfo : IFishInfo
@@ -71,6 +83,12 @@ namespace daifuDemo
         public float FrightenedSwimRate { get; private set; }
         
         public float Hp { get; private set; }
+        
+        public int FishStar1 { get; private set; }
+        
+        public int FishStar2 { get; private set; }
+        
+        public int FishStar3 { get; private set; }
 
         public IFishInfo WithFishName(string fishName)
         {
@@ -123,6 +141,24 @@ namespace daifuDemo
         public IFishInfo WithHp(float hp)
         {
             Hp = hp;
+            return this;
+        }
+        
+        public IFishInfo WithFishStar1(int quantity)
+        {
+            FishStar1 = quantity;
+            return this;
+        }
+
+        public IFishInfo WithFishStar2(int quantity)
+        {
+            FishStar2 = quantity;
+            return this;
+        }
+
+        public IFishInfo WithFishStar3(int quantity)
+        {
+            FishStar3 = quantity;
             return this;
         }
     }

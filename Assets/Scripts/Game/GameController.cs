@@ -32,6 +32,14 @@ namespace daifuDemo
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.B))
+			{
+				this.SendCommand<OpenOrCloseBackpackCommand>();
+			}
+		}
+
 		public IArchitecture GetArchitecture()
 		{
 			return Global.Interface;
