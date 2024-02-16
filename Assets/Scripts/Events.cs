@@ -16,5 +16,9 @@ namespace daifuDemo
         public static EasyEvent FishForkHeadDestroy = new EasyEvent();
 
         public static EasyEvent PlayerIsHit = new EasyEvent();
+
+        public static EasyEvent GamePass = new EasyEvent();
+
+        public static EasyEvent UISettlePanelShow = new EasyEvent();
     }
 }

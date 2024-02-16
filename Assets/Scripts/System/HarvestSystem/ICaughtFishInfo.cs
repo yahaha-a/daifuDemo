@@ -4,6 +4,8 @@ namespace daifuDemo
 {
     public interface ICaughtFishInfo
     {
+        string FishKey { get; }
+        
         string FishName { get; }
         
         Sprite FishIcon { get; }
@@ -11,6 +13,8 @@ namespace daifuDemo
         int Star { get; }
         
         int Amount { get; set; }
+
+        ICaughtFishInfo WithFishKey(string fishKey);
 
         ICaughtFishInfo WithFishName(string fishName);
 
@@ -23,6 +27,8 @@ namespace daifuDemo
 
     public class CaughtFishInfo : ICaughtFishInfo
     {
+        public string FishKey { get; private set; }
+        
         public string FishName { get; private set; }
         
         public Sprite FishIcon { get; private set; }
@@ -30,6 +36,12 @@ namespace daifuDemo
         public int Star { get; private set; }
         
         public int Amount { get; set; }
+
+        public ICaughtFishInfo WithFishKey(string fishKey)
+        {
+            FishKey = fishKey;
+            return this;
+        }
 
         public ICaughtFishInfo WithFishName(string fishName)
         {

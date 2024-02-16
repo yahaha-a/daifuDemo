@@ -30,9 +30,6 @@ namespace daifuDemo
                 .WithToggleDirectionTime(5f)
                 .WithRangeOfMovement(10f)
                 .WithHp(20f)
-                .WithFishStar1(1)
-                .WithFishStar2(3)
-                .WithFishStar3(5)
             },
             {Config.PteroisKey, new AggressiveFishInfo()
                 .WithAttackInterval(2f)
@@ -49,9 +46,6 @@ namespace daifuDemo
                 .WithToggleDirectionTime(3f)
                 .WithRangeOfMovement(5f)
                 .WithHp(10f)
-                .WithFishStar1(1)
-                .WithFishStar2(2)
-                .WithFishStar3(6)
             },
         };
 
@@ -62,10 +56,26 @@ namespace daifuDemo
         {
             Events.WeaponAttackFish.Register((damage, fish) =>
             {
-                fish.GetComponent<IFish>().Hp -= damage;
-                if (Mathf.Approximately(fish.GetComponent<IFish>().Hp, 0))
+                var fishMessage = fish.GetComponent<IFish>();
+                fishMessage.Hp -= damage;
+                if (Mathf.Approximately(fishMessage.Hp, 0))
                 {
                     fish.DestroySelf();
+                    
+                    if (CaughtFish.ContainsKey(fishMessage.FishKey + "_Star" + 1) && CaughtFish[fishMessage.FishKey + "_Star" + 1].Star == 1)
+                    {
+                        CaughtFish[fishMessage.FishKey + "_Star" + 1].Amount += 1;
+                    }
+                    else
+                    {
+                        CaughtFish.Add(fishMessage.FishKey + "_Star" + 1, new CaughtFishInfo()
+                            .WithFishKey(fishMessage.FishKey)
+                            .WithFishName(FishInfos[fishMessage.FishKey].FishName)
+                            .WithFishIcon(FishInfos[fishMessage.FishKey].FishIcon)
+                            .WithStar(1)
+                            .WithAmount(1)
+                        );
+                    }
                 }
             });
 
@@ -76,13 +86,14 @@ namespace daifuDemo
 
             Events.CatchFish.Register(fish =>
             {
-                if (CaughtFish.ContainsKey(fish.FishKey))
+                if (CaughtFish.ContainsKey(fish.FishKey + "_Star" + 3) && CaughtFish[fish.FishKey + "_Star" + 3].Star == 3)
                 {
-                    CaughtFish[fish.FishKey].Amount += 1;
+                    CaughtFish[fish.FishKey + "_Star" + 3].Amount += 1;
                 }
                 else
                 {
-                    CaughtFish.Add(fish.FishKey, new CaughtFishInfo()
+                    CaughtFish.Add(fish.FishKey + "_Star" + 3, new CaughtFishInfo()
+                        .WithFishKey(fish.FishKey)
                         .WithFishName(FishInfos[fish.FishKey].FishName)
                         .WithFishIcon(FishInfos[fish.FishKey].FishIcon)
                         .WithStar(3)

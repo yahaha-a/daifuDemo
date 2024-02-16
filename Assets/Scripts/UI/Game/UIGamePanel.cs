@@ -15,6 +15,8 @@ namespace daifuDemo
 		private IUIGamePanelModel _uiGamePanelModel;
 
 		private IFishSystem _fishSystem;
+
+		private IHarvestSystem _harvestSystem;
 		
 		protected override void OnInit(IUIData uiData = null)
 		{
@@ -64,6 +66,20 @@ namespace daifuDemo
 				{
 					UIPackPanel.Hide();
 				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			Events.GamePass.Register(() =>
+			{
+				foreach (Transform child in UISettlePanel.SettleItemRoot.transform)
+				{
+					if (child.gameObject.activeSelf)
+					{
+						Destroy(child.gameObject);
+					}
+				}
+				
+				UISettlePanel.Show();
+				Events.UISettlePanelShow?.Trigger();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 		

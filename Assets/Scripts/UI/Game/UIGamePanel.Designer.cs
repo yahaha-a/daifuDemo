@@ -5,7 +5,7 @@ using QFramework;
 
 namespace daifuDemo
 {
-	// Generate Id:bdc626b6-9d0b-4e7a-92e5-9bcca24bbb12
+	// Generate Id:988b44a6-e797-4af9-bfed-78910efb3e47
 	public partial class UIGamePanel
 	{
 		public const string Name = "UIGamePanel";
@@ -18,6 +18,8 @@ namespace daifuDemo
 		public UnityEngine.UI.Text NumberOfFish;
 		[SerializeField]
 		public UIPackPanel UIPackPanel;
+		[SerializeField]
+		public UISettlePanel UISettlePanel;
 		
 		private UIGamePanelData mPrivateData = null;
 		
@@ -27,6 +29,7 @@ namespace daifuDemo
 			OxygenValue = null;
 			NumberOfFish = null;
 			UIPackPanel = null;
+			UISettlePanel = null;
 			
 			mData = null;
 		}

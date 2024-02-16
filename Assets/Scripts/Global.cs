@@ -15,6 +15,7 @@ namespace daifuDemo
         protected override void Init()
         {
             this.RegisterSystem<IFishSystem>(new FishSystem());
+            this.RegisterSystem<IHarvestSystem>(new HarvestSystem());
             this.RegisterModel<IPlayerModel>(new PlayerModel());
             this.RegisterModel<IFishForkModel>(new FishForkModel());
             this.RegisterModel<IFishForkHeadModel>(new FishForkHeadModel());

@@ -18,7 +18,7 @@ namespace daifuDemo
 			{
 				if (number == 5)
 				{
-					UIKit.OpenPanel<UIGamePassPanel>();
+					this.SendCommand<GamePassCommand>();
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 

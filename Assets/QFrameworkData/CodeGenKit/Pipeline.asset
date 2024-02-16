@@ -18,12 +18,16 @@ MonoBehaviour:
     GameObject: {fileID: 0}
     From: 0
     NameToFullName: []
-    BindInfos: []
-    ScriptsFolder: Assets/Scripts/Game
-    ClassName: Player
+    BindInfos:
+    - TypeName: daifuDemo.SettleItemTemplate
+      PathToRoot: SettleItemTemplate
+      MemberName: SettleItemTemplate
+    ScriptsFolder: Assets/Scripts/UI/Game
+    ClassName: SettleItemManage
     Namespace: daifuDemo
     MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace daifuDemo\r\n{\r\n\tpublic
-      partial class Player : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
+      partial class SettleItemManage : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
       Code Here\r\n\t\t}\r\n\t}\r\n}\r\n"
-    DesignerCode: "// Generate Id:d0b74dd4-ae16-48c9-a265-c227dbfb6a08\r\nusing UnityEngine;\r\n\r\nnamespace
-      daifuDemo\r\n{\r\n\tpublic partial class Player\r\n\t{\r\n\r\n\t}\r\n}\r\n"
+    DesignerCode: "// Generate Id:e2947f66-20ed-419b-be12-a63d12fa37ae\r\nusing UnityEngine;\r\n\r\nnamespace
+      daifuDemo\r\n{\r\n\tpublic partial class SettleItemManage\r\n\t{\r\n\r\n\t\tpublic
+      daifuDemo.SettleItemTemplate SettleItemTemplate;\r\n\r\n\t}\r\n}\r\n"

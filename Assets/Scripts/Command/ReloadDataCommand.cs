@@ -9,6 +9,7 @@ namespace daifuDemo
             var playModel = this.GetModel<IPlayerModel>();
             var fishForkModel = this.GetModel<IFishForkModel>();
             var fishSystem = this.GetSystem<IFishSystem>();
+            var harvestSystem = this.GetSystem<IHarvestSystem>();
             
             playModel.State.Value = PlayState.Swim;
             playModel.NumberOfFish.Value = Config.NumberOfFish;
@@ -18,6 +19,7 @@ namespace daifuDemo
             fishForkModel.FishForkIfShooting = false;
             
             fishSystem.Reload();
+            harvestSystem.Reload();
         }
     }
 }
