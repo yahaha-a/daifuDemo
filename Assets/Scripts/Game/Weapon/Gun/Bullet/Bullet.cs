@@ -14,7 +14,7 @@ namespace daifuDemo
 		
 		private Vector3 _originPosition;
 
-		public int Direction = 1;
+		public int Direction;
 
 		private Rigidbody2D _rigidbody2D;
 

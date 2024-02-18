@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using QFramework;
 using UnityEngine.Serialization;
@@ -11,6 +12,8 @@ namespace daifuDemo
 		private float _rotationRate;
 
 		private float _intervalBetweenShots;
+
+		private List<(Vector2, float)> _bulletSpawnLocationsAndDirectionsList;
 
 		private bool _ifLeft = false;
 
@@ -35,6 +38,8 @@ namespace daifuDemo
 			{
 				_rotationRate = this.SendQuery(new FindGunRotationRate(Key, rank));
 				_intervalBetweenShots = this.SendQuery(new FindGunIntervalBetweenShots(Key, rank));
+				_bulletSpawnLocationsAndDirectionsList =
+					this.SendQuery(new FindBulletSpawnLocationsAndDirectionsList(Key, rank));
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 			
 			FlyerRoot = GameObject.FindGameObjectWithTag("FlyerRoot");
@@ -84,7 +89,7 @@ namespace daifuDemo
 					{
 						_gunModel.CurrentGunState.Value = GunState.Aim;
 					}
-					else if (Input.GetKeyUp(KeyCode.I))
+					else if (Input.GetKeyUp(KeyCode.I))  
 					{
 						_gunModel.CurrentGunState.Value = GunState.Ready;
 					}
@@ -122,20 +127,27 @@ namespace daifuDemo
 					}
 					break;
 				case GunState.Shooting:
-					BulletTemplate.InstantiateWithParent(this)
-						.Self(self =>
-						{
-							if (_ifLeft)
+					foreach (var (offsetDistance, launchDirection) in _bulletSpawnLocationsAndDirectionsList)
+					{
+						BulletTemplate.InstantiateWithParent(this)
+							.Self(self =>
 							{
-								self.GetComponent<Bullet>().Direction = -1;
-							}
-							else
-							{
-								self.GetComponent<Bullet>().Direction = 1;
-							}
-							self.parent = FlyerRoot.transform;
-							self.Show();
-						});
+								self.position = new Vector3(self.position.x + offsetDistance.x,
+									self.position.y + offsetDistance.y, self.position.z);
+								self.Rotate(new Vector3(0, 0, launchDirection));
+								
+								if (_ifLeft)
+								{
+									self.GetComponent<Bullet>().Direction = -1;
+								}
+								else
+								{
+									self.GetComponent<Bullet>().Direction = 1;
+								}
+								self.parent = FlyerRoot.transform;
+								self.Show();
+							});
+					}
 					break;
 				case GunState.Cooling:
 					ActionKit.Delay(_intervalBetweenShots, () =>

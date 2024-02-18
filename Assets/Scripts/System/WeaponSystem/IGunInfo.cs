@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace daifuDemo
@@ -21,6 +22,8 @@ namespace daifuDemo
         
         float RotationRate { get; }
         
+        List<(Vector2, float)> BulletSpawnLocationsAndDirectionsList { get; }
+        
         IGunInfo WithName(string name);
         
         IGunInfo WithKey(string key);
@@ -28,6 +31,9 @@ namespace daifuDemo
         IGunInfo WithIntervalBetweenShots(float intervalBetweenShots);
         
         IGunInfo WithRotationRate(float rotationRate);
+
+        IGunInfo WithBulletSpawnLocationsAndDirectionsList(
+            List<(Vector2, float)> bulletSpawnLocationsAndDirectionsList);
     }
     
     public class GunInfo : IGunInfo
@@ -40,6 +46,8 @@ namespace daifuDemo
         
         public float RotationRate { get; private set; }
         
+        public List<(Vector2, float)> BulletSpawnLocationsAndDirectionsList { get; private set; }
+
         public IGunInfo WithName(string name)
         {
             Name = name;
@@ -61,6 +69,12 @@ namespace daifuDemo
         public IGunInfo WithRotationRate(float rotationRate)
         {
             RotationRate = rotationRate;
+            return this;
+        }
+
+        public IGunInfo WithBulletSpawnLocationsAndDirectionsList(List<(Vector2, float)> bulletSpawnLocationsAndDirectionsList)
+        {
+            BulletSpawnLocationsAndDirectionsList = bulletSpawnLocationsAndDirectionsList;
             return this;
         }
     }

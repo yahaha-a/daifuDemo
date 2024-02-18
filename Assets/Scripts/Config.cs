@@ -25,5 +25,7 @@ namespace daifuDemo
         public static string DaggerKey = "dagger_weapon";
 
         public static string RifleKey = "rifle_weapon";
+
+        public static string ShotgunKey = "shotgun_weapon";
     }
 }
