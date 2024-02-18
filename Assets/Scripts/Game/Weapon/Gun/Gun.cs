@@ -4,25 +4,38 @@ using UnityEngine.Serialization;
 
 namespace daifuDemo
 {
-	public partial class Rifle : ViewController, IController, Iweapon
+	public partial class Gun : ViewController, IController, Iweapon
 	{
-		public string Key { get; } = Config.RifleKey;
-		
-		public GunState _rifleState = GunState.Ready;
-		
-		private float _rotationRate = 100f;
+		public string Key { get; private set; } = Config.RifleKey;
 
-		private float _intervalBetweenShots = 0.2f;
+		private float _rotationRate;
+
+		private float _intervalBetweenShots;
 
 		private bool _ifLeft = false;
 
 		private GameObject FlyerRoot;
+		
+		private IGunModel _gunModel;
 
 		private IPlayerModel _playerModel;
 
 		private void Start()
 		{
+			_gunModel = this.GetModel<IGunModel>();
+			
 			_playerModel = this.GetModel<IPlayerModel>();
+
+			_gunModel.CurrentGunKey.RegisterWithInitValue(key =>
+			{
+				Key = key;
+			});
+			
+			_gunModel.CurrentGunRank.RegisterWithInitValue(rank =>
+			{
+				_rotationRate = this.SendQuery(new FindGunRotationRate(Key, rank));
+				_intervalBetweenShots = this.SendQuery(new FindGunIntervalBetweenShots(Key, rank));
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 			
 			FlyerRoot = GameObject.FindGameObjectWithTag("FlyerRoot");
 
@@ -40,51 +53,51 @@ namespace daifuDemo
 
 		private void TransitionState()
 		{
-			switch (_rifleState)
+			switch (_gunModel.CurrentGunState.Value)
 			{
 				case GunState.Ready:
 					if (Input.GetKeyDown(KeyCode.I))
 					{
-						_rifleState = GunState.Aim;
+						_gunModel.CurrentGunState.Value = GunState.Aim;
 					}
 					break;
 				case GunState.Aim:
 					if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.C))
 					{
-						_rifleState = GunState.Revolve;
+						_gunModel.CurrentGunState.Value = GunState.Revolve;
 					}
 					else if (Input.GetKeyUp(KeyCode.I))
 					{
-						_rifleState = GunState.Ready;
+						_gunModel.CurrentGunState.Value = GunState.Ready;
 					}
 					else if (Input.GetKeyDown(KeyCode.J))
 					{
-						_rifleState = GunState.Shooting;
+						_gunModel.CurrentGunState.Value = GunState.Shooting;
 					}
 					break;
 				case GunState.Revolve:
 					if (Input.GetKeyDown(KeyCode.J))
 					{
-						_rifleState = GunState.Shooting;
+						_gunModel.CurrentGunState.Value = GunState.Shooting;
 					}
 					else if (Input.GetKeyUp(KeyCode.Z) || Input.GetKeyUp(KeyCode.C))
 					{
-						_rifleState = GunState.Aim;
+						_gunModel.CurrentGunState.Value = GunState.Aim;
 					}
 					else if (Input.GetKeyUp(KeyCode.I))
 					{
-						_rifleState = GunState.Ready;
+						_gunModel.CurrentGunState.Value = GunState.Ready;
 					}
 					break;
 				case GunState.Shooting:
-					_rifleState = GunState.Cooling;
+					_gunModel.CurrentGunState.Value = GunState.Cooling;
 					break;
 			}
 		}
 
 		private void TakeAction()
 		{
-			switch (_rifleState)
+			switch (_gunModel.CurrentGunState.Value)
 			{
 				case GunState.Ready:
 					break;
@@ -127,7 +140,7 @@ namespace daifuDemo
 				case GunState.Cooling:
 					ActionKit.Delay(_intervalBetweenShots, () =>
 					{
-						_rifleState = GunState.Ready;
+						_gunModel.CurrentGunState.Value = GunState.Ready;
 					}).Start(this);
 					break;
 			}

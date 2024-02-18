@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace daifuDemo
 {
     public enum GunState
@@ -11,21 +13,17 @@ namespace daifuDemo
     
     public interface IGunInfo
     {
-        float Name { get; }
+        string Name { get; }
         
-        float Key { get; }
-        
-        IBullet CurrentBullet { get; }
+        string Key { get; }
         
         float IntervalBetweenShots { get; }
         
         float RotationRate { get; }
-
-        IGunInfo WithName(float name);
         
-        IGunInfo WithKey(float key);
+        IGunInfo WithName(string name);
         
-        IGunInfo WithCurrentBullet(IBullet currentBullet);
+        IGunInfo WithKey(string key);
         
         IGunInfo WithIntervalBetweenShots(float intervalBetweenShots);
         
@@ -34,31 +32,23 @@ namespace daifuDemo
     
     public class GunInfo : IGunInfo
     {
-        public float Name { get; private set; }
+        public string Name { get; private set; }
         
-        public float Key { get; private set; }
-        
-        public IBullet CurrentBullet { get; private set; }
+        public string Key { get; private set; }
         
         public float IntervalBetweenShots { get; private set; }
         
         public float RotationRate { get; private set; }
         
-        public IGunInfo WithName(float name)
+        public IGunInfo WithName(string name)
         {
             Name = name;
             return this;
         }
 
-        public IGunInfo WithKey(float key)
+        public IGunInfo WithKey(string key)
         {
             Key = key;
-            return this;
-        }
-
-        public IGunInfo WithCurrentBullet(IBullet currentBullet)
-        {
-            CurrentBullet = currentBullet;
             return this;
         }
 

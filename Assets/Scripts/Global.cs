@@ -14,12 +14,16 @@ namespace daifuDemo
         
         protected override void Init()
         {
-            this.RegisterSystem<IFishSystem>(new FishSystem());
-            this.RegisterSystem<IHarvestSystem>(new HarvestSystem());
-            this.RegisterModel<IPlayerModel>(new PlayerModel());
-            this.RegisterModel<IFishForkModel>(new FishForkModel());
-            this.RegisterModel<IFishForkHeadModel>(new FishForkHeadModel());
-            this.RegisterModel<IUIGamePanelModel>(new UIGamePanelModel());
+            RegisterSystem<IFishSystem>(new FishSystem());
+            RegisterSystem<IHarvestSystem>(new HarvestSystem());
+            RegisterSystem<IWeaponSystem>(new WeaponSystem());
+            RegisterSystem<IBulletSystem>(new BulletSystem());
+            RegisterModel<IPlayerModel>(new PlayerModel());
+            RegisterModel<IFishForkModel>(new FishForkModel());
+            RegisterModel<IFishForkHeadModel>(new FishForkHeadModel());
+            RegisterModel<IUIGamePanelModel>(new UIGamePanelModel());
+            RegisterModel<IGunModel>(new GunModel());
+            RegisterModel<IBulletModel>(new BulletModel());
         }
     }
 }

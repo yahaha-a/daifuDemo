@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace daifuDemo
 {
-	public partial class Rifle
+	public partial class Gun
 	{
 
 		public UnityEngine.Transform BulletTemplate;

@@ -33,6 +33,14 @@ namespace daifuDemo
 						});
 					SettleItemTemplateList.Add(settleItemTemplate);
 				}
+
+				var blankGridQuantity = ((SettleItemTemplateList.Count + 10) / 10) * 10 - SettleItemTemplateList.Count;
+				
+				for (int i = 0; i < blankGridQuantity; i++)
+				{
+					SettleItemTemplateList.Add(SettleItemTemplate.InstantiateWithParent(this)
+						.Self(self => self.Show()));
+				}
 			});
 		}
 

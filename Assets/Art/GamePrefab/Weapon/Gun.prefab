@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 8814909127468239406}
   - component: {fileID: 839254950901671452}
   m_Layer: 0
-  m_Name: Rifle
+  m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -299,6 +299,4 @@ MonoBehaviour:
   GeneratePrefab: 0
   PrefabFolder: Assets/Art/Prefab
   ArchitectureFullTypeName: 
-  _rifleState: 0
-  FlyerRoot: {fileID: 0}
   BulletTemplate: {fileID: 5379703065786998688}
