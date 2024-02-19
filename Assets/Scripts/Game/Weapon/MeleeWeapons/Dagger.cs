@@ -6,27 +6,41 @@ namespace daifuDemo
 {
 	public partial class Dagger : ViewController, IMeleeWeapons, IController
 	{
-		public string Key { get; } = Config.DaggerKey;
+		public string Key { get; private set; } = Config.DaggerKey;
 		
 		public bool IfLeft { get; private set; } = false;
 
-		public float Damage { get; private set; } = 5f;
+		public float Damage { get; private set; }
 
-		public float AttackRadius { get; private set; } = 10f;
+		public float AttackRadius { get; private set; }
 
-		public float AttackFrequency { get; private set; } = 0.5f;
+		public float AttackFrequency { get; private set; }
 
 		private Vector3 _menchoDirection;
 
 		private IPlayerModel _playerModel;
 
+		private IMeleeWeaponModel _meleeWeaponModel;
+
 		private void Start()
 		{
 			_playerModel = this.GetModel<IPlayerModel>();
 
+			_meleeWeaponModel = this.GetModel<IMeleeWeaponModel>();
+
 			_playerModel.IfLeft.RegisterWithInitValue(value =>
 			{
 				IfLeft = value;
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			_meleeWeaponModel.CurrentMeleeWeaponKey.RegisterWithInitValue(key =>
+			{
+				UpdateData();
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			_meleeWeaponModel.CurrentMeleeWeaponRank.RegisterWithInitValue(rank =>
+			{
+				UpdateData();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
@@ -61,9 +75,23 @@ namespace daifuDemo
 							}
 						}
 					}
-					_playerModel.State.Value = PlayState.Swim;
+
+					ActionKit.Delay(AttackFrequency, () =>
+					{
+						_playerModel.State.Value = PlayState.Swim;
+					}).Start(this);
 				}
 			}
+		}
+
+		private void UpdateData()
+		{
+			Damage = this.SendQuery(new FindMeleeWeaponDamage(_meleeWeaponModel.CurrentMeleeWeaponKey.Value,
+				_meleeWeaponModel.CurrentMeleeWeaponRank.Value));
+			AttackRadius = this.SendQuery(new FindMeleeWeaponAttackRadius(_meleeWeaponModel.CurrentMeleeWeaponKey.Value,
+				_meleeWeaponModel.CurrentMeleeWeaponRank.Value));
+			AttackFrequency = this.SendQuery(new FindMeleeWeaponAttackFrequency(
+				_meleeWeaponModel.CurrentMeleeWeaponKey.Value, _meleeWeaponModel.CurrentMeleeWeaponRank.Value));
 		}
 
 		public IArchitecture GetArchitecture()

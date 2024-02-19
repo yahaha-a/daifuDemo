@@ -13,6 +13,10 @@ namespace daifuDemo
 	
 	public partial class FishForkHead : ViewController, IController
 	{
+		private float _speed;
+
+		private float _fishForkLength;
+		
 		private Rigidbody2D _rigidbody2D;
 
 		private FishForkHeadState _fishForkHeadState = FishForkHeadState.Fly;
@@ -42,24 +46,41 @@ namespace daifuDemo
 			_fishForkModel = this.GetModel<IFishForkModel>();
 
 			_fishForkHeadModel = this.GetModel<IFishForkHeadModel>();
+
+			_fishForkModel.CurrentFishForkKey.RegisterWithInitValue(key =>
+			{
+				UpdateData();
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			_fishForkModel.CurrentRank.RegisterWithInitValue(rank =>
+			{
+				UpdateData();
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
 		private void Update()
 		{
 			if (_fishForkHeadState == FishForkHeadState.Fly)
 			{
-				var speed = transform.right.normalized * _fishForkHeadModel.Speed *
-				            _fishForkHeadModel.FishForkHeadDirection;
+				var speed = transform.right.normalized * _speed * _fishForkHeadModel.FishForkHeadDirection;
 				var position = transform.position;
 				transform.position = new Vector3(position.x + speed.x * Time.deltaTime,
 					position.y + speed.y * Time.deltaTime, position.z);
 				
-				if (Vector3.Distance(transform.position, _originPosition) > _fishForkHeadModel.FishForkLength)
+				if (Vector3.Distance(transform.position, _originPosition) > _fishForkLength)
 				{
 					Events.FishForkHeadDestroy?.Trigger();
 					gameObject.DestroySelf();
 				}
 			}
+		}
+
+		private void UpdateData()
+		{
+			_speed = this.SendQuery(new FindFishForkSpeed(_fishForkModel.CurrentFishForkKey.Value,
+				_fishForkModel.CurrentRank.Value));
+			_fishForkLength = this.SendQuery(new FindFishForkLength(_fishForkModel.CurrentFishForkKey.Value,
+				_fishForkModel.CurrentRank.Value));
 		}
 
 		public IArchitecture GetArchitecture()

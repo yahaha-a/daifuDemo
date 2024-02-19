@@ -12,6 +12,8 @@ namespace daifuDemo
 		
 		private bool _ifLeft;
 
+		private float _rotationRate;
+
 		private GameObject _flyerRoot;
 
 		private IPlayerModel _playerModel;
@@ -37,8 +39,18 @@ namespace daifuDemo
 
 			Events.CatchFish.Register(fish =>
 			{
-				_fishForkModel.FishForkState = FishForkState.Ready;
+				_fishForkModel.CurrentFishForkState = FishForkState.Ready;
 				_fishForkModel.FishForkIfShooting = false;
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			_fishForkModel.CurrentFishForkKey.RegisterWithInitValue(key =>
+			{
+				UpdateData();
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			_fishForkModel.CurrentRank.RegisterWithInitValue(rank =>
+			{
+				UpdateData();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
@@ -50,51 +62,51 @@ namespace daifuDemo
 
 		private void TransitionState()
 		{
-			switch (_fishForkModel.FishForkState)
+			switch (_fishForkModel.CurrentFishForkState)
 			{
 				case FishForkState.Ready:
 					if (Input.GetKeyDown(KeyCode.I))
 					{
-						_fishForkModel.FishForkState = FishForkState.Aim;
+						_fishForkModel.CurrentFishForkState = FishForkState.Aim;
 					}
 					break;
 				case FishForkState.Aim:
 					if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.C))
 					{
-						_fishForkModel.FishForkState = FishForkState.Revolve;
+						_fishForkModel.CurrentFishForkState = FishForkState.Revolve;
 					}
 					else if (Input.GetKeyUp(KeyCode.I))
 					{
-						_fishForkModel.FishForkState = FishForkState.Ready;
+						_fishForkModel.CurrentFishForkState = FishForkState.Ready;
 					}
 					else if (Input.GetKeyDown(KeyCode.J))
 					{
-						_fishForkModel.FishForkState = FishForkState.Launch;
+						_fishForkModel.CurrentFishForkState = FishForkState.Launch;
 					}
 					break;
 				case FishForkState.Revolve:
 					if (Input.GetKeyDown(KeyCode.J))
 					{
-						_fishForkModel.FishForkState = FishForkState.Launch;
+						_fishForkModel.CurrentFishForkState = FishForkState.Launch;
 					}
 					else if (Input.GetKeyUp(KeyCode.Z) || Input.GetKeyUp(KeyCode.C))
 					{
-						_fishForkModel.FishForkState = FishForkState.Aim;
+						_fishForkModel.CurrentFishForkState = FishForkState.Aim;
 					}
 					else if (Input.GetKeyUp(KeyCode.I))
 					{
-						_fishForkModel.FishForkState = FishForkState.Ready;
+						_fishForkModel.CurrentFishForkState = FishForkState.Ready;
 					}
 					break;
 				case FishForkState.Launch:
-					_fishForkModel.FishForkState = FishForkState.Ready;
+					_fishForkModel.CurrentFishForkState = FishForkState.Ready;
 					break;
 			}
 		}
 
 		private void TakeAction()
 		{
-			switch (_fishForkModel.FishForkState)
+			switch (_fishForkModel.CurrentFishForkState)
 			{
 				case FishForkState.Ready:
 					if (_fishForkModel.FishForkIfShooting == false)
@@ -116,7 +128,7 @@ namespace daifuDemo
 					{
 						if (transform.eulerAngles.z < 70f || transform.eulerAngles.z > 289f)
 						{
-							var rotationAmount = _fishForkModel.RotationRate * Time.deltaTime;
+							var rotationAmount = _rotationRate * Time.deltaTime;
 							transform.Rotate(new Vector3(0, 0, rotationAmount));
 						}
 					}
@@ -124,7 +136,7 @@ namespace daifuDemo
 					{
 						if (transform.eulerAngles.z < 71f || transform.eulerAngles.z > 290f)
 						{
-							var rotationAmount = -_fishForkModel.RotationRate * Time.deltaTime;
+							var rotationAmount = -_rotationRate * Time.deltaTime;
 							transform.Rotate(new Vector3(0, 0, rotationAmount));
 						}
 					}
@@ -152,6 +164,12 @@ namespace daifuDemo
 					}
 					break;
 			}
+		}
+
+		private void UpdateData()
+		{
+			_rotationRate = this.SendQuery(new FindFishForkRotationRate(_fishForkModel.CurrentFishForkKey.Value,
+				_fishForkModel.CurrentRank.Value));
 		}
 
 		public IArchitecture GetArchitecture()

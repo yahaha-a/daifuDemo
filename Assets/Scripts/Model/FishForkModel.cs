@@ -13,9 +13,11 @@ namespace daifuDemo
     
     public interface IFishForkModel : IModel
     {
-        float RotationRate { get; set; }
+        BindableProperty<string> CurrentFishForkKey { get; }
         
-        FishForkState FishForkState { get; set; }
+        BindableProperty<int> CurrentRank { get; }
+        
+        FishForkState CurrentFishForkState { get; set; }
         
         bool FishForkIfShooting { get; set; }
     }
@@ -30,9 +32,10 @@ namespace daifuDemo
             });
         }
 
-        public float RotationRate { get; set; } = 50f;
+        public BindableProperty<string> CurrentFishForkKey { get; } = new BindableProperty<string>(Config.FishForkKey);
 
-        public FishForkState FishForkState { get; set; } = FishForkState.Ready;
+        public BindableProperty<int> CurrentRank { get; } = new BindableProperty<int>(1);
+        public FishForkState CurrentFishForkState { get; set; } = FishForkState.Ready;
         
         public bool FishForkIfShooting { get; set; } = false;
     }

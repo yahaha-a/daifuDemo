@@ -15,7 +15,7 @@ namespace daifuDemo
             playModel.NumberOfFish.Value = Config.NumberOfFish;
             playModel.PlayerOxygen.Value = Config.PlayerOxygen;
 
-            fishForkModel.FishForkState = FishForkState.Ready;
+            fishForkModel.CurrentFishForkState = FishForkState.Ready;
             fishForkModel.FishForkIfShooting = false;
             
             fishSystem.Reload();
