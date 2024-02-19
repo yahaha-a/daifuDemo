@@ -19,15 +19,22 @@ MonoBehaviour:
     From: 0
     NameToFullName: []
     BindInfos:
-    - TypeName: daifuDemo.SettleItemTemplate
-      PathToRoot: SettleItemTemplate
-      MemberName: SettleItemTemplate
-    ScriptsFolder: Assets/Scripts/UI/Game
-    ClassName: SettleItemManage
+    - TypeName: daifuDemo.FishFork
+      PathToRoot: FishFork
+      MemberName: FishFork
+    - TypeName: daifuDemo.Gun
+      PathToRoot: Gun
+      MemberName: Gun
+    - TypeName: daifuDemo.MeleeWeapon
+      PathToRoot: MeleeWeapon
+      MemberName: MeleeWeapon
+    ScriptsFolder: Assets/Scripts/Game
+    ClassName: Player
     Namespace: daifuDemo
     MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace daifuDemo\r\n{\r\n\tpublic
-      partial class SettleItemManage : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
+      partial class Player : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
       Code Here\r\n\t\t}\r\n\t}\r\n}\r\n"
-    DesignerCode: "// Generate Id:e2947f66-20ed-419b-be12-a63d12fa37ae\r\nusing UnityEngine;\r\n\r\nnamespace
-      daifuDemo\r\n{\r\n\tpublic partial class SettleItemManage\r\n\t{\r\n\r\n\t\tpublic
-      daifuDemo.SettleItemTemplate SettleItemTemplate;\r\n\r\n\t}\r\n}\r\n"
+    DesignerCode: "// Generate Id:9d5f989e-69f1-4b61-bedd-7faf17ddb389\r\nusing UnityEngine;\r\n\r\nnamespace
+      daifuDemo\r\n{\r\n\tpublic partial class Player\r\n\t{\r\n\r\n\t\tpublic daifuDemo.FishFork
+      FishFork;\r\n\r\n\t\tpublic daifuDemo.Gun Gun;\r\n\r\n\t\tpublic daifuDemo.MeleeWeapon
+      MeleeWeapon;\r\n\r\n\t}\r\n}\r\n"

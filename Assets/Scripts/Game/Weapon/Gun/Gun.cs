@@ -5,10 +5,8 @@ using UnityEngine.Serialization;
 
 namespace daifuDemo
 {
-	public partial class Gun : ViewController, IController, Iweapon
+	public partial class Gun : ViewController, IController
 	{
-		public string Key { get; private set; } = Config.RifleKey;
-
 		private float _rotationRate;
 
 		private float _intervalBetweenShots;
@@ -31,15 +29,12 @@ namespace daifuDemo
 
 			_gunModel.CurrentGunKey.RegisterWithInitValue(key =>
 			{
-				Key = key;
+				UpdateData();
 			});
 			
 			_gunModel.CurrentGunRank.RegisterWithInitValue(rank =>
 			{
-				_rotationRate = this.SendQuery(new FindGunRotationRate(Key, rank));
-				_intervalBetweenShots = this.SendQuery(new FindGunIntervalBetweenShots(Key, rank));
-				_bulletSpawnLocationsAndDirectionsList =
-					this.SendQuery(new FindBulletSpawnLocationsAndDirectionsList(Key, rank));
+				UpdateData();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 			
 			FlyerRoot = GameObject.FindGameObjectWithTag("FlyerRoot");
@@ -156,6 +151,18 @@ namespace daifuDemo
 					}).Start(this);
 					break;
 			}
+		}
+
+		public void UpdateData()
+		{
+			_rotationRate =
+				this.SendQuery(new FindGunRotationRate(_gunModel.CurrentGunKey.Value, _gunModel.CurrentGunRank.Value));
+			_intervalBetweenShots =
+				this.SendQuery(new FindGunIntervalBetweenShots(_gunModel.CurrentGunKey.Value,
+					_gunModel.CurrentGunRank.Value));
+			_bulletSpawnLocationsAndDirectionsList = this.SendQuery(
+				new FindBulletSpawnLocationsAndDirectionsList(_gunModel.CurrentGunKey.Value,
+					_gunModel.CurrentGunRank.Value));
 		}
 
 		public IArchitecture GetArchitecture()

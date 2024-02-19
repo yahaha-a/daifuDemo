@@ -1,10 +1,16 @@
-// Generate Id:d0b74dd4-ae16-48c9-a265-c227dbfb6a08
+// Generate Id:9d5f989e-69f1-4b61-bedd-7faf17ddb389
 using UnityEngine;
 
 namespace daifuDemo
 {
 	public partial class Player
 	{
+
+		public daifuDemo.FishFork FishFork;
+
+		public daifuDemo.Gun Gun;
+
+		public daifuDemo.MeleeWeapon MeleeWeapon;
 
 	}
 }

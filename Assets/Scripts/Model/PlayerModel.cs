@@ -10,6 +10,13 @@ namespace daifuDemo
         CatchFish,
         Attack
     }
+
+    public enum WeaponTypes
+    {
+        FishFork,
+        Gun,
+        MeleeWeapon
+    }
     
     public interface IPlayerModel : IModel
     {
@@ -25,9 +32,9 @@ namespace daifuDemo
 
         BindableProperty<PlayState> State { get; }
         
-        BindableProperty<string> WeaponKey { get; }
-        
         BindableProperty<float> OxygenIntervalTime { get; }
+        
+        BindableProperty<WeaponTypes> CurrentWeaponType { get; }
     }
     
     public class PlayerModel : AbstractModel, IPlayerModel
@@ -44,10 +51,11 @@ namespace daifuDemo
         public BindableProperty<float> InvincibleTime { get; } =
             new BindableProperty<float>(Config.PlayerInvincibleTime);
 
-        public BindableProperty<string> WeaponKey { get; } = new BindableProperty<string>(Config.FishForkKey);
-
         public BindableProperty<float> OxygenIntervalTime { get; } =
             new BindableProperty<float>(Config.OxygenIntervalTime);
+
+        public BindableProperty<WeaponTypes> CurrentWeaponType { get; } =
+            new BindableProperty<WeaponTypes>(WeaponTypes.FishFork);
 
         public BindableProperty<bool> Invincibility { get; } = new BindableProperty<bool>(false);
 

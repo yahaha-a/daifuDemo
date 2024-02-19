@@ -6,10 +6,8 @@ using UnityEngine.Serialization;
 
 namespace daifuDemo
 {
-	public partial class FishFork : ViewController, IController, Iweapon
+	public partial class FishFork : ViewController, IController
 	{
-		public string Key { get; } = Config.FishForkKey;
-		
 		private bool _ifLeft;
 
 		private float _rotationRate;

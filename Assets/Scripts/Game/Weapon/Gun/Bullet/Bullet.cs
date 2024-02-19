@@ -49,22 +49,12 @@ namespace daifuDemo
 
 			_bulletModel.CurrentBulletRank.RegisterWithInitValue(rank =>
 			{
-				_damage = this.SendQuery(new FindBulletDamage(_gunModel.CurrentGunKey.Value,
-					_bulletModel.CurrentBulletAttribute.Value, _bulletModel.CurrentBulletRank.Value));
-				_speed = this.SendQuery(new FindBulletSpeed(_gunModel.CurrentGunKey.Value,
-					_bulletModel.CurrentBulletAttribute.Value, _bulletModel.CurrentBulletRank.Value));
-				_range = this.SendQuery(new FindBulletRange(_gunModel.CurrentGunKey.Value,
-					_bulletModel.CurrentBulletAttribute.Value, _bulletModel.CurrentBulletRank.Value));
+				UpdateData();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 			
 			_bulletModel.CurrentBulletAttribute.RegisterWithInitValue(bulletAttribute =>
 			{
-				_damage = this.SendQuery(new FindBulletDamage(_gunModel.CurrentGunKey.Value,
-					_bulletModel.CurrentBulletAttribute.Value, _bulletModel.CurrentBulletRank.Value));
-				_speed = this.SendQuery(new FindBulletSpeed(_gunModel.CurrentGunKey.Value,
-					_bulletModel.CurrentBulletAttribute.Value, _bulletModel.CurrentBulletRank.Value));
-				_range = this.SendQuery(new FindBulletRange(_gunModel.CurrentGunKey.Value,
-					_bulletModel.CurrentBulletAttribute.Value, _bulletModel.CurrentBulletRank.Value));
+				UpdateData();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
@@ -79,6 +69,16 @@ namespace daifuDemo
 			{
 				gameObject.DestroySelf();
 			}
+		}
+
+		private void UpdateData()
+		{
+			_damage = this.SendQuery(new FindBulletDamage(_gunModel.CurrentGunKey.Value,
+				_bulletModel.CurrentBulletAttribute.Value, _bulletModel.CurrentBulletRank.Value));
+			_speed = this.SendQuery(new FindBulletSpeed(_gunModel.CurrentGunKey.Value,
+				_bulletModel.CurrentBulletAttribute.Value, _bulletModel.CurrentBulletRank.Value));
+			_range = this.SendQuery(new FindBulletRange(_gunModel.CurrentGunKey.Value,
+				_bulletModel.CurrentBulletAttribute.Value, _bulletModel.CurrentBulletRank.Value));
 		}
 
 		public IArchitecture GetArchitecture()

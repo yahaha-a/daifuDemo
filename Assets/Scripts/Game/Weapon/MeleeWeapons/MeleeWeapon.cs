@@ -4,10 +4,8 @@ using QFramework;
 
 namespace daifuDemo
 {
-	public partial class Dagger : ViewController, IMeleeWeapons, IController
+	public partial class MeleeWeapon : ViewController, IController
 	{
-		public string Key { get; private set; } = Config.DaggerKey;
-		
 		public bool IfLeft { get; private set; } = false;
 
 		public float Damage { get; private set; }

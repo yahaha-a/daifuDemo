@@ -11,10 +11,6 @@ namespace daifuDemo
 
 		private IPlayerModel _playerModel;
 
-		public List<GameObject> WeaponList;
-
-		BindableProperty<GameObject> CurrentWeapon = new BindableProperty<GameObject>();
-		
 		private void Start()
 		{
 			_playerModel = this.GetModel<IPlayerModel>();
@@ -43,25 +39,26 @@ namespace daifuDemo
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
-			_playerModel.WeaponKey.RegisterWithInitValue(value =>
+			_playerModel.CurrentWeaponType.RegisterWithInitValue(type =>
 			{
-				foreach (var weapon in WeaponList)
+				if (type == WeaponTypes.FishFork)
 				{
-					if (value == weapon.GetComponent<Iweapon>().Key)
-					{
-						CurrentWeapon.Value = weapon;
-					}
+					FishFork.Show();
+					Gun.Hide();
+					MeleeWeapon.Hide();
 				}
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-
-			CurrentWeapon.RegisterWithInitValue(value =>
-			{
-				foreach (Transform child in transform)
+				else if (type == WeaponTypes.Gun)
 				{
-					child.gameObject.DestroySelf();
+					FishFork.Hide();
+					Gun.Show();
+					MeleeWeapon.Hide();
 				}
-
-				value.InstantiateWithParent(this);
+				else if (type == WeaponTypes.MeleeWeapon)
+				{
+					FishFork.Hide();
+					Gun.Hide();
+					MeleeWeapon.Show();
+				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
@@ -108,15 +105,15 @@ namespace daifuDemo
 		{
 			if (Input.GetKeyDown(KeyCode.Alpha1))
 			{
-				this.GetModel<IPlayerModel>().WeaponKey.Value = Config.FishForkKey;
+				_playerModel.CurrentWeaponType.Value = WeaponTypes.FishFork;
 			}
 			else if (Input.GetKeyDown(KeyCode.Alpha2))
 			{
-				this.GetModel<IPlayerModel>().WeaponKey.Value = Config.DaggerKey;
+				_playerModel.CurrentWeaponType.Value = WeaponTypes.Gun;
 			}
 			else if (Input.GetKeyDown(KeyCode.Alpha3))
 			{
-				this.GetModel<IPlayerModel>().WeaponKey.Value = Config.RifleKey;
+				_playerModel.CurrentWeaponType.Value = WeaponTypes.MeleeWeapon;
 			}
 		}
 

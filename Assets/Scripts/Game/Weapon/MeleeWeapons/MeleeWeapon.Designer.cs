@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace daifuDemo
 {
-	public partial class Dagger
+	public partial class MeleeWeapon
 	{
 
 	}
