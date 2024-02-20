@@ -38,6 +38,11 @@ namespace daifuDemo
 			{
 				this.SendCommand<OpenOrCloseBackpackCommand>();
 			}
+
+			if (Input.GetKeyDown(KeyCode.N))
+			{
+				this.SendCommand<OpenOrClosesuShiBackPackCommand>();
+			}
 		}
 
 		public IArchitecture GetArchitecture()

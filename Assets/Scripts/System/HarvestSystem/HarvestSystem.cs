@@ -25,17 +25,17 @@ namespace daifuDemo
                     {
                         {
                             1, new HarvestNormalFishInfo()
-                                .WithNormalFishPieces(("普通鱼块", 1))
+                                .WithNormalFishPieces((BackPackItemConfig.NormalFishPiecesKey, 1))
                         },
                         
                         {
                             2, new HarvestNormalFishInfo()
-                                .WithNormalFishPieces(("普通鱼块", 3))
+                                .WithNormalFishPieces((BackPackItemConfig.NormalFishPiecesKey, 3))
                         },
 
                         {
                             3, new HarvestNormalFishInfo()
-                                .WithNormalFishPieces(("普通鱼块", 5))
+                                .WithNormalFishPieces((BackPackItemConfig.NormalFishPiecesKey, 5))
                         }
                     }
                 },
@@ -45,17 +45,17 @@ namespace daifuDemo
                     {
                         {
                             1, new HarvestPteroisInfo()
-                                .WithPteroisPieces(("狮子鱼块", 1))
+                                .WithPteroisPieces((BackPackItemConfig.PteroisFishPiecesKey, 1))
                         },
 
                         {
                             2, new HarvestPteroisInfo()
-                                .WithPteroisPieces(("狮子鱼块", 2))
+                                .WithPteroisPieces((BackPackItemConfig.PteroisFishPiecesKey, 2))
                         },
 
                         {
                             3, new HarvestPteroisInfo()
-                                .WithPteroisPieces(("狮子鱼块", 6))
+                                .WithPteroisPieces((BackPackItemConfig.PteroisFishPiecesKey, 6))
                         }
                     }
                 }
@@ -67,25 +67,28 @@ namespace daifuDemo
         {
             var fishSystem = this.GetSystem<IFishSystem>();
 
+            var backPackSystem = this.GetSystem<IBackPackSystem>();
+
             Events.GamePass.Register(() =>
             {
                 foreach (var (key, caughtFish) in fishSystem.CaughtFish)
                 {
                     var harvestFish = HarvestFishInfos[caughtFish.FishKey][caughtFish.Star];
                     var harvestFishAmount = caughtFish.Amount;
-                    foreach (var itemDictionary in harvestFish.ItemList)
+                    
+                    foreach (var (itemKey, count) in harvestFish.ItemList)
                     {
-                        foreach (var itemName in itemDictionary.Keys)
+                        if (HarvestItems.ContainsKey(itemKey))
                         {
-                            if (HarvestItems.ContainsKey(itemName))
-                            {
-                                HarvestItems[itemName] += itemDictionary[itemName] * harvestFishAmount;
-                            }
-                            else
-                            {
-                                HarvestItems.Add(itemName, itemDictionary[itemName] * harvestFishAmount);
-                            }
+                            HarvestItems[itemKey] += count * harvestFishAmount;
                         }
+                        else
+                        {
+                            HarvestItems.Add(itemKey, count * harvestFishAmount);
+                        }
+
+                        backPackSystem.AddBackPackItemList(itemKey, count * harvestFishAmount);
+                        backPackSystem.SaveData();
                     }
                 }
             });

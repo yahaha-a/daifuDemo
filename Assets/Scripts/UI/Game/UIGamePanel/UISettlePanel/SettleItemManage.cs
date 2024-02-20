@@ -22,12 +22,12 @@ namespace daifuDemo
 
 			Events.UISettlePanelShow.Register(() =>
 			{
-				foreach (var (itemName, itemCount) in _harvestSystem.HarvestItems)
+				foreach (var (itemKey, itemCount) in _harvestSystem.HarvestItems)
 				{
 					var settleItemTemplate = SettleItemTemplate.InstantiateWithParent(this)
 						.Self(self =>
 						{
-							self.Name.text = itemName;
+							self.Name.text = this.SendQuery(new FindBackPackItemName(itemKey));
 							self.Number.text = itemCount.ToString();
 							self.Show();
 						});

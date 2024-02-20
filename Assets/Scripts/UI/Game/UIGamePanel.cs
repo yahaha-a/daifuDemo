@@ -68,6 +68,18 @@ namespace daifuDemo
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
+			_uiGamePanelModel.IfsushiUIPackOpen.Register(value =>
+			{
+				if (value)
+				{
+					UIsushiUIPackPanel.Show();
+				}
+				else
+				{
+					UIsushiUIPackPanel.Hide();
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
 			Events.GamePass.Register(() =>
 			{
 				foreach (Transform child in UISettlePanel.SettleItemRoot.transform)

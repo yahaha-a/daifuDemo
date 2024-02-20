@@ -20,5 +20,7 @@ namespace daifuDemo
         public static EasyEvent GamePass = new EasyEvent();
 
         public static EasyEvent UISettlePanelShow = new EasyEvent();
+
+        public static EasyEvent<BackPackItemTemplate> UIsushiBackPackPanelItemInfoUpdate = new EasyEvent<BackPackItemTemplate>();
     }
 }
