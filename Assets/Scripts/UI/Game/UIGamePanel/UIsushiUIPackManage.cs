@@ -137,6 +137,14 @@ namespace daifuDemo
 			}
 		}
 
+		private void OnDisable()
+		{
+			_fishList.Clear();
+			_ingredientList.Clear();
+			_seasoningList.Clear();
+			_toolList.Clear();
+		}
+
 		protected override void OnBeforeDestroy()
 		{
 		}
