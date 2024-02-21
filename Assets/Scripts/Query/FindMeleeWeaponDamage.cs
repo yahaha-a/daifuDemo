@@ -17,7 +17,7 @@ namespace daifuDemo
         protected override float OnDo()
         {
             var weaponSystem = this.GetSystem<IWeaponSystem>();
-            var damage = weaponSystem.MeleeWeaponInfos[_meleeWeaponKey][_rank].Damage;
+            var damage = weaponSystem.MeleeWeaponInfos[(_meleeWeaponKey, _rank)].Damage;
             return damage;
         }
     }

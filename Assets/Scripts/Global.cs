@@ -26,6 +26,7 @@ namespace daifuDemo
             RegisterModel<IGunModel>(new GunModel());
             RegisterModel<IBulletModel>(new BulletModel());
             RegisterModel<IMeleeWeaponModel>(new MeleeWeaponModel());
+            RegisterModel<IUIGameShipPanelModel>(new UIGameShipPanelModel());
         }
     }
 }

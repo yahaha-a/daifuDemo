@@ -17,6 +17,7 @@ namespace daifuDemo
 			ConfirmButton.onClick.AddListener(() =>
 			{
 				this.Hide();
+				UIKit.ClosePanel<UIGamePanel>();
 				UIKit.OpenPanel<UIGamePassPanel>();
 			});
 		}

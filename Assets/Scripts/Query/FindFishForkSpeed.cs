@@ -17,7 +17,7 @@ namespace daifuDemo
         protected override float OnDo()
         {
             var weaponSystem = this.GetSystem<IWeaponSystem>();
-            var speed = weaponSystem.FishForkInfos[_fishForkKey][_rank].Speed;
+            var speed = weaponSystem.FishForkInfos[(_fishForkKey, _rank)].Speed;
             return speed;
         }
     }

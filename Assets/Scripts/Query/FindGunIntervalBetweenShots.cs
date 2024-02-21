@@ -17,7 +17,7 @@ namespace daifuDemo
         protected override float OnDo()
         {
             var weaponSystem = this.GetSystem<IWeaponSystem>();
-            var gunIntervalBetweenShots = weaponSystem.GunInfos[_gunKey][_rank].IntervalBetweenShots;
+            var gunIntervalBetweenShots = weaponSystem.GunInfos[(_gunKey, _rank)].IntervalBetweenShots;
             return gunIntervalBetweenShots;
         }
     }

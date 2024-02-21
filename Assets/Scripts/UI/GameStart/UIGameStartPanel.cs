@@ -16,7 +16,7 @@ namespace daifuDemo
 			
 			StartGameButton.onClick.AddListener(() =>
 			{
-				SceneManager.LoadScene("Game");
+				SceneManager.LoadScene("GameShip");
 				this.CloseSelf();
 			});
 		}

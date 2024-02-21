@@ -20,7 +20,7 @@ namespace daifuDemo
         {
             var weaponSystem = this.GetSystem<IWeaponSystem>();
             var bulletSpawnLocationsAndDirectionsList =
-                weaponSystem.GunInfos[_gunKey][_rank].BulletSpawnLocationsAndDirectionsList;
+                weaponSystem.GunInfos[(_gunKey, _rank)].BulletSpawnLocationsAndDirectionsList;
             return bulletSpawnLocationsAndDirectionsList;
         }
     }

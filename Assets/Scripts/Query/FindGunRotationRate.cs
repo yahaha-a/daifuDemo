@@ -17,7 +17,7 @@ namespace daifuDemo
         protected override float OnDo()
         {
             var weaponSystem = this.GetSystem<IWeaponSystem>();
-            var gunRotationRate = weaponSystem.GunInfos[_gunKey][_rank].RotationRate;
+            var gunRotationRate = weaponSystem.GunInfos[(_gunKey, _rank)].RotationRate;
             return gunRotationRate;
         }
     }

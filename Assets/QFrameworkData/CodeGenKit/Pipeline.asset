@@ -18,23 +18,12 @@ MonoBehaviour:
     GameObject: {fileID: 0}
     From: 0
     NameToFullName: []
-    BindInfos:
-    - TypeName: daifuDemo.FishFork
-      PathToRoot: FishFork
-      MemberName: FishFork
-    - TypeName: daifuDemo.Gun
-      PathToRoot: Gun
-      MemberName: Gun
-    - TypeName: daifuDemo.MeleeWeapon
-      PathToRoot: MeleeWeapon
-      MemberName: MeleeWeapon
+    BindInfos: []
     ScriptsFolder: Assets/Scripts/Game
-    ClassName: Player
+    ClassName: PlayerShip
     Namespace: daifuDemo
     MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace daifuDemo\r\n{\r\n\tpublic
-      partial class Player : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
+      partial class PlayerShip : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
       Code Here\r\n\t\t}\r\n\t}\r\n}\r\n"
-    DesignerCode: "// Generate Id:9d5f989e-69f1-4b61-bedd-7faf17ddb389\r\nusing UnityEngine;\r\n\r\nnamespace
-      daifuDemo\r\n{\r\n\tpublic partial class Player\r\n\t{\r\n\r\n\t\tpublic daifuDemo.FishFork
-      FishFork;\r\n\r\n\t\tpublic daifuDemo.Gun Gun;\r\n\r\n\t\tpublic daifuDemo.MeleeWeapon
-      MeleeWeapon;\r\n\r\n\t}\r\n}\r\n"
+    DesignerCode: "// Generate Id:7264e0dd-aec0-477a-b3ea-48aabb1c9dae\r\nusing UnityEngine;\r\n\r\nnamespace
+      daifuDemo\r\n{\r\n\tpublic partial class PlayerShip\r\n\t{\r\n\r\n\t}\r\n}\r\n"

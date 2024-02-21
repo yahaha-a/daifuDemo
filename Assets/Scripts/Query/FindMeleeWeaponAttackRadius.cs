@@ -17,7 +17,7 @@ namespace daifuDemo
         protected override float OnDo()
         {
             var weaponSystem = this.GetSystem<IWeaponSystem>();
-            var attackRadius = weaponSystem.MeleeWeaponInfos[_meleeWeaponKey][_rank].AttackRadius;
+            var attackRadius = weaponSystem.MeleeWeaponInfos[(_meleeWeaponKey, _rank)].AttackRadius;
             return attackRadius;
         }
     }

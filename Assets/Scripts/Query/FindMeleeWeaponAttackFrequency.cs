@@ -17,7 +17,7 @@ namespace daifuDemo
         protected override float OnDo()
         {
             var weaponSystem = this.GetSystem<IWeaponSystem>();
-            var attackFrequency = weaponSystem.MeleeWeaponInfos[_meleeWeaponKey][_rank].AttackFrequency;
+            var attackFrequency = weaponSystem.MeleeWeaponInfos[(_meleeWeaponKey, _rank)].AttackFrequency;
             return attackFrequency;
         }
     }
