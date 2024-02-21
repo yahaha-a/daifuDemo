@@ -17,6 +17,18 @@ namespace daifuDemo
 			// please add init code here
 
 			_uiGameShipPanelModel = this.GetModel<IUIGameShipPanelModel>();
+			
+			_uiGameShipPanelModel.IfsushiUIPackOpen.Register(value =>
+			{
+				if (value)
+				{
+					UIsushiUIPackPanel.Show();
+				}
+				else
+				{
+					UIsushiUIPackPanel.Hide();
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
 			_uiGameShipPanelModel.IfGoToHomePanelOpen.Register(value =>
 			{

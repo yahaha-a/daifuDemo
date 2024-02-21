@@ -7,6 +7,8 @@ namespace daifuDemo
         BindableProperty<bool> IfGoToHomePanelOpen { get; }
         
         BindableProperty<bool> IfGotoSeaPanelOpen { get; }
+        
+        BindableProperty<bool> IfsushiUIPackOpen { get; set; }
     }
     
     public class UIGameShipPanelModel : AbstractModel, IUIGameShipPanelModel
@@ -19,5 +21,7 @@ namespace daifuDemo
         public BindableProperty<bool> IfGoToHomePanelOpen { get; } = new BindableProperty<bool>(false);
 
         public BindableProperty<bool> IfGotoSeaPanelOpen { get; } = new BindableProperty<bool>(false);
+        
+        public BindableProperty<bool> IfsushiUIPackOpen { get; set; } = new BindableProperty<bool>(false);
     }
 }

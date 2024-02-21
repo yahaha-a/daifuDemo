@@ -6,9 +6,9 @@ namespace daifuDemo
     {
         protected override void OnExecute()
         {
-            var uiGamePanelModel = this.GetModel<IUIGamePanelModel>();
+            var uiGameShipPanelModel = this.GetModel<IUIGameShipPanelModel>();
 
-            uiGamePanelModel.IfsushiUIPackOpen.Value = !uiGamePanelModel.IfsushiUIPackOpen.Value;
+            uiGameShipPanelModel.IfsushiUIPackOpen.Value = !uiGameShipPanelModel.IfsushiUIPackOpen.Value;
         }
     }
 }
