@@ -37,8 +37,8 @@ namespace daifuDemo
 
 			Events.CatchFish.Register(fish =>
 			{
-				_fishForkModel.CurrentFishForkState = FishForkState.Ready;
-				_fishForkModel.FishForkIfShooting = false;
+				_fishForkModel.CurrentFishForkState.Value = FishForkState.Ready;
+				_fishForkModel.FishForkIfShooting.Value = false;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
 			_fishForkModel.CurrentFishForkKey.RegisterWithInitValue(key =>
@@ -60,61 +60,53 @@ namespace daifuDemo
 
 		private void TransitionState()
 		{
-			switch (_fishForkModel.CurrentFishForkState)
+			switch (_fishForkModel.CurrentFishForkState.Value)
 			{
 				case FishForkState.Ready:
 					if (Input.GetKeyDown(KeyCode.I))
 					{
-						_fishForkModel.CurrentFishForkState = FishForkState.Aim;
+						_fishForkModel.CurrentFishForkState.Value = FishForkState.Aim;
 					}
 					break;
 				case FishForkState.Aim:
 					if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.C))
 					{
-						_fishForkModel.CurrentFishForkState = FishForkState.Revolve;
+						_fishForkModel.CurrentFishForkState.Value = FishForkState.Revolve;
 					}
 					else if (Input.GetKeyUp(KeyCode.I))
 					{
-						_fishForkModel.CurrentFishForkState = FishForkState.Ready;
+						_fishForkModel.CurrentFishForkState.Value = FishForkState.Ready;
 					}
 					else if (Input.GetKeyDown(KeyCode.J))
 					{
-						_fishForkModel.CurrentFishForkState = FishForkState.Launch;
+						_fishForkModel.CurrentFishForkState.Value = FishForkState.Launch;
 					}
 					break;
 				case FishForkState.Revolve:
 					if (Input.GetKeyDown(KeyCode.J))
 					{
-						_fishForkModel.CurrentFishForkState = FishForkState.Launch;
+						_fishForkModel.CurrentFishForkState.Value = FishForkState.Launch;
 					}
 					else if (Input.GetKeyUp(KeyCode.Z) || Input.GetKeyUp(KeyCode.C))
 					{
-						_fishForkModel.CurrentFishForkState = FishForkState.Aim;
+						_fishForkModel.CurrentFishForkState.Value = FishForkState.Aim;
 					}
 					else if (Input.GetKeyUp(KeyCode.I))
 					{
-						_fishForkModel.CurrentFishForkState = FishForkState.Ready;
+						_fishForkModel.CurrentFishForkState.Value = FishForkState.Ready;
 					}
 					break;
 				case FishForkState.Launch:
-					_fishForkModel.CurrentFishForkState = FishForkState.Ready;
+					_fishForkModel.CurrentFishForkState.Value = FishForkState.Ready;
 					break;
 			}
 		}
 
 		private void TakeAction()
 		{
-			switch (_fishForkModel.CurrentFishForkState)
+			switch (_fishForkModel.CurrentFishForkState.Value)
 			{
 				case FishForkState.Ready:
-					if (_fishForkModel.FishForkIfShooting == false)
-					{
-						Events.FishForkIsNotUse?.Trigger(true);
-					}
-					else
-					{
-						Events.FishForkIsNotUse?.Trigger(false);
-					}
 					break;
 				case FishForkState.Aim:
 					Events.FishForkIsNotUse?.Trigger(false);
@@ -142,7 +134,7 @@ namespace daifuDemo
 				case FishForkState.Launch:
 					Events.FishForkIsNotUse?.Trigger(false);
 					
-					if (!_fishForkModel.FishForkIfShooting)
+					if (!_fishForkModel.FishForkIfShooting.Value)
 					{
 						FishForkHeadTemplate.InstantiateWithParent(this)
 							.Self(self =>
@@ -158,7 +150,7 @@ namespace daifuDemo
 								self.parent = _flyerRoot.transform;
 								self.Show();
 							});
-						_fishForkModel.FishForkIfShooting = true;
+						_fishForkModel.FishForkIfShooting.Value = true;
 					}
 					break;
 			}

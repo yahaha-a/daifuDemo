@@ -19,6 +19,7 @@ namespace daifuDemo
             RegisterSystem<IWeaponSystem>(new WeaponSystem());
             RegisterSystem<IBulletSystem>(new BulletSystem());
             RegisterSystem<IBackPackSystem>(new BackPackSystem());
+            RegisterSystem<ITreasureBoxSystem>(new TreasureBoxSystem());
             RegisterModel<IPlayerModel>(new PlayerModel());
             RegisterModel<IFishForkModel>(new FishForkModel());
             RegisterModel<IFishForkHeadModel>(new FishForkHeadModel());

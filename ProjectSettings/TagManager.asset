@@ -8,6 +8,7 @@ TagManager:
   - FishHitBox
   - FlyerRoot
   - PlayerHurtBox
+  - TreasureInductionBox
   layers:
   - Default
   - TransparentFX

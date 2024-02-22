@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace daifuDemo
 {
-    public interface IHarvestNormalFishInfo : IHarvestFishInfo
+    public interface IHarvestNormalFishInfo : IHarvestInfo
     {
         
         (string, int) NormalFishPieces { get; }
@@ -10,7 +10,7 @@ namespace daifuDemo
         IHarvestNormalFishInfo WithNormalFishPieces((string, int) normalFishPieces);
     }
 
-    public class HarvestNormalFishInfo : HarvestFishInfo, IHarvestNormalFishInfo
+    public class HarvestNormalFishInfo : HarvestInfo, IHarvestNormalFishInfo
     {
         public (string, int) NormalFishPieces { get; private set; }
         

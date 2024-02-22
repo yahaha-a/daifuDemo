@@ -2,14 +2,14 @@ using System.Collections.Generic;
 
 namespace daifuDemo
 {
-    public interface IHarvestPteroisInfo : IHarvestFishInfo
+    public interface IHarvestPteroisInfo : IHarvestInfo
     {
         (string, int) PteroisPieces { get; }
 
         IHarvestPteroisInfo WithPteroisPieces((string, int) pteroisPieces);
     }
 
-    public class HarvestPteroisInfo : HarvestFishInfo, IHarvestPteroisInfo
+    public class HarvestPteroisInfo : HarvestInfo, IHarvestPteroisInfo
     {
         public (string, int) PteroisPieces { get; private set; }
         

@@ -14,6 +14,8 @@ namespace daifuDemo
 
         void AddBackPackItemList(string key, int count);
 
+        string AccordingItemTypeGetRandomOne(BackPackItemType backPackItemType);
+
         void SaveData();
 
         void LoadData();
@@ -34,7 +36,19 @@ namespace daifuDemo
                     .WithItemName("狮子鱼块")
                     .WithItemIcon(null)
                     .WithItemType(BackPackItemType.Fish)
-                    .WithItemDescription("肉少刺多, 不太行"));
+                    .WithItemDescription("肉少刺多, 不太行"))
+                .AddBackPackItemInfos(BackPackItemConfig.SaltKey, new BackPackItemInfo()
+                    .WithItemKey(BackPackItemConfig.SaltKey)
+                    .WithItemName("盐")
+                    .WithItemIcon(null)
+                    .WithItemType(BackPackItemType.Seasoning)
+                    .WithItemDescription("烹饪中不可或缺的调味品, 注意适量使用"))
+                .AddBackPackItemInfos(BackPackItemConfig.VinegarKey, new BackPackItemInfo()
+                    .WithItemKey(BackPackItemConfig.VinegarKey)
+                    .WithItemName("醋")
+                    .WithItemIcon(null)
+                    .WithItemType(BackPackItemType.Seasoning)
+                    .WithItemDescription("常见调味品，由发酵的液体制成，具有酸味"));
             
             LoadData();
         }
@@ -62,6 +76,20 @@ namespace daifuDemo
             }
         }
 
+        public string AccordingItemTypeGetRandomOne(BackPackItemType backPackItemType)
+        {
+            List<string> itemList = new List<string>();
+            foreach (var (key, backPackItemInfo) in BackPackItemInfos)
+            {
+                if (backPackItemInfo.ItemType == backPackItemType)
+                {
+                    itemList.Add(key);
+                }
+            }
+
+            return itemList[Random.Range(0, itemList.Count)];
+        }
+        
         public void SaveData()
         {
             string backPackItemJson = JsonUtility.ToJson(BackPackItemList);

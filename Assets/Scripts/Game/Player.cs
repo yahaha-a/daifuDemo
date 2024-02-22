@@ -11,9 +11,13 @@ namespace daifuDemo
 
 		private IPlayerModel _playerModel;
 
+		private IFishForkModel _fishForkModel;
+
 		private void Start()
 		{
 			_playerModel = this.GetModel<IPlayerModel>();
+
+			_fishForkModel = this.GetModel<IFishForkModel>();
 			
 			_mRigidbody2D = GetComponent<Rigidbody2D>();
 
@@ -27,15 +31,27 @@ namespace daifuDemo
 				_playerModel.State.Value = PlayState.Swim;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
-			Events.FishForkIsNotUse.Register(value =>
+			_fishForkModel.FishForkIfShooting.Register(value =>
 			{
 				if (value)
 				{
-					_playerModel.State.Value = PlayState.Swim;
+					_playerModel.State.Value = PlayState.Aim;
 				}
 				else
 				{
+					_playerModel.State.Value = PlayState.Swim;
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			_fishForkModel.CurrentFishForkState.Register(value =>
+			{
+				if (value == FishForkState.Aim)
+				{
 					_playerModel.State.Value = PlayState.Aim;
+				}
+				else if (value == FishForkState.Ready)
+				{
+					_playerModel.State.Value = PlayState.Swim;
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
@@ -99,6 +115,28 @@ namespace daifuDemo
 			{
 				_mRigidbody2D.velocity = Vector2.zero;
 			}
+			else if (_playerModel.State.Value == PlayState.OpenTreasureChests)
+			{
+				if (Input.GetKeyDown(KeyCode.E))
+				{
+					_playerModel.IfChestOpening.Value = true;
+					_mRigidbody2D.velocity = Vector2.zero;
+				}
+				if (Input.GetKeyUp(KeyCode.E))
+				{
+					_playerModel.IfChestOpening.Value = false;
+				}
+
+				if (_playerModel.IfChestOpening.Value)
+				{
+					_playerModel.OpenChestSeconds.Value += Time.deltaTime;
+				}
+				else
+				{
+					_playerModel.OpenChestSeconds.Value = 0f;
+				}
+			}
+			
 		}
 
 		private void SwitchWeapons()

@@ -8,7 +8,7 @@ namespace daifuDemo
     {
         Dictionary<string, IFishInfo> FishInfos { get; }
         
-        Dictionary<string, ICaughtFishInfo> CaughtFish { get; }
+        Dictionary<string, ICaughtItemInfo> CaughtItem { get; }
 
         void Reload();
     }
@@ -16,6 +16,8 @@ namespace daifuDemo
     public class FishSystem : AbstractSystem, IFishSystem
     {
         private static ResLoader _resLoader = ResLoader.Allocate();
+
+        private IBackPackSystem _backPackSystem;
 
         public Dictionary<string, IFishInfo> FishInfos { get; } = new Dictionary<string, IFishInfo>()
         {
@@ -49,11 +51,13 @@ namespace daifuDemo
             },
         };
 
-        public Dictionary<string, ICaughtFishInfo> CaughtFish { get; } = new Dictionary<string, ICaughtFishInfo>();
+        public Dictionary<string, ICaughtItemInfo> CaughtItem { get; } = new Dictionary<string, ICaughtItemInfo>();
 
 
         protected override void OnInit()
         {
+            _backPackSystem = this.GetSystem<IBackPackSystem>();
+            
             Events.WeaponAttackFish.Register((damage, fish) =>
             {
                 var fishMessage = fish.GetComponent<IFish>();
@@ -62,13 +66,13 @@ namespace daifuDemo
                 {
                     fish.DestroySelf();
                     
-                    if (CaughtFish.ContainsKey(fishMessage.FishKey + "_Star" + 1) && CaughtFish[fishMessage.FishKey + "_Star" + 1].Star == 1)
+                    if (CaughtItem.ContainsKey(fishMessage.FishKey + "_Star" + 1) && CaughtItem[fishMessage.FishKey + "_Star" + 1].Star == 1)
                     {
-                        CaughtFish[fishMessage.FishKey + "_Star" + 1].Amount += 1;
+                        CaughtItem[fishMessage.FishKey + "_Star" + 1].Amount += 1;
                     }
                     else
                     {
-                        CaughtFish.Add(fishMessage.FishKey + "_Star" + 1, new CaughtFishInfo()
+                        CaughtItem.Add(fishMessage.FishKey + "_Star" + 1, new CaughtItemInfo()
                             .WithFishKey(fishMessage.FishKey)
                             .WithFishName(FishInfos[fishMessage.FishKey].FishName)
                             .WithFishIcon(FishInfos[fishMessage.FishKey].FishIcon)
@@ -86,13 +90,13 @@ namespace daifuDemo
 
             Events.CatchFish.Register(fish =>
             {
-                if (CaughtFish.ContainsKey(fish.FishKey + "_Star" + 3) && CaughtFish[fish.FishKey + "_Star" + 3].Star == 3)
+                if (CaughtItem.ContainsKey(fish.FishKey + "_Star" + 3) && CaughtItem[fish.FishKey + "_Star" + 3].Star == 3)
                 {
-                    CaughtFish[fish.FishKey + "_Star" + 3].Amount += 1;
+                    CaughtItem[fish.FishKey + "_Star" + 3].Amount += 1;
                 }
                 else
                 {
-                    CaughtFish.Add(fish.FishKey + "_Star" + 3, new CaughtFishInfo()
+                    CaughtItem.Add(fish.FishKey + "_Star" + 3, new CaughtItemInfo()
                         .WithFishKey(fish.FishKey)
                         .WithFishName(FishInfos[fish.FishKey].FishName)
                         .WithFishIcon(FishInfos[fish.FishKey].FishIcon)
@@ -101,11 +105,28 @@ namespace daifuDemo
                     );
                 }
             });
+
+            Events.TreasureBoxOpened.Register(treasure =>
+            {
+                if (CaughtItem.ContainsKey(treasure.backPackItemKey))
+                {
+                    CaughtItem[treasure.backPackItemKey].Amount += 1;
+                }
+                else
+                {
+                    CaughtItem.Add(treasure.backPackItemKey, new CaughtItemInfo()
+                        .WithFishKey(treasure.backPackItemKey)
+                        .WithFishName(_backPackSystem.BackPackItemInfos[treasure.backPackItemKey].ItemName)
+                        .WithFishIcon(_backPackSystem.BackPackItemInfos[treasure.backPackItemKey].ItemIcon)
+                        .WithStar(0)
+                        .WithAmount(1));
+                }
+            });
         }
 
         public void Reload()
         {
-            CaughtFish.Clear();
+            CaughtItem.Clear();
         }
     }
 }

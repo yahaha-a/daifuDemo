@@ -49,14 +49,21 @@ namespace daifuDemo
 						Destroy(child.gameObject);
 					}
 
-					foreach (var (key, caughtFishInfo) in _fishSystem.CaughtFish)
+					foreach (var (key, caughtFishInfo) in _fishSystem.CaughtItem)
 					{
 						UIPackPanel.ItemListPanel.ItemTemplate.InstantiateWithParent(UIPackPanel.ItemListPanel.ItemListRoot)
 							.Self(self =>
 							{
 								self.ItemIcon.sprite = caughtFishInfo.FishIcon;
 								self.ItemName.text = caughtFishInfo.FishName;
-								self.ItemStar.text = caughtFishInfo.Star.ToString() + " 星";
+								if (caughtFishInfo.Star == 0)
+								{
+									self.ItemStar.text = null;
+								}
+								else
+								{
+									self.ItemStar.text = caughtFishInfo.Star.ToString() + " 星";
+								}
 								self.ItemAmount.text = "× " + caughtFishInfo.Amount.ToString();
 								self.Show();
 							});

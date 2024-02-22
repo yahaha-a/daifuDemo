@@ -18,12 +18,16 @@ MonoBehaviour:
     GameObject: {fileID: 0}
     From: 0
     NameToFullName: []
-    BindInfos: []
+    BindInfos:
+    - TypeName: BoxCollider2D
+      PathToRoot: InductionBox
+      MemberName: InductionBox
     ScriptsFolder: Assets/Scripts/Game
-    ClassName: GameShipController
+    ClassName: TreasureBox
     Namespace: daifuDemo
     MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace daifuDemo\r\n{\r\n\tpublic
-      partial class GameShipController : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
+      partial class TreasureBox : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
       Code Here\r\n\t\t}\r\n\t}\r\n}\r\n"
-    DesignerCode: "// Generate Id:d9b903e4-427e-4587-a907-0f2eb04f28e7\r\nusing UnityEngine;\r\n\r\nnamespace
-      daifuDemo\r\n{\r\n\tpublic partial class GameShipController\r\n\t{\r\n\r\n\t}\r\n}\r\n"
+    DesignerCode: "// Generate Id:5135f467-7a4d-45aa-afe5-6c2d68035f7e\r\nusing UnityEngine;\r\n\r\nnamespace
+      daifuDemo\r\n{\r\n\tpublic partial class TreasureBox\r\n\t{\r\n\r\n\t\tpublic
+      BoxCollider2D InductionBox;\r\n\r\n\t}\r\n}\r\n"

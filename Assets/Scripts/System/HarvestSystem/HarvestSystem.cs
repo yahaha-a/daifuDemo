@@ -6,22 +6,22 @@ namespace daifuDemo
 {
     public interface IHarvestSystem : ISystem
     {
-        Dictionary<string, Dictionary<int, IHarvestFishInfo>> HarvestFishInfos { get; }
+        Dictionary<string, Dictionary<int, IHarvestInfo>> HarvestFishInfos { get; }
         
         Dictionary<string, int> HarvestItems { get; }
 
-        IHarvestFishInfo FindHarvestFishInfo(string fishKey, int star);
+        IHarvestInfo FindHarvestFishInfo(string fishKey, int star);
 
         void Reload();
     }
     
     public class HarvestSystem : AbstractSystem, IHarvestSystem
     {
-        public Dictionary<string, Dictionary<int, IHarvestFishInfo>> HarvestFishInfos { get; } =
-            new Dictionary<string, Dictionary<int, IHarvestFishInfo>>()
+        public Dictionary<string, Dictionary<int, IHarvestInfo>> HarvestFishInfos { get; } =
+            new Dictionary<string, Dictionary<int, IHarvestInfo>>()
             {
                 {
-                    Config.NormalFishKey, new Dictionary<int, IHarvestFishInfo>()
+                    Config.NormalFishKey, new Dictionary<int, IHarvestInfo>()
                     {
                         {
                             1, new HarvestNormalFishInfo()
@@ -41,7 +41,7 @@ namespace daifuDemo
                 },
 
                 {
-                    Config.PteroisKey, new Dictionary<int, IHarvestFishInfo>()
+                    Config.PteroisKey, new Dictionary<int, IHarvestInfo>()
                     {
                         {
                             1, new HarvestPteroisInfo()
@@ -58,6 +58,26 @@ namespace daifuDemo
                                 .WithPteroisPieces((BackPackItemConfig.PteroisFishPiecesKey, 6))
                         }
                     }
+                },
+
+                {
+                    BackPackItemConfig.SaltKey, new Dictionary<int, IHarvestInfo>()
+                    {
+                        {
+                            0, new HarvestSeasoningInfo()
+                                .WithSeasoningCount((BackPackItemConfig.SaltKey, 1))
+                        }
+                    }
+                },
+
+                {
+                    BackPackItemConfig.VinegarKey, new Dictionary<int, IHarvestInfo>()
+                    {
+                        {
+                            0, new HarvestSeasoningInfo()
+                                .WithSeasoningCount((BackPackItemConfig.VinegarKey, 1))
+                        }
+                    }
                 }
             };
 
@@ -71,7 +91,7 @@ namespace daifuDemo
 
             Events.GamePass.Register(() =>
             {
-                foreach (var (key, caughtFish) in fishSystem.CaughtFish)
+                foreach (var (key, caughtFish) in fishSystem.CaughtItem)
                 {
                     var harvestFish = HarvestFishInfos[caughtFish.FishKey][caughtFish.Star];
                     var harvestFishAmount = caughtFish.Amount;
@@ -94,7 +114,7 @@ namespace daifuDemo
             });
         }
 
-        public IHarvestFishInfo FindHarvestFishInfo(string fishKey, int star)
+        public IHarvestInfo FindHarvestFishInfo(string fishKey, int star)
         {
             return HarvestFishInfos[fishKey][star];
         }

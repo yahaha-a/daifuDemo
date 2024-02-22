@@ -22,5 +22,7 @@ namespace daifuDemo
         public static EasyEvent UISettlePanelShow = new EasyEvent();
 
         public static EasyEvent<BackPackItemTemplate> UIsushiBackPackPanelItemInfoUpdate = new EasyEvent<BackPackItemTemplate>();
+
+        public static EasyEvent<TreasureBox> TreasureBoxOpened = new EasyEvent<TreasureBox>();
     }
 }

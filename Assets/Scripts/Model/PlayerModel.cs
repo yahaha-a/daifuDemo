@@ -8,7 +8,8 @@ namespace daifuDemo
         Swim,
         Aim,
         CatchFish,
-        Attack
+        Attack,
+        OpenTreasureChests
     }
 
     public enum WeaponTypes
@@ -35,6 +36,10 @@ namespace daifuDemo
         BindableProperty<float> OxygenIntervalTime { get; }
         
         BindableProperty<WeaponTypes> CurrentWeaponType { get; }
+        
+        BindableProperty<bool> IfChestOpening { get; }
+        
+        BindableProperty<float> OpenChestSeconds { get; }
     }
     
     public class PlayerModel : AbstractModel, IPlayerModel
@@ -56,6 +61,10 @@ namespace daifuDemo
 
         public BindableProperty<WeaponTypes> CurrentWeaponType { get; } =
             new BindableProperty<WeaponTypes>(WeaponTypes.FishFork);
+
+        public BindableProperty<bool> IfChestOpening { get; } = new BindableProperty<bool>(false);
+
+        public BindableProperty<float> OpenChestSeconds { get; } = new BindableProperty<float>(0f);
 
         public BindableProperty<bool> Invincibility { get; } = new BindableProperty<bool>(false);
 

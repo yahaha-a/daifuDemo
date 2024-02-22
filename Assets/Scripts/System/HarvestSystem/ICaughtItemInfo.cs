@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace daifuDemo
 {
-    public interface ICaughtFishInfo
+    public interface ICaughtItemInfo
     {
         string FishKey { get; }
         
@@ -14,18 +14,18 @@ namespace daifuDemo
         
         int Amount { get; set; }
 
-        ICaughtFishInfo WithFishKey(string fishKey);
+        ICaughtItemInfo WithFishKey(string fishKey);
 
-        ICaughtFishInfo WithFishName(string fishName);
+        ICaughtItemInfo WithFishName(string fishName);
 
-        ICaughtFishInfo WithFishIcon(Sprite fishIcon);
+        ICaughtItemInfo WithFishIcon(Sprite fishIcon);
 
-        ICaughtFishInfo WithStar(int star);
+        ICaughtItemInfo WithStar(int star);
 
-        ICaughtFishInfo WithAmount(int amount);
+        ICaughtItemInfo WithAmount(int amount);
     }
 
-    public class CaughtFishInfo : ICaughtFishInfo
+    public class CaughtItemInfo : ICaughtItemInfo
     {
         public string FishKey { get; private set; }
         
@@ -37,31 +37,31 @@ namespace daifuDemo
         
         public int Amount { get; set; }
 
-        public ICaughtFishInfo WithFishKey(string fishKey)
+        public ICaughtItemInfo WithFishKey(string fishKey)
         {
             FishKey = fishKey;
             return this;
         }
 
-        public ICaughtFishInfo WithFishName(string fishName)
+        public ICaughtItemInfo WithFishName(string fishName)
         {
             FishName = fishName;
             return this;
         }
 
-        public ICaughtFishInfo WithFishIcon(Sprite fishIcon)
+        public ICaughtItemInfo WithFishIcon(Sprite fishIcon)
         {
             FishIcon = fishIcon;
             return this;
         }
 
-        public ICaughtFishInfo WithStar(int star)
+        public ICaughtItemInfo WithStar(int star)
         {
             Star = star;
             return this;
         }
 
-        public ICaughtFishInfo WithAmount(int amount)
+        public ICaughtItemInfo WithAmount(int amount)
         {
             Amount = amount;
             return this;
