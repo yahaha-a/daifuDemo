@@ -11,9 +11,9 @@ namespace daifuDemo
     {
         public (string, int) ToolCount { get; private set; }
         
-        public IHarvestToolInfo WithToolCount((string, int) seasoningCount)
+        public IHarvestToolInfo WithToolCount((string, int) toolCount)
         {
-            ToolCount = seasoningCount;
+            ToolCount = toolCount;
             ItemList.Add(ToolCount);
             return this;
         }

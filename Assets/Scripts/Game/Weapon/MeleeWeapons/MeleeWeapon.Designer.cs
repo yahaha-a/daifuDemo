@@ -1,10 +1,14 @@
-// Generate Id:cb4552ba-766b-4f69-a9d9-2972bf7e657b
+// Generate Id:e6dad668-769e-4b25-ab50-b49dbac690da
 using UnityEngine;
 
 namespace daifuDemo
 {
 	public partial class MeleeWeapon
 	{
+
+		public SpriteRenderer Icon;
+
+		public BoxCollider2D HitBox;
 
 	}
 }

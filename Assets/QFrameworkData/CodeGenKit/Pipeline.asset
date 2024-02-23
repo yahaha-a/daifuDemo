@@ -19,15 +19,18 @@ MonoBehaviour:
     From: 0
     NameToFullName: []
     BindInfos:
+    - TypeName: SpriteRenderer
+      PathToRoot: Icon
+      MemberName: Icon
     - TypeName: BoxCollider2D
-      PathToRoot: inductionBox
-      MemberName: inductionBox
-    ScriptsFolder: Assets/Scripts/Game
-    ClassName: PickUpItem
+      PathToRoot: HitBox
+      MemberName: HitBox
+    ScriptsFolder: Assets\Scripts\Game\Weapon\MeleeWeapons
+    ClassName: MeleeWeapon
     Namespace: daifuDemo
     MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace daifuDemo\r\n{\r\n\tpublic
-      partial class PickUpItem : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
+      partial class MeleeWeapon : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
       Code Here\r\n\t\t}\r\n\t}\r\n}\r\n"
-    DesignerCode: "// Generate Id:118e5c6f-6109-4045-8d22-eb533f5f8028\r\nusing UnityEngine;\r\n\r\nnamespace
-      daifuDemo\r\n{\r\n\tpublic partial class PickUpItem\r\n\t{\r\n\r\n\t\tpublic
-      BoxCollider2D inductionBox;\r\n\r\n\t}\r\n}\r\n"
+    DesignerCode: "// Generate Id:e6dad668-769e-4b25-ab50-b49dbac690da\r\nusing UnityEngine;\r\n\r\nnamespace
+      daifuDemo\r\n{\r\n\tpublic partial class MeleeWeapon\r\n\t{\r\n\r\n\t\tpublic
+      SpriteRenderer Icon;\r\n\r\n\t\tpublic BoxCollider2D HitBox;\r\n\r\n\t}\r\n}\r\n"

@@ -37,6 +37,12 @@ namespace daifuDemo
                     .WithItemIcon(null)
                     .WithItemType(BackPackItemType.Fish)
                     .WithItemDescription("肉少刺多, 不太行"))
+                .AddBackPackItemInfos(BackPackItemConfig.KelpKey, new BackPackItemInfo()
+                    .WithItemKey(BackPackItemConfig.KelpKey)
+                    .WithItemName("海带")
+                    .WithItemIcon(null)
+                    .WithItemType(BackPackItemType.Ingredient)
+                    .WithItemDescription("一种海藻，属于褐藻门，具有很高的营养价值"))
                 .AddBackPackItemInfos(BackPackItemConfig.SaltKey, new BackPackItemInfo()
                     .WithItemKey(BackPackItemConfig.SaltKey)
                     .WithItemName("盐")
@@ -54,7 +60,13 @@ namespace daifuDemo
                     .WithItemName("绳索")
                     .WithItemIcon(null)
                     .WithItemType(BackPackItemType.Tool)
-                    .WithItemDescription("常见的道具, 升级武器需要"));
+                    .WithItemDescription("常见的道具, 升级武器需要"))
+                .AddBackPackItemInfos(BackPackItemConfig.CopperKey, new BackPackItemInfo()
+                    .WithItemKey(BackPackItemConfig.CopperKey)
+                    .WithItemName("铜矿石")
+                    .WithItemIcon(null)
+                    .WithItemType(BackPackItemType.Tool)
+                    .WithItemDescription("重要的有色金属，具有良好的导电性和导热性"));
             
             LoadData();
         }

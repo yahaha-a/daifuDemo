@@ -61,6 +61,16 @@ namespace daifuDemo
                 },
 
                 {
+                    BackPackItemConfig.KelpKey, new Dictionary<int, IHarvestInfo>()
+                    {
+                        {
+                            0, new HarvestIngredientInfo()
+                                .WithIngredientCount((BackPackItemConfig.KelpKey, 1))
+                        }
+                    }
+                },
+                
+                {
                     BackPackItemConfig.SaltKey, new Dictionary<int, IHarvestInfo>()
                     {
                         {
@@ -86,6 +96,16 @@ namespace daifuDemo
                         {
                             0, new HarvestToolInfo()
                                 .WithToolCount((BackPackItemConfig.CordageKey, 1))
+                        }
+                    }
+                },
+
+                {
+                    BackPackItemConfig.CopperKey, new Dictionary<int, IHarvestInfo>()
+                    {
+                        {
+                            0, new HarvestToolInfo()
+                                .WithToolCount((BackPackItemConfig.CopperKey, 1))
                         }
                     }
                 }

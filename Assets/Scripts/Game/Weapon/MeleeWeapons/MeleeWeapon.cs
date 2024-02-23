@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using QFramework;
 
@@ -19,6 +20,8 @@ namespace daifuDemo
 		private IPlayerModel _playerModel;
 
 		private IMeleeWeaponModel _meleeWeaponModel;
+
+		private bool _isAttack;
 
 		private void Start()
 		{
@@ -80,6 +83,21 @@ namespace daifuDemo
 					}).Start(this);
 				}
 			}
+
+			if (Input.GetKeyDown(KeyCode.K) && !_isAttack)
+			{
+				if (_playerModel.State.Value == PlayState.Swim)
+				{
+					_playerModel.State.Value = PlayState.Attack;
+					
+					StartCoroutine(Attack());
+
+					ActionKit.Delay(AttackFrequency, () =>
+					{
+						_playerModel.State.Value = PlayState.Swim;
+					}).Start(this);
+				}
+			}
 		}
 
 		private void UpdateData()
@@ -90,6 +108,47 @@ namespace daifuDemo
 				_meleeWeaponModel.CurrentMeleeWeaponRank.Value));
 			AttackFrequency = this.SendQuery(new FindMeleeWeaponAttackFrequency(
 				_meleeWeaponModel.CurrentMeleeWeaponKey.Value, _meleeWeaponModel.CurrentMeleeWeaponRank.Value));
+		}
+
+		IEnumerator Attack()
+		{
+			Icon.Show();
+			HitBox.Show();
+			
+			_isAttack = true;
+
+			float rotationAmount;
+			
+			if (IfLeft)
+			{
+				rotationAmount = 80f;
+			}
+			else
+			{
+				rotationAmount = -80f;
+			}
+			
+			float rotationDuration = 0.3f;
+			
+			float currentRotationTime = 0f;
+
+			Quaternion initialRotation = transform.rotation;
+			
+			Quaternion targetRotation = initialRotation * Quaternion.Euler(0f, 0f, rotationAmount);
+			
+			while (currentRotationTime < rotationDuration)
+			{
+				currentRotationTime += Time.deltaTime;
+				float t = Mathf.Clamp01(currentRotationTime / rotationDuration);
+				transform.rotation = Quaternion.Lerp(initialRotation, targetRotation, t);
+				yield return null;
+			}
+
+			transform.rotation = initialRotation;
+			_isAttack = false;
+			
+			Icon.Hide();
+			HitBox.Hide();
 		}
 
 		public IArchitecture GetArchitecture()

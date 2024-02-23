@@ -10,6 +10,7 @@ TagManager:
   - PlayerHurtBox
   - TreasureInductionBox
   - PickUpInductionBox
+  - MeleeWeaponHitBox
   layers:
   - Default
   - TransparentFX
