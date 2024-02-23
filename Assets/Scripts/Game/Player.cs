@@ -136,6 +136,13 @@ namespace daifuDemo
 					_playerModel.OpenChestSeconds.Value = 0f;
 				}
 			}
+			else if (_playerModel.State.Value == PlayState.PickUp)
+			{
+				if (Input.GetKeyDown(KeyCode.E))
+				{
+					_playerModel.State.Value = PlayState.PickUpEd;
+				}
+			}
 			
 		}
 

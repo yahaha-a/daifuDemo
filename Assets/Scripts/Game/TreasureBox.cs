@@ -71,7 +71,7 @@ namespace daifuDemo
 					_playerModel.State.Value = PlayState.Swim;
 					_treasureBoxState = TreasureBoxState.FreeTime;
 				}
-				else
+				else if (other.CompareTag("Player") && _treasureBoxState == TreasureBoxState.Opened)
 				{
 					_playerModel.State.Value = PlayState.Swim;
 				}

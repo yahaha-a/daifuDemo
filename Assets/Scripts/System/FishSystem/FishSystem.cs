@@ -122,6 +122,23 @@ namespace daifuDemo
                         .WithAmount(1));
                 }
             });
+
+            Events.ItemPickUped.Register(item =>
+            {
+                if (CaughtItem.ContainsKey(item.key))
+                {
+                    CaughtItem[item.key].Amount += 1;
+                }
+                else
+                {
+                    CaughtItem.Add(item.key, new CaughtItemInfo()
+                        .WithFishKey(item.key)
+                        .WithFishName(_backPackSystem.BackPackItemInfos[item.key].ItemName)
+                        .WithFishIcon(_backPackSystem.BackPackItemInfos[item.key].ItemIcon)
+                        .WithStar(0)
+                        .WithAmount(1));
+                }
+            });
         }
 
         public void Reload()

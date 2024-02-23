@@ -9,7 +9,9 @@ namespace daifuDemo
         Aim,
         CatchFish,
         Attack,
-        OpenTreasureChests
+        OpenTreasureChests,
+        PickUp,
+        PickUpEd
     }
 
     public enum WeaponTypes

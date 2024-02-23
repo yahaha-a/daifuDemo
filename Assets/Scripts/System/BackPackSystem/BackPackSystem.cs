@@ -48,7 +48,13 @@ namespace daifuDemo
                     .WithItemName("醋")
                     .WithItemIcon(null)
                     .WithItemType(BackPackItemType.Seasoning)
-                    .WithItemDescription("常见调味品，由发酵的液体制成，具有酸味"));
+                    .WithItemDescription("常见调味品，由发酵的液体制成，具有酸味"))
+                .AddBackPackItemInfos(BackPackItemConfig.CordageKey, new BackPackItemInfo()
+                    .WithItemKey(BackPackItemConfig.CordageKey)
+                    .WithItemName("绳索")
+                    .WithItemIcon(null)
+                    .WithItemType(BackPackItemType.Tool)
+                    .WithItemDescription("常见的道具, 升级武器需要"));
             
             LoadData();
         }

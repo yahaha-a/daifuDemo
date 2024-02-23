@@ -9,5 +9,7 @@ namespace daifuDemo
         public static string SaltKey = "Salt_key";
 
         public static string VinegarKey = "vinegar_key";
+
+        public static string CordageKey = "cordage_key";
     }
 }

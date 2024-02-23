@@ -78,6 +78,16 @@ namespace daifuDemo
                                 .WithSeasoningCount((BackPackItemConfig.VinegarKey, 1))
                         }
                     }
+                },
+
+                {
+                    BackPackItemConfig.CordageKey, new Dictionary<int, IHarvestInfo>()
+                    {
+                        {
+                            0, new HarvestToolInfo()
+                                .WithToolCount((BackPackItemConfig.CordageKey, 1))
+                        }
+                    }
                 }
             };
 

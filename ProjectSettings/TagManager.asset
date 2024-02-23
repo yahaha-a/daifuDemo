@@ -9,6 +9,7 @@ TagManager:
   - FlyerRoot
   - PlayerHurtBox
   - TreasureInductionBox
+  - PickUpInductionBox
   layers:
   - Default
   - TransparentFX

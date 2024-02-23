@@ -20,14 +20,14 @@ MonoBehaviour:
     NameToFullName: []
     BindInfos:
     - TypeName: BoxCollider2D
-      PathToRoot: InductionBox
-      MemberName: InductionBox
+      PathToRoot: inductionBox
+      MemberName: inductionBox
     ScriptsFolder: Assets/Scripts/Game
-    ClassName: TreasureBox
+    ClassName: PickUpItem
     Namespace: daifuDemo
     MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace daifuDemo\r\n{\r\n\tpublic
-      partial class TreasureBox : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
+      partial class PickUpItem : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
       Code Here\r\n\t\t}\r\n\t}\r\n}\r\n"
-    DesignerCode: "// Generate Id:5135f467-7a4d-45aa-afe5-6c2d68035f7e\r\nusing UnityEngine;\r\n\r\nnamespace
-      daifuDemo\r\n{\r\n\tpublic partial class TreasureBox\r\n\t{\r\n\r\n\t\tpublic
-      BoxCollider2D InductionBox;\r\n\r\n\t}\r\n}\r\n"
+    DesignerCode: "// Generate Id:118e5c6f-6109-4045-8d22-eb533f5f8028\r\nusing UnityEngine;\r\n\r\nnamespace
+      daifuDemo\r\n{\r\n\tpublic partial class PickUpItem\r\n\t{\r\n\r\n\t\tpublic
+      BoxCollider2D inductionBox;\r\n\r\n\t}\r\n}\r\n"
