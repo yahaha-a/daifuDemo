@@ -138,9 +138,9 @@ namespace daifuDemo
                         }
 
                         backPackSystem.AddBackPackItemList(itemKey, count * harvestFishAmount);
-                        backPackSystem.SaveData();
                     }
                 }
+                backPackSystem.SaveData();
             });
         }
 

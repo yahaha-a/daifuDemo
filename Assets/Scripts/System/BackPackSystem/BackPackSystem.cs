@@ -1,9 +1,23 @@
 using System.Collections.Generic;
+using System.Linq;
 using QFramework;
 using UnityEngine;
 
 namespace daifuDemo
 {
+    [System.Serializable]
+    public class SerializableBackPackItemList
+    {
+        public List<SerializableKeyValuePair> Items;
+
+        [System.Serializable]
+        public class SerializableKeyValuePair
+        {
+            public string Key;
+            public int Value;
+        }
+    }
+    
     public interface IBackPackSystem : ISystem
     {
         Dictionary<string, IBackPackItemInfo> BackPackItemInfos { get; }
@@ -110,8 +124,16 @@ namespace daifuDemo
         
         public void SaveData()
         {
-            string backPackItemJson = JsonUtility.ToJson(BackPackItemList);
-            
+            SerializableBackPackItemList serializableItemList = new SerializableBackPackItemList
+            {
+                Items = BackPackItemList.Select(kvp => new SerializableBackPackItemList.SerializableKeyValuePair
+                {
+                    Key = kvp.Key,
+                    Value = kvp.Value
+                }).ToList()
+            };
+
+            string backPackItemJson = JsonUtility.ToJson(serializableItemList);
             PlayerPrefs.SetString("BackPackItemList", backPackItemJson);
             PlayerPrefs.Save();
         }
@@ -120,16 +142,16 @@ namespace daifuDemo
         {
             string backPackItemJson = PlayerPrefs.GetString("BackPackItemList", "");
 
-            Dictionary<string, int> loadedBackPackItemListData =
-                JsonUtility.FromJson<Dictionary<string, int>>(backPackItemJson);
+            SerializableBackPackItemList loadedItemList =
+                JsonUtility.FromJson<SerializableBackPackItemList>(backPackItemJson);
 
             BackPackItemList.Clear();
 
-            if (loadedBackPackItemListData != null)
+            if (loadedItemList != null && loadedItemList.Items != null)
             {
-                foreach (var (key, value) in loadedBackPackItemListData)
+                foreach (var kvp in loadedItemList.Items)
                 {
-                    BackPackItemList.Add(key, value);
+                    BackPackItemList.Add(kvp.Key, kvp.Value);
                 }
             }
         }

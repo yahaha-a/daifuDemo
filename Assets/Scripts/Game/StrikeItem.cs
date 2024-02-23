@@ -67,7 +67,7 @@ namespace daifuDemo
 					pickupItem.InstantiateWithParent(pickUpItemRoot.transform).Self(self =>
 					{
 						self.transform.position = this.transform.position + new Vector3(Random.Range(-1f, 1f), 0, 0);
-						self.GetComponent<PickUpItem>().key = BackPackItemConfig.KelpKey;
+						self.GetComponent<PickUpItem>().key = _dropItemKey;
 						self.Show();
 					});
 				}

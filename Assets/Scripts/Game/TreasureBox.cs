@@ -50,6 +50,7 @@ namespace daifuDemo
 						_treasureBoxState = TreasureBoxState.Opened;
 						backPackItemKey = _backPackSystem.AccordingItemTypeGetRandomOne(_itemType);
 						Events.TreasureBoxOpened?.Trigger(this);
+						_playerModel.IfChestOpening.Value = false;
 						this.gameObject.DestroySelf();
 					}
 				}

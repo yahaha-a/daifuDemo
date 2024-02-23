@@ -77,16 +77,7 @@ namespace daifuDemo
 
 			Events.GamePass.Register(() =>
 			{
-				foreach (Transform child in UISettlePanel.SettleItemRoot.transform)
-				{
-					if (child.gameObject.activeSelf)
-					{
-						Destroy(child.gameObject);
-					}
-				}
-				
 				UISettlePanel.Show();
-				Events.UISettlePanelShow?.Trigger();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 		

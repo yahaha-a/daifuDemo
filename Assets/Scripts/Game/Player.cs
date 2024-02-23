@@ -76,6 +76,14 @@ namespace daifuDemo
 					MeleeWeapon.Show();
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			_playerModel.IfChestOpening.Register(value =>
+			{
+				if (!value)
+				{
+					_playerModel.OpenChestSeconds.Value = 0;
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
 		private void Update()
@@ -130,10 +138,6 @@ namespace daifuDemo
 				if (_playerModel.IfChestOpening.Value)
 				{
 					_playerModel.OpenChestSeconds.Value += Time.deltaTime;
-				}
-				else
-				{
-					_playerModel.OpenChestSeconds.Value = 0f;
 				}
 			}
 			else if (_playerModel.State.Value == PlayState.PickUp)

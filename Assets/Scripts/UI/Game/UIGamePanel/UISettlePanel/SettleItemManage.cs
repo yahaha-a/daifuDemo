@@ -19,29 +19,34 @@ namespace daifuDemo
 		private void Awake()
 		{
 			_harvestSystem = this.GetSystem<IHarvestSystem>();
+		}
 
-			Events.UISettlePanelShow.Register(() =>
+		private void OnEnable()
+		{
+			foreach (var settleItemTemplate in SettleItemTemplateList)
 			{
-				foreach (var (itemKey, itemCount) in _harvestSystem.HarvestItems)
-				{
-					var settleItemTemplate = SettleItemTemplate.InstantiateWithParent(this)
-						.Self(self =>
-						{
-							self.Name.text = this.SendQuery(new FindBackPackItemName(itemKey));
-							self.Number.text = itemCount.ToString();
-							self.Show();
-						});
-					SettleItemTemplateList.Add(settleItemTemplate);
-				}
+				settleItemTemplate.gameObject.DestroySelf();
+			}
+			
+			foreach (var (itemKey, itemCount) in _harvestSystem.HarvestItems)
+			{
+				var settleItemTemplate = SettleItemTemplate.InstantiateWithParent(this)
+					.Self(self =>
+					{
+						self.Name.text = this.SendQuery(new FindBackPackItemName(itemKey));
+						self.Number.text = itemCount.ToString();
+						self.Show();
+					});
+				SettleItemTemplateList.Add(settleItemTemplate);
+			}
 
-				var blankGridQuantity = ((SettleItemTemplateList.Count + 10) / 10) * 10 - SettleItemTemplateList.Count;
+			var blankGridQuantity = ((SettleItemTemplateList.Count + 10) / 10) * 10 - SettleItemTemplateList.Count;
 				
-				for (int i = 0; i < blankGridQuantity; i++)
-				{
-					SettleItemTemplateList.Add(SettleItemTemplate.InstantiateWithParent(this)
-						.Self(self => self.Show()));
-				}
-			});
+			for (int i = 0; i < blankGridQuantity; i++)
+			{
+				SettleItemTemplateList.Add(SettleItemTemplate.InstantiateWithParent(this)
+					.Self(self => self.Show()));
+			}
 		}
 
 		protected override void OnBeforeDestroy()
