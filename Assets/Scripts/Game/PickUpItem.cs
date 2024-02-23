@@ -22,7 +22,7 @@ namespace daifuDemo
 
 			playModel.State.Register(value =>
 			{
-				if (value == PlayState.PickUpEd)
+				if (value == PlayState.PickUpEd && _state == PickUpItemState.PickUpIng)
 				{
 					Events.ItemPickUped?.Trigger(this);
 					playModel.State.Value = PlayState.Swim;

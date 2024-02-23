@@ -1593,7 +1593,7 @@ MonoBehaviour:
   PrefabFolder: Assets/Art/Prefab
   ArchitectureFullTypeName: 
   pickUpItemRoot: {fileID: 1184189696}
-  type: 0
+  key: copperOre_key
   Icon: {fileID: 1155630746}
   InductionBox: {fileID: 1026691816}
 --- !u!4 &2011119227

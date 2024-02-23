@@ -29,5 +29,9 @@ namespace daifuDemo
         public static string ShotgunKey = "shotgun_weapon";
 
         public static string SpiceTreasureChestKey = "spiceTreasureChest_key";
+
+        public static string CopperOreKey = "copperOre_key";
+
+        public static string KelpPlantsKey = "kelpPlants_key";
     }
 }
