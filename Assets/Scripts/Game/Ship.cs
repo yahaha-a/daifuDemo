@@ -34,7 +34,7 @@ namespace daifuDemo
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 			
-			TransportHome.OnTriggerExit2DEvent(collider2d =>
+			TransportSea.OnTriggerExit2DEvent(collider2d =>
 			{
 				if (collider2d.CompareTag("Player"))
 				{

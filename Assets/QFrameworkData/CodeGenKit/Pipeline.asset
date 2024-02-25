@@ -18,19 +18,12 @@ MonoBehaviour:
     GameObject: {fileID: 0}
     From: 0
     NameToFullName: []
-    BindInfos:
-    - TypeName: SpriteRenderer
-      PathToRoot: Icon
-      MemberName: Icon
-    - TypeName: BoxCollider2D
-      PathToRoot: HitBox
-      MemberName: HitBox
-    ScriptsFolder: Assets\Scripts\Game\Weapon\MeleeWeapons
-    ClassName: MeleeWeapon
+    BindInfos: []
+    ScriptsFolder: Assets/Scripts/Game
+    ClassName: GamesushiController
     Namespace: daifuDemo
     MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace daifuDemo\r\n{\r\n\tpublic
-      partial class MeleeWeapon : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
+      partial class GamesushiController : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
       Code Here\r\n\t\t}\r\n\t}\r\n}\r\n"
-    DesignerCode: "// Generate Id:e6dad668-769e-4b25-ab50-b49dbac690da\r\nusing UnityEngine;\r\n\r\nnamespace
-      daifuDemo\r\n{\r\n\tpublic partial class MeleeWeapon\r\n\t{\r\n\r\n\t\tpublic
-      SpriteRenderer Icon;\r\n\r\n\t\tpublic BoxCollider2D HitBox;\r\n\r\n\t}\r\n}\r\n"
+    DesignerCode: "// Generate Id:df7e73c5-40d3-498f-b0eb-a56fb9330b45\r\nusing UnityEngine;\r\n\r\nnamespace
+      daifuDemo\r\n{\r\n\tpublic partial class GamesushiController\r\n\t{\r\n\r\n\t}\r\n}\r\n"

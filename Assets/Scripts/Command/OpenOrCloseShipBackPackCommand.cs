@@ -2,13 +2,13 @@ using QFramework;
 
 namespace daifuDemo
 {
-    public class OpenOrClosesuShiBackPackCommand : AbstractCommand
+    public class OpenOrCloseShipBackPackCommand : AbstractCommand
     {
         protected override void OnExecute()
         {
             var uiGameShipPanelModel = this.GetModel<IUIGameShipPanelModel>();
 
-            uiGameShipPanelModel.IfsushiUIPackOpen.Value = !uiGameShipPanelModel.IfsushiUIPackOpen.Value;
+            uiGameShipPanelModel.IfShipUIPackOpen.Value = !uiGameShipPanelModel.IfShipUIPackOpen.Value;
         }
     }
 }

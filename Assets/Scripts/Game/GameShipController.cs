@@ -10,7 +10,7 @@ namespace daifuDemo
 		{
 			if (Input.GetKeyDown(KeyCode.B))
 			{
-				this.SendCommand<OpenOrClosesuShiBackPackCommand>();
+				this.SendCommand<OpenOrCloseShipBackPackCommand>();
 			}
 		}
 

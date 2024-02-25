@@ -10,15 +10,15 @@ namespace daifuDemo
 {
 	public partial class ItemInfo
 	{
-		[SerializeField] public UnityEngine.UI.Image ItemIcon;
-		[SerializeField] public UnityEngine.UI.Text ItemDescription;
-		[SerializeField] public UnityEngine.UI.Text ItemName;
+		[SerializeField] public UnityEngine.UI.Text Name;
+		[SerializeField] public UnityEngine.UI.Text Description;
+		[SerializeField] public UnityEngine.UI.Text Amount;
 
 		public void Clear()
 		{
-			ItemIcon = null;
-			ItemDescription = null;
-			ItemName = null;
+			Name = null;
+			Description = null;
+			Amount = null;
 		}
 
 		public override string ComponentName

@@ -22,7 +22,9 @@ namespace daifuDemo
     {
         Dictionary<string, IBackPackItemInfo> BackPackItemInfos { get; }
         
-        Dictionary<string, int> BackPackItemList { get; }
+        Dictionary<string, int> ShipBackPackItemList { get; }
+        
+        Dictionary<string, int> SuShiBackPackItemList { get; }
 
         IBackPackSystem AddBackPackItemInfos(string key, IBackPackItemInfo backPackItemInfo);
 
@@ -81,14 +83,16 @@ namespace daifuDemo
                     .WithItemIcon(null)
                     .WithItemType(BackPackItemType.Tool)
                     .WithItemDescription("重要的有色金属，具有良好的导电性和导热性"));
-            
+
             LoadData();
         }
 
         public Dictionary<string, IBackPackItemInfo> BackPackItemInfos { get; } =
             new Dictionary<string, IBackPackItemInfo>();
 
-        public Dictionary<string, int> BackPackItemList { get; } = new Dictionary<string, int>();
+        public Dictionary<string, int> ShipBackPackItemList { get; } = new Dictionary<string, int>();
+
+        public Dictionary<string, int> SuShiBackPackItemList { get; } = new Dictionary<string, int>();
 
         public IBackPackSystem AddBackPackItemInfos(string key, IBackPackItemInfo backPackItemInfo)
         {
@@ -98,13 +102,28 @@ namespace daifuDemo
 
         public void AddBackPackItemList(string key, int count)
         {
-            if (BackPackItemList.ContainsKey(key))
+            if (BackPackItemInfos[key].ItemType == BackPackItemType.Tool ||
+                BackPackItemInfos[key].ItemType == BackPackItemType.Weapon)
             {
-                BackPackItemList[key] += count;
+                if (ShipBackPackItemList.ContainsKey(key))
+                {
+                    ShipBackPackItemList[key] += count;
+                }
+                else
+                {
+                    ShipBackPackItemList.Add(key, count);
+                }
             }
             else
             {
-                BackPackItemList.Add(key, count);
+                if (SuShiBackPackItemList.ContainsKey(key))
+                {
+                    SuShiBackPackItemList[key] += count;
+                }
+                else
+                {
+                    SuShiBackPackItemList.Add(key, count);
+                }
             }
         }
 
@@ -126,32 +145,57 @@ namespace daifuDemo
         {
             SerializableBackPackItemList serializableItemList = new SerializableBackPackItemList
             {
-                Items = BackPackItemList.Select(kvp => new SerializableBackPackItemList.SerializableKeyValuePair
+                Items = ShipBackPackItemList.Select(kvp => new SerializableBackPackItemList.SerializableKeyValuePair
                 {
                     Key = kvp.Key,
                     Value = kvp.Value
                 }).ToList()
             };
 
-            string backPackItemJson = JsonUtility.ToJson(serializableItemList);
-            PlayerPrefs.SetString("BackPackItemList", backPackItemJson);
+            string shipBackPackItemJson = JsonUtility.ToJson(serializableItemList);
+            PlayerPrefs.SetString("ShipBackPackItemList_data", shipBackPackItemJson);
+
+            serializableItemList = new SerializableBackPackItemList
+            {
+                Items = SuShiBackPackItemList.Select(kvp => new SerializableBackPackItemList.SerializableKeyValuePair
+                {
+                    Key = kvp.Key,
+                    Value = kvp.Value
+                }).ToList()
+            };
+
+            string sushiBackPackItemJson = JsonUtility.ToJson(serializableItemList);
+            PlayerPrefs.SetString("sushiBackPackItemList_data", sushiBackPackItemJson);
             PlayerPrefs.Save();
         }
 
         public void LoadData()
         {
-            string backPackItemJson = PlayerPrefs.GetString("BackPackItemList", "");
+            string shipbackPackItemJson = PlayerPrefs.GetString("ShipBackPackItemList_data", "");
 
             SerializableBackPackItemList loadedItemList =
-                JsonUtility.FromJson<SerializableBackPackItemList>(backPackItemJson);
+                JsonUtility.FromJson<SerializableBackPackItemList>(shipbackPackItemJson);
 
-            BackPackItemList.Clear();
+            ShipBackPackItemList.Clear();
 
             if (loadedItemList != null && loadedItemList.Items != null)
             {
                 foreach (var kvp in loadedItemList.Items)
                 {
-                    BackPackItemList.Add(kvp.Key, kvp.Value);
+                    ShipBackPackItemList.Add(kvp.Key, kvp.Value);
+                }
+            }
+
+            string sushiPackItemJson = PlayerPrefs.GetString("sushiBackPackItemList_data", "");
+
+            loadedItemList = JsonUtility.FromJson<SerializableBackPackItemList>(sushiPackItemJson);
+            SuShiBackPackItemList.Clear();
+
+            if (loadedItemList != null && loadedItemList.Items != null)
+            {
+                foreach (var kvp in loadedItemList.Items)
+                {
+                    SuShiBackPackItemList.Add(kvp.Key, kvp.Value);
                 }
             }
         }

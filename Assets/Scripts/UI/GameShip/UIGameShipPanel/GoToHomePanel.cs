@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using QFramework;
+using UnityEngine.SceneManagement;
 
 namespace daifuDemo
 {
@@ -19,6 +20,7 @@ namespace daifuDemo
 			AgreeButton.onClick.AddListener(() =>
 			{
 				uiGameShipPanelModel.IfGoToHomePanelOpen.Value = false;
+				SceneManager.LoadScene("Gamesushi");
 			});
 			
 			CancelButton.onClick.AddListener(() =>
