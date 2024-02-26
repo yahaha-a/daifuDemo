@@ -15,42 +15,41 @@ namespace daifuDemo
 		public List<SettleItemTemplate> SettleItemTemplateList { get; } = new List<SettleItemTemplate>();
 
 		private IHarvestSystem _harvestSystem;
+
+		private IBackPackSystem _backPackSystem;
 		
 		private void Awake()
 		{
 			_harvestSystem = this.GetSystem<IHarvestSystem>();
+			_backPackSystem = this.GetSystem<IBackPackSystem>();
 		}
 
 		private void OnEnable()
+		{
+			foreach (var (itemKey, itemCount) in _harvestSystem.HarvestItems)
+			{
+				if (_backPackSystem.BackPackItemInfos[itemKey].ItemType == BackPackItemType.Tool)
+				{
+					var settleItemTemplate = SettleItemTemplate.InstantiateWithParent(this)
+						.Self(self =>
+						{
+							self.Name.text = this.SendQuery(new FindBackPackItemName(itemKey));
+							self.Number.text = itemCount.ToString();
+							self.Show();
+						});
+					SettleItemTemplateList.Add(settleItemTemplate);
+				}
+			}
+		}
+
+		protected override void OnBeforeDestroy()
 		{
 			foreach (var settleItemTemplate in SettleItemTemplateList)
 			{
 				settleItemTemplate.gameObject.DestroySelf();
 			}
 			
-			foreach (var (itemKey, itemCount) in _harvestSystem.HarvestItems)
-			{
-				var settleItemTemplate = SettleItemTemplate.InstantiateWithParent(this)
-					.Self(self =>
-					{
-						self.Name.text = this.SendQuery(new FindBackPackItemName(itemKey));
-						self.Number.text = itemCount.ToString();
-						self.Show();
-					});
-				SettleItemTemplateList.Add(settleItemTemplate);
-			}
-
-			var blankGridQuantity = ((SettleItemTemplateList.Count + 10) / 10) * 10 - SettleItemTemplateList.Count;
-				
-			for (int i = 0; i < blankGridQuantity; i++)
-			{
-				SettleItemTemplateList.Add(SettleItemTemplate.InstantiateWithParent(this)
-					.Self(self => self.Show()));
-			}
-		}
-
-		protected override void OnBeforeDestroy()
-		{
+			SettleItemTemplate.Clear();
 		}
 
 		public IArchitecture GetArchitecture()

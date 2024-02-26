@@ -79,6 +79,18 @@ namespace daifuDemo
 			{
 				UISettlePanel.Show();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			_uiGamePanelModel.IfUIHarvestPanelShow.Register(value =>
+			{
+				if (value)
+				{
+					UIHarvestPanel.Show();
+				}
+				else
+				{
+					UIHarvestPanel.Hide();
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 		
 		protected override void OnOpen(IUIData uiData = null)

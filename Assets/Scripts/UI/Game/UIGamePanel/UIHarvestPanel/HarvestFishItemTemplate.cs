@@ -10,28 +10,14 @@ using QFramework;
 
 namespace daifuDemo
 {
-	public partial class UISettlePanel : UIElement, IController
+	public partial class HarvestFishItemTemplate : UIElement
 	{
-		private IUIGamePanelModel _uiGamePanelModel;
-		
 		private void Awake()
 		{
-			_uiGamePanelModel = this.GetModel<IUIGamePanelModel>();
-			
-			ConfirmButton.onClick.AddListener(() =>
-			{
-				this.Hide();
-				_uiGamePanelModel.IfUIHarvestPanelShow.Value = true;
-			});
 		}
 
 		protected override void OnBeforeDestroy()
 		{
-		}
-
-		public IArchitecture GetArchitecture()
-		{
-			return Global.Interface;
 		}
 	}
 }

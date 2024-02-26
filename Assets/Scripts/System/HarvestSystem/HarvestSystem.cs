@@ -6,115 +6,64 @@ namespace daifuDemo
 {
     public interface IHarvestSystem : ISystem
     {
-        Dictionary<string, Dictionary<int, IHarvestInfo>> HarvestFishInfos { get; }
+        Dictionary<string, IHarvestInfo> HarvestFishInfos { get; }
         
         Dictionary<string, int> HarvestItems { get; }
-
-        IHarvestInfo FindHarvestFishInfo(string fishKey, int star);
+        
+        IHarvestSystem AddHarvestInfos(string key, IHarvestInfo infos);
 
         void Reload();
     }
     
     public class HarvestSystem : AbstractSystem, IHarvestSystem
     {
-        public Dictionary<string, Dictionary<int, IHarvestInfo>> HarvestFishInfos { get; } =
-            new Dictionary<string, Dictionary<int, IHarvestInfo>>()
-            {
-                {
-                    Config.NormalFishKey, new Dictionary<int, IHarvestInfo>()
-                    {
-                        {
-                            1, new HarvestNormalFishInfo()
-                                .WithNormalFishPieces((BackPackItemConfig.NormalFishPiecesKey, 1))
-                        },
-                        
-                        {
-                            2, new HarvestNormalFishInfo()
-                                .WithNormalFishPieces((BackPackItemConfig.NormalFishPiecesKey, 3))
-                        },
-
-                        {
-                            3, new HarvestNormalFishInfo()
-                                .WithNormalFishPieces((BackPackItemConfig.NormalFishPiecesKey, 5))
-                        }
-                    }
-                },
-
-                {
-                    Config.PteroisKey, new Dictionary<int, IHarvestInfo>()
-                    {
-                        {
-                            1, new HarvestPteroisInfo()
-                                .WithPteroisPieces((BackPackItemConfig.PteroisFishPiecesKey, 1))
-                        },
-
-                        {
-                            2, new HarvestPteroisInfo()
-                                .WithPteroisPieces((BackPackItemConfig.PteroisFishPiecesKey, 2))
-                        },
-
-                        {
-                            3, new HarvestPteroisInfo()
-                                .WithPteroisPieces((BackPackItemConfig.PteroisFishPiecesKey, 6))
-                        }
-                    }
-                },
-
-                {
-                    BackPackItemConfig.KelpKey, new Dictionary<int, IHarvestInfo>()
-                    {
-                        {
-                            0, new HarvestIngredientInfo()
-                                .WithIngredientCount((BackPackItemConfig.KelpKey, 1))
-                        }
-                    }
-                },
-                
-                {
-                    BackPackItemConfig.SaltKey, new Dictionary<int, IHarvestInfo>()
-                    {
-                        {
-                            0, new HarvestSeasoningInfo()
-                                .WithSeasoningCount((BackPackItemConfig.SaltKey, 1))
-                        }
-                    }
-                },
-
-                {
-                    BackPackItemConfig.VinegarKey, new Dictionary<int, IHarvestInfo>()
-                    {
-                        {
-                            0, new HarvestSeasoningInfo()
-                                .WithSeasoningCount((BackPackItemConfig.VinegarKey, 1))
-                        }
-                    }
-                },
-
-                {
-                    BackPackItemConfig.CordageKey, new Dictionary<int, IHarvestInfo>()
-                    {
-                        {
-                            0, new HarvestToolInfo()
-                                .WithToolCount((BackPackItemConfig.CordageKey, 1))
-                        }
-                    }
-                },
-
-                {
-                    BackPackItemConfig.CopperKey, new Dictionary<int, IHarvestInfo>()
-                    {
-                        {
-                            0, new HarvestToolInfo()
-                                .WithToolCount((BackPackItemConfig.CopperKey, 1))
-                        }
-                    }
-                }
-            };
+        public Dictionary<string, IHarvestInfo> HarvestFishInfos { get; } =
+            new Dictionary<string, IHarvestInfo>();
 
         public Dictionary<string, int> HarvestItems { get; } = new Dictionary<string, int>();
-        
+
         protected override void OnInit()
         {
+            this.AddHarvestInfos(Config.NormalFishKey, new HarvestInfo()
+                    .WithCount(new List<(string, int, int)>()
+                    {
+                        (BackPackItemConfig.NormalFishPiecesKey, 1, 1),
+                        (BackPackItemConfig.NormalFishPiecesKey, 2, 3),
+                        (BackPackItemConfig.NormalFishPiecesKey, 3, 5)
+                    }))
+                .AddHarvestInfos(Config.PteroisKey, new HarvestInfo()
+                    .WithCount(new List<(string, int, int)>()
+                    {
+                        (BackPackItemConfig.PteroisFishPiecesKey, 1, 1),
+                        (BackPackItemConfig.PteroisFishPiecesKey, 2, 2),
+                        (BackPackItemConfig.PteroisFishPiecesKey, 3, 6)
+                    }))
+                .AddHarvestInfos(BackPackItemConfig.KelpKey, new HarvestInfo()
+                    .WithCount(new List<(string, int, int)>()
+                    {
+                        (BackPackItemConfig.KelpKey, 0, 1)
+                    }))
+                .AddHarvestInfos(BackPackItemConfig.SaltKey, new HarvestInfo()
+                    .WithCount(new List<(string, int, int)>()
+                    {
+                        (BackPackItemConfig.SaltKey, 0, 1)
+                    }))
+                .AddHarvestInfos(BackPackItemConfig.VinegarKey, new HarvestInfo()
+                    .WithCount(new List<(string, int, int)>()
+                    {
+                        (BackPackItemConfig.VinegarKey, 0, 1)
+                    }))
+                .AddHarvestInfos(BackPackItemConfig.CordageKey, new HarvestInfo()
+                    .WithCount(new List<(string, int, int)>()
+                    {
+                        (BackPackItemConfig.CordageKey, 0, 1)
+                    }))
+                .AddHarvestInfos(BackPackItemConfig.CopperKey, new HarvestInfo()
+                    .WithCount(new List<(string, int, int)>()
+                    {
+                        (BackPackItemConfig.CopperKey, 0, 1)
+                    }));
+            
             var fishSystem = this.GetSystem<IFishSystem>();
 
             var backPackSystem = this.GetSystem<IBackPackSystem>();
@@ -123,30 +72,33 @@ namespace daifuDemo
             {
                 foreach (var (key, caughtFish) in fishSystem.CaughtItem)
                 {
-                    var harvestFish = HarvestFishInfos[caughtFish.FishKey][caughtFish.Star];
+                    var harvestFish = HarvestFishInfos[caughtFish.FishKey];
                     var harvestFishAmount = caughtFish.Amount;
                     
-                    foreach (var (itemKey, count) in harvestFish.ItemList)
+                    foreach (var (backPackItemKey, star, count) in harvestFish.Count)
                     {
-                        if (HarvestItems.ContainsKey(itemKey))
+                        if (caughtFish.Star == star)
                         {
-                            HarvestItems[itemKey] += count * harvestFishAmount;
+                            if (HarvestItems.ContainsKey(backPackItemKey))
+                            {
+                                HarvestItems[backPackItemKey] += count * harvestFishAmount;
+                            }
+                            else
+                            {
+                                HarvestItems.Add(backPackItemKey, count * harvestFishAmount);
+                            }
+                            backPackSystem.AddBackPackItemList(backPackItemKey, count * harvestFishAmount);
                         }
-                        else
-                        {
-                            HarvestItems.Add(itemKey, count * harvestFishAmount);
-                        }
-
-                        backPackSystem.AddBackPackItemList(itemKey, count * harvestFishAmount);
                     }
                 }
                 backPackSystem.SaveData();
             });
         }
 
-        public IHarvestInfo FindHarvestFishInfo(string fishKey, int star)
+        public IHarvestSystem AddHarvestInfos(string key, IHarvestInfo harvestInfo)
         {
-            return HarvestFishInfos[fishKey][star];
+            HarvestFishInfos.Add(key, harvestInfo);
+            return this;
         }
 
         public void Reload()
