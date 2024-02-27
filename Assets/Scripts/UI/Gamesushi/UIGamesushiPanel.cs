@@ -30,6 +30,18 @@ namespace daifuDemo
 					UIsushiIngredientPanel.Hide();
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			_uiGamesushiPanelModel.IfUisushiMenuPanelOpen.Register(value =>
+			{
+				if (value)
+				{
+					UIsushiMenuPanel.Show();
+				}
+				else
+				{
+					UIsushiMenuPanel.Hide();
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 		
 		protected override void OnOpen(IUIData uiData = null)

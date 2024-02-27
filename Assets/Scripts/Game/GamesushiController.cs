@@ -15,6 +15,11 @@ namespace daifuDemo
 
 		private void Update()
 		{
+			if (Input.GetKeyDown(KeyCode.Alpha1))
+			{
+				this.SendCommand<OpenOrClosesushiMenuPanel>();
+			}
+			
 			if (Input.GetKeyDown(KeyCode.Alpha3))
 			{
 				this.SendCommand<OpenOrClosesushiIngredientPanel>();

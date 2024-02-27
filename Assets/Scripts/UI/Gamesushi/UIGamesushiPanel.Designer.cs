@@ -5,19 +5,22 @@ using QFramework;
 
 namespace daifuDemo
 {
-	// Generate Id:96b1aa79-4162-47ce-a2f5-ca936c16bc53
+	// Generate Id:efa28083-29d6-4303-9526-d642667f8b1c
 	public partial class UIGamesushiPanel
 	{
 		public const string Name = "UIGamesushiPanel";
 		
 		[SerializeField]
 		public UIsushiIngredientPanelManage UIsushiIngredientPanel;
+		[SerializeField]
+		public UIsushiMenuPanel UIsushiMenuPanel;
 		
 		private UIGamesushiPanelData mPrivateData = null;
 		
 		protected override void ClearUIComponents()
 		{
 			UIsushiIngredientPanel = null;
+			UIsushiMenuPanel = null;
 			
 			mData = null;
 		}
