@@ -19,6 +19,8 @@ namespace daifuDemo
 		[SerializeField] public UnityEngine.UI.Text Describe;
 		[SerializeField] public RectTransform NeedFoodRoot;
 		[SerializeField] public NeedFoodTemplate NeedFoodTemplate;
+		[SerializeField] public UnityEngine.UI.Button ConfirmButton;
+		[SerializeField] public UnityEngine.UI.Button UpgrateButton;
 
 		public void Clear()
 		{
@@ -31,6 +33,8 @@ namespace daifuDemo
 			Describe = null;
 			NeedFoodRoot = null;
 			NeedFoodTemplate = null;
+			ConfirmButton = null;
+			UpgrateButton = null;
 		}
 
 		public override string ComponentName

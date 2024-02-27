@@ -31,6 +31,30 @@ namespace daifuDemo
 					MenuDetail.Hide();
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			_uiGamesushiPanelModel.IfUISelectMenuAmountPanelShow.Register(value =>
+			{
+				if (value)
+				{
+					SelectMenuAmountPanel.Show();
+				}
+				else
+				{
+					SelectMenuAmountPanel.Hide();
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			_uiGamesushiPanelModel.IfUIUpgradeMenuPanelShow.Register(value =>
+			{
+				if (value)
+				{
+					UpgradeMenuPanel.Show();
+				}
+				else
+				{
+					UpgradeMenuPanel.Hide();
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
 		private void OnEnable()

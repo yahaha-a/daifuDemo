@@ -8,22 +8,22 @@ using QFramework;
 
 namespace daifuDemo
 {
-	public partial class MenuPanel
+	public partial class SelectAmountNeedFooditemTemplte
 	{
-		[SerializeField] public RectTransform MenuListRoot;
-		[SerializeField] public MenuTemplate MenuTemplate;
-		[SerializeField] public UnityEngine.UI.Button CloseButton;
+		[SerializeField] public UnityEngine.UI.Image Icon;
+		[SerializeField] public UnityEngine.UI.Text Name;
+		[SerializeField] public UnityEngine.UI.Text NeedAndOwnAmount;
 
 		public void Clear()
 		{
-			MenuListRoot = null;
-			MenuTemplate = null;
-			CloseButton = null;
+			Icon = null;
+			Name = null;
+			NeedAndOwnAmount = null;
 		}
 
 		public override string ComponentName
 		{
-			get { return "MenuPanel";}
+			get { return "SelectAmountNeedFooditemTemplte";}
 		}
 	}
 }

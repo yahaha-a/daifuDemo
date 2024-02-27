@@ -31,6 +31,12 @@ namespace daifuDemo
         void AddTodayMenuItems(ITodayMenuItemInfo todayMenuItemInfo);
 
         void CalculateCanMakeNumber(ICurrentOwnMenuItemInfo currentOwnMenuItemInfo);
+
+        void UpgradeMenu(string key);
+
+        void SaveData();
+
+        void LoadData();
     }
     
     public class MenuSystem : AbstractSystem, IMenuSystem
@@ -46,6 +52,8 @@ namespace daifuDemo
                     .WithIcon(null)
                     .WithDescription("普通鱼寿司，可以吃")
                     .WithUnlockNeed(0)
+                    .WithScore(140)
+                    .WithCopies(1)
                     .WithRequiredIngredientsAmount(new List<(string, int)>()
                     {
                         (BackPackItemConfig.NormalFishPiecesKey, 10)
@@ -65,6 +73,8 @@ namespace daifuDemo
                     .WithIcon(null)
                     .WithDescription("狮子鱼寿司, 一般")
                     .WithUnlockNeed(0)
+                    .WithScore(150)
+                    .WithCopies(1)
                     .WithRequiredIngredientsAmount(new List<(string, int)>()
                     {
                         (BackPackItemConfig.PteroisFishPiecesKey, 10)
@@ -140,6 +150,23 @@ namespace daifuDemo
 
             currentOwnMenuItem.MeetCondition = ifCanMake;
             currentOwnMenuItem.CanMakeNumber = canMakeNumber;
+        }
+
+        public void UpgradeMenu(string key)
+        {
+            foreach (var (rank, cost) in MenuItemInfos[key].RankWithCost)
+            {
+                if (rank > CurrentOwnMenuItems[key].Rank)
+                {
+                    CurrentOwnMenuItems[key].Rank++;
+                    
+                    foreach (var (backPackKey, amount) in MenuItemInfos[key].RequiredIngredientsAmount)
+                    {
+                        _backPackSystem.SuShiBackPackItemList[backPackKey] -= amount;
+                    }
+                    return;
+                }
+            }
         }
 
 

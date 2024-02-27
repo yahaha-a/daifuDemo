@@ -8,22 +8,24 @@ using QFramework;
 
 namespace daifuDemo
 {
-	public partial class MenuPanel
+	public partial class UpgradeData
 	{
-		[SerializeField] public RectTransform MenuListRoot;
-		[SerializeField] public MenuTemplate MenuTemplate;
-		[SerializeField] public UnityEngine.UI.Button CloseButton;
+		[SerializeField] public UnityEngine.UI.Text Rank;
+		[SerializeField] public UnityEngine.UI.Text Cost;
+		[SerializeField] public UnityEngine.UI.Text Score;
+		[SerializeField] public UnityEngine.UI.Text Copies;
 
 		public void Clear()
 		{
-			MenuListRoot = null;
-			MenuTemplate = null;
-			CloseButton = null;
+			Rank = null;
+			Cost = null;
+			Score = null;
+			Copies = null;
 		}
 
 		public override string ComponentName
 		{
-			get { return "MenuPanel";}
+			get { return "UpgradeData";}
 		}
 	}
 }

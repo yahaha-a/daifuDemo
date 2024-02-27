@@ -22,6 +22,16 @@ namespace daifuDemo
 		{
 			_menuSystem = this.GetSystem<IMenuSystem>();
 			_uiGamesushiPanelModel = this.GetModel<IUIGamesushiPanelModel>();
+			
+			CloseButton.onClick.AddListener(() =>
+			{
+				_uiGamesushiPanelModel.IfUIMenuPanelShow.Value = false;
+			});
+
+			Events.UpgradeMenu.Register(() =>
+			{
+				UpdatePanel();
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
 		private void OnEnable()
@@ -48,17 +58,29 @@ namespace daifuDemo
 						self.Show();
 						_menuItems.Add(self.gameObject);
 					});
+					i++;
 				}
 			}
 		}
 
-		protected override void OnBeforeDestroy()
+		private void OnDisable()
 		{
 			foreach (var menuItem in _menuItems)
 			{
 				menuItem.DestroySelf();
 			}
 			_menuItems.Clear();
+		}
+		
+		void UpdatePanel()
+		{
+			this.gameObject.Hide();
+			this.gameObject.Show();
+		}
+
+		protected override void OnBeforeDestroy()
+		{
+			
 		}
 
 		public IArchitecture GetArchitecture()

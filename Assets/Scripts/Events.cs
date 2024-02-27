@@ -28,5 +28,7 @@ namespace daifuDemo
         public static EasyEvent<PickUpItem> ItemPickUped = new EasyEvent<PickUpItem>();
 
         public static EasyEvent<string> UIGamesushiIngredientPanelUpdate = new EasyEvent<string>();
+
+        public static EasyEvent UpgradeMenu = new EasyEvent();
     }
 }

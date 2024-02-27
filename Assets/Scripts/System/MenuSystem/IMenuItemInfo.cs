@@ -11,6 +11,10 @@ namespace daifuDemo
         
         string Description { get; }
         
+        float Score { get; }
+        
+        float Copies { get; }
+        
         int UnLockNeed { get; }
         
         List<(int, float)> RankWithCost { get; }
@@ -24,6 +28,10 @@ namespace daifuDemo
         IMenuItemInfo WithIcon(Sprite icon);
 
         IMenuItemInfo WithDescription(string description);
+
+        IMenuItemInfo WithScore(float score);
+
+        IMenuItemInfo WithCopies(float copies);
 
         IMenuItemInfo WithUnlockNeed(int unlockNeed);
 
@@ -42,6 +50,10 @@ namespace daifuDemo
         
         public string Description { get; private set; }
         
+        public float Score { get; private set; }
+        
+        public float Copies { get; private set; }
+
         public int UnLockNeed { get; private set; }
 
         public List<(int, float)> RankWithCost { get; private set; }
@@ -65,6 +77,18 @@ namespace daifuDemo
         public IMenuItemInfo WithDescription(string description)
         {
             Description = description;
+            return this;
+        }
+
+        public IMenuItemInfo WithScore(float score)
+        {
+            Score = score;
+            return this;
+        }
+
+        public IMenuItemInfo WithCopies(float copies)
+        {
+            Copies = copies;
             return this;
         }
 

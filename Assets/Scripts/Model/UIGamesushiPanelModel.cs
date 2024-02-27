@@ -11,6 +11,12 @@ namespace daifuDemo
         BindableProperty<string> SelectedMenuItemKey { get; }
         
         BindableProperty<bool> IfUIMenuPanelShow { get; }
+        
+        BindableProperty<bool> IfUISelectMenuAmountPanelShow { get; }
+        
+        BindableProperty<bool> IfUIUpgradeMenuPanelShow { get; }
+        
+        BindableProperty<int> CurrentSelectMenuAmount { get; }
     }
     
     public class UIGamesushiPanelModel : AbstractModel, IUIGamesushiPanelModel
@@ -27,5 +33,11 @@ namespace daifuDemo
         public BindableProperty<string> SelectedMenuItemKey { get; } = new BindableProperty<string>("");
         
         public BindableProperty<bool> IfUIMenuPanelShow { get; } = new BindableProperty<bool>(false);
+        
+        public BindableProperty<bool> IfUISelectMenuAmountPanelShow { get; } = new BindableProperty<bool>(false);
+        
+        public BindableProperty<bool> IfUIUpgradeMenuPanelShow { get; } = new BindableProperty<bool>(false);
+        
+        public BindableProperty<int> CurrentSelectMenuAmount { get; } = new BindableProperty<int>(1);
     }
 }

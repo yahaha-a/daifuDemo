@@ -6,7 +6,7 @@ namespace daifuDemo
         
         bool Unlock { get; }
         
-        int Rank { get; }
+        int Rank { get; set; }
         
         bool MeetCondition { get; set; }
         
@@ -33,7 +33,7 @@ namespace daifuDemo
         
         public bool Unlock { get; private set; }
         
-        public int Rank { get; private set; }
+        public int Rank { get; set; }
         
         public bool MeetCondition { get; set; }
         
