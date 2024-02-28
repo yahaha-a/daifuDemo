@@ -70,17 +70,20 @@ namespace daifuDemo
 			CurrentData.Copies.text =
 				_menuSystem.MenuItemInfos[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].Copies + " 盘";
 			
-			foreach (var (backPackKey, amount) in _menuSystem
-				         .MenuItemInfos[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].RequiredIngredientsAmount)
+			foreach (var (rank, backPackKey, amount) in _menuSystem
+				         .MenuItemInfos[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].UpgradeNeedItems)
 			{
-				UpgradeNeedFooditemTemplte.InstantiateWithParent(NeeedFoodListRoot).Self(self =>
+				if (_menuSystem.CurrentOwnMenuItems[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].Rank == rank)
 				{
-					self.Icon.sprite = _backPackSystem.BackPackItemInfos[backPackKey].ItemIcon;
-					self.Name.text = _backPackSystem.BackPackItemInfos[backPackKey].ItemName;
-					self.NeedAndOwnAmount.text = amount + "/" + _backPackSystem.SuShiBackPackItemList[backPackKey];
-					self.Show();
-					_upgradeNeedFoodItems.Add(self.gameObject);
-				});
+					UpgradeNeedFooditemTemplte.InstantiateWithParent(NeeedFoodListRoot).Self(self =>
+					{
+						self.Icon.sprite = _backPackSystem.BackPackItemInfos[backPackKey].ItemIcon;
+						self.Name.text = _backPackSystem.BackPackItemInfos[backPackKey].ItemName;
+						self.NeedAndOwnAmount.text = amount + "/" + _backPackSystem.SuShiBackPackItemList[backPackKey];
+						self.Show();
+						_upgradeNeedFoodItems.Add(self.gameObject);
+					});
+				}
 			}
 		}
 

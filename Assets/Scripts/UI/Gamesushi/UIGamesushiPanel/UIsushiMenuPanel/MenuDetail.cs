@@ -65,16 +65,19 @@ namespace daifuDemo
 				
 			Describe.text = _menuSystem.MenuItemInfos[key].Description;
 				
-			foreach (var (backPackKey, amount) in _menuSystem.MenuItemInfos[key].RequiredIngredientsAmount)
+			foreach (var (rank, backPackKey, amount) in _menuSystem.MenuItemInfos[key].UpgradeNeedItems)
 			{
-				NeedFoodTemplate.InstantiateWithParent(NeedFoodRoot).Self(self =>
+				if (_menuSystem.CurrentOwnMenuItems[key].Rank == rank)
 				{
-					self.Icon.sprite = _backPackSystem.BackPackItemInfos[backPackKey].ItemIcon;
-					self.Name.text = _backPackSystem.BackPackItemInfos[backPackKey].ItemName;
-					self.OwnAndNeedAmount.text = amount + "/" + _backPackSystem.SuShiBackPackItemList[backPackKey];
-					self.Show();
-					_needFoodObjects.Add(self.gameObject);
-				});
+					NeedFoodTemplate.InstantiateWithParent(NeedFoodRoot).Self(self =>
+					{
+						self.Icon.sprite = _backPackSystem.BackPackItemInfos[backPackKey].ItemIcon;
+						self.Name.text = _backPackSystem.BackPackItemInfos[backPackKey].ItemName;
+						self.OwnAndNeedAmount.text = amount + "/" + _backPackSystem.SuShiBackPackItemList[backPackKey];
+						self.Show();
+						_needFoodObjects.Add(self.gameObject);
+					});
+				}
 			}
 		}
 

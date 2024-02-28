@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using QFramework;
@@ -22,6 +23,8 @@ namespace daifuDemo
 		{
 			_menuSystem = this.GetSystem<IMenuSystem>();
 			_uiGamesushiPanelModel = this.GetModel<IUIGamesushiPanelModel>();
+
+			_uiGamesushiPanelModel.SelectedMenuItemKey.Value = _menuSystem.CurrentOwnMenuItems.Keys.FirstOrDefault();
 			
 			CloseButton.onClick.AddListener(() =>
 			{
@@ -36,7 +39,6 @@ namespace daifuDemo
 
 		private void OnEnable()
 		{
-			int i = 0;
 			foreach (var (key, currentOwnMenuItem) in _menuSystem.CurrentOwnMenuItems)
 			{
 				if (currentOwnMenuItem.Unlock)
@@ -51,14 +53,9 @@ namespace daifuDemo
 						{
 							_uiGamesushiPanelModel.SelectedMenuItemKey.Value = currentKey;
 						});
-						if (i == 0)
-						{
-							_uiGamesushiPanelModel.SelectedMenuItemKey.Value = currentKey;
-						}
 						self.Show();
 						_menuItems.Add(self.gameObject);
 					});
-					i++;
 				}
 			}
 		}

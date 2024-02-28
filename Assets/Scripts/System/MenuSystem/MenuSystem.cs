@@ -54,13 +54,14 @@ namespace daifuDemo
                     .WithUnlockNeed(0)
                     .WithScore(140)
                     .WithCopies(1)
+                    .WithMaxRank(4)
                     .WithRequiredIngredientsAmount(new List<(string, int)>()
                     {
                         (BackPackItemConfig.NormalFishPiecesKey, 10)
                     })
                     .WithRankWithCost(new List<(int, float)>()
                     {
-                        (1, 100), (2, 150), (3, 200)
+                        (1, 100), (2, 150), (3, 200), (4, 220)
                     })
                     .WithUpgradeNeedItems(new List<(int, string, int)>()
                     {
@@ -75,13 +76,14 @@ namespace daifuDemo
                     .WithUnlockNeed(0)
                     .WithScore(150)
                     .WithCopies(1)
+                    .WithMaxRank(4)
                     .WithRequiredIngredientsAmount(new List<(string, int)>()
                     {
                         (BackPackItemConfig.PteroisFishPiecesKey, 10)
                     })
                     .WithRankWithCost(new List<(int, float)>()
                     {
-                        (1, 130), (2, 160), (3, 180)
+                        (1, 130), (2, 160), (3, 180), (4, 200)
                     })
                     .WithUpgradeNeedItems(new List<(int, string, int)>()
                     {
@@ -154,18 +156,36 @@ namespace daifuDemo
 
         public void UpgradeMenu(string key)
         {
-            foreach (var (rank, cost) in MenuItemInfos[key].RankWithCost)
+            if (CurrentOwnMenuItems[key].Rank == MenuItemInfos[key].MaxRank)
             {
-                if (rank > CurrentOwnMenuItems[key].Rank)
+                return;
+            }
+            
+            bool ifCanUpgrade = true;
+            
+            foreach (var (currentRank, backPackKey, amount) in MenuItemInfos[key].UpgradeNeedItems)
+            {
+                if (CurrentOwnMenuItems[key].Rank == currentRank)
                 {
-                    CurrentOwnMenuItems[key].Rank++;
-                    
-                    foreach (var (backPackKey, amount) in MenuItemInfos[key].RequiredIngredientsAmount)
+                    if (_backPackSystem.SuShiBackPackItemList[backPackKey] < amount)
+                    {
+                        ifCanUpgrade = false;
+                    }
+                }
+            }
+            
+            if (ifCanUpgrade)
+            {
+                foreach (var (currentRank, backPackKey, amount) in MenuItemInfos[key].UpgradeNeedItems)
+                {
+                    if (CurrentOwnMenuItems[key].Rank == currentRank)
                     {
                         _backPackSystem.SuShiBackPackItemList[backPackKey] -= amount;
                     }
-                    return;
                 }
+                CalculateCanMakeNumber(CurrentOwnMenuItems[key]);
+                        
+                CurrentOwnMenuItems[key].Rank++;
             }
         }
 

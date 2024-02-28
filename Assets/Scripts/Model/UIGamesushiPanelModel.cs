@@ -30,7 +30,7 @@ namespace daifuDemo
 
         public BindableProperty<bool> IfUisushiMenuPanelOpen { get; } = new BindableProperty<bool>(false);
 
-        public BindableProperty<string> SelectedMenuItemKey { get; } = new BindableProperty<string>("");
+        public BindableProperty<string> SelectedMenuItemKey { get; } = new BindableProperty<string>();
         
         public BindableProperty<bool> IfUIMenuPanelShow { get; } = new BindableProperty<bool>(false);
         
