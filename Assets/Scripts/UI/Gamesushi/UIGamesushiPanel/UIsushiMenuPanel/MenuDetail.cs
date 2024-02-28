@@ -39,7 +39,7 @@ namespace daifuDemo
 				_uiGamesushiPanelModel.IfUIUpgradeMenuPanelShow.Value = true;
 			});
 
-			_uiGamesushiPanelModel.SelectedMenuItemKey.RegisterWithInitValue(key =>
+			_uiGamesushiPanelModel.SelectedMenuItemKey.Register(key =>
 			{
 				UpdatePanel();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);

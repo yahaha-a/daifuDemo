@@ -2,10 +2,14 @@ namespace daifuDemo
 {
     public interface ITodayMenuItemInfo
     {
-        string Key { get; }
+        int Node { get; set; }
         
-        int Amount { get; }
+        string Key { get; set; }
+        
+        int Amount { get; set; }
 
+        ITodayMenuItemInfo WithNode(int node);
+        
         ITodayMenuItemInfo WithKey(string key);
 
         ITodayMenuItemInfo WithAmount(int amount);
@@ -13,10 +17,17 @@ namespace daifuDemo
     
     public class TodayMenuItemInfo : ITodayMenuItemInfo
     {
-        public string Key { get; private set; }
+        public int Node { get; set; }
+        public string Key { get; set; }
         
-        public int Amount { get; private set; }
-        
+        public int Amount { get; set; }
+
+        public ITodayMenuItemInfo WithNode(int node)
+        {
+            Node = node;
+            return this;
+        }
+
         public ITodayMenuItemInfo WithKey(string key)
         {
             Key = key;

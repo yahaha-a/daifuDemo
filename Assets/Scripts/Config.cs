@@ -11,7 +11,7 @@ namespace daifuDemo
         public static float OxygenIntervalTime = 3f;
 
         public static float PlayerInvincibleTime = 3f;
-
+        
         public static string NormalFishKey = "normal_fish";
 
         public static string PteroisKey = "pterois_fish";

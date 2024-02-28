@@ -24,15 +24,19 @@ namespace daifuDemo
         
         Dictionary<string, ICurrentOwnMenuItemInfo> CurrentOwnMenuItems { get; }
         
-        List<ITodayMenuItemInfo> TodayMenuItems { get; }
-
+        LinkedList<ITodayMenuItemInfo> TodayMenuItems { get; }
+        
         IMenuSystem AddMenuItemInfos(string key, IMenuItemInfo menuItemInfo);
 
-        void AddTodayMenuItems(ITodayMenuItemInfo todayMenuItemInfo);
+        void UpdateTodayMenuItems(string key, int node, int amount);
 
         void CalculateCanMakeNumber(ICurrentOwnMenuItemInfo currentOwnMenuItemInfo);
 
         void UpgradeMenu(string key);
+
+        bool IfCanMakeTodayMenu(string key);
+
+        void MakeTodayMenu(string key);
 
         void SaveData();
 
@@ -42,10 +46,14 @@ namespace daifuDemo
     public class MenuSystem : AbstractSystem, IMenuSystem
     {
         private IBackPackSystem _backPackSystem;
+
+        private IUIGamesushiPanelModel _uiGamesushiPanelModel;
         
         protected override void OnInit()
         {
             _backPackSystem = this.GetSystem<IBackPackSystem>();
+
+            _uiGamesushiPanelModel = this.GetModel<IUIGamesushiPanelModel>();
             
             this.AddMenuItemInfos(MenuItemConfig.NormalFishsushiKey, new MenuItemInfo()
                     .WithName("普通鱼寿司")
@@ -109,6 +117,19 @@ namespace daifuDemo
             {
                 CalculateCanMakeNumber(currentOwnMenuItem);
             }
+
+            _uiGamesushiPanelModel.MaxTodayMenuAmount.RegisterWithInitValue(value =>
+            {
+                for (int i = 1; i <= value; i++)
+                {
+                    LinkedListNode<ITodayMenuItemInfo> todayMenuItemNode = new LinkedListNode<ITodayMenuItemInfo>(
+                        new TodayMenuItemInfo()
+                            .WithNode(i)
+                            .WithKey(null)
+                            .WithAmount(0));
+                    TodayMenuItems.AddLast(todayMenuItemNode);
+                }
+            });
         }
 
         public Dictionary<string, IMenuItemInfo> MenuItemInfos { get; } = new Dictionary<string, IMenuItemInfo>();
@@ -116,7 +137,7 @@ namespace daifuDemo
         public Dictionary<string, ICurrentOwnMenuItemInfo> CurrentOwnMenuItems { get; } =
             new Dictionary<string, ICurrentOwnMenuItemInfo>();
 
-        public List<ITodayMenuItemInfo> TodayMenuItems { get; } = new List<ITodayMenuItemInfo>();
+        public LinkedList<ITodayMenuItemInfo> TodayMenuItems { get; } = new LinkedList<ITodayMenuItemInfo>();
 
         public IMenuSystem AddMenuItemInfos(string key, IMenuItemInfo menuItemInfo)
         {
@@ -124,9 +145,17 @@ namespace daifuDemo
             return this;
         }
 
-        public void AddTodayMenuItems(ITodayMenuItemInfo todayMenuItemInfo)
+        public void UpdateTodayMenuItems(string key, int node, int amount)
         {
-            TodayMenuItems.Add(todayMenuItemInfo);
+            LinkedListNode<ITodayMenuItemInfo> todayMenuItem =
+                TodayMenuItems.Find(TodayMenuItems.FirstOrDefault(item => item.Node == node && item.Key == null));
+
+            if (todayMenuItem != null)
+            {
+                todayMenuItem.Value.Node = node;
+                todayMenuItem.Value.Key = key;
+                todayMenuItem.Value.Amount = amount;
+            }
         }
 
         public void CalculateCanMakeNumber(ICurrentOwnMenuItemInfo currentOwnMenuItem)
@@ -189,6 +218,28 @@ namespace daifuDemo
             }
         }
 
+        public bool IfCanMakeTodayMenu(string key)
+        {
+            foreach (var (backPackKey, amount) in MenuItemInfos[key].RequiredIngredientsAmount)
+            {
+                if (_backPackSystem.SuShiBackPackItemList[backPackKey] <
+                    amount * _uiGamesushiPanelModel.CurrentSelectMenuAmount.Value)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public void MakeTodayMenu(string key)
+        {
+            foreach (var (backPackKey, amount) in MenuItemInfos[key].RequiredIngredientsAmount)
+            {
+                _backPackSystem.SuShiBackPackItemList[backPackKey] -=
+                    amount * _uiGamesushiPanelModel.CurrentSelectMenuAmount.Value;
+            }
+        }
 
         public void SaveData()
         {

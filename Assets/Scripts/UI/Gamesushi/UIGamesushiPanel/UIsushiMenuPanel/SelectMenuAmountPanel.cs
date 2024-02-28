@@ -33,6 +33,23 @@ namespace daifuDemo
 				_uiGamesushiPanelModel.IfUISelectMenuAmountPanelShow.Value = false;
 			});
 			
+			ConfirmButton.onClick.AddListener(() =>
+			{
+				if (_menuSystem.IfCanMakeTodayMenu(_uiGamesushiPanelModel.SelectedMenuItemKey.Value) &&
+				    _uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value != 0)
+				{
+					_menuSystem.MakeTodayMenu(_uiGamesushiPanelModel.SelectedMenuItemKey.Value);
+					_menuSystem.UpdateTodayMenuItems(_uiGamesushiPanelModel.SelectedMenuItemKey.Value,
+						_uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value,
+						_uiGamesushiPanelModel.CurrentSelectMenuAmount.Value);
+					
+					_uiGamesushiPanelModel.CurrentSelectMenuAmount.Value = 1;
+					_uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value = 0;
+					_uiGamesushiPanelModel.IfUISelectMenuAmountPanelShow.Value = false;
+					Events.UpgradeMenu?.Trigger();
+				}
+			});
+			
 			Reduce.onClick.AddListener(() =>
 			{
 				if (_uiGamesushiPanelModel.CurrentSelectMenuAmount.Value > 1)

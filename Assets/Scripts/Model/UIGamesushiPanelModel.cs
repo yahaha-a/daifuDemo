@@ -17,6 +17,10 @@ namespace daifuDemo
         BindableProperty<bool> IfUIUpgradeMenuPanelShow { get; }
         
         BindableProperty<int> CurrentSelectMenuAmount { get; }
+        
+        BindableProperty<int> MaxTodayMenuAmount { get; }
+        
+        BindableProperty<int> CurrentSelectTodayMenuItemNode { get; }
     }
     
     public class UIGamesushiPanelModel : AbstractModel, IUIGamesushiPanelModel
@@ -39,5 +43,9 @@ namespace daifuDemo
         public BindableProperty<bool> IfUIUpgradeMenuPanelShow { get; } = new BindableProperty<bool>(false);
         
         public BindableProperty<int> CurrentSelectMenuAmount { get; } = new BindableProperty<int>(1);
+        
+        public BindableProperty<int> MaxTodayMenuAmount { get; } = new BindableProperty<int>(MenuItemConfig.MaxTodayMenuAmount);
+
+        public BindableProperty<int> CurrentSelectTodayMenuItemNode { get; } = new BindableProperty<int>(0);
     }
 }
