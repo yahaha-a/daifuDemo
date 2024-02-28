@@ -43,7 +43,6 @@ namespace daifuDemo
 						_uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value,
 						_uiGamesushiPanelModel.CurrentSelectMenuAmount.Value);
 					
-					_uiGamesushiPanelModel.CurrentSelectMenuAmount.Value = 1;
 					_uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value = 0;
 					_uiGamesushiPanelModel.IfUISelectMenuAmountPanelShow.Value = false;
 					Events.UpgradeMenu?.Trigger();
@@ -81,6 +80,7 @@ namespace daifuDemo
 
 		private void OnEnable()
 		{
+
 			foreach (var (backPackKey, amount) in _menuSystem
 				         .MenuItemInfos[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].RequiredIngredientsAmount)
 			{
@@ -96,7 +96,7 @@ namespace daifuDemo
 				});
 			}
 
-			Amount.text = 1.ToString();
+			Amount.text = _uiGamesushiPanelModel.CurrentSelectMenuAmount.Value.ToString();
 
 			Icon.sprite = _menuSystem.MenuItemInfos[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].Icon;
 			Name.text = _menuSystem.MenuItemInfos[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].Name;
@@ -104,6 +104,8 @@ namespace daifuDemo
 
 		private void OnDisable()
 		{
+			_uiGamesushiPanelModel.CurrentSelectMenuAmount.Value = 1;
+
 			foreach (var selectAmountNeedFoodItem in _selectAmountNeedFoodItems)
 			{
 				selectAmountNeedFoodItem.DestroySelf();

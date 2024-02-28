@@ -53,8 +53,8 @@ namespace daifuDemo
 					{
 						self.Icon.sprite = _menuSystem.MenuItemInfos[todayMenuItem.Key].Icon;
 						self.Name.text = _menuSystem.MenuItemInfos[todayMenuItem.Key].Name;
-						self.Rank.text = _menuSystem.CurrentOwnMenuItems[todayMenuItem.Key].Rank.ToString();
-						self.Amount.text = todayMenuItem.Amount.ToString();
+						self.Rank.text = "Lv." + _menuSystem.CurrentOwnMenuItems[todayMenuItem.Key].Rank.ToString();
+						self.Amount.text = "×" + todayMenuItem.Amount.ToString();
 						self.Show();
 						_todayMenuItems.Add(self.gameObject);
 					});

@@ -21,6 +21,10 @@ namespace daifuDemo
         BindableProperty<int> MaxTodayMenuAmount { get; }
         
         BindableProperty<int> CurrentSelectTodayMenuItemNode { get; }
+        
+        BindableProperty<BackPackItemType> CurrentBackPackItemType { get; }
+        
+        BindableProperty<string> CurrentSelectsushiBackPackItemKey { get; }
     }
     
     public class UIGamesushiPanelModel : AbstractModel, IUIGamesushiPanelModel
@@ -47,5 +51,10 @@ namespace daifuDemo
         public BindableProperty<int> MaxTodayMenuAmount { get; } = new BindableProperty<int>(MenuItemConfig.MaxTodayMenuAmount);
 
         public BindableProperty<int> CurrentSelectTodayMenuItemNode { get; } = new BindableProperty<int>(0);
+
+        public BindableProperty<BackPackItemType> CurrentBackPackItemType { get; } =
+            new BindableProperty<BackPackItemType>(BackPackItemType.Fish);
+
+        public BindableProperty<string> CurrentSelectsushiBackPackItemKey { get; } = new BindableProperty<string>();
     }
 }

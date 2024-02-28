@@ -239,6 +239,7 @@ namespace daifuDemo
                 _backPackSystem.SuShiBackPackItemList[backPackKey] -=
                     amount * _uiGamesushiPanelModel.CurrentSelectMenuAmount.Value;
             }
+            CalculateCanMakeNumber(CurrentOwnMenuItems[key]);
         }
 
         public void SaveData()

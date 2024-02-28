@@ -21,6 +21,8 @@ namespace daifuDemo
 		[SerializeField] public UnityEngine.UI.Image ItemIcon;
 		[SerializeField] public UnityEngine.UI.Text ItemDescription;
 		[SerializeField] public UnityEngine.UI.Text ItemCount;
+		[SerializeField] public RectTransform OptionMenuRoot;
+		[SerializeField] public OptionMenuItemTemplate OptionMenuItemTemplate;
 
 		public void Clear()
 		{
@@ -35,6 +37,8 @@ namespace daifuDemo
 			ItemIcon = null;
 			ItemDescription = null;
 			ItemCount = null;
+			OptionMenuRoot = null;
+			OptionMenuItemTemplate = null;
 		}
 
 		public override string ComponentName
