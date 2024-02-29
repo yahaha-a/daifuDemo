@@ -10,7 +10,7 @@ namespace daifuDemo
 	{
 		private ICustomerSystem _customerSystem;
 
-		private List<CustomerTemplate> _customerInstances = new List<CustomerTemplate>();
+		private List<GameObject> _customerInstances = new List<GameObject>();
 
 		private float _customerCreateInterval = 4f;
 
@@ -25,7 +25,7 @@ namespace daifuDemo
 			Events.CommencedBusiness.Register(() =>
 			{
 				_customerSystem.CreateCustomers();
-
+				
 				_ifCreateStart = true;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
@@ -35,6 +35,12 @@ namespace daifuDemo
 			if (_ifCreateStart)
 			{
 				CreateCustomerTimer();
+			}
+
+			_customerInstances.RemoveAll(item => item == null);
+			if (_customerInstances.Count == 0)
+			{
+				Events.FinishBusiness?.Trigger();
 			}
 		}
 
@@ -66,13 +72,13 @@ namespace daifuDemo
 					self.CustomerItemInfo = customerItemInfo;
 					customerItemInfo.WithState(CustomerItemState.Walk);
 
-					self.StartPosition = new Vector2(-8, customerItemInfo.TargetPosition.y);
+					self.StartPosition = new Vector2(-8, tableItem.CurrentPosition.y);
 					self.TargetPosition = tableItem.CurrentPosition;
-					tableItem.WithTableState(TableState.HavePerson);
+					tableItem.WithCustomerInfo(customerItemInfo);
 
 					self.transform.position = self.StartPosition;
 					self.Show();
-					_customerInstances.Add(self);
+					_customerInstances.Add(self.gameObject);
 				});
 			}
 			else if (customerItemInfo == null)

@@ -1,3 +1,4 @@
+using QFramework;
 using UnityEngine;
 
 namespace daifuDemo
@@ -6,8 +7,11 @@ namespace daifuDemo
     {
         Free,
         Walk,
+        Order,
+        Wait,
         Drink,
         Eat,
+        Leave,
         Dead
     }
     
@@ -15,11 +19,17 @@ namespace daifuDemo
     {
         CustomerItemState State { get; }
         
+        BindableProperty<string> CurrentOrderKey { get; }
+        
         float WalkSpeed { get; }
         
         Vector2 TargetPosition { get; }
         
-        float WaitTime { get; }
+        float OrderNeedTime { get; set; }
+        
+        float WaitTime { get; set; }
+        
+        float EatTime { get; set; }
         
         float Tip { get; }
         
@@ -29,11 +39,17 @@ namespace daifuDemo
 
         ICustomerItemInfo WithState(CustomerItemState state);
 
+        ICustomerItemInfo WithCurrentOrderKey(string key);
+
         ICustomerItemInfo WithWalkSpeed(float walkSpeed);
 
         ICustomerItemInfo WithTargetPosition(Vector2 position);
 
+        ICustomerItemInfo WithOrderNeedTime(float orderNeedTime);
+
         ICustomerItemInfo WithWaitTime(float waitTime);
+
+        ICustomerItemInfo WithEatTime(float eatTime);
 
         ICustomerItemInfo WithTip(float tip);
 
@@ -45,12 +61,18 @@ namespace daifuDemo
     public class CustomerItemInfo : ICustomerItemInfo
     {
         public CustomerItemState State { get; private set; }
-        
+
+        public BindableProperty<string> CurrentOrderKey { get; private set; } = new BindableProperty<string>();
+
         public float WalkSpeed { get; private set; }
         
         public Vector2 TargetPosition { get; private set; }
+        
+        public float OrderNeedTime { get; set; }
 
-        public float WaitTime { get; private set; }
+        public float WaitTime { get; set; }
+
+        public float EatTime { get; set; }
         
         public float Tip { get; private set; }
         
@@ -61,6 +83,12 @@ namespace daifuDemo
         public ICustomerItemInfo WithState(CustomerItemState state)
         {
             State = state;
+            return this;
+        }
+
+        public ICustomerItemInfo WithCurrentOrderKey(string key)
+        {
+            CurrentOrderKey.Value = key;
             return this;
         }
 
@@ -76,9 +104,21 @@ namespace daifuDemo
             return this;
         }
 
+        public ICustomerItemInfo WithOrderNeedTime(float orderNeedTime)
+        {
+            OrderNeedTime = orderNeedTime;
+            return this;
+        }
+
         public ICustomerItemInfo WithWaitTime(float waitTime)
         {
             WaitTime = waitTime;
+            return this;
+        }
+
+        public ICustomerItemInfo WithEatTime(float eatTime)
+        {
+            EatTime = eatTime;
             return this;
         }
 

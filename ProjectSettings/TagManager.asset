@@ -11,6 +11,8 @@ TagManager:
   - TreasureInductionBox
   - PickUpInductionBox
   - MeleeWeaponHitBox
+  - Table
+  - PlayerInteractionBox
   layers:
   - Default
   - TransparentFX

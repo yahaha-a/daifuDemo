@@ -19,15 +19,15 @@ MonoBehaviour:
     From: 0
     NameToFullName: []
     BindInfos:
-    - TypeName: daifuDemo.CustomerTemplate
-      PathToRoot: CustomerTemplate
-      MemberName: CustomerTemplate
+    - TypeName: BoxCollider2D
+      PathToRoot: InteractionBox
+      MemberName: InteractionBox
     ScriptsFolder: Assets/Scripts/Game
-    ClassName: CustomerManage
+    ClassName: PlayerSuShi
     Namespace: daifuDemo
     MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace daifuDemo\r\n{\r\n\tpublic
-      partial class CustomerManage : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
+      partial class PlayerSuShi : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
       Code Here\r\n\t\t}\r\n\t}\r\n}\r\n"
-    DesignerCode: "// Generate Id:cbd6758a-b975-4973-925d-93fed7690e42\r\nusing UnityEngine;\r\n\r\nnamespace
-      daifuDemo\r\n{\r\n\tpublic partial class CustomerManage\r\n\t{\r\n\r\n\t\tpublic
-      daifuDemo.CustomerTemplate CustomerTemplate;\r\n\r\n\t}\r\n}\r\n"
+    DesignerCode: "// Generate Id:9d3aaf48-c5c5-436e-92dd-ee37960fdffb\r\nusing UnityEngine;\r\n\r\nnamespace
+      daifuDemo\r\n{\r\n\tpublic partial class PlayerSuShi\r\n\t{\r\n\r\n\t\tpublic
+      BoxCollider2D InteractionBox;\r\n\r\n\t\tpublic UnityEngine.Rigidbody2D Rigidbody2d;\r\n\r\n\t}\r\n}\r\n"

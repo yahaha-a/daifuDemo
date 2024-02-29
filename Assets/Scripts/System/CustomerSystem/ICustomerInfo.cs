@@ -20,6 +20,10 @@ namespace daifuDemo
         
         float MinTip { get; }
         
+        float MaxEatTime { get; }
+        
+        float MinEatTime { get; }
+        
         float DrinkProbability { get; }
         
         float DrinkTipMultiple { get; }
@@ -33,6 +37,10 @@ namespace daifuDemo
         ICustomerInfo WithMaxTip(float maxTip);
 
         ICustomerInfo WithMinTip(float minTip);
+
+        ICustomerInfo WithMaxEatTime(float maxEatTime);
+
+        ICustomerInfo WithMinEatTime(float minEatTime);
 
         ICustomerInfo WithDrinkProbability(float drinkProbability);
 
@@ -51,6 +59,10 @@ namespace daifuDemo
         
         public float MinTip { get; private set; }
         
+        public float MaxEatTime { get; private set; }
+        
+        public float MinEatTime { get; private set; }
+
         public float DrinkProbability { get; private set; }
         
         public float DrinkTipMultiple { get; private set; }
@@ -82,6 +94,18 @@ namespace daifuDemo
         public ICustomerInfo WithMinTip(float minTip)
         {
             MinTip = minTip;
+            return this;
+        }
+
+        public ICustomerInfo WithMaxEatTime(float maxEatTime)
+        {
+            MaxEatTime = maxEatTime;
+            return this;
+        }
+
+        public ICustomerInfo WithMinEatTime(float minEatTime)
+        {
+            MinEatTime = minEatTime;
             return this;
         }
 

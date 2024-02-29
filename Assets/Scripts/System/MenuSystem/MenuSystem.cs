@@ -38,6 +38,8 @@ namespace daifuDemo
 
         void MakeTodayMenu(string key);
 
+        public string GetARandomDish();
+
         void SaveData();
 
         void LoadData();
@@ -240,6 +242,14 @@ namespace daifuDemo
                     amount * _uiGamesushiPanelModel.CurrentSelectMenuAmount.Value;
             }
             CalculateCanMakeNumber(CurrentOwnMenuItems[key]);
+        }
+
+        public string GetARandomDish()
+        {
+            var random = new System.Random();
+            var key = TodayMenuItems.Where(item => item.Amount > 0).OrderBy(r => random.Next()).FirstOrDefault()?.Key;
+            TodayMenuItems.FirstOrDefault(item => item.Key == key)!.Amount--;
+            return key;
         }
 
         public void SaveData()

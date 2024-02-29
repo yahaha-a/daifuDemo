@@ -1,4 +1,5 @@
 using QFramework;
+using UnityEngine;
 
 namespace daifuDemo
 {
@@ -7,6 +8,10 @@ namespace daifuDemo
         BindableProperty<int> MaxCustomerNumber { get; }
         
         BindableProperty<int> CurrentCustomerNumber { get; }
+        
+        BindableProperty<ITableItemInfo> CurrentTouchTableItemInfo { get; }
+        
+        BindableProperty<bool> IfCustomerOrderPanelShow { get; }
     }
     
     public class BusinessModel : AbstractModel, IBusinessModel
@@ -21,5 +26,10 @@ namespace daifuDemo
 
         public BindableProperty<int> CurrentCustomerNumber { get; } =
             new BindableProperty<int>(0);
+
+        public BindableProperty<ITableItemInfo> CurrentTouchTableItemInfo { get; } =
+            new BindableProperty<ITableItemInfo>();
+
+        public BindableProperty<bool> IfCustomerOrderPanelShow { get; } = new BindableProperty<bool>(false);
     }
 }

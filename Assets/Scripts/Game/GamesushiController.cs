@@ -8,6 +8,8 @@ namespace daifuDemo
 	public partial class GamesushiController : ViewController, IController
 	{
 		private float _pressKeyCodeETime = 0;
+
+		private bool _ifPressKeyCodeE;
 		
 		private void Awake()
 		{
@@ -28,18 +30,24 @@ namespace daifuDemo
 				this.SendCommand<OpenOrClosesushiIngredientPanel>();
 			}
 			
-			if (Input.GetKey(KeyCode.E))
+			if (Input.GetKeyDown(KeyCode.E))
+			{
+				_ifPressKeyCodeE = true;
+			}
+
+			if (_ifPressKeyCodeE)
 			{
 				_pressKeyCodeETime += Time.deltaTime;
 				if (_pressKeyCodeETime >= 2f)
 				{
 					Events.CommencedBusiness?.Trigger();
+					_pressKeyCodeETime = 0;
 				}
 			}
-
+			
 			if (Input.GetKeyUp(KeyCode.E))
 			{
-				_pressKeyCodeETime = 0;
+				_ifPressKeyCodeE = false;
 			}
 		}
 

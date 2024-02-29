@@ -11,6 +11,8 @@ namespace daifuDemo
 	public partial class UIGamesushiPanel : UIPanel, IController
 	{
 		private IUIGamesushiPanelModel _uiGamesushiPanelModel;
+
+		private IBusinessModel _businessModel;
 		
 		protected override void OnInit(IUIData uiData = null)
 		{
@@ -18,6 +20,14 @@ namespace daifuDemo
 			// please add init code here
 
 			_uiGamesushiPanelModel = this.GetModel<IUIGamesushiPanelModel>();
+
+			_businessModel = this.GetModel<IBusinessModel>();
+
+			Events.CommencedBusiness.Register(this.SendCommand<OpenOrCloseCustomerOrderPanelCommand>)
+				.UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			Events.FinishBusiness.Register(this.SendCommand<OpenOrCloseCustomerOrderPanelCommand>)
+				.UnRegisterWhenGameObjectDestroyed(gameObject);
 
 			_uiGamesushiPanelModel.IfUIsushiIngredientPanelOpen.Register(value =>
 			{
@@ -40,6 +50,18 @@ namespace daifuDemo
 				else
 				{
 					UIsushiMenuPanel.Hide();
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			_businessModel.IfCustomerOrderPanelShow.Register(value =>
+			{
+				if (value)
+				{
+					CustomerOrderPanel.Show();
+				}
+				else
+				{
+					CustomerOrderPanel.Hide();
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
