@@ -22,6 +22,7 @@ namespace daifuDemo
             RegisterSystem<ITreasureBoxSystem>(new TreasureBoxSystem());
             RegisterSystem<IStrikeItemSystem>(new StrikeItemSystem());
             RegisterSystem<IMenuSystem>(new MenuSystem());
+            RegisterSystem<ICustomerSystem>(new CustomerSystem());
             RegisterModel<IPlayerModel>(new PlayerModel());
             RegisterModel<IFishForkModel>(new FishForkModel());
             RegisterModel<IFishForkHeadModel>(new FishForkHeadModel());
@@ -31,6 +32,7 @@ namespace daifuDemo
             RegisterModel<IMeleeWeaponModel>(new MeleeWeaponModel());
             RegisterModel<IUIGameShipPanelModel>(new UIGameShipPanelModel());
             RegisterModel<IUIGamesushiPanelModel>(new UIGamesushiPanelModel());
+            RegisterModel<IBusinessModel>(new BusinessModel());
         }
     }
 }

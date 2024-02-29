@@ -18,12 +18,16 @@ MonoBehaviour:
     GameObject: {fileID: 0}
     From: 0
     NameToFullName: []
-    BindInfos: []
+    BindInfos:
+    - TypeName: daifuDemo.CustomerTemplate
+      PathToRoot: CustomerTemplate
+      MemberName: CustomerTemplate
     ScriptsFolder: Assets/Scripts/Game
-    ClassName: GamesushiController
+    ClassName: CustomerManage
     Namespace: daifuDemo
     MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace daifuDemo\r\n{\r\n\tpublic
-      partial class GamesushiController : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
+      partial class CustomerManage : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
       Code Here\r\n\t\t}\r\n\t}\r\n}\r\n"
-    DesignerCode: "// Generate Id:df7e73c5-40d3-498f-b0eb-a56fb9330b45\r\nusing UnityEngine;\r\n\r\nnamespace
-      daifuDemo\r\n{\r\n\tpublic partial class GamesushiController\r\n\t{\r\n\r\n\t}\r\n}\r\n"
+    DesignerCode: "// Generate Id:cbd6758a-b975-4973-925d-93fed7690e42\r\nusing UnityEngine;\r\n\r\nnamespace
+      daifuDemo\r\n{\r\n\tpublic partial class CustomerManage\r\n\t{\r\n\r\n\t\tpublic
+      daifuDemo.CustomerTemplate CustomerTemplate;\r\n\r\n\t}\r\n}\r\n"

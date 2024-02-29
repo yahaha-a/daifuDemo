@@ -30,5 +30,7 @@ namespace daifuDemo
         public static EasyEvent<string> UIGamesushiIngredientPanelUpdate = new EasyEvent<string>();
 
         public static EasyEvent UpgradeMenu = new EasyEvent();
+
+        public static EasyEvent CommencedBusiness = new EasyEvent();
     }
 }
