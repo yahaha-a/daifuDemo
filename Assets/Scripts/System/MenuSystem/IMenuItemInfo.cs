@@ -19,6 +19,8 @@ namespace daifuDemo
         
         int MaxRank { get; }
         
+        float MakeNeedTime { get; }
+        
         List<(int, float)> RankWithCost { get; }
         
         List<(int, string, int)> UpgradeNeedItems { get; }
@@ -38,6 +40,8 @@ namespace daifuDemo
         IMenuItemInfo WithUnlockNeed(int unlockNeed);
 
         IMenuItemInfo WithMaxRank(int maxRank);
+
+        IMenuItemInfo WithMakeNeedTime(float makeNeedTime);
 
         IMenuItemInfo WithRankWithCost(List<(int, float)> rankWithCost);
 
@@ -61,6 +65,8 @@ namespace daifuDemo
         public int UnLockNeed { get; private set; }
         
         public int MaxRank { get; private set; }
+        
+        public float MakeNeedTime { get; private set; }
 
         public List<(int, float)> RankWithCost { get; private set; }
         
@@ -107,6 +113,12 @@ namespace daifuDemo
         public IMenuItemInfo WithMaxRank(int maxRank)
         {
             MaxRank = maxRank;
+            return this;
+        }
+
+        public IMenuItemInfo WithMakeNeedTime(float makeNeedTime)
+        {
+            MakeNeedTime = makeNeedTime;
             return this;
         }
 

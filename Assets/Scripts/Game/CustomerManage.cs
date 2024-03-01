@@ -35,12 +35,8 @@ namespace daifuDemo
 			if (_ifCreateStart)
 			{
 				CreateCustomerTimer();
-			}
-
-			_customerInstances.RemoveAll(item => item == null);
-			if (_customerInstances.Count == 0)
-			{
-				Events.FinishBusiness?.Trigger();
+				
+				_customerInstances.RemoveAll(item => item == null);
 			}
 		}
 
@@ -74,6 +70,7 @@ namespace daifuDemo
 
 					self.StartPosition = new Vector2(-8, tableItem.CurrentPosition.y);
 					self.TargetPosition = tableItem.CurrentPosition;
+					
 					tableItem.WithCustomerInfo(customerItemInfo);
 
 					self.transform.position = self.StartPosition;
@@ -81,9 +78,10 @@ namespace daifuDemo
 					_customerInstances.Add(self.gameObject);
 				});
 			}
-			else if (customerItemInfo == null)
+			else if (customerItemInfo == null && _customerInstances.Count == 0)
 			{
 				_ifCreateStart = false;
+				Events.FinishBusiness?.Trigger();
 			}
 		}
 

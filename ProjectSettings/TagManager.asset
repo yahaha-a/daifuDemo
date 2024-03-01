@@ -13,6 +13,7 @@ TagManager:
   - MeleeWeaponHitBox
   - Table
   - PlayerInteractionBox
+  - KitchenInteractionBox
   layers:
   - Default
   - TransparentFX

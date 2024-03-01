@@ -31,6 +31,7 @@ namespace daifuDemo
 
 			_uiGamesushiPanelModel.IfUIsushiIngredientPanelOpen.Register(value =>
 			{
+				Debug.Log(111);
 				if (value)
 				{
 					UIsushiIngredientPanel.Show();

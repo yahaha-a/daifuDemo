@@ -12,6 +12,8 @@ namespace daifuDemo
         BindableProperty<ITableItemInfo> CurrentTouchTableItemInfo { get; }
         
         BindableProperty<bool> IfCustomerOrderPanelShow { get; }
+        
+        BindableProperty<bool> IfBusinessStart { get; }
     }
     
     public class BusinessModel : AbstractModel, IBusinessModel
@@ -31,5 +33,7 @@ namespace daifuDemo
             new BindableProperty<ITableItemInfo>();
 
         public BindableProperty<bool> IfCustomerOrderPanelShow { get; } = new BindableProperty<bool>(false);
+        
+        public BindableProperty<bool> IfBusinessStart { get; } = new BindableProperty<bool>(false);
     }
 }

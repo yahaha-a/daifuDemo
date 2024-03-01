@@ -36,6 +36,8 @@ namespace daifuDemo
         bool IfDrink { get; }
         
         float TipMultiple { get; }
+        
+        bool IfReceiveOrderDish { get; }
 
         ICustomerItemInfo WithState(CustomerItemState state);
 
@@ -56,6 +58,8 @@ namespace daifuDemo
         ICustomerItemInfo WithIfDrink(bool ifDrink);
 
         ICustomerItemInfo WithTipMultiple(float tipMultiple);
+
+        ICustomerItemInfo WithIfReceiveOrderDish(bool ifReceiveOrderDish);
     }
 
     public class CustomerItemInfo : ICustomerItemInfo
@@ -79,6 +83,8 @@ namespace daifuDemo
         public bool IfDrink { get; private set; }
         
         public float TipMultiple { get; private set; }
+        
+        public bool IfReceiveOrderDish { get; private set; }
 
         public ICustomerItemInfo WithState(CustomerItemState state)
         {
@@ -137,6 +143,12 @@ namespace daifuDemo
         public ICustomerItemInfo WithTipMultiple(float tipMultiple)
         {
             TipMultiple = tipMultiple;
+            return this;
+        }
+
+        public ICustomerItemInfo WithIfReceiveOrderDish(bool ifReceiveOrderDish)
+        {
+            IfReceiveOrderDish = ifReceiveOrderDish;
             return this;
         }
     }

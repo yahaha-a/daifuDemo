@@ -141,7 +141,8 @@ namespace daifuDemo
                     .WithEatTime(Random.Range(customerInfo.MaxEatTime, customerInfo.MinEatTime))
                     .WithTip(Random.Range(customerInfo.MinTip, customerInfo.MaxTip))
                     .WithIfDrink(Random.Range(0, 1f) < customerInfo.DrinkProbability)
-                    .WithTipMultiple(customerInfo.DrinkTipMultiple);
+                    .WithTipMultiple(customerInfo.DrinkTipMultiple)
+                    .WithIfReceiveOrderDish(false);
                 
                 CustomerItems.Add(customerItem);
             }

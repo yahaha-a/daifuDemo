@@ -22,12 +22,15 @@ MonoBehaviour:
     - TypeName: BoxCollider2D
       PathToRoot: InteractionBox
       MemberName: InteractionBox
+    - TypeName: daifuDemo.CookerTemplate
+      PathToRoot: CookerTemplate
+      MemberName: CookerTemplate
     ScriptsFolder: Assets/Scripts/Game
-    ClassName: PlayerSuShi
+    ClassName: KitchenManage
     Namespace: daifuDemo
     MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace daifuDemo\r\n{\r\n\tpublic
-      partial class PlayerSuShi : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
+      partial class KitchenManage : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
       Code Here\r\n\t\t}\r\n\t}\r\n}\r\n"
-    DesignerCode: "// Generate Id:9d3aaf48-c5c5-436e-92dd-ee37960fdffb\r\nusing UnityEngine;\r\n\r\nnamespace
-      daifuDemo\r\n{\r\n\tpublic partial class PlayerSuShi\r\n\t{\r\n\r\n\t\tpublic
-      BoxCollider2D InteractionBox;\r\n\r\n\t\tpublic UnityEngine.Rigidbody2D Rigidbody2d;\r\n\r\n\t}\r\n}\r\n"
+    DesignerCode: "// Generate Id:55b867f3-ea20-4dad-a5d8-05bb7a94c6f4\r\nusing UnityEngine;\r\n\r\nnamespace
+      daifuDemo\r\n{\r\n\tpublic partial class KitchenManage\r\n\t{\r\n\r\n\t\tpublic
+      BoxCollider2D InteractionBox;\r\n\r\n\t\tpublic daifuDemo.CookerTemplate CookerTemplate;\r\n\r\n\t}\r\n}\r\n"

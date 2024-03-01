@@ -1,5 +1,5 @@
 ﻿/****************************************************************************
- * 2024.2 WXH
+ * 2024.3 WXH
  ****************************************************************************/
 
 using UnityEngine;
@@ -12,11 +12,15 @@ namespace daifuDemo
 	{
 		[SerializeField] public RectTransform CustomerOrderRoot;
 		[SerializeField] public CustomerOrderTemplate CustomerOrderTemplate;
+		[SerializeField] public RectTransform MakingAndFinishedDishesRoot;
+		[SerializeField] public MakAndFinDishesTemplate MakAndFinDishesTemplate;
 
 		public void Clear()
 		{
 			CustomerOrderRoot = null;
 			CustomerOrderTemplate = null;
+			MakingAndFinishedDishesRoot = null;
+			MakAndFinDishesTemplate = null;
 		}
 
 		public override string ComponentName

@@ -22,13 +22,11 @@ namespace daifuDemo
 
 			CustomerItemInfo.CurrentOrderKey.Register(menuKey =>
 			{
-				if (menuKey != null)
-				{
-					Events.CreateCustomerOrderMenuIcon?.Trigger(
-						new Vector2(Camera.main.WorldToScreenPoint(transform.position).x,
-							Camera.main.WorldToScreenPoint(transform.position).y + 1), menuKey);
-
-				}
+				_menuSystem.AddPreparationDishes(menuKey);
+				
+				Events.CreateCustomerOrderMenuIcon?.Trigger(
+					new Vector2(Camera.main.WorldToScreenPoint(OrderIconPosition.transform.position).x,
+						Camera.main.WorldToScreenPoint(OrderIconPosition.transform.position).y), menuKey);
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
@@ -105,12 +103,19 @@ namespace daifuDemo
 
 			if (CustomerItemInfo.WaitTime <= 0)
 			{
+				CustomerItemInfo.WithCurrentOrderKey(null);
 				CustomerItemInfo.WithState(CustomerItemState.Leave);
+			}
+
+			if (CustomerItemInfo.IfReceiveOrderDish)
+			{
+				CustomerItemInfo.WithState(CustomerItemState.Eat);
 			}
 		}
 
 		private void Drink()
 		{
+			CustomerItemInfo.WithCurrentOrderKey(null);
 			CustomerItemInfo.WithTip(CustomerItemInfo.Tip * CustomerItemInfo.TipMultiple);
 			CustomerItemInfo.WithIfDrink(false);
 			CustomerItemInfo.WithState(CustomerItemState.Order);
@@ -118,6 +123,7 @@ namespace daifuDemo
 
 		private void Eat()
 		{
+			CustomerItemInfo.WithCurrentOrderKey(null);
 			CustomerItemInfo.EatTime -= Time.deltaTime;
 			
 			if (CustomerItemInfo.EatTime <= 0)

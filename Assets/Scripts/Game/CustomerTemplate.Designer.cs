@@ -1,10 +1,12 @@
-// Generate Id:6ebe6005-e3fa-4b68-ad4a-a2e1f9de7078
+// Generate Id:9575e594-04ad-4d94-b720-20b7fa08444e
 using UnityEngine;
 
 namespace daifuDemo
 {
 	public partial class CustomerTemplate
 	{
+
+		public Transform OrderIconPosition;
 
 	}
 }

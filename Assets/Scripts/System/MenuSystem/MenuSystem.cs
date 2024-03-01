@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using QFramework;
@@ -25,9 +26,15 @@ namespace daifuDemo
         Dictionary<string, ICurrentOwnMenuItemInfo> CurrentOwnMenuItems { get; }
         
         LinkedList<ITodayMenuItemInfo> TodayMenuItems { get; }
+
+        Queue<IPreparationDishInfo> PreparationDishes { get; }
+        
+        Queue<IPreparationDishInfo> MakingDishes { get; }
+        
+        Queue<IPreparationDishInfo> FinishedDishes { get; }
         
         IMenuSystem AddMenuItemInfos(string key, IMenuItemInfo menuItemInfo);
-
+        
         void UpdateTodayMenuItems(string key, int node, int amount);
 
         void CalculateCanMakeNumber(ICurrentOwnMenuItemInfo currentOwnMenuItemInfo);
@@ -37,6 +44,12 @@ namespace daifuDemo
         bool IfCanMakeTodayMenu(string key);
 
         void MakeTodayMenu(string key);
+
+        void AddPreparationDishes(string menuKey);
+
+        void CreatePreparationDishes();
+
+        string TakeAFinishedDish();
 
         public string GetARandomDish();
 
@@ -65,6 +78,7 @@ namespace daifuDemo
                     .WithScore(140)
                     .WithCopies(1)
                     .WithMaxRank(4)
+                    .WithMakeNeedTime(4)
                     .WithRequiredIngredientsAmount(new List<(string, int)>()
                     {
                         (BackPackItemConfig.NormalFishPiecesKey, 10)
@@ -87,6 +101,7 @@ namespace daifuDemo
                     .WithScore(150)
                     .WithCopies(1)
                     .WithMaxRank(4)
+                    .WithMakeNeedTime(3)
                     .WithRequiredIngredientsAmount(new List<(string, int)>()
                     {
                         (BackPackItemConfig.PteroisFishPiecesKey, 10)
@@ -140,6 +155,12 @@ namespace daifuDemo
             new Dictionary<string, ICurrentOwnMenuItemInfo>();
 
         public LinkedList<ITodayMenuItemInfo> TodayMenuItems { get; } = new LinkedList<ITodayMenuItemInfo>();
+
+        public Queue<IPreparationDishInfo> PreparationDishes { get; } = new Queue<IPreparationDishInfo>();
+        
+        public Queue<IPreparationDishInfo> MakingDishes { get; } = new Queue<IPreparationDishInfo>();
+        
+        public Queue<IPreparationDishInfo> FinishedDishes { get; } = new Queue<IPreparationDishInfo>();
 
         public IMenuSystem AddMenuItemInfos(string key, IMenuItemInfo menuItemInfo)
         {
@@ -244,12 +265,70 @@ namespace daifuDemo
             CalculateCanMakeNumber(CurrentOwnMenuItems[key]);
         }
 
+        public void AddPreparationDishes(string menuKey)
+        {
+            if (menuKey != null)
+            {
+                IPreparationDishInfo preparationDish = new PreparationDishInfo()
+                    .WithKey(menuKey)
+                    .WithMakeNeedTime(MenuItemInfos[menuKey].MakeNeedTime);
+            
+                PreparationDishes.Enqueue(preparationDish);
+            }
+        }
+
+        public void CreatePreparationDishes()
+        {
+            if (FinishedDishes.Count >= 5)
+            {
+                return;
+            }
+            
+            if (PreparationDishes.Count > 0)
+            {
+                MakingDishes.Enqueue(PreparationDishes.Dequeue());
+            }
+
+            if (MakingDishes.TryPeek(out var makingDish))
+            {
+                if (makingDish.MakeNeedTime > 0)
+                {
+                    makingDish.MakeNeedTime -= Time.deltaTime;
+                }
+                else
+                {
+                    FinishedDishes.Enqueue(MakingDishes.Dequeue());
+                }
+            }
+        }
+
+        public string TakeAFinishedDish()
+        {
+            if (FinishedDishes.Count > 0)
+            {
+                return FinishedDishes.Dequeue().Key;
+            }
+
+            return null;
+        }
+
+
         public string GetARandomDish()
         {
             var random = new System.Random();
-            var key = TodayMenuItems.Where(item => item.Amount > 0).OrderBy(r => random.Next()).FirstOrDefault()?.Key;
-            TodayMenuItems.FirstOrDefault(item => item.Key == key)!.Amount--;
-            return key;
+
+            var availableMenuItems = TodayMenuItems.Where(item => item.Amount > 0).ToList();
+
+            if (availableMenuItems.Any())
+            {
+                var randomMenuItem = availableMenuItems[random.Next(availableMenuItems.Count)];
+
+                randomMenuItem.Amount--;
+
+                return randomMenuItem.Key;
+            }
+
+            return null;
         }
 
         public void SaveData()
