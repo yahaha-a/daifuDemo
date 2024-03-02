@@ -56,7 +56,7 @@ namespace daifuDemo
 				if (Input.GetKeyDown(KeyCode.E))
 				{
 					_currentHaveMenuKey = _menuSystem.TakeAFinishedDish();
-					Debug.Log(_currentHaveMenuKey);
+					Events.TakeFirstFinishedDish?.Trigger();
 				}
 			}
 
@@ -64,8 +64,11 @@ namespace daifuDemo
 			{
 				if (Input.GetKeyDown(KeyCode.E))
 				{
-					_tableItem.CustomerItemInfo.WithIfReceiveOrderDish(true);
-					_currentHaveMenuKey = null;
+					if (_tableItem.CustomerItemInfo.CurrentOrderKey.Value == _currentHaveMenuKey)
+					{
+						_tableItem.CustomerItemInfo.WithIfReceiveOrderDish(true);
+						_currentHaveMenuKey = null;
+					}
 				}
 			}
 		}

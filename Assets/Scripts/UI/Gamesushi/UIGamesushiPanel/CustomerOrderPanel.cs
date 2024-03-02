@@ -16,6 +16,8 @@ namespace daifuDemo
 
 		private Dictionary<Vector2, CustomerOrderTemplate> _customerOrderTemplates =
 			new Dictionary<Vector2, CustomerOrderTemplate>();
+
+		private Queue<MakAndFinDishesTemplate> _makAndFinDishesItems = new Queue<MakAndFinDishesTemplate>();
 		
 		private void Start()
 		{
@@ -39,6 +41,23 @@ namespace daifuDemo
 					_customerOrderTemplates[createPosition].gameObject.DestroySelf();
 					_customerOrderTemplates.Remove(createPosition);
 				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			Events.CookerMakingDishesQueueAdd.Register(preparationDish =>
+			{
+				MakAndFinDishesTemplate.InstantiateWithParent(MakingAndFinishedDishesRoot).Self(self =>
+				{
+					self.Icon.sprite = _menuSystem.MenuItemInfos[preparationDish.Key].Icon;
+					self.Name.text = _menuSystem.MenuItemInfos[preparationDish.Key].Name;
+					self.MakeNeedTime = preparationDish.MakeNeedTime;
+					self.Show();
+					_makAndFinDishesItems.Enqueue(self);
+				});
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			Events.TakeFirstFinishedDish.Register(() =>
+			{
+				_makAndFinDishesItems.Dequeue().gameObject.DestroySelf();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 

@@ -36,5 +36,9 @@ namespace daifuDemo
         public static EasyEvent FinishBusiness = new EasyEvent();
 
         public static EasyEvent<Vector2, string> CreateCustomerOrderMenuIcon = new EasyEvent<Vector2, string>();
+
+        public static EasyEvent TakeFirstFinishedDish = new EasyEvent();
+
+        public static EasyEvent<IPreparationDishInfo> CookerMakingDishesQueueAdd = new EasyEvent<IPreparationDishInfo>();
     }
 }

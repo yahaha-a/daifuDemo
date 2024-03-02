@@ -5,7 +5,7 @@ using QFramework;
 
 namespace daifuDemo
 {
-	// Generate Id:82fc8f26-a277-4127-a8a8-17a2edb87d2b
+	// Generate Id:e13ccb99-b830-4c66-a6aa-50484da05bd1
 	public partial class UIGamesushiPanel
 	{
 		public const string Name = "UIGamesushiPanel";

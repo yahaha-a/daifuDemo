@@ -34,13 +34,13 @@ namespace daifuDemo
                     .WithKey(StaffConfig.BbbKey)
                     .WithName("Bbb")
                     .WithWalkSpeed(5f)
-                    .WithCookSpeed(0.9f));
+                    .WithCookSpeed(1.2f));
             
             this.AddCurrentCookerItem(StaffConfig.AaaKey, new StaffItemInfo()
                 .WithKey(StaffConfig.AaaKey)
                 .WithName("Aaa")
                 .WithWalkSpeed(4f)
-                .WithCookSpeed(0.8f));
+                .WithCookSpeed(1.1f));
         }
 
         public Dictionary<string, IStaffItemInfo> StaffItemInfos { get; } = new Dictionary<string, IStaffItemInfo>();

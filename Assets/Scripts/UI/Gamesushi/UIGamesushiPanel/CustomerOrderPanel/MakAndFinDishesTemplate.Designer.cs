@@ -12,11 +12,13 @@ namespace daifuDemo
 	{
 		[SerializeField] public UnityEngine.UI.Image Icon;
 		[SerializeField] public UnityEngine.UI.Text Name;
+		[SerializeField] public UnityEngine.UI.Slider Slider;
 
 		public void Clear()
 		{
 			Icon = null;
 			Name = null;
+			Slider = null;
 		}
 
 		public override string ComponentName

@@ -56,7 +56,7 @@ namespace daifuDemo
 					CookerTemplate.InstantiateWithParent(this).Self(self =>
 					{
 						self.StaffItemInfo = staffItemInfo;
-						Vector2 position = _positionList.FirstOrDefault(item => item.Value == true).Key;
+						Vector2 position = _positionList.FirstOrDefault(item => item.Value).Key;
 						self.transform.localPosition = position;
 						_positionList[position] = false;
 						self.Show();

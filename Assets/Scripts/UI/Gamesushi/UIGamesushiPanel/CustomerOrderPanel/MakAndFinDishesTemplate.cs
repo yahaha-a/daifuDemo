@@ -12,8 +12,22 @@ namespace daifuDemo
 {
 	public partial class MakAndFinDishesTemplate : UIElement
 	{
-		private void Awake()
+		public float MakeNeedTime { get; set; }
+
+		private float _currentMakeTime = 0;
+
+		private float _progress;
+
+		private void Update()
 		{
+			if (_currentMakeTime < MakeNeedTime)
+			{
+				_currentMakeTime += Time.deltaTime;
+
+				_progress = _currentMakeTime / MakeNeedTime;
+			}
+
+			Slider.value = _progress;
 		}
 
 		protected override void OnBeforeDestroy()

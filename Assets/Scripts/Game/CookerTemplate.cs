@@ -35,7 +35,7 @@ namespace daifuDemo
 		{
 			if (_ifStartCook)
 			{
-				_menuSystem.CreatePreparationDishes();
+				_menuSystem.CreatePreparationDishes(StaffItemInfo.CookSpeed);
 			}
 		}
 

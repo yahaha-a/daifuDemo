@@ -29,9 +29,9 @@ namespace daifuDemo
 
         Queue<IPreparationDishInfo> PreparationDishes { get; }
         
-        Queue<IPreparationDishInfo> MakingDishes { get; }
+        BindableProperty<Queue<IPreparationDishInfo>> MakingDishes { get; }
         
-        Queue<IPreparationDishInfo> FinishedDishes { get; }
+        BindableProperty<Queue<IPreparationDishInfo>> FinishedDishes { get; }
         
         IMenuSystem AddMenuItemInfos(string key, IMenuItemInfo menuItemInfo);
         
@@ -47,7 +47,7 @@ namespace daifuDemo
 
         void AddPreparationDishes(string menuKey);
 
-        void CreatePreparationDishes();
+        void CreatePreparationDishes(float cookSpeed);
 
         string TakeAFinishedDish();
 
@@ -69,6 +69,9 @@ namespace daifuDemo
             _backPackSystem = this.GetSystem<IBackPackSystem>();
 
             _uiGamesushiPanelModel = this.GetModel<IUIGamesushiPanelModel>();
+
+            MakingDishes.Value = new Queue<IPreparationDishInfo>();
+            FinishedDishes.Value = new Queue<IPreparationDishInfo>();
             
             this.AddMenuItemInfos(MenuItemConfig.NormalFishsushiKey, new MenuItemInfo()
                     .WithName("普通鱼寿司")
@@ -78,7 +81,7 @@ namespace daifuDemo
                     .WithScore(140)
                     .WithCopies(1)
                     .WithMaxRank(4)
-                    .WithMakeNeedTime(4)
+                    .WithMakeNeedTime(5)
                     .WithRequiredIngredientsAmount(new List<(string, int)>()
                     {
                         (BackPackItemConfig.NormalFishPiecesKey, 10)
@@ -101,7 +104,7 @@ namespace daifuDemo
                     .WithScore(150)
                     .WithCopies(1)
                     .WithMaxRank(4)
-                    .WithMakeNeedTime(3)
+                    .WithMakeNeedTime(6)
                     .WithRequiredIngredientsAmount(new List<(string, int)>()
                     {
                         (BackPackItemConfig.PteroisFishPiecesKey, 10)
@@ -157,10 +160,12 @@ namespace daifuDemo
         public LinkedList<ITodayMenuItemInfo> TodayMenuItems { get; } = new LinkedList<ITodayMenuItemInfo>();
 
         public Queue<IPreparationDishInfo> PreparationDishes { get; } = new Queue<IPreparationDishInfo>();
-        
-        public Queue<IPreparationDishInfo> MakingDishes { get; } = new Queue<IPreparationDishInfo>();
-        
-        public Queue<IPreparationDishInfo> FinishedDishes { get; } = new Queue<IPreparationDishInfo>();
+
+        public BindableProperty<Queue<IPreparationDishInfo>> MakingDishes { get; } =
+            new BindableProperty<Queue<IPreparationDishInfo>>();
+
+        public BindableProperty<Queue<IPreparationDishInfo>> FinishedDishes { get; } =
+            new BindableProperty<Queue<IPreparationDishInfo>>();
 
         public IMenuSystem AddMenuItemInfos(string key, IMenuItemInfo menuItemInfo)
         {
@@ -277,36 +282,38 @@ namespace daifuDemo
             }
         }
 
-        public void CreatePreparationDishes()
+        public void CreatePreparationDishes(float cookSpeed)
         {
-            if (FinishedDishes.Count >= 5)
+            if (FinishedDishes.Value.Count >= 5)
             {
                 return;
             }
             
             if (PreparationDishes.Count > 0)
             {
-                MakingDishes.Enqueue(PreparationDishes.Dequeue());
+                var preparationDish = PreparationDishes.Dequeue();
+                MakingDishes.Value.Enqueue(preparationDish);
+                Events.CookerMakingDishesQueueAdd?.Trigger(preparationDish);
             }
 
-            if (MakingDishes.TryPeek(out var makingDish))
+            if (MakingDishes.Value.TryPeek(out var makingDish))
             {
                 if (makingDish.MakeNeedTime > 0)
                 {
-                    makingDish.MakeNeedTime -= Time.deltaTime;
+                    makingDish.MakeNeedTime -= Time.deltaTime * cookSpeed;
                 }
                 else
                 {
-                    FinishedDishes.Enqueue(MakingDishes.Dequeue());
+                    FinishedDishes.Value.Enqueue(MakingDishes.Value.Dequeue());
                 }
             }
         }
 
         public string TakeAFinishedDish()
         {
-            if (FinishedDishes.Count > 0)
+            if (FinishedDishes.Value.Count > 0)
             {
-                return FinishedDishes.Dequeue().Key;
+                return FinishedDishes.Value.Dequeue().Key;
             }
 
             return null;
