@@ -29,9 +29,10 @@ namespace daifuDemo
 			Events.FinishBusiness.Register(this.SendCommand<OpenOrCloseCustomerOrderPanelCommand>)
 				.UnRegisterWhenGameObjectDestroyed(gameObject);
 
+			CustomerOrderPanel.Show();
+
 			_uiGamesushiPanelModel.IfUIsushiIngredientPanelOpen.Register(value =>
 			{
-				Debug.Log(111);
 				if (value)
 				{
 					UIsushiIngredientPanel.Show();
@@ -39,6 +40,18 @@ namespace daifuDemo
 				else
 				{
 					UIsushiIngredientPanel.Hide();
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			_uiGamesushiPanelModel.IfUIStaffManagePanelOpen.Register(value =>
+			{
+				if (value)
+				{
+					StaffManagePanel.Show();
+				}
+				else
+				{
+					StaffManagePanel.Hide();
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 

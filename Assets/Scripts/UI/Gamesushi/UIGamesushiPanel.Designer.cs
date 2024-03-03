@@ -5,7 +5,7 @@ using QFramework;
 
 namespace daifuDemo
 {
-	// Generate Id:e13ccb99-b830-4c66-a6aa-50484da05bd1
+	// Generate Id:df717f20-2912-4282-94ed-e8475bd1e50b
 	public partial class UIGamesushiPanel
 	{
 		public const string Name = "UIGamesushiPanel";
@@ -16,6 +16,8 @@ namespace daifuDemo
 		public UIsushiMenuPanel UIsushiMenuPanel;
 		[SerializeField]
 		public CustomerOrderPanel CustomerOrderPanel;
+		[SerializeField]
+		public StaffManagePanel StaffManagePanel;
 		
 		private UIGamesushiPanelData mPrivateData = null;
 		
@@ -24,6 +26,7 @@ namespace daifuDemo
 			UIsushiIngredientPanel = null;
 			UIsushiMenuPanel = null;
 			CustomerOrderPanel = null;
+			StaffManagePanel = null;
 			
 			mData = null;
 		}

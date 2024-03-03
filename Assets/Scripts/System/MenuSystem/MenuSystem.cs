@@ -47,7 +47,7 @@ namespace daifuDemo
 
         void AddPreparationDishes(string menuKey);
 
-        void CreatePreparationDishes(float cookSpeed);
+        IEnumerator CreatePreparationDishes(float cookSpeed);
 
         string TakeAFinishedDish();
 
@@ -81,7 +81,7 @@ namespace daifuDemo
                     .WithScore(140)
                     .WithCopies(1)
                     .WithMaxRank(4)
-                    .WithMakeNeedTime(5)
+                    .WithMakeNeedTime(20)
                     .WithRequiredIngredientsAmount(new List<(string, int)>()
                     {
                         (BackPackItemConfig.NormalFishPiecesKey, 10)
@@ -104,7 +104,7 @@ namespace daifuDemo
                     .WithScore(150)
                     .WithCopies(1)
                     .WithMaxRank(4)
-                    .WithMakeNeedTime(6)
+                    .WithMakeNeedTime(15)
                     .WithRequiredIngredientsAmount(new List<(string, int)>()
                     {
                         (BackPackItemConfig.PteroisFishPiecesKey, 10)
@@ -282,30 +282,25 @@ namespace daifuDemo
             }
         }
 
-        public void CreatePreparationDishes(float cookSpeed)
+        public IEnumerator CreatePreparationDishes(float cookSpeed)
         {
             if (FinishedDishes.Value.Count >= 5)
             {
-                return;
+                yield break;
             }
             
             if (PreparationDishes.Count > 0)
             {
                 var preparationDish = PreparationDishes.Dequeue();
                 MakingDishes.Value.Enqueue(preparationDish);
-                Events.CookerMakingDishesQueueAdd?.Trigger(preparationDish);
-            }
-
-            if (MakingDishes.Value.TryPeek(out var makingDish))
-            {
-                if (makingDish.MakeNeedTime > 0)
+                Events.CookerMakingDishesQueueAdd?.Trigger(preparationDish, cookSpeed);
+                
+                while (preparationDish.MakeNeedTime > 0)
                 {
-                    makingDish.MakeNeedTime -= Time.deltaTime * cookSpeed;
+                    preparationDish.MakeNeedTime -= Time.deltaTime * cookSpeed;
+                    yield return null;
                 }
-                else
-                {
-                    FinishedDishes.Value.Enqueue(MakingDishes.Value.Dequeue());
-                }
+                FinishedDishes.Value.Enqueue(MakingDishes.Value.Dequeue());
             }
         }
 

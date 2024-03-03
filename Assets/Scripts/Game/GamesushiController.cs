@@ -41,6 +41,11 @@ namespace daifuDemo
 			{
 				this.SendCommand<OpenOrClosesushiMenuPanel>();
 			}
+
+			if (Input.GetKeyDown(KeyCode.Alpha2))
+			{
+				this.SendCommand<OpenOrCloseStaffManagePanelCommand>();
+			}
 			
 			if (Input.GetKeyDown(KeyCode.Alpha3))
 			{

@@ -13,6 +13,8 @@ namespace daifuDemo
         
         float MakeNeedTime { get; set; }
         
+        bool ifOnCookerMaking { get; set; }
+        
         IPreparationDishInfo WithKey(string key);
 
         IPreparationDishInfo WithMakeNeedTime(float makeNeedTime);
@@ -23,6 +25,8 @@ namespace daifuDemo
         public string Key { get; private set; }
         
         public float MakeNeedTime { get; set; }
+        
+        public bool ifOnCookerMaking { get; set; }
 
         public IPreparationDishInfo WithKey(string key)
         {

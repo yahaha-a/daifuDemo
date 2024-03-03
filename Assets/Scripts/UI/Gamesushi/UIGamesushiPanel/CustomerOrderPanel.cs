@@ -43,13 +43,13 @@ namespace daifuDemo
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
-			Events.CookerMakingDishesQueueAdd.Register(preparationDish =>
+			Events.CookerMakingDishesQueueAdd.Register((preparationDish, cookSpeed) =>
 			{
 				MakAndFinDishesTemplate.InstantiateWithParent(MakingAndFinishedDishesRoot).Self(self =>
 				{
 					self.Icon.sprite = _menuSystem.MenuItemInfos[preparationDish.Key].Icon;
 					self.Name.text = _menuSystem.MenuItemInfos[preparationDish.Key].Name;
-					self.MakeNeedTime = preparationDish.MakeNeedTime;
+					self.MakeNeedTime = preparationDish.MakeNeedTime / cookSpeed;
 					self.Show();
 					_makAndFinDishesItems.Enqueue(self);
 				});

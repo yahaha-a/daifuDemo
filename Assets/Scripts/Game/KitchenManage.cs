@@ -49,19 +49,22 @@ namespace daifuDemo
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
-			_staffSystem.CurrentCookerItems.RegisterWithInitValue(currentCookerItems =>
+			Events.CommencedBusiness.Register(() =>
 			{
-				foreach (var (staffKey, staffItemInfo) in currentCookerItems)
+				foreach (var (node, staffKey) in _staffSystem.CurrentCookers)
 				{
-					CookerTemplate.InstantiateWithParent(this).Self(self =>
+					if (staffKey != null)
 					{
-						self.StaffItemInfo = staffItemInfo;
-						Vector2 position = _positionList.FirstOrDefault(item => item.Value).Key;
-						self.transform.localPosition = position;
-						_positionList[position] = false;
-						self.Show();
-						_cookers.Add(self);
-					});
+						CookerTemplate.InstantiateWithParent(this).Self(self =>
+						{
+							self.StaffItem = _staffSystem.CurrentOwnStaffItems[staffKey];
+							Vector2 position = _positionList.FirstOrDefault(item => item.Value).Key;
+							self.transform.localPosition = position;
+							_positionList[position] = false;
+							self.Show();
+							_cookers.Add(self);
+						});
+					}
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}

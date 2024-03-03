@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Linq;
 using UnityEngine;
 using QFramework;
 
@@ -6,11 +8,15 @@ namespace daifuDemo
 {
 	public partial class CookerTemplate : ViewController, IController
 	{
-		public IStaffItemInfo StaffItemInfo { get; set; }
+		public IstaffItemInfo StaffItem { get; set; }
 
 		private IMenuSystem _menuSystem;
 
-		private bool _ifStartCook = false;
+		private IStaffSystem _staffSystem;
+
+		public bool _ifStartCook = false;
+		
+		private bool _isCookCoroutineRunning = false;
 
 		private IBusinessModel _businessModel;
 
@@ -19,6 +25,8 @@ namespace daifuDemo
 			_businessModel = this.GetModel<IBusinessModel>();
 			
 			_menuSystem = this.GetSystem<IMenuSystem>();
+
+			_staffSystem = this.GetSystem<IStaffSystem>();
 			
 			Events.CommencedBusiness.Register(() =>
 			{
@@ -29,16 +37,31 @@ namespace daifuDemo
 			{
 				_ifStartCook = false;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			_ifStartCook = true;
 		}
 
 		private void Update()
 		{
-			if (_ifStartCook)
+			if (_ifStartCook && !_isCookCoroutineRunning)
 			{
-				_menuSystem.CreatePreparationDishes(StaffItemInfo.CookSpeed);
+				_ifStartCook = false;
+				StartCoroutine(Cook());
 			}
 		}
 
+		IEnumerator Cook()
+		{
+			_isCookCoroutineRunning = true;
+
+			var cookSpeed = _staffSystem.StaffItemInfos[StaffItem.Key].RankWithCookSpeed
+				.FirstOrDefault(rankWithSpeed => rankWithSpeed.Item1 == StaffItem.Rank).Item2;
+
+			yield return _menuSystem.CreatePreparationDishes(cookSpeed);
+			_isCookCoroutineRunning = false;
+			_ifStartCook = true;
+		}
+		
 		public IArchitecture GetArchitecture()
 		{
 			return Global.Interface;
