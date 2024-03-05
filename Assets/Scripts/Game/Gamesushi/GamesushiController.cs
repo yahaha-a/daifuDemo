@@ -78,6 +78,11 @@ namespace daifuDemo
 			}
 		}
 
+		private void OnDisable()
+		{
+			
+		}
+
 		public IArchitecture GetArchitecture()
 		{
 			return Global.Interface;

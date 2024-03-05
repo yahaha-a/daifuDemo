@@ -35,6 +35,7 @@ namespace daifuDemo
             RegisterModel<IUIGamesushiPanelModel>(new UIGamesushiPanelModel());
             RegisterModel<IBusinessModel>(new BusinessModel());
             RegisterModel<IPlayerSuShiModel>(new PlayerSuShiModel());
+            RegisterModel<ICollectionModel>(new CollectionModel());
         }
     }
 }

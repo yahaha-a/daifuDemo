@@ -81,7 +81,7 @@ namespace daifuDemo
                     .WithScore(140)
                     .WithCopies(1)
                     .WithMaxRank(4)
-                    .WithMakeNeedTime(20)
+                    .WithMakeNeedTime(4)
                     .WithRequiredIngredientsAmount(new List<(string, int)>()
                     {
                         (BackPackItemConfig.NormalFishPiecesKey, 10)
@@ -104,7 +104,7 @@ namespace daifuDemo
                     .WithScore(150)
                     .WithCopies(1)
                     .WithMaxRank(4)
-                    .WithMakeNeedTime(15)
+                    .WithMakeNeedTime(5)
                     .WithRequiredIngredientsAmount(new List<(string, int)>()
                     {
                         (BackPackItemConfig.PteroisFishPiecesKey, 10)
@@ -284,7 +284,7 @@ namespace daifuDemo
 
         public IEnumerator CreatePreparationDishes(float cookSpeed)
         {
-            if (FinishedDishes.Value.Count >= 5)
+            if (FinishedDishes.Value.Count + MakingDishes.Value.Count >= 5)
             {
                 yield break;
             }

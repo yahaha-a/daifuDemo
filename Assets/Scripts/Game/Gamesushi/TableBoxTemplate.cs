@@ -23,6 +23,14 @@ namespace daifuDemo
 			}
 		}
 
+		private void OnTriggerExit2D(Collider2D other)
+		{
+			if (other.CompareTag("PlayerInteractionBox"))
+			{
+				_businessModel.CurrentTouchTableItemInfo.Value = null;
+			}
+		}
+
 		private void Update()
 		{
 			switch (TableItem.TableState)

@@ -18,19 +18,12 @@ MonoBehaviour:
     GameObject: {fileID: 0}
     From: 0
     NameToFullName: []
-    BindInfos:
-    - TypeName: BoxCollider2D
-      PathToRoot: InteractionBox
-      MemberName: InteractionBox
-    - TypeName: daifuDemo.CookerTemplate
-      PathToRoot: CookerTemplate
-      MemberName: CookerTemplate
+    BindInfos: []
     ScriptsFolder: Assets/Scripts/Game
-    ClassName: KitchenManage
+    ClassName: GoShip
     Namespace: daifuDemo
     MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace daifuDemo\r\n{\r\n\tpublic
-      partial class KitchenManage : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
+      partial class GoShip : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
       Code Here\r\n\t\t}\r\n\t}\r\n}\r\n"
-    DesignerCode: "// Generate Id:55b867f3-ea20-4dad-a5d8-05bb7a94c6f4\r\nusing UnityEngine;\r\n\r\nnamespace
-      daifuDemo\r\n{\r\n\tpublic partial class KitchenManage\r\n\t{\r\n\r\n\t\tpublic
-      BoxCollider2D InteractionBox;\r\n\r\n\t\tpublic daifuDemo.CookerTemplate CookerTemplate;\r\n\r\n\t}\r\n}\r\n"
+    DesignerCode: "// Generate Id:9e9a690d-ebda-4655-bf53-eada844d4454\r\nusing UnityEngine;\r\n\r\nnamespace
+      daifuDemo\r\n{\r\n\tpublic partial class GoShip\r\n\t{\r\n\r\n\t}\r\n}\r\n"

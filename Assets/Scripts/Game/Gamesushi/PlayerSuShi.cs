@@ -28,7 +28,7 @@ namespace daifuDemo
 
 			_businessModel.CurrentTouchTableItemInfo.Register(value =>
 			{
-				if (value.CustomerItemInfo != null && value.CustomerItemInfo.CurrentOrderKey != null &&
+				if (value != null && value.CustomerItemInfo != null && value.CustomerItemInfo.CurrentOrderKey != null &&
 				    value.CustomerItemInfo.CurrentOrderKey.Value == _currentHaveMenuKey)
 				{
 					_tableItem = value;
@@ -56,7 +56,10 @@ namespace daifuDemo
 				if (Input.GetKeyDown(KeyCode.E))
 				{
 					_currentHaveMenuKey = _menuSystem.TakeAFinishedDish();
-					Events.TakeFirstFinishedDish?.Trigger();
+					if (_currentHaveMenuKey != null)
+					{
+						Events.TakeFirstFinishedDish?.Trigger();
+					}
 				}
 			}
 

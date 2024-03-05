@@ -16,6 +16,8 @@ namespace daifuDemo
 
 		private IMenuSystem _menuSystem;
 
+		private float _allCost;
+
 		private void Start()
 		{
 			_menuSystem = this.GetSystem<IMenuSystem>();
@@ -110,6 +112,7 @@ namespace daifuDemo
 			if (CustomerItemInfo.IfReceiveOrderDish)
 			{
 				CustomerItemInfo.WithState(CustomerItemState.Eat);
+				_allCost += this.SendQuery(new FindMenuItemCostWithRank(CustomerItemInfo.CurrentOrderKey.Value));
 			}
 		}
 
@@ -129,6 +132,7 @@ namespace daifuDemo
 			if (CustomerItemInfo.EatTime <= 0)
 			{
 				CustomerItemInfo.WithState(CustomerItemState.Leave);
+				this.SendCommand(new AcquireGold(_allCost));
 			}
 		}
 

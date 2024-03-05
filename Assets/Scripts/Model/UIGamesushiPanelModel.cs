@@ -10,6 +10,8 @@ namespace daifuDemo
         
         BindableProperty<bool> IfUisushiMenuPanelOpen { get; }
         
+        BindableProperty<bool> IfGoShipPanelOpen { get; }
+        
         BindableProperty<string> SelectedMenuItemKey { get; }
         
         BindableProperty<bool> IfUIMenuPanelShow { get; }
@@ -57,6 +59,8 @@ namespace daifuDemo
         public BindableProperty<bool> IfUIStaffManagePanelOpen { get; } = new BindableProperty<bool>(false);
 
         public BindableProperty<bool> IfUisushiMenuPanelOpen { get; } = new BindableProperty<bool>(false);
+        
+        public BindableProperty<bool> IfGoShipPanelOpen { get; } = new BindableProperty<bool>(false);
 
         public BindableProperty<string> SelectedMenuItemKey { get; } = new BindableProperty<string>();
         
