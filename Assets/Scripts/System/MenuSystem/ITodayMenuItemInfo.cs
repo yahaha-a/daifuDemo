@@ -1,12 +1,14 @@
+using QFramework;
+
 namespace daifuDemo
 {
     public interface ITodayMenuItemInfo
     {
         int Node { get; set; }
         
-        string Key { get; set; }
+        BindableProperty<string> Key { get; set; }
         
-        int Amount { get; set; }
+        BindableProperty<int> Amount { get; set; }
 
         ITodayMenuItemInfo WithNode(int node);
         
@@ -18,9 +20,9 @@ namespace daifuDemo
     public class TodayMenuItemInfo : ITodayMenuItemInfo
     {
         public int Node { get; set; }
-        public string Key { get; set; }
-        
-        public int Amount { get; set; }
+        public BindableProperty<string> Key { get; set; } = new BindableProperty<string>(null);
+
+        public BindableProperty<int> Amount { get; set; } = new BindableProperty<int>(0);
 
         public ITodayMenuItemInfo WithNode(int node)
         {
@@ -30,13 +32,13 @@ namespace daifuDemo
 
         public ITodayMenuItemInfo WithKey(string key)
         {
-            Key = key;
+            Key.Value = key;
             return this;
         }
 
         public ITodayMenuItemInfo WithAmount(int amount)
         {
-            Amount = amount;
+            Amount.Value = amount;
             return this;
         }
     }

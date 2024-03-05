@@ -11,13 +11,11 @@ namespace daifuDemo
 	public partial class TodayMenuPanel
 	{
 		[SerializeField] public RectTransform TodayMeunListRoot;
-		[SerializeField] public UnityEngine.UI.Button AddMenuButton;
 		[SerializeField] public TodayMenuTemplate TodayMenuTemplate;
 
 		public void Clear()
 		{
 			TodayMeunListRoot = null;
-			AddMenuButton = null;
 			TodayMenuTemplate = null;
 		}
 

@@ -45,6 +45,8 @@ namespace daifuDemo
         BindableProperty<int> CurrentCookListNode { get; }
         
         BindableProperty<int> CurrentWaiterListNode { get; }
+        
+        // BindableProperty<string> SelectTodayMenuItemKey { get; }
     }
     
     public class UIGamesushiPanelModel : AbstractModel, IUIGamesushiPanelModel
@@ -96,5 +98,7 @@ namespace daifuDemo
         public BindableProperty<int> CurrentCookListNode { get; } = new BindableProperty<int>(1);
         
         public BindableProperty<int> CurrentWaiterListNode { get; } = new BindableProperty<int>(1);
+        
+        // public BindableProperty<string> SelectTodayMenuItemKey { get; } = new BindableProperty<string>();
     }
 }

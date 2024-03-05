@@ -53,6 +53,14 @@ namespace daifuDemo
 
         public string GetARandomDish();
 
+        void AddTodayMenuItemAmount();
+
+        void ReduceTodayMenuItemAmount();
+
+        void WhenTodayMenuItemAmountWithOneThenAutoSupply();
+
+        void RemoveTodayMenuItem();
+
         void SaveData();
 
         void LoadData();
@@ -176,13 +184,13 @@ namespace daifuDemo
         public void UpdateTodayMenuItems(string key, int node, int amount)
         {
             LinkedListNode<ITodayMenuItemInfo> todayMenuItem =
-                TodayMenuItems.Find(TodayMenuItems.FirstOrDefault(item => item.Node == node && item.Key == null));
+                TodayMenuItems.Find(TodayMenuItems.FirstOrDefault(item => item.Node == node && item.Key.Value == null));
 
             if (todayMenuItem != null)
             {
                 todayMenuItem.Value.Node = node;
-                todayMenuItem.Value.Key = key;
-                todayMenuItem.Value.Amount = amount;
+                todayMenuItem.Value.Key.Value = key;
+                todayMenuItem.Value.Amount.Value = amount;
             }
         }
 
@@ -319,18 +327,68 @@ namespace daifuDemo
         {
             var random = new System.Random();
 
-            var availableMenuItems = TodayMenuItems.Where(item => item.Amount > 0).ToList();
+            var availableMenuItems = TodayMenuItems.Where(item => item.Amount.Value > 0).ToList();
 
             if (availableMenuItems.Any())
             {
                 var randomMenuItem = availableMenuItems[random.Next(availableMenuItems.Count)];
 
-                randomMenuItem.Amount--;
+                randomMenuItem.Amount.Value--;
 
-                return randomMenuItem.Key;
+                return randomMenuItem.Key.Value;
             }
 
             return null;
+        }
+
+        public void AddTodayMenuItemAmount()
+        {
+            var item = TodayMenuItems.FirstOrDefault(item =>
+                item.Node == _uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value);
+
+            if (item != null)
+            {
+                item.Amount.Value++;
+            }
+        }
+
+        public void ReduceTodayMenuItemAmount()
+        {
+            var item = TodayMenuItems.FirstOrDefault(item =>
+                item.Node == _uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value);
+
+            if (item != null)
+            {
+                item.Amount.Value--;
+            }
+        }
+
+        public void WhenTodayMenuItemAmountWithOneThenAutoSupply()
+        {
+            var item = TodayMenuItems.FirstOrDefault(item =>
+                item.Node == _uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value);
+            
+            if (item != null)
+            {
+                ActionKit.OnUpdate.Register(() =>
+                {
+                    if (item.Amount.Value == 0)
+                    {
+                        item.Amount.Value++;
+                    }
+                });
+            }
+        }
+
+        public void RemoveTodayMenuItem()
+        {
+            var item = TodayMenuItems.FirstOrDefault(item =>
+                item.Node == _uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value);
+
+            if (item != null)
+            {
+                item.Key.Value = null;
+            }
         }
 
         public void SaveData()
