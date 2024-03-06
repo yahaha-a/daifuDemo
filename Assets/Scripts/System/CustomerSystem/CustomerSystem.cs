@@ -4,8 +4,6 @@ using QFramework;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-// using Random = System.Random;
-
 namespace daifuDemo
 {
     public interface ICustomerSystem : ISystem

@@ -118,6 +118,8 @@ namespace daifuDemo
 				Name.text = _menuSystem.MenuItemInfos[ItemInfo.Key.Value].Name;
 				Rank.text = "Lv." + _menuSystem.CurrentOwnMenuItems[ItemInfo.Key.Value].Rank.Value;
 				Amount.text = "×" + ItemInfo.Amount;
+				Transform tran = transform.parent.parent.parent;
+				Options.transform.SetParent(tran, true);
 			}
 		}
 
