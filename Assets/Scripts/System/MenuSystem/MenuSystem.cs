@@ -32,18 +32,20 @@ namespace daifuDemo
         BindableProperty<Queue<IPreparationDishInfo>> MakingDishes { get; }
         
         BindableProperty<Queue<IPreparationDishInfo>> FinishedDishes { get; }
-        
-        IMenuSystem AddMenuItemInfos(string key, IMenuItemInfo menuItemInfo);
-        
-        void UpdateTodayMenuItems(string key, int node, int amount);
 
-        void CalculateCanMakeNumber(ICurrentOwnMenuItemInfo currentOwnMenuItemInfo);
-
+        void CalculateCanMakeNumber(ICurrentOwnMenuItemInfo currentOwnMenuItem);
+        
+        bool IfCanUpgradeMenu(string key);
+        
         void UpgradeMenu(string key);
 
-        bool IfCanMakeTodayMenu(string key);
+        bool IfCanChangeTodayMenuItemAmount(string key, int changeNumber);
 
-        void MakeTodayMenu(string key);
+        void ChangeTodayMenuItemAmount(string key, int changeNumber);
+        
+        void WhenTodayMenuItemAmountWithOneThenAutoSupply();
+
+        void RemoveTodayMenuItem();
 
         void AddPreparationDishes(string menuKey);
 
@@ -52,14 +54,6 @@ namespace daifuDemo
         string TakeAFinishedDish();
 
         public string GetARandomDish();
-
-        void AddTodayMenuItemAmount();
-
-        void ReduceTodayMenuItemAmount();
-
-        void WhenTodayMenuItemAmountWithOneThenAutoSupply();
-
-        void RemoveTodayMenuItem();
 
         void SaveData();
 
@@ -137,7 +131,7 @@ namespace daifuDemo
                     CurrentOwnMenuItems.Add(key, new CurrentOwnMenuItemInfo()
                         .WithKey(key)
                         .WithRank(1)
-                        .WithUnlock(menuItemInfo.UnLockNeed == 0 ? true : false));
+                        .WithUnlock(menuItemInfo.UnLockNeed == 0));
                 }
             }
             
@@ -175,23 +169,10 @@ namespace daifuDemo
         public BindableProperty<Queue<IPreparationDishInfo>> FinishedDishes { get; } =
             new BindableProperty<Queue<IPreparationDishInfo>>();
 
-        public IMenuSystem AddMenuItemInfos(string key, IMenuItemInfo menuItemInfo)
+        private MenuSystem AddMenuItemInfos(string key, IMenuItemInfo menuItemInfo)
         {
             MenuItemInfos.Add(key, menuItemInfo);
             return this;
-        }
-
-        public void UpdateTodayMenuItems(string key, int node, int amount)
-        {
-            LinkedListNode<ITodayMenuItemInfo> todayMenuItem =
-                TodayMenuItems.Find(TodayMenuItems.FirstOrDefault(item => item.Node == node && item.Key.Value == null));
-
-            if (todayMenuItem != null)
-            {
-                todayMenuItem.Value.Node = node;
-                todayMenuItem.Value.Key.Value = key;
-                todayMenuItem.Value.Amount.Value = amount;
-            }
         }
 
         public void CalculateCanMakeNumber(ICurrentOwnMenuItemInfo currentOwnMenuItem)
@@ -199,9 +180,9 @@ namespace daifuDemo
             bool ifCanMake = true;
             int canMakeNumber = 99999;
             
-            foreach (var (ingredientKey, count) in MenuItemInfos[currentOwnMenuItem.Key].RequiredIngredientsAmount)
+            foreach (var (ingredientKey, count) in MenuItemInfos[currentOwnMenuItem.Key.Value].RequiredIngredientsAmount)
             {
-                if (_backPackSystem.SuShiBackPackItemList[ingredientKey] > count)
+                if (_backPackSystem.SuShiBackPackItemList[ingredientKey] >= count)
                 {
                     int currentCanMakeNumber = _backPackSystem.SuShiBackPackItemList[ingredientKey] / count;
                     if (currentCanMakeNumber < canMakeNumber)
@@ -212,70 +193,115 @@ namespace daifuDemo
                 else
                 {
                     ifCanMake = false;
+                    canMakeNumber = 0;
                 }
             }
 
-            currentOwnMenuItem.MeetCondition = ifCanMake;
-            currentOwnMenuItem.CanMakeNumber = canMakeNumber;
+            currentOwnMenuItem.MeetCondition.Value = ifCanMake;
+            currentOwnMenuItem.CanMakeNumber.Value = canMakeNumber;
         }
 
-        public void UpgradeMenu(string key)
+        public bool IfCanUpgradeMenu(string key)
         {
-            if (CurrentOwnMenuItems[key].Rank == MenuItemInfos[key].MaxRank)
+            if (CurrentOwnMenuItems[key].Rank.Value == MenuItemInfos[key].MaxRank)
             {
-                return;
+                return false;
             }
-            
-            bool ifCanUpgrade = true;
             
             foreach (var (currentRank, backPackKey, amount) in MenuItemInfos[key].UpgradeNeedItems)
             {
-                if (CurrentOwnMenuItems[key].Rank == currentRank)
+                if (CurrentOwnMenuItems[key].Rank.Value == currentRank)
                 {
                     if (_backPackSystem.SuShiBackPackItemList[backPackKey] < amount)
                     {
-                        ifCanUpgrade = false;
+                        return false;
                     }
-                }
-            }
-            
-            if (ifCanUpgrade)
-            {
-                foreach (var (currentRank, backPackKey, amount) in MenuItemInfos[key].UpgradeNeedItems)
-                {
-                    if (CurrentOwnMenuItems[key].Rank == currentRank)
-                    {
-                        _backPackSystem.SuShiBackPackItemList[backPackKey] -= amount;
-                    }
-                }
-                CalculateCanMakeNumber(CurrentOwnMenuItems[key]);
-                        
-                CurrentOwnMenuItems[key].Rank++;
-            }
-        }
-
-        public bool IfCanMakeTodayMenu(string key)
-        {
-            foreach (var (backPackKey, amount) in MenuItemInfos[key].RequiredIngredientsAmount)
-            {
-                if (_backPackSystem.SuShiBackPackItemList[backPackKey] <
-                    amount * _uiGamesushiPanelModel.CurrentSelectMenuAmount.Value)
-                {
-                    return false;
                 }
             }
 
             return true;
         }
 
-        public void MakeTodayMenu(string key)
+        public void UpgradeMenu(string key)
         {
-            foreach (var (backPackKey, amount) in MenuItemInfos[key].RequiredIngredientsAmount)
+            foreach (var (currentRank, backPackKey, amount) in MenuItemInfos[key].UpgradeNeedItems)
             {
-                _backPackSystem.SuShiBackPackItemList[backPackKey] -=
-                    amount * _uiGamesushiPanelModel.CurrentSelectMenuAmount.Value;
+                if (CurrentOwnMenuItems[key].Rank.Value == currentRank)
+                {
+                    _backPackSystem.SuShiBackPackItemList[backPackKey] -= amount;
+                }
             }
             CalculateCanMakeNumber(CurrentOwnMenuItems[key]);
+                        
+            CurrentOwnMenuItems[key].Rank.Value++;
+        }
+
+        public bool IfCanChangeTodayMenuItemAmount(string key, int changeNumber)
+        {
+            if (changeNumber > 0)
+            {
+                foreach (var (backPackKey, needAmount) in MenuItemInfos[key].RequiredIngredientsAmount)
+                {
+                    if (_backPackSystem.SuShiBackPackItemList[backPackKey] < needAmount * changeNumber)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            if (TodayMenuItems.FirstOrDefault(item => item.Key.Value == key)?.Amount.Value + changeNumber < 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public void ChangeTodayMenuItemAmount(string key, int changeNumber)
+        {
+            foreach (var (backPackKey, needAmount) in MenuItemInfos[key].RequiredIngredientsAmount)
+            {
+                _backPackSystem.SuShiBackPackItemList[backPackKey] -= needAmount * changeNumber;
+            }
+
+            var todayMenuItem = TodayMenuItems.FirstOrDefault(item =>
+                item.Node == _uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value);
+
+            if (todayMenuItem != null)
+            {
+                todayMenuItem.Key.Value = key;
+                todayMenuItem.Amount.Value += changeNumber;
+            }
+            
+            CalculateCanMakeNumber(CurrentOwnMenuItems[key]);
+        }
+        
+        public void WhenTodayMenuItemAmountWithOneThenAutoSupply()
+        {
+            var item = TodayMenuItems.FirstOrDefault(item =>
+                item.Node == _uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value);
+            
+            if (item != null)
+            {
+                ActionKit.OnUpdate.Register(() =>
+                {
+                    if (item.Amount.Value == 0)
+                    {
+                        item.Amount.Value++;
+                    }
+                });
+            }
+        }
+
+        public void RemoveTodayMenuItem()
+        {
+            var item = TodayMenuItems.FirstOrDefault(item =>
+                item.Node == _uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value);
+
+            if (item != null)
+            {
+                ChangeTodayMenuItemAmount(item.Key.Value, -item.Amount.Value);
+                item.Key.Value = null;
+            }
         }
 
         public void AddPreparationDishes(string menuKey)
@@ -339,56 +365,6 @@ namespace daifuDemo
             }
 
             return null;
-        }
-
-        public void AddTodayMenuItemAmount()
-        {
-            var item = TodayMenuItems.FirstOrDefault(item =>
-                item.Node == _uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value);
-
-            if (item != null)
-            {
-                item.Amount.Value++;
-            }
-        }
-
-        public void ReduceTodayMenuItemAmount()
-        {
-            var item = TodayMenuItems.FirstOrDefault(item =>
-                item.Node == _uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value);
-
-            if (item != null)
-            {
-                item.Amount.Value--;
-            }
-        }
-
-        public void WhenTodayMenuItemAmountWithOneThenAutoSupply()
-        {
-            var item = TodayMenuItems.FirstOrDefault(item =>
-                item.Node == _uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value);
-            
-            if (item != null)
-            {
-                ActionKit.OnUpdate.Register(() =>
-                {
-                    if (item.Amount.Value == 0)
-                    {
-                        item.Amount.Value++;
-                    }
-                });
-            }
-        }
-
-        public void RemoveTodayMenuItem()
-        {
-            var item = TodayMenuItems.FirstOrDefault(item =>
-                item.Node == _uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value);
-
-            if (item != null)
-            {
-                item.Key.Value = null;
-            }
         }
 
         public void SaveData()

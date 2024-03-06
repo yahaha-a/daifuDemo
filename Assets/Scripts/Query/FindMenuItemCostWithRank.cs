@@ -18,7 +18,7 @@ namespace daifuDemo
             var menuSystem = this.GetSystem<IMenuSystem>();
 
             float cost = menuSystem.MenuItemInfos[_menuKey].RankWithCost
-                .FirstOrDefault(item => item.Item1 == menuSystem.CurrentOwnMenuItems[_menuKey].Rank).Item2;
+                .FirstOrDefault(item => item.Item1 == menuSystem.CurrentOwnMenuItems[_menuKey].Rank.Value).Item2;
 
             return cost;
         }

@@ -29,6 +29,8 @@ namespace daifuDemo
 
 			_menuSystem = this.GetSystem<IMenuSystem>();
 			
+			ReFreshShow();
+			
 			CloseButton.onClick.AddListener(() =>
 			{
 				_uiGamesushiPanelModel.IfUIUpgradeMenuPanelShow.Value = false;
@@ -36,22 +38,32 @@ namespace daifuDemo
 			
 			ConfirmButton.onClick.AddListener(() =>
 			{
-				_menuSystem.UpgradeMenu(_uiGamesushiPanelModel.SelectedMenuItemKey.Value);
-				UpdatePanel();
-				Events.UpgradeMenu?.Trigger();
+				if (_menuSystem.IfCanUpgradeMenu(_uiGamesushiPanelModel.SelectedMenuItemKey.Value))
+				{
+					_menuSystem.UpgradeMenu(_uiGamesushiPanelModel.SelectedMenuItemKey.Value);
+					_uiGamesushiPanelModel.CurrentSelectMenuItemRank.Value = _menuSystem
+						.CurrentOwnMenuItems[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].Rank.Value;
+				}
+				ReFreshShow();
 			});
 		}
 
-		private void OnEnable()
+		private void ReFreshShow()
 		{
+			foreach (var upgradeNeedFoodItem in _upgradeNeedFoodItems)
+			{
+				upgradeNeedFoodItem.DestroySelf();
+			}
+			_upgradeNeedFoodItems.Clear();
+			
 			Icon.sprite = _menuSystem.MenuItemInfos[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].Icon;
 			CurrentData.Rank.text =
-				"Lv." + _menuSystem.CurrentOwnMenuItems[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].Rank;
+				"Lv." + _menuSystem.CurrentOwnMenuItems[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].Rank.Value;
 			CurrentData.Cost.text = "$ " + _menuSystem.MenuItemInfos[_uiGamesushiPanelModel.SelectedMenuItemKey.Value]
 				.RankWithCost
-				.Where(rankWithCost => rankWithCost.Item1 ==
-				                       _menuSystem.CurrentOwnMenuItems[_uiGamesushiPanelModel.SelectedMenuItemKey.Value]
-					                       .Rank).Select(rankWithCost => rankWithCost.Item2).FirstOrDefault();
+				.Where(rankWithCost => rankWithCost.Item1 == _menuSystem
+					.CurrentOwnMenuItems[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].Rank.Value)
+				.Select(rankWithCost => rankWithCost.Item2).FirstOrDefault();
 			CurrentData.Score.text =
 				"评分: " + _menuSystem.MenuItemInfos[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].Score;
 			CurrentData.Copies.text =
@@ -59,12 +71,12 @@ namespace daifuDemo
 
 			UpgradeData.Rank.text = "Lv." +
 			                        (_menuSystem.CurrentOwnMenuItems[_uiGamesushiPanelModel.SelectedMenuItemKey.Value]
-				                        .Rank + 1);
+				                        .Rank.Value + 1);
 			UpgradeData.Cost.text = "$ " + _menuSystem.MenuItemInfos[_uiGamesushiPanelModel.SelectedMenuItemKey.Value]
 				.RankWithCost
 				.Where(rankWithCost => rankWithCost.Item1 ==
 				                       _menuSystem.CurrentOwnMenuItems[_uiGamesushiPanelModel.SelectedMenuItemKey.Value]
-					                       .Rank + 1).Select(rankWithCost => rankWithCost.Item2).FirstOrDefault();
+					                       .Rank.Value + 1).Select(rankWithCost => rankWithCost.Item2).FirstOrDefault();
 			CurrentData.Score.text =
 				"评分: " + _menuSystem.MenuItemInfos[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].Score;
 			CurrentData.Copies.text =
@@ -73,7 +85,7 @@ namespace daifuDemo
 			foreach (var (rank, backPackKey, amount) in _menuSystem
 				         .MenuItemInfos[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].UpgradeNeedItems)
 			{
-				if (_menuSystem.CurrentOwnMenuItems[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].Rank == rank)
+				if (_menuSystem.CurrentOwnMenuItems[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].Rank.Value == rank)
 				{
 					UpgradeNeedFooditemTemplte.InstantiateWithParent(NeeedFoodListRoot).Self(self =>
 					{
@@ -85,21 +97,6 @@ namespace daifuDemo
 					});
 				}
 			}
-		}
-
-		private void OnDisable()
-		{
-			foreach (var upgradeNeedFoodItem in _upgradeNeedFoodItems)
-			{
-				upgradeNeedFoodItem.DestroySelf();
-			}
-			_upgradeNeedFoodItems.Clear();
-		}
-
-		void UpdatePanel()
-		{
-			this.gameObject.Hide();
-			this.gameObject.Show();
 		}
 
 		protected override void OnBeforeDestroy()

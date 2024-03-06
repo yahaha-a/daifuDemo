@@ -78,12 +78,18 @@ namespace daifuDemo
 			
 			AddButton.onClick.AddListener(() =>
 			{
-				_menuSystem.AddTodayMenuItemAmount();
+				if (_menuSystem.IfCanChangeTodayMenuItemAmount(ItemInfo.Key.Value, 1))
+				{
+					_menuSystem.ChangeTodayMenuItemAmount(ItemInfo.Key.Value, 1);
+				}
 			});
 			
 			ReduceButton.onClick.AddListener(() =>
 			{
-				_menuSystem.ReduceTodayMenuItemAmount();
+				if (_menuSystem.IfCanChangeTodayMenuItemAmount(ItemInfo.Key.Value, -1))
+				{
+					_menuSystem.ChangeTodayMenuItemAmount(ItemInfo.Key.Value, -1);
+				}
 			});
 			
 			AutoButton.onClick.AddListener(() =>
@@ -110,7 +116,7 @@ namespace daifuDemo
 				MenuMessage.Show();
 				Icon.sprite = _menuSystem.MenuItemInfos[ItemInfo.Key.Value].Icon;
 				Name.text = _menuSystem.MenuItemInfos[ItemInfo.Key.Value].Name;
-				Rank.text = "Lv." + _menuSystem.CurrentOwnMenuItems[ItemInfo.Key.Value].Rank;
+				Rank.text = "Lv." + _menuSystem.CurrentOwnMenuItems[ItemInfo.Key.Value].Rank.Value;
 				Amount.text = "×" + ItemInfo.Amount;
 			}
 		}

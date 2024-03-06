@@ -138,7 +138,7 @@ namespace daifuDemo
 							self.Name.text = _menuSystem.MenuItemInfos[menuKey].Name;
 							self.Rank.text = "Lv." + _menuSystem.CurrentOwnMenuItems[menuKey].Rank.ToString();
 							self.Money.text = "$ " + _menuSystem.MenuItemInfos[menuKey].RankWithCost
-								.FirstOrDefault(item => item.Item1 == _menuSystem.CurrentOwnMenuItems[menuKey].Rank)
+								.FirstOrDefault(item => item.Item1 == _menuSystem.CurrentOwnMenuItems[menuKey].Rank.Value)
 								.Item2;
 							self.Show();
 							_optionMenuItemTemplates.Add(self);

@@ -30,29 +30,17 @@ namespace daifuDemo
 			{
 				_uiGamesushiPanelModel.IfUIMenuPanelShow.Value = false;
 			});
-
-			Events.UpgradeMenu.Register(() =>
-			{
-				UpdatePanel();
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
 		private void OnEnable()
 		{
 			foreach (var (key, currentOwnMenuItem) in _menuSystem.CurrentOwnMenuItems)
 			{
-				if (currentOwnMenuItem.Unlock)
+				if (currentOwnMenuItem.Unlock.Value)
 				{
 					MenuTemplate.InstantiateWithParent(MenuListRoot).Self(self =>
 					{
-						self.Icon.sprite = _menuSystem.MenuItemInfos[key].Icon;
-						self.Rank.text = "Lv." + currentOwnMenuItem.Rank.ToString();
-						self.Amount.text = currentOwnMenuItem.CanMakeNumber.ToString();
-						string currentKey = key;
-						self.GetComponent<Button>().onClick.AddListener(() =>
-						{
-							_uiGamesushiPanelModel.SelectedMenuItemKey.Value = currentKey;
-						});
+						self.CurrentOwnMenuItem = currentOwnMenuItem;
 						self.Show();
 						_menuItems.Add(self.gameObject);
 					});
@@ -67,12 +55,6 @@ namespace daifuDemo
 				menuItem.DestroySelf();
 			}
 			_menuItems.Clear();
-		}
-		
-		void UpdatePanel()
-		{
-			this.gameObject.Hide();
-			this.gameObject.Show();
 		}
 
 		protected override void OnBeforeDestroy()

@@ -26,8 +26,6 @@ namespace daifuDemo
         
         Dictionary<string, int> SuShiBackPackItemList { get; }
 
-        IBackPackSystem AddBackPackItemInfos(string key, IBackPackItemInfo backPackItemInfo);
-
         void AddBackPackItemList(string key, int count);
 
         string AccordingItemTypeGetRandomOne(BackPackItemType backPackItemType);
@@ -39,8 +37,12 @@ namespace daifuDemo
     
     public class BackPackSystem : AbstractSystem, IBackPackSystem
     {
+        private IMenuSystem _menuSystem;
+        
         protected override void OnInit()
         {
+            _menuSystem = this.GetSystem<IMenuSystem>();
+            
             this.AddBackPackItemInfos(BackPackItemConfig.NormalFishPiecesKey, new BackPackItemInfo()
                     .WithItemKey(BackPackItemConfig.NormalFishPiecesKey)
                     .WithItemName("普通鱼块")
@@ -94,7 +96,7 @@ namespace daifuDemo
 
         public Dictionary<string, int> SuShiBackPackItemList { get; } = new Dictionary<string, int>();
 
-        public IBackPackSystem AddBackPackItemInfos(string key, IBackPackItemInfo backPackItemInfo)
+        private BackPackSystem AddBackPackItemInfos(string key, IBackPackItemInfo backPackItemInfo)
         {
             BackPackItemInfos.Add(key, backPackItemInfo);
             return this;

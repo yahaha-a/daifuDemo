@@ -39,26 +39,30 @@ namespace daifuDemo
 				_uiGamesushiPanelModel.IfUIUpgradeMenuPanelShow.Value = true;
 			});
 
-			_uiGamesushiPanelModel.SelectedMenuItemKey.Register(key =>
+			_uiGamesushiPanelModel.SelectedMenuItemKey.RegisterWithInitValue(key =>
 			{
-				UpdatePanel();
+				RefreshShow(key);
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
-			Events.UpgradeMenu.Register(() =>
+			_uiGamesushiPanelModel.CurrentSelectMenuItemRank.Register(rank =>
 			{
-				UpdatePanel();
+				RefreshShow(_uiGamesushiPanelModel.SelectedMenuItemKey.Value);
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
-		private void OnEnable()
+		private void RefreshShow(string key)
 		{
-			var key = _uiGamesushiPanelModel.SelectedMenuItemKey.Value;
-				
+			foreach (var needFoodObject in _needFoodObjects)
+			{
+				needFoodObject.DestroySelf();
+			}
+			_needFoodObjects.Clear();
+			
 			Name.text = _menuSystem.MenuItemInfos[key].Name;
 			Icon.sprite = _menuSystem.MenuItemInfos[key].Icon;
-			Rank.text = "Lv." + _menuSystem.CurrentOwnMenuItems[key].Rank.ToString();
+			Rank.text = "Lv." + _menuSystem.CurrentOwnMenuItems[key].Rank.Value;
 			Price.text = "$ " + _menuSystem.MenuItemInfos[key].RankWithCost
-				.Where(rankAndCost => rankAndCost.Item1 == _menuSystem.CurrentOwnMenuItems[key].Rank)
+				.Where(rankAndCost => rankAndCost.Item1 == _menuSystem.CurrentOwnMenuItems[key].Rank.Value)
 				.Select(rankAndCost => rankAndCost.Item2).FirstOrDefault();
 			Evaluate.text = "评分: " + _menuSystem.MenuItemInfos[key].Score;
 			Copies.text = _menuSystem.MenuItemInfos[key].Copies + " 盘";
@@ -67,7 +71,7 @@ namespace daifuDemo
 				
 			foreach (var (rank, backPackKey, amount) in _menuSystem.MenuItemInfos[key].UpgradeNeedItems)
 			{
-				if (_menuSystem.CurrentOwnMenuItems[key].Rank == rank)
+				if (_menuSystem.CurrentOwnMenuItems[key].Rank.Value == rank)
 				{
 					NeedFoodTemplate.InstantiateWithParent(NeedFoodRoot).Self(self =>
 					{
@@ -79,21 +83,6 @@ namespace daifuDemo
 					});
 				}
 			}
-		}
-
-		private void OnDisable()
-		{
-			foreach (var needFoodObject in _needFoodObjects)
-			{
-				needFoodObject.DestroySelf();
-			}
-			_needFoodObjects.Clear();
-		}
-
-		void UpdatePanel()
-		{
-			this.gameObject.Hide();
-			this.gameObject.Show();
 		}
 
 		protected override void OnBeforeDestroy()

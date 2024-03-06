@@ -36,6 +36,7 @@ namespace daifuDemo
             RegisterModel<IBusinessModel>(new BusinessModel());
             RegisterModel<IPlayerSuShiModel>(new PlayerSuShiModel());
             RegisterModel<ICollectionModel>(new CollectionModel());
+            RegisterUtility<IUtils>(new Utils());
         }
     }
 }

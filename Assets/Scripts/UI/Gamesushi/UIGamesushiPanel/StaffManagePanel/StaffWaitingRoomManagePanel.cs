@@ -52,7 +52,7 @@ namespace daifuDemo
 				}
 			}
 
-			AdjustContentHeight();
+			this.GetUtility<IUtils>().AdjustContentHeight(WaitingStaffRoot);
 		}
 
 		private void OnDisable()
@@ -62,22 +62,6 @@ namespace daifuDemo
 				waitingStaffTemplate.gameObject.DestroySelf();
 			}
 			_waitingStaffs.Clear();
-		}
-		
-		void AdjustContentHeight()
-		{
-			float totalHeight = 0f;
-
-			foreach (Transform child in WaitingStaffRoot)
-			{
-				if (child.gameObject.activeSelf)
-				{
-					RectTransform childRect = child.GetComponent<RectTransform>();
-					totalHeight += childRect.sizeDelta.y + 25f;
-				}
-			}
-
-			WaitingStaffRoot.sizeDelta = new Vector2(WaitingStaffRoot.sizeDelta.x, totalHeight + 25f);
 		}
 
 		protected override void OnBeforeDestroy()

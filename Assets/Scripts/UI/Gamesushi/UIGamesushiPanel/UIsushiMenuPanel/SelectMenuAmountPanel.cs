@@ -35,14 +35,12 @@ namespace daifuDemo
 			
 			ConfirmButton.onClick.AddListener(() =>
 			{
-				if (_menuSystem.IfCanMakeTodayMenu(_uiGamesushiPanelModel.SelectedMenuItemKey.Value) &&
-				    _uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value != 0)
+				if (_menuSystem.IfCanChangeTodayMenuItemAmount(_uiGamesushiPanelModel.SelectedMenuItemKey.Value,
+					    _uiGamesushiPanelModel.CurrentSelectMenuAmount.Value))
 				{
-					_menuSystem.MakeTodayMenu(_uiGamesushiPanelModel.SelectedMenuItemKey.Value);
-					_menuSystem.UpdateTodayMenuItems(_uiGamesushiPanelModel.SelectedMenuItemKey.Value,
-						_uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value,
+					_menuSystem.ChangeTodayMenuItemAmount(_uiGamesushiPanelModel.SelectedMenuItemKey.Value,
 						_uiGamesushiPanelModel.CurrentSelectMenuAmount.Value);
-					
+
 					_uiGamesushiPanelModel.CurrentSelectTodayMenuItemNode.Value = 0;
 					_uiGamesushiPanelModel.IfUISelectMenuAmountPanelShow.Value = false;
 					Events.UpgradeMenu?.Trigger();
@@ -80,7 +78,6 @@ namespace daifuDemo
 
 		private void OnEnable()
 		{
-
 			foreach (var (backPackKey, amount) in _menuSystem
 				         .MenuItemInfos[_uiGamesushiPanelModel.SelectedMenuItemKey.Value].RequiredIngredientsAmount)
 			{

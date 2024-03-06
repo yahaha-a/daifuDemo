@@ -33,6 +33,8 @@ namespace daifuDemo
 					_todayMenuItems.Add(self.gameObject);
 				});
 			}
+
+			this.GetUtility<IUtils>().AdjustContentHeight(TodayMeunListRoot);
 		}
 
 		protected override void OnBeforeDestroy()

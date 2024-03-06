@@ -1,16 +1,18 @@
+using QFramework;
+
 namespace daifuDemo
 {
     public interface ICurrentOwnMenuItemInfo
     {
-        string Key { get; }
+        BindableProperty<string> Key { get; }
         
-        bool Unlock { get; }
+        BindableProperty<bool> Unlock { get; }
         
-        int Rank { get; set; }
+        BindableProperty<int> Rank { get; }
         
-        bool MeetCondition { get; set; }
+        BindableProperty<bool> MeetCondition { get; }
         
-        int CanMakeNumber { get; set; }
+        BindableProperty<int> CanMakeNumber { get; }
 
         ICurrentOwnMenuItemInfo WithKey(string key);
 
@@ -29,43 +31,43 @@ namespace daifuDemo
     
     public class CurrentOwnMenuItemInfo : ICurrentOwnMenuItemInfo
     {
-        public string Key { get; private set; }
-        
-        public bool Unlock { get; private set; }
-        
-        public int Rank { get; set; }
-        
-        public bool MeetCondition { get; set; }
-        
-        public int CanMakeNumber { get; set; }
+        public BindableProperty<string> Key { get; private set; } = new BindableProperty<string>(null);
+
+        public BindableProperty<bool> Unlock { get; private set; } = new BindableProperty<bool>(false);
+
+        public BindableProperty<int> Rank { get; private set; } = new BindableProperty<int>(0);
+
+        public BindableProperty<bool> MeetCondition { get; private set; } = new BindableProperty<bool>(false);
+
+        public BindableProperty<int> CanMakeNumber { get; private set; } = new BindableProperty<int>(0);
 
         public ICurrentOwnMenuItemInfo WithKey(string key)
         {
-            Key = key;
+            Key.Value = key;
             return this;
         }
 
         public ICurrentOwnMenuItemInfo WithUnlock(bool unlock)
         {
-            Unlock = unlock;
+            Unlock.Value = unlock;
             return this;
         }
 
         public ICurrentOwnMenuItemInfo WithRank(int rank)
         {
-            Rank = rank;
+            Rank.Value = rank;
             return this;
         }
 
         public ICurrentOwnMenuItemInfo WithMeetCondition(bool meetCondition)
         {
-            MeetCondition = meetCondition;
+            MeetCondition.Value = meetCondition;
             return this;
         }
 
         public ICurrentOwnMenuItemInfo WithCanMakeNumber(int number)
         {
-            CanMakeNumber = number;
+            CanMakeNumber.Value = number;
             return this;
         }
 
