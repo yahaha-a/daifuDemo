@@ -51,6 +51,11 @@ namespace daifuDemo
 			{
 				this.SendCommand<OpenOrClosesushiIngredientPanel>();
 			}
+
+			if (Input.GetKeyDown(KeyCode.Alpha4))
+			{
+				this.SendCommand<OpenOrCloseNewMenuUnlockPanelCommand>();
+			}
 			
 			
 			if (Input.GetKeyDown(KeyCode.E))

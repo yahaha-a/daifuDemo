@@ -67,6 +67,18 @@ namespace daifuDemo
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
+			_uiGamesushiPanelModel.IfUINewMenuUnlockPanelOpen.Register(value =>
+			{
+				if (value)
+				{
+					UINewMenuUnLockPanel.Show();
+				}
+				else
+				{
+					UINewMenuUnLockPanel.Hide();
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
 			_uiGamesushiPanelModel.IfGoShipPanelOpen.Register(value =>
 			{
 				if (value)

@@ -36,15 +36,12 @@ namespace daifuDemo
 		{
 			foreach (var (key, currentOwnMenuItem) in _menuSystem.CurrentOwnMenuItems)
 			{
-				if (currentOwnMenuItem.Unlock.Value)
+				MenuTemplate.InstantiateWithParent(MenuListRoot).Self(self =>
 				{
-					MenuTemplate.InstantiateWithParent(MenuListRoot).Self(self =>
-					{
-						self.CurrentOwnMenuItem = currentOwnMenuItem;
-						self.Show();
-						_menuItems.Add(self.gameObject);
-					});
-				}
+					self.CurrentOwnMenuItem = currentOwnMenuItem;
+					self.Show();
+					_menuItems.Add(self.gameObject);
+				});
 			}
 		}
 

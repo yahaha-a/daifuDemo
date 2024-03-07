@@ -25,6 +25,8 @@ namespace daifuDemo
         
         Dictionary<string, ICurrentOwnMenuItemInfo> CurrentOwnMenuItems { get; }
         
+        List<string> CurrentLockMenuItems { get; }
+        
         LinkedList<ITodayMenuItemInfo> TodayMenuItems { get; }
 
         Queue<IPreparationDishInfo> PreparationDishes { get; }
@@ -51,6 +53,10 @@ namespace daifuDemo
 
         IEnumerator CreatePreparationDishes(float cookSpeed);
 
+        bool IfCanUnlockMenu(string menuKey);
+        
+        void UnlockMenu(string menuKey);
+
         string TakeAFinishedDish();
 
         public string GetARandomDish();
@@ -65,12 +71,16 @@ namespace daifuDemo
         private IBackPackSystem _backPackSystem;
 
         private IUIGamesushiPanelModel _uiGamesushiPanelModel;
+
+        private ICollectionModel _collectionModel;
         
         protected override void OnInit()
         {
             _backPackSystem = this.GetSystem<IBackPackSystem>();
 
             _uiGamesushiPanelModel = this.GetModel<IUIGamesushiPanelModel>();
+
+            _collectionModel = this.GetModel<ICollectionModel>();
 
             this.AddMenuItemInfos(MenuItemConfig.NormalFishsushiKey, new MenuItemInfo()
                     .WithName("普通鱼寿司")
@@ -99,7 +109,7 @@ namespace daifuDemo
                     .WithName("狮子鱼寿司")
                     .WithIcon(null)
                     .WithDescription("狮子鱼寿司, 一般")
-                    .WithUnlockNeed(0)
+                    .WithUnlockNeed(1000)
                     .WithScore(150)
                     .WithCopies(1)
                     .WithMaxRank(4)
@@ -123,12 +133,19 @@ namespace daifuDemo
             
             foreach (var (key, menuItemInfo) in MenuItemInfos)
             {
-                if (!CurrentOwnMenuItems.ContainsKey(key))
+                if (!CurrentOwnMenuItems.ContainsKey(key) && menuItemInfo.UnLockNeed == 0)
                 {
                     CurrentOwnMenuItems.Add(key, new CurrentOwnMenuItemInfo()
                         .WithKey(key)
-                        .WithRank(1)
-                        .WithUnlock(menuItemInfo.UnLockNeed == 0));
+                        .WithRank(1));
+                }
+            }
+            
+            foreach (var (menuKey, menuItemInfo) in MenuItemInfos)
+            {
+                if (!CurrentLockMenuItems.Contains(menuKey) && menuItemInfo.UnLockNeed != 0)
+                {
+                    CurrentLockMenuItems.Add(menuKey);
                 }
             }
             
@@ -155,6 +172,8 @@ namespace daifuDemo
 
         public Dictionary<string, ICurrentOwnMenuItemInfo> CurrentOwnMenuItems { get; } =
             new Dictionary<string, ICurrentOwnMenuItemInfo>();
+
+        public List<string> CurrentLockMenuItems { get; } = new List<string>();
 
         public LinkedList<ITodayMenuItemInfo> TodayMenuItems { get; } = new LinkedList<ITodayMenuItemInfo>();
 
@@ -333,6 +352,20 @@ namespace daifuDemo
                 }
                 FinishedDishes.Enqueue(MakingDishes.Dequeue());
             }
+        }
+
+        public bool IfCanUnlockMenu(string menuKey)
+        {
+            return MenuItemInfos[menuKey].UnLockNeed < _collectionModel.Gold.Value;
+        }
+
+        public void UnlockMenu(string menuKey)
+        {
+            _collectionModel.Gold.Value -= MenuItemInfos[menuKey].UnLockNeed;
+            CurrentLockMenuItems.Remove(menuKey);
+            CurrentOwnMenuItems.Add(menuKey, new CurrentOwnMenuItemInfo()
+                .WithKey(menuKey)
+                .WithRank(1));
         }
 
         public string TakeAFinishedDish()

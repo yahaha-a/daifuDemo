@@ -6,8 +6,6 @@ namespace daifuDemo
     {
         BindableProperty<string> Key { get; }
         
-        BindableProperty<bool> Unlock { get; }
-        
         BindableProperty<int> Rank { get; }
         
         BindableProperty<bool> MeetCondition { get; }
@@ -15,8 +13,6 @@ namespace daifuDemo
         BindableProperty<int> CanMakeNumber { get; }
 
         ICurrentOwnMenuItemInfo WithKey(string key);
-
-        ICurrentOwnMenuItemInfo WithUnlock(bool unlock);
 
         ICurrentOwnMenuItemInfo WithRank(int rank);
 
@@ -33,8 +29,6 @@ namespace daifuDemo
     {
         public BindableProperty<string> Key { get; private set; } = new BindableProperty<string>(null);
 
-        public BindableProperty<bool> Unlock { get; private set; } = new BindableProperty<bool>(false);
-
         public BindableProperty<int> Rank { get; private set; } = new BindableProperty<int>(0);
 
         public BindableProperty<bool> MeetCondition { get; private set; } = new BindableProperty<bool>(false);
@@ -44,12 +38,6 @@ namespace daifuDemo
         public ICurrentOwnMenuItemInfo WithKey(string key)
         {
             Key.Value = key;
-            return this;
-        }
-
-        public ICurrentOwnMenuItemInfo WithUnlock(bool unlock)
-        {
-            Unlock.Value = unlock;
             return this;
         }
 
