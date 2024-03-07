@@ -24,6 +24,7 @@ namespace daifuDemo
             RegisterSystem<IMenuSystem>(new MenuSystem());
             RegisterSystem<ICustomerSystem>(new CustomerSystem());
             RegisterSystem<IStaffSystem>(new StaffSystem());
+            RegisterSystem<IAchievementSystem>(new AchievementSystem());
             RegisterModel<IPlayerModel>(new PlayerModel());
             RegisterModel<IFishForkModel>(new FishForkModel());
             RegisterModel<IFishForkHeadModel>(new FishForkHeadModel());
@@ -36,6 +37,7 @@ namespace daifuDemo
             RegisterModel<IBusinessModel>(new BusinessModel());
             RegisterModel<IPlayerSuShiModel>(new PlayerSuShiModel());
             RegisterModel<ICollectionModel>(new CollectionModel());
+            RegisterModel<IAchievementModel>(new AchievementModel());
             RegisterUtility<IUtils>(new Utils());
         }
     }

@@ -16,11 +16,19 @@ namespace daifuDemo
 
 		private IMenuSystem _menuSystem;
 
+		private ICollectionModel _collectionModel;
+
+		private IAchievementModel _achievementModel;
+
 		private float _allCost;
 
 		private void Start()
 		{
 			_menuSystem = this.GetSystem<IMenuSystem>();
+
+			_collectionModel = this.GetModel<ICollectionModel>();
+
+			_achievementModel = this.GetModel<IAchievementModel>();
 
 			CustomerItemInfo.CurrentOrderKey.Register(menuKey =>
 			{
@@ -126,6 +134,11 @@ namespace daifuDemo
 
 		private void Eat()
 		{
+			if (CustomerItemInfo.CurrentOrderKey.Value == MenuItemConfig.NormalFishsushiKey)
+			{
+				_achievementModel.TotalSellNormalFishsushiAmount++;
+			}
+			
 			CustomerItemInfo.WithCurrentOrderKey(null);
 			CustomerItemInfo.EatTime -= Time.deltaTime;
 			
@@ -133,6 +146,7 @@ namespace daifuDemo
 			{
 				CustomerItemInfo.WithState(CustomerItemState.Leave);
 				this.SendCommand(new AcquireGold(_allCost));
+				_collectionModel.ReceptionCustomerTotalAmount.Value++;
 			}
 		}
 
