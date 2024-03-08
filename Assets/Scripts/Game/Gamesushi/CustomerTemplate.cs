@@ -20,6 +20,8 @@ namespace daifuDemo
 
 		private IAchievementModel _achievementModel;
 
+		private ITaskModel _taskModel;
+
 		private float _allCost;
 
 		private void Start()
@@ -147,6 +149,7 @@ namespace daifuDemo
 				CustomerItemInfo.WithState(CustomerItemState.Leave);
 				this.SendCommand(new AcquireGold(_allCost));
 				_collectionModel.ReceptionCustomerTotalAmount.Value++;
+				Events.ReceptionACustomer?.Trigger();
 			}
 		}
 

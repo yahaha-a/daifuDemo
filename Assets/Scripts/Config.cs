@@ -33,5 +33,7 @@ namespace daifuDemo
         public static string CopperOreKey = "copperOre_key";
 
         public static string KelpPlantsKey = "kelpPlants_key";
+
+        public static string CustomerKey = "customer_key";
     }
 }

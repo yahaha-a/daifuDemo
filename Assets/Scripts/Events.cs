@@ -41,5 +41,7 @@ namespace daifuDemo
 
         public static EasyEvent<IPreparationDishInfo, float> CookerMakingDishesQueueAdd =
             new EasyEvent<IPreparationDishInfo, float>();
+
+        public static EasyEvent ReceptionACustomer = new EasyEvent();
     }
 }

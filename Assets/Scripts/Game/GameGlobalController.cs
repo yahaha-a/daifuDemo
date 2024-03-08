@@ -17,6 +17,9 @@ namespace daifuDemo
         {
             DontDestroyOnLoad(gameObject);
             this.SendCommand<InitializeDataCommand>();
+            
+            UIKit.Root.SetResolution(1920, 1080, 1);
+            UIKit.OpenPanel<UIGameGlobalPanel>();
         }
 
         private void OnDestroy()

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using QFramework;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,8 @@ namespace daifuDemo
     
     public class Utils : IUtils
     {
+        public Dictionary<string, IUnRegister> UnRegisterList { get; }
+
         public void AdjustContentHeight(RectTransform transform)
         {
             float totalHeight = 0f;
@@ -35,6 +38,25 @@ namespace daifuDemo
             totalHeight += (activeChildAmount - 1) * spacing + topPadding + bottomPadding;
 
             transform.sizeDelta = new Vector2(transform.sizeDelta.x, totalHeight);
+        }
+    }
+
+    public static class UtilsExtension
+    {
+        public static Dictionary<string, IUnRegister> UnRegisters = new Dictionary<string, IUnRegister>();
+
+        public static void AddUnRegister(this IUnRegister self, string key)
+        {
+            UnRegisters.Add(key, self);
+        }
+
+        public static void RemoveUnRegister(string key)
+        {
+            if (UnRegisters.ContainsKey(key))
+            {
+                UnRegisters[key].UnRegister();
+                UnRegisters.Remove(key);
+            }
         }
     }
 }
