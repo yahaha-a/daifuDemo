@@ -28,13 +28,9 @@ namespace daifuDemo
         private ITaskModel _taskModel;
 
         private ICollectionModel _collectionModel;
-
-        private Dictionary<string, IUnRegister> _unRegisters = new Dictionary<string, IUnRegister>();
         
         protected override void OnInit()
         {
-            
-            
             _taskModel = this.GetModel<ITaskModel>();
 
             _collectionModel = this.GetModel<ICollectionModel>();
