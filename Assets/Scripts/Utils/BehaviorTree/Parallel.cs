@@ -2,42 +2,49 @@ namespace daifuDemo
 {
     public class Parallel : Composite
     {
-        protected int SuccessNeedTime;
+        private int _successNeedTime;
 
-        protected int FailNeedTime;
+        private int _failNeedTime;
 
-        protected int SuccessTime;
+        private int _successTime;
 
-        protected int FailTime;
+        private int _failTime;
 
-        public Behavior WithSuccessNeedTime(int time)
+        public Parallel WithSuccessNeedTime(int time)
         {
             if (ChildLinkedList.Count < time)
             {
-                SuccessNeedTime = ChildLinkedList.Count;
+                _successNeedTime = ChildLinkedList.Count;
             }
             else
             {
-                SuccessNeedTime = time;
+                _successNeedTime = time;
             }
             
             return this;
         }
 
-        public Behavior WithFailNeedTime(int time)
+        public Parallel WithFailNeedTime(int time)
         {
             if (ChildLinkedList.Count < time)
             {
-                SuccessNeedTime = ChildLinkedList.Count;
+                _failNeedTime = ChildLinkedList.Count;
             }
             else
             {
-                FailNeedTime = time;
+                _failNeedTime = time;
             }
             
             return this;
         }
-        
+
+        protected override void Initialize()
+        {
+            base.Initialize();
+            _successTime = 0;
+            _failTime = 0;
+        }
+
         protected override BehaviorNodeState OnUpdate()
         {
             if (ChildLinkedList.Count == 0)
@@ -47,24 +54,31 @@ namespace daifuDemo
 
             foreach (var behavior in ChildLinkedList)
             {
-                if (behavior.Tick() == BehaviorNodeState.Success)
+                ChildState = behavior.Tick();
+                
+                if (ChildState == BehaviorNodeState.Success)
                 {
                     ChildLinkedList.RemoveFirst();
-                    SuccessTime++;
-                    if (SuccessTime == SuccessNeedTime)
+                    _successTime++;
+                    if (_successTime == _successNeedTime)
                     {
                         return BehaviorNodeState.Success;
                     }
                 }
 
-                if (behavior.Tick() == BehaviorNodeState.Fail)
+                if (ChildState == BehaviorNodeState.Fail)
                 {
                     ChildLinkedList.RemoveFirst();
-                    FailTime++;
-                    if (FailTime == FailNeedTime)
+                    _failTime++;
+                    if (_failTime == _failNeedTime)
                     {
                         return BehaviorNodeState.Fail;
                     }
+                }
+
+                if (ChildState == BehaviorNodeState.Interruption)
+                {
+                    return BehaviorNodeState.Interruption;
                 }
             }
 

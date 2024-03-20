@@ -9,7 +9,7 @@ namespace daifuDemo
     {
         protected IBehavior ChildNode;
 
-        public void WithChildNode(IBehavior childNode)
+        private void WithChildNode(IBehavior childNode)
         {
             ChildNode = childNode;
         }

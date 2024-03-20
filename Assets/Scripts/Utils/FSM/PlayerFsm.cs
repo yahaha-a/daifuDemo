@@ -30,11 +30,6 @@ namespace daifuDemo
         private PlayerNormalFsm _playerNormalFsm;
         private PlayerSpecialFsm _playerSpecialFsm;
         
-        public PlayerFsm() : base()
-        {
-            
-        }
-        
         public override void Init()
         {
             _playerNormalFsm = new PlayerNormalFsm();
@@ -75,11 +70,6 @@ namespace daifuDemo
 
     public class PlayerNormalFsm : AbstractFsm<PlayNormalStateEnum>
     {
-        public PlayerNormalFsm() : base()
-        {
-            
-        }
-
         public override void Init()
         {
             AddStates(new State<PlayNormalStateEnum>()
@@ -116,11 +106,6 @@ namespace daifuDemo
     
     public class PlayerSpecialFsm : AbstractFsm<PlaySpecialStateEnum>
     {
-        public PlayerSpecialFsm() : base()
-        {
-            
-        }
-
         public override void Init()
         {
             AddStates(new State<PlaySpecialStateEnum>()

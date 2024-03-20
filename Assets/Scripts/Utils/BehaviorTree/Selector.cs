@@ -4,23 +4,24 @@ namespace daifuDemo
     {
         protected override BehaviorNodeState OnUpdate()
         {
-            if (ChildLinkedList == null)
+            if (CurrentChildNode == null)
             {
                 return BehaviorNodeState.Fail;
             }
+            
+            ChildState = CurrentChildNode.Value.Tick();
 
-            if (CurrentChildNode.Value.Tick() == BehaviorNodeState.Fail)
+            if (ChildState == BehaviorNodeState.Fail)
             {
                 ChildLinkedList.RemoveFirst();
             }
             
-            if (CurrentChildNode.Value.Tick() == BehaviorNodeState.Success)
+            if (ChildState == BehaviorNodeState.Success)
             {
-                ChildLinkedList.RemoveFirst();
                 return BehaviorNodeState.Success;
             }
 
-            if (CurrentChildNode.Value.Tick() == BehaviorNodeState.Interruption)
+            if (ChildState == BehaviorNodeState.Interruption)
             {
                 return BehaviorNodeState.Interruption;
             }

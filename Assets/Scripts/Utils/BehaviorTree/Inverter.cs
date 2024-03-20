@@ -4,17 +4,19 @@ namespace daifuDemo
     {
         protected override BehaviorNodeState OnUpdate()
         {
-            if (ChildNode.Tick() == BehaviorNodeState.Success)
+            ChildState = ChildNode.Tick();
+            
+            if (ChildState == BehaviorNodeState.Success)
             {
                 return BehaviorNodeState.Fail;
             }
 
-            if (ChildNode.Tick() == BehaviorNodeState.Fail)
+            if (ChildState == BehaviorNodeState.Fail)
             {
                 return BehaviorNodeState.Success;
             }
             
-            if (ChildNode.Tick() == BehaviorNodeState.Interruption)
+            if (ChildState == BehaviorNodeState.Interruption)
             {
                 return BehaviorNodeState.Interruption;
             }

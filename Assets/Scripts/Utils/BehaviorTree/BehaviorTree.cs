@@ -1,25 +1,30 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine;
 
 namespace daifuDemo
 {
     public interface IBehaviorTree<TType>
+        where TType : Enum
     {
+        IBehaviorTree<TType> AddActionNodeDic(IActionNode<TType> actionNode);
+        
         IBehaviorTree<TType> EndComposite();
 
         IBehaviorTree<TType> EndDecorator();
         
         IBehaviorTree<TType> CreateInverter();
 
-        IBehaviorTree<TType> CreateParallel();
+        IBehaviorTree<TType> CreateParallel(int successNeedTime, int failNeedTime);
 
-        IBehaviorTree<TType> CreateRepeat();
+        IBehaviorTree<TType> CreateRepeat(int maxRepeatTime);
 
         IBehaviorTree<TType> CreateSelector();
 
         IBehaviorTree<TType> CreateSequence();
 
-        IBehaviorTree<TType> AddActionNode(TType type);
+        IBehaviorTree<TType> AddAction(TType type);
 
         abstract void Init();
         
@@ -27,17 +32,19 @@ namespace daifuDemo
     }
     
     public abstract class BehaviorTree<TType> : IBehaviorTree<TType>
+        where TType : Enum
     {
         private IBehavior _treeRoot;
 
         private Stack<IBehavior> _buildStack;
 
-        protected Dictionary<TType, IActionNode> ActionNodeDic;
+        private Dictionary<TType, IActionNode<TType>> _actionNodeDic;
 
         protected BehaviorTree()
         {
             _buildStack = new Stack<IBehavior>();
-            ActionNodeDic = new Dictionary<TType, IActionNode>();
+            _actionNodeDic = new Dictionary<TType, IActionNode<TType>>();
+            Init();
         }
 
         private void BuildBehaviorTree<TBehavior>(TBehavior behavior) where TBehavior : IBehavior
@@ -49,28 +56,26 @@ namespace daifuDemo
             }
             else
             {
-                while (_buildStack.Peek() is ActionNode)
+                if (_buildStack.Peek() is IComposite)
                 {
-                    _buildStack.Pop();
-                }
-
-                if (_buildStack.Peek() is Composite)
-                {
-                    var composite = _buildStack.Peek() as Composite;
+                    var composite = _buildStack.Peek() as IComposite;
                     composite?.AddBehavior(behavior);
                     _buildStack.Push(behavior);
                 }
-                
-                if (_buildStack.Peek() is Decorator)
+                else if (_buildStack.Peek() is IDecorator)
                 {
-                    var decorator = _buildStack.Peek() as Decorator;
+                    var decorator = _buildStack.Peek() as IDecorator;
                     decorator?.AddBehavior(behavior);
-                    _buildStack.Pop();
                     _buildStack.Push(behavior);
                 }
             }
         }
 
+        public IBehaviorTree<TType> AddActionNodeDic(IActionNode<TType> actionNode)
+        {
+            _actionNodeDic.Add(actionNode.ActionType, actionNode);
+            return this;
+        }
 
         public IBehaviorTree<TType> EndComposite()
         {
@@ -92,17 +97,20 @@ namespace daifuDemo
             return this;
         }
 
-        public IBehaviorTree<TType> CreateParallel()
+        public IBehaviorTree<TType> CreateParallel(int successNeedTime, int failNeedTime)
         {
-            IComposite parallel = new Parallel();
+            Parallel parallel = new Parallel();
+            parallel.WithSuccessNeedTime(successNeedTime);
+            parallel.WithFailNeedTime(failNeedTime);
             BuildBehaviorTree(parallel);
  
             return this;
         }
 
-        public IBehaviorTree<TType> CreateRepeat()
+        public IBehaviorTree<TType> CreateRepeat(int maxRepeatTime)
         {
-            IDecorator repeat = new Repeat();
+            Repeat repeat = new Repeat();
+            repeat.WithMaxRepeatTime(maxRepeatTime);
             BuildBehaviorTree(repeat);
 
             return this;
@@ -124,9 +132,10 @@ namespace daifuDemo
             return this;
         }
 
-        public IBehaviorTree<TType> AddActionNode(TType type)
+        public IBehaviorTree<TType> AddAction(TType type)
         {
-            BuildBehaviorTree(ActionNodeDic[type]);
+            BuildBehaviorTree(_actionNodeDic[type]);
+            _buildStack.Pop();
             return this;
         }
 

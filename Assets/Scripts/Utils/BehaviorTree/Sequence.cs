@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace daifuDemo
 {
@@ -13,17 +14,20 @@ namespace daifuDemo
                 return BehaviorNodeState.Success;
             }
             
-            if (CurrentChildNode.Value.Tick() == BehaviorNodeState.Fail)
+            ChildState = CurrentChildNode.Value.Tick();
+            
+            if (ChildState == BehaviorNodeState.Fail)
             {
+                ChildLinkedList.RemoveFirst();
                 return BehaviorNodeState.Fail;
             }
             
-            if (CurrentChildNode.Value.Tick() == BehaviorNodeState.Interruption)
+            if (ChildState == BehaviorNodeState.Interruption)
             {
                 return BehaviorNodeState.Interruption;
             }
             
-            if (CurrentChildNode.Value.Tick() == BehaviorNodeState.Success)
+            if (ChildState == BehaviorNodeState.Success)
             {
                 ChildLinkedList.RemoveFirst();
             }

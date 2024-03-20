@@ -1,4 +1,5 @@
 using Unity.VisualScripting;
+using UnityEngine;
 
 namespace daifuDemo
 {
@@ -12,33 +13,38 @@ namespace daifuDemo
         {
             _maxRepeatTime = time;
         }
-        
+
+        protected override void Initialize()
+        {
+            base.Initialize();
+            _currentRepeatTime = 0;
+        }
+
         protected override BehaviorNodeState OnUpdate()
         {
-            while (true)
+            ChildState = ChildNode.Tick();
+                
+            if (ChildState == BehaviorNodeState.Success)
             {
-                if (_currentRepeatTime == _maxRepeatTime)
-                {
-                    return BehaviorNodeState.Success;
-                }
-                
-                if (ChildNode.Tick() == BehaviorNodeState.Success)
-                {
-                    _currentRepeatTime++;
-                }
-                
-                if (ChildNode.Tick() == BehaviorNodeState.Fail)
-                {
-                    return BehaviorNodeState.Fail;
-                }
-
-                if (ChildNode.Tick() == BehaviorNodeState.Interruption)
-                {
-                    return BehaviorNodeState.Interruption;
-                }
-
-                return BehaviorNodeState.Running;
+                _currentRepeatTime++;
             }
+            
+            if (_currentRepeatTime == _maxRepeatTime)
+            {
+                return BehaviorNodeState.Success;
+            }
+                
+            if (ChildState == BehaviorNodeState.Fail)
+            {
+                return BehaviorNodeState.Fail;
+            }
+
+            if (ChildState == BehaviorNodeState.Interruption)
+            {
+                return BehaviorNodeState.Interruption;
+            }
+
+            return BehaviorNodeState.Running;
         }
     }
 }

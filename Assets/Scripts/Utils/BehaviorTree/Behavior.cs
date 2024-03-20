@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace daifuDemo
 {
@@ -14,51 +15,57 @@ namespace daifuDemo
     public interface IBehavior
     {
         BehaviorNodeState Tick();
+
+        IBehavior WithOnStart(Action onStart);
+
+        IBehavior WithOnSuccessExit(Action action);
+
+        IBehavior WithOnFailExit(Action action);
+
+        IBehavior WithOnInterruption(Action action);
     }
     
     public abstract class Behavior : IBehavior
     {
-        public int Weight;
-        
         private BehaviorNodeState _currentState;
+        protected BehaviorNodeState ChildState;
         private readonly BehaviorNodeState _idleState = BehaviorNodeState.NotStart;
 
         private bool IfSuccess => _currentState == BehaviorNodeState.Success;
         private bool IfFail => _currentState == BehaviorNodeState.Fail;
         private bool IfRunning => _currentState == BehaviorNodeState.Running;
         private bool IfNotStart => _currentState == BehaviorNodeState.NotStart;
-
         private bool IfInterruption => _currentState == BehaviorNodeState.Interruption;
         
-        private Action _onStart;
-        private Action _onSuccessExit;
-        private Action _onFailExit;
-        private Action _onInterruption;
+        protected Action _onStart;
+        protected Action _onSuccessExit;
+        protected Action _onFailExit;
+        protected Action _onInterruption;
         
         protected Behavior()
         {
             _currentState = _idleState;
         }
 
-        protected Behavior WithOnStart(Action onStart)
+        public IBehavior WithOnStart(Action onStart)
         {
             _onStart = onStart;
             return this;
         }
         
-        protected Behavior WithOnSuccessExit(Action action)
+        public IBehavior WithOnSuccessExit(Action action)
         {
             _onSuccessExit = action;
             return this;
         }
         
-        protected Behavior WithOnFailExit(Action action)
+        public IBehavior WithOnFailExit(Action action)
         {
             _onFailExit = action;
             return this;
         }
         
-        protected Behavior WithOnInterruption(Action action)
+        public IBehavior WithOnInterruption(Action action)
         {
             _onInterruption = action;
             return this;
@@ -86,13 +93,20 @@ namespace daifuDemo
             _onInterruption?.Invoke();
         }
 
+        protected virtual void Initialize()
+        {
+            _currentState = _idleState;
+        }
+
         public BehaviorNodeState Tick()
         {
             if (IfNotStart)
             {
                 OnStart();
+                _currentState = BehaviorNodeState.Running;
+                return BehaviorNodeState.Running;
             }
-
+            
             if (IfRunning)
             {
                 _currentState = OnUpdate();
@@ -101,16 +115,22 @@ namespace daifuDemo
             if (IfSuccess)
             {
                 OnSuccessExit();
+                Initialize();
+                return BehaviorNodeState.Success;
             }
 
             if (IfFail)
             {
                 OnFailExit();
+                Initialize();
+                return BehaviorNodeState.Fail;
             }
 
             if (IfInterruption)
             {
                 OnInterruption();
+                Initialize();
+                return BehaviorNodeState.Interruption;
             }
 
             return _currentState;
