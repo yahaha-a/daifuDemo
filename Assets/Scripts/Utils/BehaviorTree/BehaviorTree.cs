@@ -44,7 +44,6 @@ namespace daifuDemo
         {
             _buildStack = new Stack<IBehavior>();
             _actionNodeDic = new Dictionary<TType, IActionNode<TType>>();
-            Init();
         }
 
         private void BuildBehaviorTree<TBehavior>(TBehavior behavior) where TBehavior : IBehavior

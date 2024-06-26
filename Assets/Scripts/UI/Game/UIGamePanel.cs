@@ -18,8 +18,12 @@ namespace daifuDemo
 
 		private IHarvestSystem _harvestSystem;
 		
+		private Player _player;
+		
 		protected override void OnInit(IUIData uiData = null)
 		{
+			_player = FindObjectOfType<Player>();
+			
 			mData = uiData as UIGamePanelData ?? new UIGamePanelData();
 
 			_playerModel = this.GetModel<IPlayerModel>();
@@ -80,6 +84,13 @@ namespace daifuDemo
 				UISettlePanel.Show();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
+
+			Events.HitFish.Register(fish =>
+			{
+				_uiGamePanelModel.IfCatchFishPanelShow.Value = true;
+				_playerModel.MaxFishingChallengeClicks.Value = fish.GetComponent<IFish>().Clicks;
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
 			_uiGamePanelModel.IfUIHarvestPanelShow.Register(value =>
 			{
 				if (value)
@@ -89,6 +100,33 @@ namespace daifuDemo
 				else
 				{
 					UIHarvestPanel.Hide();
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			_uiGamePanelModel.IfCatchFishPanelShow.Register(value =>
+			{
+				if (value)
+				{
+					Vector3 playerWorldPosition = _player.transform.position;
+					Vector2 screenPosition = Camera.main.WorldToScreenPoint(playerWorldPosition);
+					Vector3 uiPosition;
+
+					if (_playerModel.IfLeft.Value)
+					{
+						uiPosition = screenPosition + new Vector2(100, 0);
+					}
+					else
+					{
+						uiPosition = screenPosition + new Vector2(-100, 0);
+					}
+					
+					CatchFishPanel.GetComponent<RectTransform>().position = uiPosition;
+					
+					CatchFishPanel.Show();
+				}
+				else
+				{
+					CatchFishPanel.Hide();
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}

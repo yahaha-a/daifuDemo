@@ -32,9 +32,12 @@ namespace daifuDemo
                 .WithToggleDirectionTime(5f)
                 .WithRangeOfMovement(10f)
                 .WithHp(20f)
+                .WithStruggleTime(0.5f)
+                .WithClicks(5)
             },
             {Config.PteroisKey, new AggressiveFishInfo()
                 .WithAttackInterval(2f)
+                .WithAttackRange(1f)
                 .WithDamage(5f)
                 .WithPursuitSwimRate(5f)
                 .WithSwimRate(5f)
@@ -48,6 +51,9 @@ namespace daifuDemo
                 .WithToggleDirectionTime(3f)
                 .WithRangeOfMovement(5f)
                 .WithHp(10f)
+                .WithFleeHp(5f)
+                .WithStruggleTime(0.5f)
+                .WithClicks(4)
             },
         };
 
@@ -62,6 +68,7 @@ namespace daifuDemo
             {
                 var fishMessage = fish.GetComponent<IFish>();
                 fishMessage.Hp -= damage;
+                fishMessage.HitByBullet = true;
                 if (Mathf.Approximately(fishMessage.Hp, 0))
                 {
                     fish.DestroySelf();
@@ -85,7 +92,7 @@ namespace daifuDemo
 
             Events.HitFish.Register(fish =>
             {
-                fish.GetComponent<IFish>().HitByFishFork();
+                fish.GetComponent<IFish>().HitByFork = true;
             });
 
             Events.CatchFish.Register(fish =>

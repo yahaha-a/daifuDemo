@@ -11,8 +11,6 @@ namespace daifuDemo
 	{
 		public string FishKey { get; set; }
 		
-		public FishState FishState { get; set; }
-		
 		public float ToggleDirectionTime { get; set; }
 		
 		public float RangeOfMovement { get; set; }
@@ -30,12 +28,32 @@ namespace daifuDemo
 		public float CurrentToggleDirectionTime { get; set; }
 		
 		public float Hp { get; set; }
+		
+		public float FleeHp { get; set; }
+
+		public float StruggleTime { get; set; }
+		
+		public float CurrentStruggleTime { get; set; }
+		
+		public int Clicks { get; set; }
+		
+		public bool CanSwim { get; set; }
+		
+		public bool HitByFork { get; set; }
+		
+		public bool DiscoverPlayer { get; set; }
+		
+		public bool HitByBullet { get; set; }
+
+		private NormalFishBehaviorTree<NormalFish> _bt;
+
+		private Player _player;
 
 		private void OnTriggerEnter2D(Collider2D other)
 		{
 			if (other.CompareTag("Player"))
 			{
-				FishState = FishState.Frightened;
+				DiscoverPlayer = true;
 			}
 		}
 
@@ -43,93 +61,49 @@ namespace daifuDemo
 		{
 			if (other.CompareTag("Player"))
 			{
-				FishState = FishState.Swim;
+				DiscoverPlayer = false;
 			}
 		}
 
 		private void Start()
 		{
 			InitData();
+			
+			_bt = new NormalFishBehaviorTree<NormalFish>(this, _player);
+			_bt.Init();
 		}
-
-		private void Update()
+		
+		public void Update()
 		{
-			Movement();
+			_bt.Tick();
+
+			if (CanSwim)
+			{
+				var swimSpeed = CurrentSwimRate * CurrentDirection;
+				var position = transform.position;
+				transform.position = new Vector3(position.x + swimSpeed.x * Time.deltaTime,
+					position.y + swimSpeed.y * Time.deltaTime, position.z);
+			}
 		}
 
 		private void InitData()
 		{
 			FishKey = Config.NormalFishKey;
 			
-			FishState = this.SendQuery(new FindFishState(FishKey));
+			_player = FindObjectOfType<Player>().GetComponent<Player>();
+			
 			ToggleDirectionTime = this.SendQuery(new FindFishToggleDirectionTime(FishKey));
 			SwimRate = this.SendQuery(new FindFishSwimRate(FishKey));
 			FrightenedSwimRate = this.SendQuery(new FindFishFrightenedSwimRate(FishKey));
 			RangeOfMovement = this.SendQuery(new FindFishRangeOfMovement(FishKey));
 			Hp = this.SendQuery(new FindFishHp(FishKey));
+			StruggleTime = this.SendQuery(new FindFishStruggleTime(FishKey));
+			Clicks = this.SendQuery(new FindFishClicks(FishKey));
 
 			CurrentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 			StartPosition = transform.position;
 			CurrentToggleDirectionTime = ToggleDirectionTime;
 			CurrentSwimRate = SwimRate;
-		}
-
-		private void Movement()
-		{
-			if (Vector3.Distance(transform.position, StartPosition) >= RangeOfMovement)
-			{
-				CurrentDirection = -CurrentDirection;
-			}
-
-			if (FishState == FishState.Frightened)
-			{
-				var playerPosition = FindObjectOfType<Player>().transform.position;
-				CurrentDirection = (transform.position - playerPosition).normalized;
-				CurrentSwimRate = FrightenedSwimRate;
-			}
-			else if (FishState == FishState.Swim)
-			{
-				CurrentSwimRate = SwimRate;
-				CurrentToggleDirectionTime -= Time.deltaTime;
-				if (CurrentToggleDirectionTime <= 0)
-				{
-					CurrentToggleDirectionTime = ToggleDirectionTime;
-					CurrentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
-				}
-			}
-			else
-			{
-				CurrentSwimRate = 0;
-				CurrentDirection = Vector2.zero;
-			}
-			
-			var swimSpeed = CurrentSwimRate * CurrentDirection;
-			var position = transform.position;
-			transform.position = new Vector3(position.x + swimSpeed.x * Time.deltaTime,
-				position.y + swimSpeed.y * Time.deltaTime, position.z);
-		}
-
-		public void HitByFishFork()
-		{
-			FishState = FishState.Hit;
-
-			ActionKit.OnUpdate.Register(() =>
-			{
-				var playerPosition = FindObjectOfType<Player>().transform.position;
-
-				if (Vector3.Distance(playerPosition, transform.position) <= 1f)
-				{
-					FishState = FishState.Caught;
-					Events.CatchFish?.Trigger(this);
-					this.SendCommand<FishCountAddOneCommand>();
-					gameObject.DestroySelf();
-				}
-				else
-				{
-					var position = transform.position;
-					transform.position = Vector3.Lerp(position, playerPosition, 1 - Mathf.Exp(-Time.deltaTime * 30));
-				}
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
 		public IArchitecture GetArchitecture()

@@ -20,7 +20,7 @@ namespace daifuDemo
                         .WithOnSuccessExit(() => Debug.Log("离开站立成功"))
                         .WithOnFailExit(() => Debug.Log("离开站立失败"))
                         .WithOnInterruption(null)
-                        .WithOnUpdate(null))
+                        .WithOnUpdate(() => { return BehaviorNodeState.Fail;}))
                 .AddActionNodeDic(
                     new ActionNode<PlayerActionEnum>()
                         .WithActionType(PlayerActionEnum.Walk)
@@ -38,19 +38,33 @@ namespace daifuDemo
                         .WithOnInterruption(null)
                         .WithOnUpdate(null));
 
+            // CreateSequence()
+            //     .CreateSequence()
+            //         .AddAction(PlayerActionEnum.Idle)
+            //     .EndComposite()
+            //     .CreateRepeat(5)
+            //         .CreateSequence()
+            //             .AddAction(PlayerActionEnum.Run)
+            //             .CreateSelector()
+            //                 .AddAction(PlayerActionEnum.Walk)
+            //             .EndComposite()
+            //         .EndComposite()
+            //     .EndDecorator()
+            // .EndComposite();
+
+            // CreateSelector()
+            //     .AddAction(PlayerActionEnum.Idle)
+            //     .AddAction(PlayerActionEnum.Run)
+            //     .AddAction(PlayerActionEnum.Walk);
+            
             CreateSequence()
-                .CreateSequence()
+                .CreateSelector()
                     .AddAction(PlayerActionEnum.Idle)
+                    .AddAction(PlayerActionEnum.Run)
                 .EndComposite()
-                .CreateRepeat(5)
-                    .CreateSequence()
-                        .AddAction(PlayerActionEnum.Run)
-                        .CreateSelector()
-                            .AddAction(PlayerActionEnum.Walk)
-                        .EndComposite()
-                    .EndComposite()
-                .EndDecorator()
-            .EndComposite();
+                .CreateSequence()
+                    .AddAction(PlayerActionEnum.Walk)
+                .EndComposite();
         }
     }
 }

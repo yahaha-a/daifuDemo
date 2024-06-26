@@ -12,6 +12,13 @@ namespace daifuDemo
 		private IPlayerModel _playerModel;
 
 		private IFishForkModel _fishForkModel;
+		
+		public int GetFishChallengeClicks => _playerModel.FishingChallengeClicks.Value;
+
+		public void ResetFishChallengeClicks()
+		{
+			_playerModel.FishingChallengeClicks.Value = 0;
+		}
 
 		private void Start()
 		{
@@ -27,6 +34,11 @@ namespace daifuDemo
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
 			Events.CatchFish.Register(fish =>
+			{
+				_playerModel.State.Value = PlayState.Swim;
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			Events.FishEscape.Register(fish =>
 			{
 				_playerModel.State.Value = PlayState.Swim;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
@@ -122,6 +134,11 @@ namespace daifuDemo
 			else if (_playerModel.State.Value == PlayState.CatchFish)
 			{
 				_mRigidbody2D.velocity = Vector2.zero;
+				
+				if (Input.GetKeyDown(KeyCode.J))
+				{
+					_playerModel.FishingChallengeClicks.Value++;
+				}
 			}
 			else if (_playerModel.State.Value == PlayState.OpenTreasureChests)
 			{

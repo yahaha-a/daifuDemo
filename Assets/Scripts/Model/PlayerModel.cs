@@ -42,6 +42,10 @@ namespace daifuDemo
         BindableProperty<bool> IfChestOpening { get; }
         
         BindableProperty<float> OpenChestSeconds { get; }
+        
+        BindableProperty<int> MaxFishingChallengeClicks { get; }
+        
+        BindableProperty<int> FishingChallengeClicks { get; }
     }
     
     public class PlayerModel : AbstractModel, IPlayerModel
@@ -67,6 +71,10 @@ namespace daifuDemo
         public BindableProperty<bool> IfChestOpening { get; } = new BindableProperty<bool>(false);
 
         public BindableProperty<float> OpenChestSeconds { get; } = new BindableProperty<float>(0f);
+
+        public BindableProperty<int> MaxFishingChallengeClicks { get; } = new BindableProperty<int>(0);
+
+        public BindableProperty<int> FishingChallengeClicks { get; } = new BindableProperty<int>(0);
 
         public BindableProperty<bool> Invincibility { get; } = new BindableProperty<bool>(false);
 

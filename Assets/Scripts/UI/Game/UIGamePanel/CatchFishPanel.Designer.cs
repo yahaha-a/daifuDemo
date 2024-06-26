@@ -8,22 +8,18 @@ using QFramework;
 
 namespace daifuDemo
 {
-	public partial class SettleItemTemplate
+	public partial class CatchFishPanel
 	{
-		[SerializeField] public UnityEngine.UI.Image Icon;
-		[SerializeField] public UnityEngine.UI.Text Name;
-		[SerializeField] public UnityEngine.UI.Text Number;
+		[SerializeField] public UnityEngine.UI.Slider ProgressBar;
 
 		public void Clear()
 		{
-			Icon = null;
-			Name = null;
-			Number = null;
+			ProgressBar = null;
 		}
 
 		public override string ComponentName
 		{
-			get { return "SettleItemTemplate";}
+			get { return "CatchFishPanel";}
 		}
 	}
 }

@@ -41,6 +41,12 @@ namespace daifuDemo
 				_fishForkModel.FishForkIfShooting.Value = false;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
+			Events.FishEscape.Register(fish =>
+			{
+				_fishForkModel.CurrentFishForkState.Value = FishForkState.Ready;
+				_fishForkModel.FishForkIfShooting.Value = false;
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
 			_fishForkModel.CurrentFishForkKey.RegisterWithInitValue(key =>
 			{
 				UpdateData();

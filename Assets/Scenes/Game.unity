@@ -1366,7 +1366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Namespace: daifuDemo
   ScriptName: Player
-  ScriptsFolder: Assets/Scripts/Game
+  ScriptsFolder: Assets\Scripts\Game\GameSea
   GeneratePrefab: 0
   PrefabFolder: Assets/Art/Prefab
   ArchitectureFullTypeName: 

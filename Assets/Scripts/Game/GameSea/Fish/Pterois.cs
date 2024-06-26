@@ -22,6 +22,10 @@ namespace daifuDemo
 		public float PursuitSwimRate { get; set; }
 		
 		public float AttackInterval { get; set; }
+		
+		public float CurrentAttackInterval { get; set; }
+		
+		public float AttackRange { get; set; }
 
 		public Vector2 CurrentDirection { get; set; }
 
@@ -32,13 +36,33 @@ namespace daifuDemo
 		public float CurrentToggleDirectionTime { get; set; }
 		
 		public float Hp { get; set; }
+		
+		public float FleeHp { get; set; }
+
+		public float StruggleTime { get; set; }
+		
+		public float CurrentStruggleTime { get; set; }
+		
+		public int Clicks { get; set; }
+		
+		public bool CanSwim { get; set; }
+
+		public bool HitByFork { get; set; }
+		
+		public bool DiscoverPlayer { get; set; }
+		
+		public bool HitByBullet { get; set; }
+		
+		private PteroisFishBehaviorTree<Pterois> _bt;
+
+		private Player _player;
 
 
 		private void OnTriggerEnter2D(Collider2D other)
 		{
 			if (other.CompareTag("Player"))
 			{
-				FishState = FishState.Attack;
+				DiscoverPlayer = true;
 			}
 		}
 
@@ -46,7 +70,7 @@ namespace daifuDemo
 		{
 			if (other.CompareTag("Player"))
 			{
-				FishState = FishState.Swim;
+				DiscoverPlayer = false;
 			}
 		}
 		
@@ -54,34 +78,28 @@ namespace daifuDemo
 		{
 			InitData();
 			
-			var attackInterval = 0f;
-			HitBox.OnTriggerStay2DEvent(other =>
-			{
-				if (attackInterval <= 0f)
-				{
-					if (other.CompareTag("Player"))
-					{
-						this.SendCommand(new PlayerIsHitCommand(Damage));
-					}
-					
-					attackInterval = AttackInterval;
-				}
-				else
-				{
-					attackInterval -= Time.deltaTime;
-				}
-				
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+			_bt = new PteroisFishBehaviorTree<Pterois>(this, _player);
+			_bt.Init();
 		}
 		
 		private void Update()
 		{
-			Movement();
+			_bt.Tick();
+
+			if (CanSwim)
+			{
+				var swimSpeed = CurrentSwimRate * CurrentDirection;
+				var position = transform.position;
+				transform.position = new Vector3(position.x + swimSpeed.x * Time.deltaTime,
+					position.y + swimSpeed.y * Time.deltaTime, position.z);
+			}
 		}
 
 		private void InitData()
 		{
 			FishKey = Config.PteroisKey;
+			
+			_player = FindObjectOfType<Player>().GetComponent<Player>();
 			
 			FishState = this.SendQuery(new FindFishState(FishKey));
 			ToggleDirectionTime = this.SendQuery(new FindFishToggleDirectionTime(FishKey));
@@ -91,76 +109,16 @@ namespace daifuDemo
 			Damage = this.SendQuery(new FindFishDamage(FishKey));
 			PursuitSwimRate = this.SendQuery(new FindFishPursuitSwimRate(FishKey));
 			Hp = this.SendQuery(new FindFishHp(FishKey));
+			FleeHp = this.SendQuery(new FindFishFleeHp(FishKey));
+			StruggleTime = this.SendQuery(new FindFishStruggleTime(FishKey));
+			Clicks = this.SendQuery(new FindFishClicks(FishKey));
 			AttackInterval = this.SendQuery(new FindFishAttackInterval(FishKey));
+			AttackRange = this.SendQuery(new FindFishAttackRange(FishKey));
 
 			CurrentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 			StartPosition = transform.position;
 			CurrentToggleDirectionTime = ToggleDirectionTime;
 			CurrentSwimRate = SwimRate;
-		}
-
-		private void Movement()
-		{
-			if (Vector3.Distance(transform.position, StartPosition) >= RangeOfMovement)
-			{
-				CurrentDirection = -CurrentDirection;
-			}
-
-			if (FishState == FishState.Frightened)
-			{
-				var playerPosition = FindObjectOfType<Player>().transform.position;
-				CurrentDirection = (transform.position - playerPosition).normalized;
-				CurrentSwimRate = FrightenedSwimRate;
-			}
-			else if (FishState == FishState.Swim)
-			{
-				CurrentSwimRate = SwimRate;
-				CurrentToggleDirectionTime -= Time.deltaTime;
-				if (CurrentToggleDirectionTime <= 0)
-				{
-					CurrentToggleDirectionTime = ToggleDirectionTime;
-					CurrentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
-				}
-			}
-			else if (FishState == FishState.Attack)
-			{
-				var playerPosition = FindObjectOfType<Player>().transform.position;
-				CurrentDirection = (playerPosition - transform.position).normalized;
-				CurrentSwimRate = PursuitSwimRate;
-			}
-			else
-			{
-				CurrentSwimRate = 0;
-				CurrentDirection = Vector2.zero;
-			}
-			
-			var swimSpeed = CurrentSwimRate * CurrentDirection;
-			var position = transform.position;
-			transform.position = new Vector3(position.x + swimSpeed.x * Time.deltaTime,
-				position.y + swimSpeed.y * Time.deltaTime, position.z);
-		}
-		
-		public void HitByFishFork()
-		{
-			FishState = FishState.Hit;
-
-			ActionKit.OnUpdate.Register(() =>
-			{
-				var playerPosition = FindObjectOfType<Player>().transform.position;
-
-				if (Vector3.Distance(playerPosition, transform.position) <= 1f)
-				{
-					FishState = FishState.Caught;
-					Events.CatchFish?.Trigger(this);
-					this.SendCommand<FishCountAddOneCommand>();
-					gameObject.DestroySelf();
-				}
-				else
-				{
-					var position = transform.position;
-					transform.position = Vector3.Lerp(position, playerPosition, 1 - Mathf.Exp(-Time.deltaTime * 30));
-				}
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
 		public IArchitecture GetArchitecture()

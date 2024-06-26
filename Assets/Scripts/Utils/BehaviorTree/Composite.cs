@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace daifuDemo
 {
@@ -41,6 +42,8 @@ namespace daifuDemo
         {
             base.Initialize();
             
+            
+            ChildLinkedList.Clear();
             foreach (var behavior in _childLinkedListCopy)
             {
                 ChildLinkedList.AddLast(behavior);

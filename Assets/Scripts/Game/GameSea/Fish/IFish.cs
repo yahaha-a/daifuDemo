@@ -7,8 +7,6 @@ namespace daifuDemo
     {
         string FishKey { get; set; }
 
-        FishState FishState { get; set; }
-		
         float ToggleDirectionTime { get; set; }
         
         float RangeOfMovement { get; set; }
@@ -26,8 +24,22 @@ namespace daifuDemo
         float CurrentToggleDirectionTime { get; set; }
         
         float Hp { get; set; }
-
-        void HitByFishFork();
+        
+        float FleeHp { get; set; }
+        
+        float StruggleTime { get; set; }
+        
+        float CurrentStruggleTime { get; set; }
+        
+        int Clicks { get; set; }
+        
+        bool CanSwim { get; set; }
+        
+        bool HitByFork { get; set; }
+        
+        bool DiscoverPlayer { get; set; }
+        
+        bool HitByBullet { get; set; }
     }
 
     public interface IAggressiveFish : IFish
@@ -37,5 +49,9 @@ namespace daifuDemo
         float PursuitSwimRate { get; set; }
         
         float AttackInterval { get; set; }
+        
+        float CurrentAttackInterval { get; set; }
+        
+        float AttackRange { get; set; }
     }
 }

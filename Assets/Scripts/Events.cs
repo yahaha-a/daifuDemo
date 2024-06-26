@@ -43,5 +43,7 @@ namespace daifuDemo
             new EasyEvent<IPreparationDishInfo, float>();
 
         public static EasyEvent ReceptionACustomer = new EasyEvent();
+
+        public static EasyEvent<IFish> FishEscape = new EasyEvent<IFish>();
     }
 }
