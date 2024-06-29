@@ -6,77 +6,78 @@ using UnityEngine;
 
 namespace daifuDemo
 {
-    public interface ITransition<TState, TConditionType, TValueType>
+    public interface ITransition<TState>
     {
-        IState<TState> FromState { get; }
+        TState FromState { get; }
         
-        IState<TState> ToState { get; }
+        TState ToState { get; }
         
         bool IfCanConnect { get; }
         
         int Weight { get; }
         
-        ITransition<TState, TConditionType, TValueType> WithWeight(int weight);
+        ITransition<TState> WithWeight(int weight);
 
-        ITransition<TState, TConditionType, TValueType> WithFromState(IState<TState> state);
+        ITransition<TState> WithFromState(TState state);
 
-        ITransition<TState, TConditionType, TValueType> WithToState(IState<TState> state);
+        ITransition<TState> WithToState(TState state);
         
-        ITransition<TState, TConditionType, TValueType> AddConditions(
-            ICondition<TConditionType, TValueType> condition);
+        ITransition<TState> AddConditions(Func<bool> condition);
 
         void Tick();
     }
 
-    public abstract class Transition<TState, TConditionType, TValueType> : ITransition<TState, TConditionType, TValueType>
+    public class Transition<TState> : ITransition<TState>
     {
         public int Weight { get; private set; }
 
-        private List<ICondition<TConditionType, TValueType>> _conditions;
+        private List<ICondition> _conditions;
 
         public bool IfCanConnect { get; private set; }
         
-        public IState<TState> FromState { get; private set; }
+        public TState FromState { get; private set; }
         
-        public IState<TState> ToState { get; private set; }
+        public TState ToState { get; private set; }
 
-        protected Transition()
+        public Transition()
         {
-            _conditions = new List<ICondition<TConditionType, TValueType>>();
+            _conditions = new List<ICondition>();
             IfCanConnect = false;
         }
         
-        public ITransition<TState, TConditionType, TValueType> WithWeight(int weight)
+        public ITransition<TState> WithWeight(int weight)
         {
             Weight = weight;
             return this;
         }
 
-        public ITransition<TState, TConditionType, TValueType> WithFromState(IState<TState> state)
+        public ITransition<TState> WithFromState(TState state)
         {
             FromState = state;
             return this;
         }
 
-        public ITransition<TState, TConditionType, TValueType> WithToState(IState<TState> state)
+        public ITransition<TState> WithToState(TState state)
         {
             ToState = state;
             return this;
         }
-
-        public virtual ITransition<TState, TConditionType, TValueType> AddConditions(ICondition<TConditionType, TValueType> condition)
+        
+        public virtual ITransition<TState> AddConditions(Func<bool> condition)
         {
-            _conditions.Add(condition);
+            ICondition mCondition = new Condition()
+                .WithCondition(condition);
+            
+            _conditions.Add(mCondition);
             return this;
         }
 
         public void Tick()
         {
-            if (_conditions.IsNotNull())
+            if (_conditions.Count > 0)
             {
                 foreach (var condition in _conditions)
                 {
-                    condition.Tick();
                     if (!condition.IfSatisfyCondition)
                     {
                         IfCanConnect = false;
@@ -90,25 +91,5 @@ namespace daifuDemo
                 IfCanConnect = true;
             }
         }
-    }
-
-    public class FloatTransition<TState> : Transition<TState, FloatConditionEnum, float>
-    {
-        
-    }
-    
-    public class IntTransition<TState> : Transition<TState, IntConditionEnum, int>
-    {
-        
-    }
-    
-    public class BoolTransition<TState> : Transition<TState, BoolConditionEnum, bool>
-    {
-        
-    }
-    
-    public class TriggerTransition<TState> : Transition<TState, TriggerConditionEnum, Func<bool>>
-    {
-        
     }
 }

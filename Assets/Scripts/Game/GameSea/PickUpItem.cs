@@ -20,12 +20,11 @@ namespace daifuDemo
 		{
 			var playModel = this.GetModel<IPlayerModel>();
 
-			playModel.State.Register(value =>
+			playModel.CurrentState.Register(value =>
 			{
-				if (value == PlayState.PickUpEd && _state == PickUpItemState.PickUpIng)
+				if (value == PlayState.PickingUp && _state == PickUpItemState.PickUpIng)
 				{
 					Events.ItemPickUped?.Trigger(this);
-					playModel.State.Value = PlayState.Swim;
 					this.gameObject.DestroySelf();
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
@@ -34,7 +33,7 @@ namespace daifuDemo
 			{
 				if (other.CompareTag("Player"))
 				{
-					playModel.State.Value = PlayState.PickUp;
+					playModel.IfCanPickUp.Value = true;
 					_state = PickUpItemState.PickUpIng;
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
@@ -43,7 +42,7 @@ namespace daifuDemo
 			{
 				if (other.CompareTag("Player"))
 				{
-					playModel.State.Value = PlayState.Swim;
+					playModel.IfCanPickUp.Value = false;
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}

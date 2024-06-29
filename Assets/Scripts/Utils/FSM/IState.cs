@@ -24,13 +24,13 @@ namespace daifuDemo
 
     public class State<TState> : IState<TState>
     {
+        public TState Key { get; private set; }
+        
         private Action _onEnter;
 
         private Action _onTick;
 
         private Action _onExit;
-        
-        public TState Key { get; private set; }
         
         public IState<TState> WithKey(TState key)
         {

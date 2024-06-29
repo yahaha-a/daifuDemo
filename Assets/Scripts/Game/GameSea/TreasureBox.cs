@@ -60,7 +60,7 @@ namespace daifuDemo
 			{
 				if (other.CompareTag("Player") && _treasureBoxState == TreasureBoxState.FreeTime)
 				{
-					_playerModel.State.Value = PlayState.OpenTreasureChests;
+					_playerModel.IfCanOpenTreasureChests.Value = true;
 					_treasureBoxState = TreasureBoxState.Opening;
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
@@ -69,12 +69,12 @@ namespace daifuDemo
 			{
 				if (other.CompareTag("Player") && _treasureBoxState != TreasureBoxState.Opened)
 				{
-					_playerModel.State.Value = PlayState.Swim;
+					_playerModel.IfCanOpenTreasureChests.Value = false;
 					_treasureBoxState = TreasureBoxState.FreeTime;
 				}
 				else if (other.CompareTag("Player") && _treasureBoxState == TreasureBoxState.Opened)
 				{
-					_playerModel.State.Value = PlayState.Swim;
+					_playerModel.IfCanOpenTreasureChests.Value = false;
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}

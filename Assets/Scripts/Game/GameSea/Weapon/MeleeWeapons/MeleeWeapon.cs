@@ -43,6 +43,43 @@ namespace daifuDemo
 			{
 				UpdateData();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			Events.Attack.Register(() =>
+			{
+				var fishes = GameObject.FindGameObjectsWithTag("Fish");
+
+				foreach (var fish in fishes)
+				{
+					var distance = Vector2.Distance(fish.transform.position, transform.position);
+					if (distance <= AttackRadius)
+					{
+						var direction = fish.transform.position - transform.position;
+						var angle = Vector2.Angle(direction, _menchoDirection);
+						if (angle <= 60f)
+						{
+							this.SendCommand(new WeaponAttackFishCommand(Damage, fish));
+						}
+					}
+				}
+
+				ActionKit.Delay(AttackFrequency, () =>
+				{
+					_playerModel.IfAttacking.Value = false;
+				}).Start(this);
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			Events.Attack2.Register(() =>
+			{
+				if (!_isAttack)
+				{
+					StartCoroutine(Attack());
+					
+					ActionKit.Delay(AttackFrequency, () =>
+					{
+						_playerModel.IfAttacking.Value = false;
+					}).Start(this);
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
 		private void Update()
@@ -54,49 +91,6 @@ namespace daifuDemo
 			else
 			{
 				_menchoDirection = transform.right;
-			}
-			
-			if (Input.GetKeyDown(KeyCode.J))
-			{
-				if (_playerModel.State.Value == PlayState.Swim)
-				{
-					_playerModel.State.Value = PlayState.Attack;
-					var fishes = GameObject.FindGameObjectsWithTag("Fish");
-				
-					foreach (var fish in fishes)
-					{
-						var distance = Vector2.Distance(fish.transform.position, transform.position);
-						if (distance <= AttackRadius)
-						{
-							var direction = fish.transform.position - transform.position;
-							var angle = Vector2.Angle(direction, _menchoDirection);
-							if (angle <= 60f)
-							{
-								this.SendCommand(new WeaponAttackFishCommand(Damage, fish));
-							}
-						}
-					}
-
-					ActionKit.Delay(AttackFrequency, () =>
-					{
-						_playerModel.State.Value = PlayState.Swim;
-					}).Start(this);
-				}
-			}
-
-			if (Input.GetKeyDown(KeyCode.K) && !_isAttack)
-			{
-				if (_playerModel.State.Value == PlayState.Swim)
-				{
-					_playerModel.State.Value = PlayState.Attack;
-					
-					StartCoroutine(Attack());
-
-					ActionKit.Delay(AttackFrequency, () =>
-					{
-						_playerModel.State.Value = PlayState.Swim;
-					}).Start(this);
-				}
 			}
 		}
 

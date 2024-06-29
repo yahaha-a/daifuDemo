@@ -7,22 +7,28 @@ namespace daifuDemo
 {
 	public partial class Gun : ViewController, IController
 	{
-		private float _rotationRate;
+		public float rotationRate;
 
-		private float _intervalBetweenShots;
+		public float intervalBetweenShots;
 
-		private List<(Vector2, float)> _bulletSpawnLocationsAndDirectionsList;
+		public float currentIntervalBetweenShots;
 
-		private bool _ifLeft = false;
+		public List<(Vector2, float)> BulletSpawnLocationsAndDirectionsList;
 
-		private GameObject FlyerRoot;
+		public bool ifLeft = false;
+
+		public GameObject flyerRoot;
 		
 		private IGunModel _gunModel;
 
 		private IPlayerModel _playerModel;
 
+		private GunFsm _gunFsm;
+
 		private void Start()
 		{
+			_gunFsm = new GunFsm(this, BulletTemplate);
+			
 			_gunModel = this.GetModel<IGunModel>();
 			
 			_playerModel = this.GetModel<IPlayerModel>();
@@ -37,130 +43,27 @@ namespace daifuDemo
 				UpdateData();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 			
-			FlyerRoot = GameObject.FindGameObjectWithTag("FlyerRoot");
+			flyerRoot = GameObject.FindGameObjectWithTag("FlyerRoot");
 
 			_playerModel.IfLeft.RegisterWithInitValue(value =>
 			{
-				_ifLeft = value;
+				ifLeft = value;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
 		private void Update()
 		{
-			TransitionState();
-			TakeAction();
-		}
-
-		private void TransitionState()
-		{
-			switch (_gunModel.CurrentGunState.Value)
-			{
-				case GunState.Ready:
-					if (Input.GetKeyDown(KeyCode.I))
-					{
-						_gunModel.CurrentGunState.Value = GunState.Aim;
-					}
-					break;
-				case GunState.Aim:
-					if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.C))
-					{
-						_gunModel.CurrentGunState.Value = GunState.Revolve;
-					}
-					else if (Input.GetKeyUp(KeyCode.I))
-					{
-						_gunModel.CurrentGunState.Value = GunState.Ready;
-					}
-					else if (Input.GetKeyDown(KeyCode.J))
-					{
-						_gunModel.CurrentGunState.Value = GunState.Shooting;
-					}
-					break;
-				case GunState.Revolve:
-					if (Input.GetKeyDown(KeyCode.J))
-					{
-						_gunModel.CurrentGunState.Value = GunState.Shooting;
-					}
-					else if (Input.GetKeyUp(KeyCode.Z) || Input.GetKeyUp(KeyCode.C))
-					{
-						_gunModel.CurrentGunState.Value = GunState.Aim;
-					}
-					else if (Input.GetKeyUp(KeyCode.I))  
-					{
-						_gunModel.CurrentGunState.Value = GunState.Ready;
-					}
-					break;
-				case GunState.Shooting:
-					_gunModel.CurrentGunState.Value = GunState.Cooling;
-					break;
-			}
-		}
-
-		private void TakeAction()
-		{
-			switch (_gunModel.CurrentGunState.Value)
-			{
-				case GunState.Ready:
-					break;
-				case GunState.Aim:
-					break;
-				case GunState.Revolve:
-					if (Input.GetKey(KeyCode.Z))
-					{
-						if (transform.eulerAngles.z < 70f || transform.eulerAngles.z > 289f)
-						{
-							var rotationAmount = _rotationRate * Time.deltaTime;
-							transform.Rotate(new Vector3(0, 0, rotationAmount));
-						}
-					}
-					else if (Input.GetKey(KeyCode.C))
-					{
-						if (transform.eulerAngles.z < 71f || transform.eulerAngles.z > 290f)
-						{
-							var rotationAmount = -_rotationRate * Time.deltaTime;
-							transform.Rotate(new Vector3(0, 0, rotationAmount));
-						}
-					}
-					break;
-				case GunState.Shooting:
-					foreach (var (offsetDistance, launchDirection) in _bulletSpawnLocationsAndDirectionsList)
-					{
-						BulletTemplate.InstantiateWithParent(this)
-							.Self(self =>
-							{
-								self.position = new Vector3(self.position.x + offsetDistance.x,
-									self.position.y + offsetDistance.y, self.position.z);
-								self.Rotate(new Vector3(0, 0, launchDirection));
-								
-								if (_ifLeft)
-								{
-									self.GetComponent<Bullet>().Direction = -1;
-								}
-								else
-								{
-									self.GetComponent<Bullet>().Direction = 1;
-								}
-								self.parent = FlyerRoot.transform;
-								self.Show();
-							});
-					}
-					break;
-				case GunState.Cooling:
-					ActionKit.Delay(_intervalBetweenShots, () =>
-					{
-						_gunModel.CurrentGunState.Value = GunState.Ready;
-					}).Start(this);
-					break;
-			}
+			_gunFsm.Tick();
 		}
 
 		public void UpdateData()
 		{
-			_rotationRate =
+			rotationRate =
 				this.SendQuery(new FindGunRotationRate(_gunModel.CurrentGunKey.Value, _gunModel.CurrentGunRank.Value));
-			_intervalBetweenShots =
+			intervalBetweenShots =
 				this.SendQuery(new FindGunIntervalBetweenShots(_gunModel.CurrentGunKey.Value,
 					_gunModel.CurrentGunRank.Value));
-			_bulletSpawnLocationsAndDirectionsList = this.SendQuery(
+			BulletSpawnLocationsAndDirectionsList = this.SendQuery(
 				new FindBulletSpawnLocationsAndDirectionsList(_gunModel.CurrentGunKey.Value,
 					_gunModel.CurrentGunRank.Value));
 		}

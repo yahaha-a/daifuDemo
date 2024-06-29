@@ -3,17 +3,6 @@ using UnityEngine;
 
 namespace daifuDemo
 {
-    public enum PlayState
-    {
-        Swim,
-        Aim,
-        CatchFish,
-        Attack,
-        OpenTreasureChests,
-        PickUp,
-        PickUpEd
-    }
-
     public enum WeaponTypes
     {
         FishFork,
@@ -33,8 +22,6 @@ namespace daifuDemo
         
         BindableProperty<bool> IfLeft { get; }
 
-        BindableProperty<PlayState> State { get; }
-        
         BindableProperty<float> OxygenIntervalTime { get; }
         
         BindableProperty<WeaponTypes> CurrentWeaponType { get; }
@@ -46,6 +33,18 @@ namespace daifuDemo
         BindableProperty<int> MaxFishingChallengeClicks { get; }
         
         BindableProperty<int> FishingChallengeClicks { get; }
+        
+        BindableProperty<bool> IfCatchingFish { get; }
+        
+        BindableProperty<bool> IfCanPickUp { get; }
+        
+        BindableProperty<bool> IfCanOpenTreasureChests { get; }
+        
+        BindableProperty<PickUpItem> CurrentPickUpItem { get; }
+        
+        BindableProperty<PlayState> CurrentState { get; }
+        
+        BindableProperty<bool> IfAttacking { get; }
     }
     
     public class PlayerModel : AbstractModel, IPlayerModel
@@ -75,11 +74,21 @@ namespace daifuDemo
         public BindableProperty<int> MaxFishingChallengeClicks { get; } = new BindableProperty<int>(0);
 
         public BindableProperty<int> FishingChallengeClicks { get; } = new BindableProperty<int>(0);
+        
+        public BindableProperty<bool> IfCatchingFish { get; } = new BindableProperty<bool>(false);
+        
+        public BindableProperty<bool> IfCanPickUp { get; } = new BindableProperty<bool>(false);
+        
+        public BindableProperty<bool> IfCanOpenTreasureChests { get; } = new BindableProperty<bool>(false);
+        
+        public BindableProperty<PickUpItem> CurrentPickUpItem { get; } = new BindableProperty<PickUpItem>(null);
+        
+        public BindableProperty<PlayState> CurrentState { get; } = new BindableProperty<PlayState>(PlayState.Swim);
+        
+        public BindableProperty<bool> IfAttacking { get; } = new BindableProperty<bool>(false);
 
         public BindableProperty<bool> Invincibility { get; } = new BindableProperty<bool>(false);
 
         public BindableProperty<bool> IfLeft { get; } = new BindableProperty<bool>(false);
-
-        public BindableProperty<PlayState> State { get; } = new BindableProperty<PlayState>(PlayState.Swim);
     }
 }

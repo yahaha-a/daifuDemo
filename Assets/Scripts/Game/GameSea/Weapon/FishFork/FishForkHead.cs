@@ -29,7 +29,7 @@ namespace daifuDemo
 
 		private void OnTriggerEnter2D(Collider2D other)
 		{
-			if (other.CompareTag("FishHitBox"))
+			if (_fishForkHeadState == FishForkHeadState.Fly && other.CompareTag("FishHitBox"))
 			{
 				transform.parent = other.transform;
 				_fishForkHeadState = FishForkHeadState.Hit;
@@ -55,6 +55,18 @@ namespace daifuDemo
 			_fishForkModel.CurrentRank.RegisterWithInitValue(rank =>
 			{
 				UpdateData();
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+			
+			Events.CatchFish.Register(fish =>
+			{
+				Events.FishForkHeadDestroy?.Trigger();
+				gameObject.DestroySelf();
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+			
+			Events.FishEscape.Register(fish =>
+			{
+				Events.FishForkHeadDestroy?.Trigger();
+				gameObject.DestroySelf();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 

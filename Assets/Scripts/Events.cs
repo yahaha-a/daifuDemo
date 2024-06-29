@@ -7,8 +7,6 @@ namespace daifuDemo
     {
         public static EasyEvent<float, GameObject> WeaponAttackFish = new EasyEvent<float, GameObject>();
 
-        public static EasyEvent<bool> FishForkIsNotUse = new EasyEvent<bool>();
-        
         public static EasyEvent<GameObject> HitFish = new EasyEvent<GameObject>();
 
         public static EasyEvent<IFish> CatchFish = new EasyEvent<IFish>();
@@ -45,5 +43,9 @@ namespace daifuDemo
         public static EasyEvent ReceptionACustomer = new EasyEvent();
 
         public static EasyEvent<IFish> FishEscape = new EasyEvent<IFish>();
+
+        public static EasyEvent Attack = new EasyEvent();
+
+        public static EasyEvent Attack2 = new EasyEvent();
     }
 }

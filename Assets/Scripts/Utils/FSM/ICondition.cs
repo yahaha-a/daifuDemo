@@ -2,55 +2,23 @@ using System;
 
 namespace daifuDemo
 {
-    public interface ICondition<TConditionType, TValueType>
+    public interface ICondition
     {
         bool IfSatisfyCondition { get; }
         
-        ICondition<TConditionType, TValueType> WithCondition(TConditionType condition);
-
-        ICondition<TConditionType, TValueType> WithTargetValue(TValueType targetValue);
-        
-        ICondition<TConditionType, TValueType> WithCurrentValue(Func<TValueType> getCurrentValue);
-
-        void Tick();
+        ICondition WithCondition(Func<bool> getCurrentValue);
     }
 
-    public abstract class AbstractCondition<TConditionType, TValueType> : ICondition<TConditionType, TValueType>
+    public class Condition : ICondition
     {
-        protected TConditionType ConditionType;
+        private Func<bool> _condition;
 
-        protected TValueType TargetValue;
+        public bool IfSatisfyCondition => _condition();
 
-        protected TValueType CurrentValue
+        public ICondition WithCondition(Func<bool> condition)
         {
-            get
-            {
-                return _getCurrentValue();
-            }
-        }
-
-        private Func<TValueType> _getCurrentValue;
-
-        public bool IfSatisfyCondition { get; protected set; } = false;
-
-        public ICondition<TConditionType, TValueType> WithCondition(TConditionType conditionType)
-        {
-            ConditionType = conditionType;
+            _condition = condition;
             return this;
         }
-
-        public ICondition<TConditionType, TValueType> WithTargetValue(TValueType targetValue)
-        {
-            TargetValue = targetValue;
-            return this;
-        }
-
-        public ICondition<TConditionType, TValueType> WithCurrentValue(Func<TValueType> getCurrentValue)
-        {
-            _getCurrentValue = getCurrentValue;
-            return this;
-        }
-
-        public abstract void Tick();
     }
 }

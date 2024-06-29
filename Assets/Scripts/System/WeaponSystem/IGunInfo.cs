@@ -3,15 +3,6 @@ using UnityEngine;
 
 namespace daifuDemo
 {
-    public enum GunState
-    {
-        Ready,
-        Aim,
-        Revolve,
-        Shooting,
-        Cooling
-    }
-    
     public interface IGunInfo
     {
         string Name { get; }

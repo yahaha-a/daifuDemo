@@ -3,14 +3,6 @@ using UnityEngine;
 
 namespace daifuDemo
 {
-    public enum FishForkState
-    {
-        Ready,
-        Aim,
-        Revolve,
-        Launch
-    }
-    
     public interface IFishForkModel : IModel
     {
         BindableProperty<string> CurrentFishForkKey { get; }
@@ -19,17 +11,14 @@ namespace daifuDemo
         
         BindableProperty<FishForkState> CurrentFishForkState { get; set; }
         
-        BindableProperty<bool> FishForkIfShooting { get; set; }
+        BindableProperty<bool> IfFishForkHeadExist { get; }
     }
     
     public class FishForkModel : AbstractModel, IFishForkModel
     {
         protected override void OnInit()
         {
-            Events.FishForkHeadDestroy.Register(() =>
-            {
-                FishForkIfShooting.Value = false;
-            });
+            
         }
 
         public BindableProperty<string> CurrentFishForkKey { get; } = new BindableProperty<string>(Config.FishForkKey);
@@ -39,6 +28,6 @@ namespace daifuDemo
         public BindableProperty<FishForkState> CurrentFishForkState { get; set; } =
             new BindableProperty<FishForkState>(FishForkState.Ready);
 
-        public BindableProperty<bool> FishForkIfShooting { get; set; } = new BindableProperty<bool>(false);
+        public BindableProperty<bool> IfFishForkHeadExist { get; } = new BindableProperty<bool>(false);
     }
 }

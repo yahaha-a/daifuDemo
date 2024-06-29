@@ -1366,10 +1366,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Namespace: daifuDemo
   ScriptName: Player
-  ScriptsFolder: Assets\Scripts\Game\GameSea
+  ScriptsFolder: Assets\Scripts\Game\GameSea\Player
   GeneratePrefab: 0
   PrefabFolder: Assets/Art/Prefab
   ArchitectureFullTypeName: 
+  mRigidbody2D: {fileID: 0}
   FishFork: {fileID: 1009341726}
   Gun: {fileID: 830486559}
   MeleeWeapon: {fileID: 674114462}

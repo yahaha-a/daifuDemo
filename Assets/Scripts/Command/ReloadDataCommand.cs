@@ -11,12 +11,11 @@ namespace daifuDemo
             var fishSystem = this.GetSystem<IFishSystem>();
             var harvestSystem = this.GetSystem<IHarvestSystem>();
             
-            playModel.State.Value = PlayState.Swim;
+            playModel.CurrentState.Value = PlayState.Swim;
             playModel.NumberOfFish.Value = Config.NumberOfFish;
             playModel.PlayerOxygen.Value = Config.PlayerOxygen;
 
             fishForkModel.CurrentFishForkState.Value = FishForkState.Ready;
-            fishForkModel.FishForkIfShooting.Value = false;
             
             fishSystem.Reload();
             harvestSystem.Reload();
