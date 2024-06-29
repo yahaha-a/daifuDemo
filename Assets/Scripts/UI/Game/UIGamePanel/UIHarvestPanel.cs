@@ -8,6 +8,7 @@ using Microsoft.Win32.SafeHandles;
 using UnityEngine;
 using UnityEngine.UI;
 using QFramework;
+using UnityEngine.SceneManagement;
 
 namespace daifuDemo
 {
@@ -32,7 +33,8 @@ namespace daifuDemo
 			{
 				_uiGamePanelModel.IfBackPackOpen.Value = false;
 				UIKit.ClosePanel<UIGamePanel>();
-				UIKit.OpenPanel<UIGamePassPanel>();
+				this.SendCommand<ReloadDataCommand>();
+				SceneManager.LoadScene("GameShip");
 			});
 		}
 
