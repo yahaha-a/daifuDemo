@@ -1,0 +1,25 @@
+<Items>
+  <FishItems>
+    <Item key="NormalFishEditor" serialNumber="15" x="4" y="3" range="240" />
+    <Item key="NormalFishEditor" serialNumber="16" x="4" y="0" range="280" />
+    <Item key="NormalFishEditor" serialNumber="17" x="2" y="-3" range="300" />
+  </FishItems>
+  <TreasureChestsItems>
+    <Item key="NormalTreasureChest" serialNumber="9" x="-3" y="1" range="100" />
+    <Item key="NormalTreasureChest" serialNumber="10" x="-3" y="0" range="100" />
+    <Item key="NormalTreasureChest" serialNumber="11" x="-3" y="-1" range="100" />
+    <Item key="NormalTreasureChest" serialNumber="12" x="-2" y="-1" range="100" />
+    <Item key="NormalTreasureChest" serialNumber="13" x="-1" y="-1" range="100" />
+    <Item key="NormalTreasureChest" serialNumber="14" x="0" y="-1" range="100" />
+  </TreasureChestsItems>
+  <DestructibleItems>
+    <Item key="Kelp" serialNumber="1" x="-3" y="2" range="100" />
+    <Item key="Kelp" serialNumber="2" x="-2" y="2" range="100" />
+    <Item key="Kelp" serialNumber="3" x="-1" y="2" range="100" />
+    <Item key="Kelp" serialNumber="4" x="0" y="2" range="100" />
+    <Item key="Kelp" serialNumber="5" x="1" y="2" range="100" />
+    <Item key="Kelp" serialNumber="6" x="1" y="1" range="100" />
+    <Item key="Kelp" serialNumber="7" x="1" y="0" range="100" />
+    <Item key="Kelp" serialNumber="8" x="1" y="-1" range="100" />
+  </DestructibleItems>
+</Items>

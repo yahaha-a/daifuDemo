@@ -91,6 +91,8 @@ namespace daifuDemo
 			FishKey = Config.NormalFishKey;
 			
 			_player = FindObjectOfType<Player>().GetComponent<Player>();
+
+			Icon.sprite = this.SendQuery(new FindFishIcon(FishKey));
 			
 			ToggleDirectionTime = this.SendQuery(new FindFishToggleDirectionTime(FishKey));
 			SwimRate = this.SendQuery(new FindFishSwimRate(FishKey));

@@ -1,10 +1,12 @@
-// Generate Id:118e5c6f-6109-4045-8d22-eb533f5f8028
+// Generate Id:4fdaaaab-0029-4bf1-854e-fb0ffc2a8fa8
 using UnityEngine;
 
 namespace daifuDemo
 {
 	public partial class PickUpItem
 	{
+
+		public SpriteRenderer Icon;
 
 		public BoxCollider2D inductionBox;
 

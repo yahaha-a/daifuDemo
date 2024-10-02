@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using QFramework;
+using UnityEngine;
 
 namespace daifuDemo
 {
@@ -12,18 +13,19 @@ namespace daifuDemo
     
     public class StrikeItemSystem : AbstractSystem, IStrikeItemSystem
     {
+        private static ResLoader _resLoader = ResLoader.Allocate();
         protected override void OnInit()
         {
             this.AddStrikeItemInfos(Config.KelpPlantsKey, new StrikeItemInfo()
                     .WithPluckItemType(PluckItemType.Plant)
                     .WithName("海带植物")
-                    .WithIcon(null)
+                    .WithIcon(_resLoader.LoadSync<Sprite>("Kelp"))
                     .WithDropItemKey(BackPackItemConfig.KelpKey)
                     .WithDropAmountWithTimes(new List<(int, int)>() { (1, 3) }))
                 .AddStrikeItemInfos(Config.CopperOreKey, new StrikeItemInfo()
                     .WithPluckItemType(PluckItemType.Ore)
                     .WithName("铜矿")
-                    .WithIcon(null)
+                    .WithIcon(_resLoader.LoadSync<Sprite>("Coral"))
                     .WithDropItemKey(BackPackItemConfig.CopperKey)
                     .WithDropAmountWithTimes(new List<(int, int)>() { (1, 1), (1, 1), (1, 1) }));
         }

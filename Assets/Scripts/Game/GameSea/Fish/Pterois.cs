@@ -99,6 +99,8 @@ namespace daifuDemo
 		{
 			FishKey = Config.PteroisKey;
 			
+			Icon.sprite = this.SendQuery(new FindFishIcon(FishKey));
+			
 			_player = FindObjectOfType<Player>().GetComponent<Player>();
 			
 			FishState = this.SendQuery(new FindFishState(FishKey));

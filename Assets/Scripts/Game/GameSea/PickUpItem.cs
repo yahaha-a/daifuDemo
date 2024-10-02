@@ -18,6 +18,8 @@ namespace daifuDemo
 		private PickUpItemState _state = PickUpItemState.FreeTime;
 		private void Start()
 		{
+			Icon.sprite = this.SendQuery(new FindStrikeItemIcon(key));
+			
 			var playModel = this.GetModel<IPlayerModel>();
 
 			playModel.CurrentState.Register(value =>

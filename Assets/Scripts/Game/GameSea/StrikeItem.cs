@@ -30,6 +30,9 @@ namespace daifuDemo
 		{
 			var _strikeIemSystem = this.GetSystem<IStrikeItemSystem>();
 
+			pickUpItemRoot = GameObject.FindGameObjectWithTag("PickUpItemRoot");
+			
+			Icon.sprite = _strikeIemSystem.StrikeItemInfos[key].Icon;
 			_type = _strikeIemSystem.StrikeItemInfos[key].Type;
 			_dropItemKey = _strikeIemSystem.StrikeItemInfos[key].DropItemKey;
 			_dropAmountWithTimes = _strikeIemSystem.StrikeItemInfos[key].DropAmountWithTimes;

@@ -19,15 +19,15 @@ MonoBehaviour:
     From: 0
     NameToFullName: []
     BindInfos:
-    - TypeName: daifuDemo.WaiterTemplate
-      PathToRoot: WaiterTemplate
-      MemberName: WaiterTemplate
-    ScriptsFolder: Assets/Scripts/Game
-    ClassName: WaiterManage
-    Namespace: daifuDemo
-    MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace daifuDemo\r\n{\r\n\tpublic
-      partial class WaiterManage : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
+    - TypeName: UnityEngine.Transform
+      PathToRoot: Icon
+      MemberName: Icon
+    ScriptsFolder: Assets/Scripts/MapEditor
+    ClassName: mapEditor
+    Namespace: MapEditor
+    MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace MapEditor\r\n{\r\n\tpublic
+      partial class mapEditor : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
       Code Here\r\n\t\t}\r\n\t}\r\n}\r\n"
-    DesignerCode: "// Generate Id:46cc74df-94b9-428b-9ceb-b1630b23a778\r\nusing UnityEngine;\r\n\r\nnamespace
-      daifuDemo\r\n{\r\n\tpublic partial class WaiterManage\r\n\t{\r\n\r\n\t\tpublic
-      daifuDemo.WaiterTemplate WaiterTemplate;\r\n\r\n\t}\r\n}\r\n"
+    DesignerCode: "// Generate Id:063ad2db-bbbb-4510-a240-ff974e78a79b\r\nusing UnityEngine;\r\n\r\nnamespace
+      MapEditor\r\n{\r\n\tpublic partial class mapEditor\r\n\t{\r\n\r\n\t\tpublic
+      UnityEngine.Transform Icon;\r\n\r\n\t}\r\n}\r\n"

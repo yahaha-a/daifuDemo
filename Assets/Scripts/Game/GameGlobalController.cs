@@ -19,7 +19,11 @@ namespace daifuDemo
             this.SendCommand<InitializeDataCommand>();
             
             UIKit.Root.SetResolution(1920, 1080, 1);
-            UIKit.OpenPanel<UIGameGlobalPanel>();
+            
+            if (SceneManager.GetActiveScene().name != "MapEditor")
+            {
+                UIKit.OpenPanel<UIGameGlobalPanel>();
+            }
         }
 
         private void OnDestroy()
