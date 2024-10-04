@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Global;
 using QFramework;
 using UnityEngine;
 
@@ -17,10 +18,17 @@ namespace daifuDemo
     {
         protected override void OnInit()
         {
-            this.AddTreasureItemInfos(Config.SpiceTreasureChestKey, new TreasureItemInfo()
-                .WithName("调料宝箱")
-                .WithOpenNeedSeconds(2f)
-                .WithPossessionItemType(BackPackItemType.Seasoning));
+            //TODO
+            this.AddTreasureItemInfos(Config.ToolTreasureChestKey, new TreasureItemInfo()
+                    .WithName("材料宝箱")
+                    .WithOpenNeedSeconds(2f)
+                    .WithPossessionItemType(BackPackItemType.Tool)
+                    .WithNumber(10))
+                .AddTreasureItemInfos(Config.SpiceTreasureChestKey, new TreasureItemInfo()
+                    .WithName("调料宝箱")
+                    .WithOpenNeedSeconds(3f)
+                    .WithPossessionItemType(BackPackItemType.Seasoning)
+                    .WithNumber(1));
         }
 
         public Dictionary<string, ITreasureItemInfo> TreasureItemInfos { get; } =

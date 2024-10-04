@@ -1,10 +1,19 @@
 using System;
+using QFramework;
 using UnityEngine;
 
 namespace MapEditor
 {
     public class CameraController : MonoBehaviour
     {
+        private void Start()
+        {
+            MapEditorEvents.LoadArchive.Register(() =>
+            {
+                transform.position = new Vector3(0, 0, -10);
+            }).UnRegisterWhenGameObjectDestroyed(gameObject);
+        }
+
         private void Update()
         {
             float horizontal = Input.GetAxis("Horizontal");

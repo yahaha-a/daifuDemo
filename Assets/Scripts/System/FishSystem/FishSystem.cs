@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Global;
 using QFramework;
 using UnityEngine;
 
@@ -18,7 +19,8 @@ namespace daifuDemo
         private static ResLoader _resLoader = ResLoader.Allocate();
 
         private IBackPackSystem _backPackSystem;
-
+        
+        //TODO
         public Dictionary<string, IFishInfo> FishInfos { get; } = new Dictionary<string, IFishInfo>()
         {
             {Config.NormalFishKey, new FishInfo()
@@ -30,7 +32,6 @@ namespace daifuDemo
                 .WithSwimRate(3f)
                 .WithFrightenedSwimRate(5f)
                 .WithToggleDirectionTime(5f)
-                .WithRangeOfMovement(10f)
                 .WithHp(20f)
                 .WithStruggleTime(0.5f)
                 .WithClicks(5)
@@ -40,16 +41,14 @@ namespace daifuDemo
                 .WithAttackRange(1f)
                 .WithDamage(5f)
                 .WithPursuitSwimRate(5f)
-                .WithSwimRate(5f)
                 .WithFishName("狮子鱼")
                 .WithFishKey(Config.PteroisKey)
                 .WithFishIcon(_resLoader.LoadSync<Sprite>("PteriosFish"))
-                .WithFishPrefab(_resLoader.LoadSync<GameObject>("Pterois"))
+                .WithFishPrefab(_resLoader.LoadSync<GameObject>("AggressiveFish"))
                 .WithFishState(FishState.Swim)
                 .WithSwimRate(4f)
                 .WithFrightenedSwimRate(6f)
                 .WithToggleDirectionTime(3f)
-                .WithRangeOfMovement(5f)
                 .WithHp(10f)
                 .WithFleeHp(5f)
                 .WithStruggleTime(0.5f)

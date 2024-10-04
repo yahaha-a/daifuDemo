@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Global;
 using QFramework;
 using UnityEngine;
 
@@ -16,16 +17,23 @@ namespace daifuDemo
         private static ResLoader _resLoader = ResLoader.Allocate();
         protected override void OnInit()
         {
+            //TODO
             this.AddStrikeItemInfos(Config.KelpPlantsKey, new StrikeItemInfo()
                     .WithPluckItemType(PluckItemType.Plant)
                     .WithName("海带植物")
                     .WithIcon(_resLoader.LoadSync<Sprite>("Kelp"))
                     .WithDropItemKey(BackPackItemConfig.KelpKey)
                     .WithDropAmountWithTimes(new List<(int, int)>() { (1, 3) }))
+                .AddStrikeItemInfos(Config.CoralPlantsKey, new StrikeItemInfo()
+                    .WithPluckItemType(PluckItemType.Plant)
+                    .WithName("珊瑚礁")
+                    .WithIcon(_resLoader.LoadSync<Sprite>("Coral"))
+                    .WithDropItemKey(BackPackItemConfig.CoralKey)
+                    .WithDropAmountWithTimes(new List<(int, int)>() { (1, 1), (1, 2) }))
                 .AddStrikeItemInfos(Config.CopperOreKey, new StrikeItemInfo()
                     .WithPluckItemType(PluckItemType.Ore)
                     .WithName("铜矿")
-                    .WithIcon(_resLoader.LoadSync<Sprite>("Coral"))
+                    .WithIcon(_resLoader.LoadSync<Sprite>("Copper"))
                     .WithDropItemKey(BackPackItemConfig.CopperKey)
                     .WithDropAmountWithTimes(new List<(int, int)>() { (1, 1), (1, 1), (1, 1) }));
         }

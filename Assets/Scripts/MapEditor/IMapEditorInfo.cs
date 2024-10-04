@@ -1,3 +1,4 @@
+using Global;
 using UnityEngine;
 
 namespace MapEditor
@@ -11,7 +12,7 @@ namespace MapEditor
     
     public interface IMapEditorInfo
     {
-        MapEditorName Key { get; }
+        CreateItemName Key { get; }
         
         OptionType OptionType { get; }
         
@@ -19,7 +20,7 @@ namespace MapEditor
         
         string Name { get; }
         
-        IMapEditorInfo WithKey(MapEditorName key);
+        IMapEditorInfo WithKey(CreateItemName key);
 
         IMapEditorInfo WithOptionType(OptionType type);
 
@@ -30,7 +31,7 @@ namespace MapEditor
 
     public class MapEditorInfo : IMapEditorInfo
     {
-        public MapEditorName Key { get; set; }
+        public CreateItemName Key { get; set; }
         
         public OptionType OptionType { get; set; }
         
@@ -38,7 +39,7 @@ namespace MapEditor
         
         public string Name { get; set; }
         
-        public IMapEditorInfo WithKey(MapEditorName key)
+        public IMapEditorInfo WithKey(CreateItemName key)
         {
             Key = key;
             return this;

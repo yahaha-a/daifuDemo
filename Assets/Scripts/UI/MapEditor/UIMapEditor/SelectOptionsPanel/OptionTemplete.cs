@@ -25,6 +25,17 @@ namespace MapEditor
 			this.GetComponent<Button>().onClick.AddListener(() =>
 			{
 				_mapEditorModel.CurrentMapEditorName.Value = MapEditorInfo.Key;
+				_mapEditorModel.CurrentOptionType.Value = MapEditorInfo.OptionType;
+				
+
+				if (MapEditorInfo.OptionType == OptionType.Range)
+				{
+					MapEditorEvents.ShowInputCreateNumber?.Trigger(transform.position.y);
+				}
+				else
+				{
+					MapEditorEvents.HideInputCreateNumber?.Trigger();
+				}
 			});
 		}
 

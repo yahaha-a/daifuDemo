@@ -1,3 +1,4 @@
+using Global;
 using UnityEngine;
 
 namespace MapEditor
@@ -5,14 +6,17 @@ namespace MapEditor
     public enum CreateItemType
     {
         Null,
+        Barrier,
+        Role,
         Fish,
         TreasureChests,
-        Destructible
+        Destructible,
+        Drops
     }
     
     public interface ICreateItemInfo
     {
-        MapEditorName Key { get; }
+        CreateItemName Key { get; }
         
         int SerialNumber { get; }
         
@@ -21,8 +25,10 @@ namespace MapEditor
         float Y { get; }
         
         float Range { get; }
+        
+        int Number { get; }
 
-        ICreateItemInfo WithKey(MapEditorName key);
+        ICreateItemInfo WithKey(CreateItemName key);
 
         ICreateItemInfo WithSerialNumber(int serialNumber);
 
@@ -31,11 +37,13 @@ namespace MapEditor
         ICreateItemInfo WithY(float y);
 
         ICreateItemInfo WithRange(float range);
+
+        ICreateItemInfo WithNumber(int number);
     }
 
     public class CreateItemInfo : ICreateItemInfo
     {
-        public MapEditorName Key { get; set; }
+        public CreateItemName Key { get; set; }
         
         public int SerialNumber { get; set; }
 
@@ -44,8 +52,10 @@ namespace MapEditor
         public float Y { get; set; }
         
         public float Range { get; set; }
+        
+        public int Number { get; set; }
 
-        public ICreateItemInfo WithKey(MapEditorName key)
+        public ICreateItemInfo WithKey(CreateItemName key)
         {
             Key = key;
             return this;
@@ -72,6 +82,12 @@ namespace MapEditor
         public ICreateItemInfo WithRange(float range)
         {
             Range = range;
+            return this;
+        }
+
+        public ICreateItemInfo WithNumber(int number)
+        {
+            Number = number;
             return this;
         }
     }

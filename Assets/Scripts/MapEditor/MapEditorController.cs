@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Global;
 using QFramework;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,7 +22,7 @@ namespace MapEditor
         private IMapEditorModel _mapEditorModel;
         private IMapEditorSystem _mapEditorSystem;
         
-        private MapEditorName _currentMapEditorName;
+        private CreateItemName _currentMapEditorName;
         
         private void Start()
         {
@@ -41,6 +42,10 @@ namespace MapEditor
             {
                 _currentMapEditorName = name;
                 SelectItemCursor.sizeDelta = new Vector2(100, 100);
+                
+                _mapEditorModel.CurrentSelectRange.Value = 100;
+                _mapEditorModel.CurrentCreateItemNumber.Value = 1;
+                
                 SelectSingleIcon.Hide();
                 SelectRangeIcon.Hide();
                 SelectItemCursorName.Hide();
@@ -80,20 +85,20 @@ namespace MapEditor
             
             float scroll = Input.GetAxis("Mouse ScrollWheel");
 
-            if (scroll > 0f)
+            if (_mapEditorModel.CurrentOptionType.Value == OptionType.Range)
             {
-                this.GetModel<IMapEditorModel>().CurrentSelectRange.Value += 10f;
-            }
-            else if (scroll < 0f)
-            {
-                this.GetModel<IMapEditorModel>().CurrentSelectRange.Value -= 10f;
+                if (scroll > 0f)
+                {
+                    this.GetModel<IMapEditorModel>().CurrentSelectRange.Value += 10f;
+                }
+                else if (scroll < 0f)
+                {
+                    this.GetModel<IMapEditorModel>().CurrentSelectRange.Value -= 10f;
+                }
             }
             
             if (Input.GetMouseButtonDown(0) && IfCanCreate())
             {
-                var x = _mapEditorModel.CurrentMousePosition.Value.x;
-                var y = _mapEditorModel.CurrentMousePosition.Value.y;
-                
                 if (_mapEditorSystem._mapEditorInfos[_mapEditorModel.CurrentMapEditorName.Value].OptionType ==
                     OptionType.Null)
                 {
@@ -102,14 +107,12 @@ namespace MapEditor
                 else if (_mapEditorSystem._mapEditorInfos[_mapEditorModel.CurrentMapEditorName.Value].OptionType ==
                          OptionType.Single)
                 {
-                    MapEditorEvents.CreateMapEditorItem?.Trigger(_mapEditorModel.CurrentMapEditorName.Value,
-                        new Vector3(x, y, 100));
+                    MapEditorEvents.CreateMapEditorItem?.Trigger();
                 }
                 else if (_mapEditorSystem._mapEditorInfos[_mapEditorModel.CurrentMapEditorName.Value].OptionType ==
                          OptionType.Range)
                 {
-                    MapEditorEvents.CreateMapEditorItem?.Trigger(_mapEditorModel.CurrentMapEditorName.Value,
-                        new Vector3(x, y, _mapEditorModel.CurrentSelectRange.Value));
+                    MapEditorEvents.CreateMapEditorItem?.Trigger();
                 }
             }
         }
@@ -117,6 +120,11 @@ namespace MapEditor
         bool IfCanCreate()
         {
             if (_mapEditorModel.CurrentArchiveName.Value == null)
+            {
+                return false;
+            }
+
+            if (_mapEditorModel.IfInputCreateNumberPanelShow.Value)
             {
                 return false;
             }

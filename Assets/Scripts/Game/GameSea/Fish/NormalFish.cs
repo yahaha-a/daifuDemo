@@ -1,4 +1,5 @@
 using System;
+using Global;
 using UnityEngine;
 using QFramework;
 using Unity.VisualScripting;
@@ -97,13 +98,11 @@ namespace daifuDemo
 			ToggleDirectionTime = this.SendQuery(new FindFishToggleDirectionTime(FishKey));
 			SwimRate = this.SendQuery(new FindFishSwimRate(FishKey));
 			FrightenedSwimRate = this.SendQuery(new FindFishFrightenedSwimRate(FishKey));
-			RangeOfMovement = this.SendQuery(new FindFishRangeOfMovement(FishKey));
 			Hp = this.SendQuery(new FindFishHp(FishKey));
 			StruggleTime = this.SendQuery(new FindFishStruggleTime(FishKey));
 			Clicks = this.SendQuery(new FindFishClicks(FishKey));
 
 			CurrentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
-			StartPosition = transform.position;
 			CurrentToggleDirectionTime = ToggleDirectionTime;
 			CurrentSwimRate = SwimRate;
 		}

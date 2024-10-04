@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Global;
 using UnityEngine;
 using QFramework;
 using Random = UnityEngine.Random;

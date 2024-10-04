@@ -25,7 +25,7 @@ namespace MapEditor
 				CurrentArchiveName.text = name;
 				CurrentArchiveName.Show();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-			
+
 			NewButton.onClick.AddListener(() =>
 			{
 				NewMapPanel.Show();

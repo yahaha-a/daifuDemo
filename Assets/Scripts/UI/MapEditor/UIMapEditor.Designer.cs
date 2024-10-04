@@ -5,7 +5,7 @@ using QFramework;
 
 namespace MapEditor
 {
-	// Generate Id:58587473-86d2-469c-b39b-1f0f67e677d8
+	// Generate Id:40c160e8-e039-4391-a2c0-84b434db3a2c
 	public partial class UIMapEditor
 	{
 		public const string Name = "UIMapEditor";

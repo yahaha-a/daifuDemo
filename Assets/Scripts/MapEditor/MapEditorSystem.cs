@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using Global;
 using QFramework;
 using UnityEditor;
 using UnityEngine;
@@ -10,13 +11,19 @@ namespace MapEditor
 {
     public interface IMapEditorSystem : ISystem
     {
-        Dictionary<MapEditorName, IMapEditorInfo> _mapEditorInfos { get; }
+        Dictionary<CreateItemName, IMapEditorInfo> _mapEditorInfos { get; }
         
-        Dictionary<MapEditorName, List<ICreateItemInfo>> FishCreateItems { get; }
+        Dictionary<CreateItemName, List<ICreateItemInfo>> BarrierItems { get; }
         
-        Dictionary<MapEditorName, List<ICreateItemInfo>> TreasureChestsItems { get; }
+        Dictionary<CreateItemName, List<ICreateItemInfo>> RoleItems { get; }
         
-        Dictionary<MapEditorName, List<ICreateItemInfo>> DestructibleItems { get; }
+        Dictionary<CreateItemName, List<ICreateItemInfo>> FishCreateItems { get; }
+
+        Dictionary<CreateItemName, List<ICreateItemInfo>> TreasureChestsItems { get; }
+
+        Dictionary<CreateItemName, List<ICreateItemInfo>> DestructibleItems { get; }
+        
+        Dictionary<CreateItemName, List<ICreateItemInfo>> DropsItems { get; }
 
         void CreateEmptySave(string name);
 
@@ -33,106 +40,226 @@ namespace MapEditor
 
         private IMapEditorModel _mapEditorModel;
 
-        public Dictionary<MapEditorName, IMapEditorInfo> _mapEditorInfos { get; } =
-            new Dictionary<MapEditorName, IMapEditorInfo>()
+        //TODO
+        public Dictionary<CreateItemName, IMapEditorInfo> _mapEditorInfos { get; } =
+            new Dictionary<CreateItemName, IMapEditorInfo>()
             {
                 {
-                    MapEditorName.Null,
+                    CreateItemName.Null,
                     new MapEditorInfo()
-                        .WithKey(MapEditorName.Null)
+                        .WithKey(CreateItemName.Null)
                         .WithOptionType(OptionType.Null)
                         .WithCreateItemType(CreateItemType.Null)
                         .WithName("空")
                 },
 
                 {
-                    MapEditorName.Kelp,
+                    CreateItemName.Clod,
                     new MapEditorInfo()
-                        .WithKey(MapEditorName.Kelp)
+                        .WithKey(CreateItemName.Clod)
                         .WithOptionType(OptionType.Single)
-                        .WithCreateItemType(CreateItemType.Destructible)
-                        .WithName("海带")
+                        .WithCreateItemType(CreateItemType.Barrier)
+                        .WithName("土块")
                 },
-
+                
                 {
-                    MapEditorName.NormalTreasureChest,
+                    CreateItemName.Dave,
                     new MapEditorInfo()
-                        .WithKey(MapEditorName.NormalTreasureChest)
+                        .WithKey(CreateItemName.Dave)
                         .WithOptionType(OptionType.Single)
-                        .WithCreateItemType(CreateItemType.TreasureChests)
-                        .WithName("普通宝箱")
+                        .WithCreateItemType(CreateItemType.Role)
+                        .WithName("戴夫")
                 },
-
+                
                 {
-                    MapEditorName.NormalFishEditor,
+                    CreateItemName.NormalFish,
                     new MapEditorInfo()
-                        .WithKey(MapEditorName.NormalFishEditor)
+                        .WithKey(CreateItemName.NormalFish)
                         .WithOptionType(OptionType.Range)
                         .WithCreateItemType(CreateItemType.Fish)
                         .WithName("普通鱼")
-                }
+                },
+                
+                {
+                    CreateItemName.PteroisFish,
+                    new MapEditorInfo()
+                        .WithKey(CreateItemName.PteroisFish)
+                        .WithOptionType(OptionType.Range)
+                        .WithCreateItemType(CreateItemType.Fish)
+                        .WithName("狮子鱼")
+                },
+
+                {
+                    CreateItemName.ToolTreasureChest,
+                    new MapEditorInfo()
+                        .WithKey(CreateItemName.ToolTreasureChest)
+                        .WithOptionType(OptionType.Single)
+                        .WithCreateItemType(CreateItemType.TreasureChests)
+                        .WithName("材料宝箱")
+                },
+                
+                {
+                    CreateItemName.SpiceTreasureChest,
+                    new MapEditorInfo()
+                        .WithKey(CreateItemName.SpiceTreasureChest)
+                        .WithOptionType(OptionType.Single)
+                        .WithCreateItemType(CreateItemType.TreasureChests)
+                        .WithName("调味品宝箱")
+                },
+                
+                {
+                    CreateItemName.KelpPlants,
+                    new MapEditorInfo()
+                        .WithKey(CreateItemName.KelpPlants)
+                        .WithOptionType(OptionType.Single)
+                        .WithCreateItemType(CreateItemType.Destructible)
+                        .WithName("海带植物")
+                },
+                
+                {
+                    CreateItemName.CoralPlants,
+                    new MapEditorInfo()
+                        .WithKey(CreateItemName.CoralPlants)
+                        .WithOptionType(OptionType.Single)
+                        .WithCreateItemType(CreateItemType.Destructible)
+                        .WithName("珊瑚礁")
+                },
+                
+                {
+                    CreateItemName.CopperOre,
+                    new MapEditorInfo()
+                        .WithKey(CreateItemName.CopperOre)
+                        .WithOptionType(OptionType.Single)
+                        .WithCreateItemType(CreateItemType.Destructible)
+                        .WithName("铜矿石")
+                },
+                
+                {
+                    CreateItemName.Cordage,
+                    new MapEditorInfo()
+                        .WithKey(CreateItemName.Cordage)
+                        .WithOptionType(OptionType.Single)
+                        .WithCreateItemType(CreateItemType.Drops)
+                        .WithName("绳索")
+                },
+                
+                {
+                    CreateItemName.Wood,
+                    new MapEditorInfo()
+                        .WithKey(CreateItemName.Wood)
+                        .WithOptionType(OptionType.Single)
+                        .WithCreateItemType(CreateItemType.Drops)
+                        .WithName("木头")
+                },
             };
 
-        public Dictionary<MapEditorName, List<ICreateItemInfo>> FishCreateItems { get; } =
-            new Dictionary<MapEditorName, List<ICreateItemInfo>>();
+        public Dictionary<CreateItemName, List<ICreateItemInfo>> BarrierItems { get; } =
+            new Dictionary<CreateItemName, List<ICreateItemInfo>>();
+        
+        public Dictionary<CreateItemName, List<ICreateItemInfo>> RoleItems { get; } =
+            new Dictionary<CreateItemName, List<ICreateItemInfo>>();
+        
+        public Dictionary<CreateItemName, List<ICreateItemInfo>> FishCreateItems { get; } =
+            new Dictionary<CreateItemName, List<ICreateItemInfo>>();
 
-        public Dictionary<MapEditorName, List<ICreateItemInfo>> TreasureChestsItems { get; } =
-            new Dictionary<MapEditorName, List<ICreateItemInfo>>();
+        public Dictionary<CreateItemName, List<ICreateItemInfo>> TreasureChestsItems { get; } =
+            new Dictionary<CreateItemName, List<ICreateItemInfo>>();
 
-        public Dictionary<MapEditorName, List<ICreateItemInfo>> DestructibleItems { get; } =
-            new Dictionary<MapEditorName, List<ICreateItemInfo>>();
+        public Dictionary<CreateItemName, List<ICreateItemInfo>> DestructibleItems { get; } =
+            new Dictionary<CreateItemName, List<ICreateItemInfo>>();
+        
+        public Dictionary<CreateItemName, List<ICreateItemInfo>> DropsItems { get; } =
+            new Dictionary<CreateItemName, List<ICreateItemInfo>>();
         
         protected override void OnInit()
         {
             _mapEditorModel = this.GetModel<IMapEditorModel>();
             
-            MapEditorEvents.CreateMapEditorItem.Register((key, coordinate) =>
+            MapEditorEvents.CreateMapEditorItem.Register(() =>
             {
                 ICreateItemInfo currentCreateItemInfo = new CreateItemInfo()
-                    .WithKey(key)
+                    .WithKey(_mapEditorModel.CurrentMapEditorName.Value)
                     .WithSerialNumber(_mapEditorModel.CurrentSerialNumber.Value)
-                    .WithX(coordinate.x)
-                    .WithY(coordinate.y)
-                    .WithRange(coordinate.z);
+                    .WithX(_mapEditorModel.CurrentMousePosition.Value.x)
+                    .WithY(_mapEditorModel.CurrentMousePosition.Value.y)
+                    .WithRange(_mapEditorModel.CurrentSelectRange.Value)
+                    .WithNumber(_mapEditorModel.CurrentCreateItemNumber.Value);
                 
-                if (_mapEditorInfos[key].CreateItemType == CreateItemType.Fish)
+                if (_mapEditorInfos[_mapEditorModel.CurrentMapEditorName.Value].CreateItemType == CreateItemType.Fish)
                 {
-                    if (FishCreateItems.ContainsKey(key))
+                    if (FishCreateItems.ContainsKey(_mapEditorModel.CurrentMapEditorName.Value))
                     {
-                        FishCreateItems[key].Add(currentCreateItemInfo);
+                        FishCreateItems[_mapEditorModel.CurrentMapEditorName.Value].Add(currentCreateItemInfo);
                     }
                     else
                     {
-                        FishCreateItems.Add(key, new List<ICreateItemInfo>());
-                        FishCreateItems[key].Add(currentCreateItemInfo);
+                        FishCreateItems.Add(_mapEditorModel.CurrentMapEditorName.Value, new List<ICreateItemInfo>());
+                        FishCreateItems[_mapEditorModel.CurrentMapEditorName.Value].Add(currentCreateItemInfo);
                     }
                 }
-                else if (_mapEditorInfos[key].CreateItemType == CreateItemType.TreasureChests)
+                else if (_mapEditorInfos[_mapEditorModel.CurrentMapEditorName.Value].CreateItemType == CreateItemType.TreasureChests)
                 {
-                    if (TreasureChestsItems.ContainsKey(key))
+                    if (TreasureChestsItems.ContainsKey(_mapEditorModel.CurrentMapEditorName.Value))
                     {
-                        TreasureChestsItems[key].Add(currentCreateItemInfo);
+                        TreasureChestsItems[_mapEditorModel.CurrentMapEditorName.Value].Add(currentCreateItemInfo);
                     }
                     else
                     {
-                        TreasureChestsItems.Add(key, new List<ICreateItemInfo>());
-                        TreasureChestsItems[key].Add(currentCreateItemInfo);
+                        TreasureChestsItems.Add(_mapEditorModel.CurrentMapEditorName.Value, new List<ICreateItemInfo>());
+                        TreasureChestsItems[_mapEditorModel.CurrentMapEditorName.Value].Add(currentCreateItemInfo);
                     }
                 }
-                else if (_mapEditorInfos[key].CreateItemType == CreateItemType.Destructible)
+                else if (_mapEditorInfos[_mapEditorModel.CurrentMapEditorName.Value].CreateItemType == CreateItemType.Destructible)
                 {
-                    if (DestructibleItems.ContainsKey(key))
+                    if (DestructibleItems.ContainsKey(_mapEditorModel.CurrentMapEditorName.Value))
                     {
-                        DestructibleItems[key].Add(currentCreateItemInfo);
+                        DestructibleItems[_mapEditorModel.CurrentMapEditorName.Value].Add(currentCreateItemInfo);
                     }
                     else
                     {
-                        DestructibleItems.Add(key, new List<ICreateItemInfo>());
-                        DestructibleItems[key].Add(currentCreateItemInfo);
+                        DestructibleItems.Add(_mapEditorModel.CurrentMapEditorName.Value, new List<ICreateItemInfo>());
+                        DestructibleItems[_mapEditorModel.CurrentMapEditorName.Value].Add(currentCreateItemInfo);
+                    }
+                }
+                else if (_mapEditorInfos[_mapEditorModel.CurrentMapEditorName.Value].CreateItemType == CreateItemType.Barrier)
+                {
+                    if (BarrierItems.ContainsKey(_mapEditorModel.CurrentMapEditorName.Value))
+                    {
+                        BarrierItems[_mapEditorModel.CurrentMapEditorName.Value].Add(currentCreateItemInfo);
+                    }
+                    else
+                    {
+                        BarrierItems.Add(_mapEditorModel.CurrentMapEditorName.Value, new List<ICreateItemInfo>());
+                        BarrierItems[_mapEditorModel.CurrentMapEditorName.Value].Add(currentCreateItemInfo);
+                    }
+                }
+                else if (_mapEditorInfos[_mapEditorModel.CurrentMapEditorName.Value].CreateItemType == CreateItemType.Role)
+                {
+                    if (RoleItems.ContainsKey(_mapEditorModel.CurrentMapEditorName.Value))
+                    {
+                        RoleItems[_mapEditorModel.CurrentMapEditorName.Value].Add(currentCreateItemInfo);
+                    }
+                    else
+                    {
+                        RoleItems.Add(_mapEditorModel.CurrentMapEditorName.Value, new List<ICreateItemInfo>());
+                        RoleItems[_mapEditorModel.CurrentMapEditorName.Value].Add(currentCreateItemInfo);
+                    }
+                }
+                else if (_mapEditorInfos[_mapEditorModel.CurrentMapEditorName.Value].CreateItemType == CreateItemType.Drops)
+                {
+                    if (DropsItems.ContainsKey(_mapEditorModel.CurrentMapEditorName.Value))
+                    {
+                        DropsItems[_mapEditorModel.CurrentMapEditorName.Value].Add(currentCreateItemInfo);
+                    }
+                    else
+                    {
+                        DropsItems.Add(_mapEditorModel.CurrentMapEditorName.Value, new List<ICreateItemInfo>());
+                        DropsItems[_mapEditorModel.CurrentMapEditorName.Value].Add(currentCreateItemInfo);
                     }
                 }
 
                 _mapEditorModel.CurrentSerialNumber.Value++;
+                
                 MapEditorEvents.ShowCreateItem?.Trigger(currentCreateItemInfo);
             });
             
@@ -170,6 +297,39 @@ namespace MapEditor
                         return;
                     }
                 }
+                
+                foreach (var (mapEditorName, createItemInfos) in BarrierItems)
+                {
+                    if (createItemInfos.Find(item => item.SerialNumber == serialNumber) != null)
+                    {
+                        var itemToRemove = createItemInfos.Find(item => item.SerialNumber == serialNumber);
+                        BarrierItems[mapEditorName].Remove(itemToRemove);
+                        MapEditorEvents.refreshCreatePanel?.Trigger();
+                        return;
+                    }
+                }
+                
+                foreach (var (mapEditorName, createItemInfos) in RoleItems)
+                {
+                    if (createItemInfos.Find(item => item.SerialNumber == serialNumber) != null)
+                    {
+                        var itemToRemove = createItemInfos.Find(item => item.SerialNumber == serialNumber);
+                        RoleItems[mapEditorName].Remove(itemToRemove);
+                        MapEditorEvents.refreshCreatePanel?.Trigger();
+                        return;
+                    }
+                }
+                
+                foreach (var (mapEditorName, createItemInfos) in DropsItems)
+                {
+                    if (createItemInfos.Find(item => item.SerialNumber == serialNumber) != null)
+                    {
+                        var itemToRemove = createItemInfos.Find(item => item.SerialNumber == serialNumber);
+                        DropsItems[mapEditorName].Remove(itemToRemove);
+                        MapEditorEvents.refreshCreatePanel?.Trigger();
+                        return;
+                    }
+                }
             });
         }
         
@@ -178,6 +338,9 @@ namespace MapEditor
             FishCreateItems.Clear();
             TreasureChestsItems.Clear();
             DestructibleItems.Clear();
+            BarrierItems.Clear();
+            RoleItems.Clear();
+            DropsItems.Clear();
 
             XmlDocument document = new XmlDocument();
             var root = document.CreateElement("Items");
@@ -196,6 +359,7 @@ namespace MapEditor
             AssetDatabase.Refresh();
             LoadItemsFromXml(name);
         }
+        
         public void SaveItemsToXml(string name)
         {
             XmlDocument document = new XmlDocument();
@@ -213,6 +377,7 @@ namespace MapEditor
                     itemNode.SetAttribute("x", item.X.ToString());
                     itemNode.SetAttribute("y", item.Y.ToString());
                     itemNode.SetAttribute("range", item.Range.ToString());
+                    itemNode.SetAttribute("number", item.Number.ToString());
                     fishItemsNode.AppendChild(itemNode);
                 }
             }
@@ -229,6 +394,7 @@ namespace MapEditor
                     itemNode.SetAttribute("x", item.X.ToString());
                     itemNode.SetAttribute("y", item.Y.ToString());
                     itemNode.SetAttribute("range", item.Range.ToString());
+                    itemNode.SetAttribute("number", item.Number.ToString());
                     treasureChestsNode.AppendChild(itemNode);
                 }
             }
@@ -245,13 +411,64 @@ namespace MapEditor
                     itemNode.SetAttribute("x", item.X.ToString());
                     itemNode.SetAttribute("y", item.Y.ToString());
                     itemNode.SetAttribute("range", item.Range.ToString());
+                    itemNode.SetAttribute("number", item.Number.ToString());
                     destructibleItemsNode.AppendChild(itemNode);
                 }
             }
             root.AppendChild(destructibleItemsNode);
 
+            var barrierItemsNode = document.CreateElement("BarrierItems");
+            foreach (var itemList in BarrierItems.Values)
+            {
+                foreach (var item in itemList)
+                {
+                    var itemNode = document.CreateElement("Item");
+                    itemNode.SetAttribute("key", item.Key.ToString());
+                    itemNode.SetAttribute("serialNumber", item.SerialNumber.ToString());
+                    itemNode.SetAttribute("x", item.X.ToString());
+                    itemNode.SetAttribute("y", item.Y.ToString());
+                    itemNode.SetAttribute("range", item.Range.ToString());
+                    itemNode.SetAttribute("number", item.Number.ToString());
+                    barrierItemsNode.AppendChild(itemNode);
+                }
+            }
+            root.AppendChild(barrierItemsNode);
+
+            var roleItemsNode = document.CreateElement("RoleItems");
+            foreach (var itemList in RoleItems.Values)
+            {
+                foreach (var item in itemList)
+                {
+                    var itemNode = document.CreateElement("Item");
+                    itemNode.SetAttribute("key", item.Key.ToString());
+                    itemNode.SetAttribute("serialNumber", item.SerialNumber.ToString());
+                    itemNode.SetAttribute("x", item.X.ToString());
+                    itemNode.SetAttribute("y", item.Y.ToString());
+                    itemNode.SetAttribute("range", item.Range.ToString());
+                    itemNode.SetAttribute("number", item.Number.ToString());
+                    roleItemsNode.AppendChild(itemNode);
+                }
+            }
+            root.AppendChild(roleItemsNode);
+
+            var dropsItemsNode = document.CreateElement("DropsItems");
+            foreach (var itemList in DropsItems.Values)
+            {
+                foreach (var item in itemList)
+                {
+                    var itemNode = document.CreateElement("Item");
+                    itemNode.SetAttribute("key", item.Key.ToString());
+                    itemNode.SetAttribute("serialNumber", item.SerialNumber.ToString());
+                    itemNode.SetAttribute("x", item.X.ToString());
+                    itemNode.SetAttribute("y", item.Y.ToString());
+                    itemNode.SetAttribute("range", item.Range.ToString());
+                    itemNode.SetAttribute("number", item.Number.ToString());
+                    dropsItemsNode.AppendChild(itemNode);
+                }
+            }
+            root.AppendChild(dropsItemsNode);
+
             string directoryPath = Path.Combine(Application.dataPath, "../Assets/Art/Archive");
-            
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
@@ -262,12 +479,16 @@ namespace MapEditor
             document.Save(filePath);
             AssetDatabase.Refresh();
         }
+
         
         public void LoadItemsFromXml(string name)
         {
             FishCreateItems.Clear();
             TreasureChestsItems.Clear();
             DestructibleItems.Clear();
+            BarrierItems.Clear();
+            RoleItems.Clear();
+            DropsItems.Clear();
 
             string directoryPath = Path.Combine(Application.dataPath, "../Assets/Art/Archive");
             string filePath = Path.Combine(directoryPath, $"{name}.xml");
@@ -288,30 +509,40 @@ namespace MapEditor
 
             XmlNodeList destructibleItemsNodes = document.SelectNodes("/Items/DestructibleItems/Item");
             LoadItemsIntoDictionary(destructibleItemsNodes, DestructibleItems);
-    
+
+            XmlNodeList barrierItemsNodes = document.SelectNodes("/Items/BarrierItems/Item");
+            LoadItemsIntoDictionary(barrierItemsNodes, BarrierItems);
+
+            XmlNodeList roleItemsNodes = document.SelectNodes("/Items/RoleItems/Item");
+            LoadItemsIntoDictionary(roleItemsNodes, RoleItems);
+
+            XmlNodeList dropsItemsNodes = document.SelectNodes("/Items/DropsItems/Item");
+            LoadItemsIntoDictionary(dropsItemsNodes, DropsItems);
+
             MapEditorEvents.refreshCreatePanel?.Trigger();
+            MapEditorEvents.LoadArchive?.Trigger();
         }
 
 
-        private void LoadItemsIntoDictionary(XmlNodeList itemNodes, Dictionary<MapEditorName, List<ICreateItemInfo>> targetDictionary)
+        private void LoadItemsIntoDictionary(XmlNodeList itemNodes, Dictionary<CreateItemName, List<ICreateItemInfo>> targetDictionary)
         {
             foreach (XmlNode itemNode in itemNodes)
             {
                 string keyString = itemNode.Attributes["key"].Value;
-                MapEditorName key = (MapEditorName)System.Enum.Parse(typeof(MapEditorName), keyString);
+                CreateItemName key = (CreateItemName)System.Enum.Parse(typeof(CreateItemName), keyString);
                 int serialNumber = int.Parse(itemNode.Attributes["serialNumber"].Value);
                 float x = float.Parse(itemNode.Attributes["x"].Value);
                 float y = float.Parse(itemNode.Attributes["y"].Value);
                 float range = float.Parse(itemNode.Attributes["range"].Value);
+                int number = int.Parse(itemNode.Attributes["number"].Value);
 
                 ICreateItemInfo newItem = new CreateItemInfo()
-                {
-                    Key = key,
-                    SerialNumber = serialNumber,
-                    X = x,
-                    Y = y,
-                    Range = range
-                };
+                    .WithKey(key)
+                    .WithSerialNumber(serialNumber)
+                    .WithX(x)
+                    .WithY(y)
+                    .WithRange(range)
+                    .WithNumber(number);
 
                 if (!targetDictionary.ContainsKey(key))
                 {
@@ -325,7 +556,7 @@ namespace MapEditor
         {
             string directoryPath = Path.Combine(Application.dataPath, "../Assets/Art/Archive");
             string filePath = Path.Combine(directoryPath, $"{name}.xml");
-    
+
             XmlDocument document = new XmlDocument();
             document.Load(filePath);
 
@@ -352,8 +583,28 @@ namespace MapEditor
                 maxSerialNumber = Mathf.Max(maxSerialNumber, serialNumber);
             }
 
+            XmlNodeList barrierItemsNodes = document.SelectNodes("/Items/BarrierItems/Item");
+            foreach (XmlNode itemNode in barrierItemsNodes)
+            {
+                int serialNumber = int.Parse(itemNode.Attributes["serialNumber"].Value);
+                maxSerialNumber = Mathf.Max(maxSerialNumber, serialNumber);
+            }
+
+            XmlNodeList roleItemsNodes = document.SelectNodes("/Items/RoleItems/Item");
+            foreach (XmlNode itemNode in roleItemsNodes)
+            {
+                int serialNumber = int.Parse(itemNode.Attributes["serialNumber"].Value);
+                maxSerialNumber = Mathf.Max(maxSerialNumber, serialNumber);
+            }
+
+            XmlNodeList dropsItemsNodes = document.SelectNodes("/Items/DropsItems/Item");
+            foreach (XmlNode itemNode in dropsItemsNodes)
+            {
+                int serialNumber = int.Parse(itemNode.Attributes["serialNumber"].Value);
+                maxSerialNumber = Mathf.Max(maxSerialNumber, serialNumber);
+            }
+
             return maxSerialNumber;
         }
-
     }
 }

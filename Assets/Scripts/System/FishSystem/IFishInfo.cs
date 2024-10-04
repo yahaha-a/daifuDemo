@@ -27,8 +27,6 @@ namespace daifuDemo
         
         float ToggleDirectionTime { get; }
         
-        float RangeOfMovement { get; }
-        
         float SwimRate { get; }
         
         float FrightenedSwimRate { get; }
@@ -52,8 +50,6 @@ namespace daifuDemo
         IFishInfo WithFishState(FishState fishState);
 
         IFishInfo WithToggleDirectionTime(float toggleDirectionTime);
-
-        IFishInfo WithRangeOfMovement(float rangeOfMovement);
 
         IFishInfo WithSwimRate(float swimRate);
 
@@ -82,8 +78,6 @@ namespace daifuDemo
         
         public float ToggleDirectionTime { get; private set; }
         
-        public float RangeOfMovement { get; private set; }
-
         public float SwimRate { get; private set; }
         
         public float FrightenedSwimRate { get; private set; }
@@ -128,12 +122,6 @@ namespace daifuDemo
         public IFishInfo WithToggleDirectionTime(float toggleDirectionTime)
         {
             ToggleDirectionTime = toggleDirectionTime;
-            return this;
-        }
-
-        public IFishInfo WithRangeOfMovement(float rangeOfMovement)
-        {
-            RangeOfMovement = rangeOfMovement;
             return this;
         }
 

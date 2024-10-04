@@ -33,13 +33,13 @@ namespace MapEditor
 			else if (_mapEditorSystem._mapEditorInfos[CreateItemInfo.Key].OptionType == OptionType.Single)
 			{
 				Icon.sprite = _resLoader.LoadSync<Sprite>("SingleIcon");
+				Name.text = _mapEditorSystem._mapEditorInfos[CreateItemInfo.Key].Name;
 			}
 			else if (_mapEditorSystem._mapEditorInfos[CreateItemInfo.Key].OptionType == OptionType.Range)
 			{
 				Icon.sprite = _resLoader.LoadSync<Sprite>("RangeIcon");
+				Name.text = CreateItemInfo.Number + "个" + _mapEditorSystem._mapEditorInfos[CreateItemInfo.Key].Name;
 			}
-
-			Name.text = _mapEditorSystem._mapEditorInfos[CreateItemInfo.Key].Name;
 
 			this.GetComponent<Button>().onClick.AddListener(() =>
 			{

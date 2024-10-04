@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 1926646487775427106}
   - component: {fileID: 5745128389735993902}
   m_Layer: 0
-  m_Name: Pterois
+  m_Name: AggressiveFish
   m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,3 +1,4 @@
+using Global;
 using QFramework;
 using UnityEngine;
 
@@ -5,7 +6,7 @@ namespace MapEditor
 {
     public class MapEditorEvents
     {
-        public static EasyEvent<MapEditorName, Vector3> CreateMapEditorItem = new EasyEvent<MapEditorName, Vector3>();
+        public static EasyEvent CreateMapEditorItem = new EasyEvent();
         
         public static EasyEvent<int> DeleteCreateItem = new EasyEvent<int>();
 
@@ -13,5 +14,10 @@ namespace MapEditor
 
         public static EasyEvent refreshCreatePanel = new EasyEvent();
 
+        public static EasyEvent<float> ShowInputCreateNumber = new EasyEvent<float>();
+
+        public static EasyEvent HideInputCreateNumber = new EasyEvent();
+
+        public static EasyEvent LoadArchive = new EasyEvent();
     }
 }

@@ -1,3 +1,4 @@
+using Global;
 using QFramework;
 using UnityEngine;
 

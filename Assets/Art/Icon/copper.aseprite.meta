@@ -162,20 +162,20 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
-    guid: 207741951
-    name: copper
+    guid: 220763551
+    name: Copper
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: copper
+    - name: Copper
       frameIndex: 0
       cellRect:
         x: 0
         y: 0
         width: 128
         height: 92
-      spriteId: dc6123ee45b98b047a4fd9c40e76205f
+      spriteId: ae930e63030a3c042839d52edeefab86
     linkedCells: []
     parentIndex: -1
   platformSettings:

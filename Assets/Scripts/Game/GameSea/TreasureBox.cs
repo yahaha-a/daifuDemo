@@ -1,4 +1,5 @@
 using System;
+using Global;
 using UnityEngine;
 using QFramework;
 

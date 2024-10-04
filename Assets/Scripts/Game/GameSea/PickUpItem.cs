@@ -1,4 +1,5 @@
 using System;
+using Global;
 using UnityEngine;
 using QFramework;
 
@@ -13,7 +14,7 @@ namespace daifuDemo
 	
 	public partial class PickUpItem : ViewController, IController
 	{
-		public string key = BackPackItemConfig.CordageKey;
+		public string key = Config.KelpPlantsKey;
 		
 		private PickUpItemState _state = PickUpItemState.FreeTime;
 		private void Start()

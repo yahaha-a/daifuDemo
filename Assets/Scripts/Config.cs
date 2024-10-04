@@ -1,5 +1,28 @@
-namespace daifuDemo
+namespace Global
 {
+    //TODO
+    public enum CreateItemName
+    {
+        Null,
+        
+        Clod,
+        
+        Dave,
+        
+        NormalFish,
+        PteroisFish,
+        
+        ToolTreasureChest,
+        SpiceTreasureChest,
+        
+        KelpPlants,
+        CoralPlants,
+        CopperOre,
+        
+        Cordage,
+        Wood
+    }
+    
     public class Config
     {
         public static float PlayerWalkingRate = 6.0f;
@@ -12,13 +35,23 @@ namespace daifuDemo
 
         public static float PlayerInvincibleTime = 3f;
         
-        public static string NormalFishKey = "normal_fish";
-
-        public static string PteroisKey = "pterois_fish";
-
-        public static string NormalFishIcon = "normal_fish_icon";
         
-        public static string PteroisIcon = "pterois_fish_icon";
+        public static string NormalFishKey = "NormalFish";
+
+        public static string PteroisKey = "PteroisFish";
+
+        
+        public static string ToolTreasureChestKey = "ToolTreasureChest";
+        
+        public static string SpiceTreasureChestKey = "SpiceTreasureChest";
+        
+        
+        public static string CopperOreKey = "CopperOre";
+
+        public static string KelpPlantsKey = "KelpPlants";
+
+        public static string CoralPlantsKey = "CoralPlants";
+        
 
         public static string FishForkKey = "fishfork_weapon";
 
@@ -27,12 +60,6 @@ namespace daifuDemo
         public static string RifleKey = "rifle_weapon";
 
         public static string ShotgunKey = "shotgun_weapon";
-
-        public static string SpiceTreasureChestKey = "spiceTreasureChest_key";
-
-        public static string CopperOreKey = "copperOre_key";
-
-        public static string KelpPlantsKey = "kelpPlants_key";
 
         public static string CustomerKey = "customer_key";
     }

@@ -17,71 +17,115 @@ namespace MapEditor
 		private List<GameObject> _createItemLists = new List<GameObject>();
 
 		private void Start()
-		{
-			_mapEditorSystem = this.GetSystem<IMapEditorSystem>();
+        {
+            _mapEditorSystem = this.GetSystem<IMapEditorSystem>();
 
-			MapEditorEvents.refreshCreatePanel.Register(() =>
-			{
-				foreach (var item in _createItemLists)
-				{
-					item.DestroySelf();
-				}
-				_createItemLists.Clear();
-				
-				foreach (var (key, createItemInfos) in _mapEditorSystem.FishCreateItems)
-				{
-					foreach (var createItemInfo in createItemInfos)
-					{
-						CreateItemTemplete.InstantiateWithParent(CreateItemRoot).Self(self =>
-						{
-							self.CreateItemInfo = createItemInfo;
+            MapEditorEvents.refreshCreatePanel.Register(() =>
+            {
+                foreach (var item in _createItemLists)
+                {
+                    item.DestroySelf();
+                }
+                _createItemLists.Clear();
 
-							self.Show();
-							_createItemLists.Add(self.gameObject);
-						});
-					}
-				}
+                foreach (var (key, createItemInfos) in _mapEditorSystem.FishCreateItems)
+                {
+                    foreach (var createItemInfo in createItemInfos)
+                    {
+                        CreateItemTemplete.InstantiateWithParent(CreateItemRoot).Self(self =>
+                        {
+                            self.CreateItemInfo = createItemInfo;
 
-				foreach (var (key, createItemInfos) in _mapEditorSystem.TreasureChestsItems)
-				{
-					foreach (var createItemInfo in createItemInfos)
-					{
-						CreateItemTemplete.InstantiateWithParent(CreateItemRoot).Self(self =>
-						{
-							self.CreateItemInfo = createItemInfo;
+                            self.Show();
+                            _createItemLists.Add(self.gameObject);
+                        });
+                    }
+                }
 
-							self.Show();
-							_createItemLists.Add(self.gameObject);
-						});
-					}
-				}
+                foreach (var (key, createItemInfos) in _mapEditorSystem.TreasureChestsItems)
+                {
+                    foreach (var createItemInfo in createItemInfos)
+                    {
+                        CreateItemTemplete.InstantiateWithParent(CreateItemRoot).Self(self =>
+                        {
+                            self.CreateItemInfo = createItemInfo;
 
-				foreach (var (key, createItemInfos) in _mapEditorSystem.DestructibleItems)
-				{
-					foreach (var createItemInfo in createItemInfos)
-					{
-						CreateItemTemplete.InstantiateWithParent(CreateItemRoot).Self(self =>
-						{
-							self.CreateItemInfo = createItemInfo;
+                            self.Show();
+                            _createItemLists.Add(self.gameObject);
+                        });
+                    }
+                }
 
-							self.Show();
-							_createItemLists.Add(self.gameObject);
-						});
-					}
-				}
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+                foreach (var (key, createItemInfos) in _mapEditorSystem.DestructibleItems)
+                {
+                    foreach (var createItemInfo in createItemInfos)
+                    {
+                        CreateItemTemplete.InstantiateWithParent(CreateItemRoot).Self(self =>
+                        {
+                            self.CreateItemInfo = createItemInfo;
 
-			MapEditorEvents.ShowCreateItem.Register(currentCreateItem =>
-			{
-				CreateItemTemplete.InstantiateWithParent(CreateItemRoot).Self(self =>
-				{
-					self.CreateItemInfo = currentCreateItem;
+                            self.Show();
+                            _createItemLists.Add(self.gameObject);
+                        });
+                    }
+                }
 
-					self.Show();
-					_createItemLists.Add(self.gameObject);
-				});
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-		}
+                foreach (var (key, createItemInfos) in _mapEditorSystem.BarrierItems)
+                {
+                    foreach (var createItemInfo in createItemInfos)
+                    {
+                        CreateItemTemplete.InstantiateWithParent(CreateItemRoot).Self(self =>
+                        {
+                            self.CreateItemInfo = createItemInfo;
+
+                            self.Show();
+                            _createItemLists.Add(self.gameObject);
+                        });
+                    }
+                }
+
+                foreach (var (key, createItemInfos) in _mapEditorSystem.RoleItems)
+                {
+                    foreach (var createItemInfo in createItemInfos)
+                    {
+                        CreateItemTemplete.InstantiateWithParent(CreateItemRoot).Self(self =>
+                        {
+                            self.CreateItemInfo = createItemInfo;
+
+                            self.Show();
+                            _createItemLists.Add(self.gameObject);
+                        });
+                    }
+                }
+
+                foreach (var (key, createItemInfos) in _mapEditorSystem.DropsItems)
+                {
+                    foreach (var createItemInfo in createItemInfos)
+                    {
+                        CreateItemTemplete.InstantiateWithParent(CreateItemRoot).Self(self =>
+                        {
+                            self.CreateItemInfo = createItemInfo;
+
+                            self.Show();
+                            _createItemLists.Add(self.gameObject);
+                        });
+                    }
+                }
+
+            }).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+            MapEditorEvents.ShowCreateItem.Register(currentCreateItem =>
+            {
+                CreateItemTemplete.InstantiateWithParent(CreateItemRoot).Self(self =>
+                {
+                    self.CreateItemInfo = currentCreateItem;
+
+                    self.Show();
+                    _createItemLists.Add(self.gameObject);
+                });
+            }).UnRegisterWhenGameObjectDestroyed(gameObject);
+        }
+
 
 		protected override void OnBeforeDestroy()
 		{

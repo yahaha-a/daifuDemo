@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using daifuDemo;
+using Global;
 using UnityEngine;
 using UnityEngine.UI;
 using QFramework;
@@ -27,8 +28,20 @@ namespace MapEditor
 			
 			CancelButton.onClick.AddListener(() =>
 			{
-				_mapEditorModel.CurrentMapEditorName.Value = MapEditorName.Null;
+				_mapEditorModel.CurrentMapEditorName.Value = CreateItemName.Null;
 			});
+			
+			MapEditorEvents.ShowInputCreateNumber.Register(y =>
+			{
+				var position = InputCreateNumberPanel.transform.position;
+				InputCreateNumberPanel.transform.position = new Vector3(position.x, y, position.z);
+				InputCreateNumberPanel.Show();
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			MapEditorEvents.HideInputCreateNumber.Register(() =>
+			{
+				InputCreateNumberPanel.Hide();
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 			
 			foreach (var (mapEditorName, mapEditorInfo) in _mapEditorSystem._mapEditorInfos)
 			{
