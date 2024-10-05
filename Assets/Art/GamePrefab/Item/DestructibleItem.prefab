@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2422377748926812558}
   - component: {fileID: 7393009522463465413}
   m_Layer: 0
-  m_Name: StrikeItem
+  m_Name: DestructibleItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 3671591605249105629}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.82, y: -2.71, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -52,8 +52,8 @@ MonoBehaviour:
   GeneratePrefab: 0
   PrefabFolder: Assets/Art/Prefab
   ArchitectureFullTypeName: 
-  pickUpItemRoot: {fileID: 0}
-  key: copperOre_key
+  dropsRoot: {fileID: 0}
+  key: 
   Icon: {fileID: 5797519408284069231}
   InductionBox: {fileID: 7931961218346113783}
 --- !u!1 &8280625873312231558

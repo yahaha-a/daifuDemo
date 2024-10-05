@@ -10,14 +10,14 @@ namespace Global
         Dave,
         
         NormalFish,
-        PteroisFish,
+        AggressiveFish,
         
         ToolTreasureChest,
         SpiceTreasureChest,
         
-        KelpPlants,
-        CoralPlants,
-        CopperOre,
+        Kelp,
+        Coral,
+        Copper,
         
         Cordage,
         Wood
@@ -38,7 +38,7 @@ namespace Global
         
         public static string NormalFishKey = "NormalFish";
 
-        public static string PteroisKey = "PteroisFish";
+        public static string AggressiveFishKey = "AggressiveFish";
 
         
         public static string ToolTreasureChestKey = "ToolTreasureChest";
@@ -46,11 +46,11 @@ namespace Global
         public static string SpiceTreasureChestKey = "SpiceTreasureChest";
         
         
-        public static string CopperOreKey = "CopperOre";
+        public static string CopperOreKey = "Copper";
 
-        public static string KelpPlantsKey = "KelpPlants";
+        public static string KelpPlantsKey = "Kelp";
 
-        public static string CoralPlantsKey = "CoralPlants";
+        public static string CoralPlantsKey = "Coral";
         
 
         public static string FishForkKey = "fishfork_weapon";

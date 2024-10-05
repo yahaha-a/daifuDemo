@@ -1,3 +1,4 @@
+using System;
 using QFramework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,6 +7,8 @@ namespace daifuDemo
 {
     public class GameGlobalController : MonoBehaviour, IController
     {
+        private UIGameGlobalPanel _uiGameGlobalPanel;
+        
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         static void Initialize()
         {
@@ -19,10 +22,26 @@ namespace daifuDemo
             this.SendCommand<InitializeDataCommand>();
             
             UIKit.Root.SetResolution(1920, 1080, 1);
-            
-            if (SceneManager.GetActiveScene().name != "MapEditor")
+
+            UIKit.OpenPanel<UIGameGlobalPanel>();
+            _uiGameGlobalPanel = UIKit.GetPanel<UIGameGlobalPanel>();
+        }
+
+        private void Update()
+        {
+            if (SceneManager.GetActiveScene().name != "MapEditor" && SceneManager.GetActiveScene().name != "GameStart")
             {
-                UIKit.OpenPanel<UIGameGlobalPanel>();
+                if (!_uiGameGlobalPanel.gameObject.activeSelf)
+                {
+                    _uiGameGlobalPanel.Show();
+                }
+            }
+            else
+            {
+                if (_uiGameGlobalPanel.gameObject.activeSelf)
+                {
+                    _uiGameGlobalPanel.Hide();
+                }
             }
         }
 

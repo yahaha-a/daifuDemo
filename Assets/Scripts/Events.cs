@@ -47,5 +47,9 @@ namespace daifuDemo
         public static EasyEvent Attack = new EasyEvent();
 
         public static EasyEvent Attack2 = new EasyEvent();
+
+        public static EasyEvent MapInitializationComplete = new EasyEvent();
+
+        public static EasyEvent GameStart = new EasyEvent();
     }
 }

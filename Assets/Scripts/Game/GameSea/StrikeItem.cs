@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Global;
 using UnityEngine;
 using QFramework;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace daifuDemo
@@ -11,9 +12,9 @@ namespace daifuDemo
 	{
 		private static ResLoader _resLoader = ResLoader.Allocate();
 
-		public GameObject pickUpItemRoot;
+		public GameObject dropsRoot;
 
-		public string key = Config.CopperOreKey;
+		public string key;
 
 		private PluckItemType _type;
 
@@ -31,7 +32,7 @@ namespace daifuDemo
 		{
 			var _strikeIemSystem = this.GetSystem<IStrikeItemSystem>();
 
-			pickUpItemRoot = GameObject.FindGameObjectWithTag("PickUpItemRoot");
+			dropsRoot = GameObject.FindGameObjectWithTag("DropsRoot");
 			
 			Icon.sprite = _strikeIemSystem.StrikeItemInfos[key].Icon;
 			_type = _strikeIemSystem.StrikeItemInfos[key].Type;
@@ -67,8 +68,8 @@ namespace daifuDemo
 			{
 				for (int j = 0; j < _dropAmount; j++)
 				{
-					var pickupItem = _resLoader.LoadSync<GameObject>("PickUpItem");
-					pickupItem.InstantiateWithParent(pickUpItemRoot.transform).Self(self =>
+					var pickupItem = _resLoader.LoadSync<GameObject>("DropItem");
+					pickupItem.InstantiateWithParent(dropsRoot.transform).Self(self =>
 					{
 						self.transform.position = this.transform.position + new Vector3(Random.Range(-1f, 1f), 0, 0);
 						self.GetComponent<PickUpItem>().key = _dropItemKey;

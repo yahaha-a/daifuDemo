@@ -4,16 +4,18 @@ namespace daifuDemo
 {
     public enum CreateItemType
     {
+        Null,
+        Barrier,
+        Role,
         Fish,
-        TreasureChest,
-        Destructible
+        TreasureChests,
+        Destructible,
+        Drops
     }
     
     public interface IMapCreateItemInfo
     {
         string Key { get; }
-        
-        GameObject Prefab { get; }
         
         CreateItemType Type { get; }
         
@@ -24,8 +26,6 @@ namespace daifuDemo
         int Number { get; }
 
         IMapCreateItemInfo WithKey(string key);
-
-        IMapCreateItemInfo WithPrefab(GameObject prefab);
 
         IMapCreateItemInfo WithType(CreateItemType type);
 
@@ -40,8 +40,6 @@ namespace daifuDemo
     {
         public string Key { get; set; }
         
-        public GameObject Prefab { get; set; }
-        
         public CreateItemType Type { get; set; }
 
         public Vector3 Position { get; set; }
@@ -53,12 +51,6 @@ namespace daifuDemo
         public IMapCreateItemInfo WithKey(string key)
         {
             Key = key;
-            return this;
-        }
-
-        public IMapCreateItemInfo WithPrefab(GameObject prefab)
-        {
-            Prefab = prefab;
             return this;
         }
 

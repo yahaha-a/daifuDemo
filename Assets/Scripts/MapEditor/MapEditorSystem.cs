@@ -81,9 +81,9 @@ namespace MapEditor
                 },
                 
                 {
-                    CreateItemName.PteroisFish,
+                    CreateItemName.AggressiveFish,
                     new MapEditorInfo()
-                        .WithKey(CreateItemName.PteroisFish)
+                        .WithKey(CreateItemName.AggressiveFish)
                         .WithOptionType(OptionType.Range)
                         .WithCreateItemType(CreateItemType.Fish)
                         .WithName("狮子鱼")
@@ -108,27 +108,27 @@ namespace MapEditor
                 },
                 
                 {
-                    CreateItemName.KelpPlants,
+                    CreateItemName.Kelp,
                     new MapEditorInfo()
-                        .WithKey(CreateItemName.KelpPlants)
+                        .WithKey(CreateItemName.Kelp)
                         .WithOptionType(OptionType.Single)
                         .WithCreateItemType(CreateItemType.Destructible)
                         .WithName("海带植物")
                 },
                 
                 {
-                    CreateItemName.CoralPlants,
+                    CreateItemName.Coral,
                     new MapEditorInfo()
-                        .WithKey(CreateItemName.CoralPlants)
+                        .WithKey(CreateItemName.Coral)
                         .WithOptionType(OptionType.Single)
                         .WithCreateItemType(CreateItemType.Destructible)
                         .WithName("珊瑚礁")
                 },
                 
                 {
-                    CreateItemName.CopperOre,
+                    CreateItemName.Copper,
                     new MapEditorInfo()
-                        .WithKey(CreateItemName.CopperOre)
+                        .WithKey(CreateItemName.Copper)
                         .WithOptionType(OptionType.Single)
                         .WithCreateItemType(CreateItemType.Destructible)
                         .WithName("铜矿石")

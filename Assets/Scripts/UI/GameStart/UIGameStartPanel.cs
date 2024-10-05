@@ -8,17 +8,27 @@ namespace daifuDemo
 	public class UIGameStartPanelData : UIPanelData
 	{
 	}
-	public partial class UIGameStartPanel : UIPanel
+	public partial class UIGameStartPanel : UIPanel, IController
 	{
 		protected override void OnInit(IUIData uiData = null)
 		{
 			mData = uiData as UIGameStartPanelData ?? new UIGameStartPanelData();
-			
+
 			StartGameButton.onClick.AddListener(() =>
 			{
-				SceneManager.LoadScene("GameShip");
+				SelectMapPanel.Show();
+			});
+			
+			CreateMapButton.onClick.AddListener(() =>
+			{
+				SceneManager.LoadScene("MapEditor");
 				this.CloseSelf();
 			});
+
+			Events.GameStart.Register(() =>
+			{
+				this.CloseSelf();
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 		
 		protected override void OnOpen(IUIData uiData = null)
@@ -35,6 +45,11 @@ namespace daifuDemo
 		
 		protected override void OnClose()
 		{
+		}
+
+		public IArchitecture GetArchitecture()
+		{
+			return Global.Interface;
 		}
 	}
 }

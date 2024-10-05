@@ -1,41 +1,13 @@
 <Items>
   <FishItems>
-    <Item key="NormalFish" serialNumber="19" x="2" y="1" range="340" number="5" />
-    <Item key="PteroisFish" serialNumber="20" x="1" y="-2" range="210" number="1" />
+    <Item key="NormalFish" serialNumber="2" x="3" y="1" range="620" number="5" />
+    <Item key="AggressiveFish" serialNumber="3" x="-1" y="-4" range="320" number="2" />
   </FishItems>
-  <TreasureChestsItems>
-    <Item key="ToolTreasureChest" serialNumber="22" x="-2" y="-2" range="100" number="1" />
-    <Item key="SpiceTreasureChest" serialNumber="24" x="-1" y="-2" range="100" number="1" />
-  </TreasureChestsItems>
-  <DestructibleItems>
-    <Item key="KelpPlants" serialNumber="29" x="5" y="-1" range="100" number="1" />
-    <Item key="KelpPlants" serialNumber="30" x="6" y="-1" range="100" number="1" />
-    <Item key="CoralPlants" serialNumber="35" x="5" y="-2" range="100" number="1" />
-    <Item key="CoralPlants" serialNumber="36" x="6" y="-2" range="100" number="1" />
-    <Item key="CopperOre" serialNumber="39" x="5" y="-3" range="100" number="1" />
-    <Item key="CopperOre" serialNumber="40" x="6" y="-3" range="100" number="1" />
-  </DestructibleItems>
-  <BarrierItems>
-    <Item key="Clod" serialNumber="2" x="-3" y="2" range="100" number="1" />
-    <Item key="Clod" serialNumber="3" x="-1" y="2" range="100" number="1" />
-    <Item key="Clod" serialNumber="4" x="-2" y="2" range="100" number="1" />
-    <Item key="Clod" serialNumber="8" x="-4" y="-2" range="100" number="1" />
-    <Item key="Clod" serialNumber="9" x="-4" y="1" range="100" number="1" />
-    <Item key="Clod" serialNumber="10" x="-4" y="2" range="100" number="1" />
-    <Item key="Clod" serialNumber="11" x="-4" y="0" range="100" number="1" />
-    <Item key="Clod" serialNumber="12" x="-4" y="-1" range="100" number="1" />
-    <Item key="Clod" serialNumber="13" x="-4" y="-3" range="100" number="1" />
-    <Item key="Clod" serialNumber="14" x="-3" y="-3" range="100" number="1" />
-    <Item key="Clod" serialNumber="15" x="-2" y="-3" range="100" number="1" />
-    <Item key="Clod" serialNumber="16" x="-1" y="-3" range="100" number="1" />
-  </BarrierItems>
+  <TreasureChestsItems />
+  <DestructibleItems />
+  <BarrierItems />
   <RoleItems>
-    <Item key="Dave" serialNumber="18" x="-3" y="0" range="100" number="1" />
+    <Item key="Dave" serialNumber="1" x="-4" y="0" range="100" number="1" />
   </RoleItems>
-  <DropsItems>
-    <Item key="Cordage" serialNumber="41" x="-3" y="-5" range="100" number="1" />
-    <Item key="Cordage" serialNumber="44" x="0" y="-5" range="100" number="1" />
-    <Item key="Wood" serialNumber="45" x="-2" y="-5" range="100" number="1" />
-    <Item key="Wood" serialNumber="47" x="-1" y="-5" range="100" number="1" />
-  </DropsItems>
+  <DropsItems />
 </Items>

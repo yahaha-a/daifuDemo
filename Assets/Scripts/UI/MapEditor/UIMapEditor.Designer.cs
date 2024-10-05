@@ -5,7 +5,7 @@ using QFramework;
 
 namespace MapEditor
 {
-	// Generate Id:40c160e8-e039-4391-a2c0-84b434db3a2c
+	// Generate Id:022cb25c-6bc3-4f69-a6bd-4d04ad318f3a
 	public partial class UIMapEditor
 	{
 		public const string Name = "UIMapEditor";
@@ -22,6 +22,8 @@ namespace MapEditor
 		public UnityEngine.UI.Button ReadButton;
 		[SerializeField]
 		public UnityEngine.UI.Button SaveButton;
+		[SerializeField]
+		public UnityEngine.UI.Button QuitButton;
 		[SerializeField]
 		public NewMapPanel NewMapPanel;
 		[SerializeField]
@@ -41,6 +43,7 @@ namespace MapEditor
 			NewButton = null;
 			ReadButton = null;
 			SaveButton = null;
+			QuitButton = null;
 			NewMapPanel = null;
 			ReadMapPanel = null;
 			SaveMapPanel = null;

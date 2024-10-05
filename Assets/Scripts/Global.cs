@@ -14,6 +14,7 @@ namespace daifuDemo
         
         protected override void Init()
         {
+            RegisterSystem<IMapCreateSystem>(new MapCreateSystem());
             RegisterSystem<IFishSystem>(new FishSystem());
             RegisterSystem<IHarvestSystem>(new HarvestSystem());
             RegisterSystem<IWeaponSystem>(new WeaponSystem());
@@ -26,6 +27,7 @@ namespace daifuDemo
             RegisterSystem<IStaffSystem>(new StaffSystem());
             RegisterSystem<IAchievementSystem>(new AchievementSystem());
             RegisterSystem<ITaskSystem>(new TaskSystem());
+            RegisterModel<IGameStartModel>(new GameStartModel());
             RegisterModel<IPlayerModel>(new PlayerModel());
             RegisterModel<IFishForkModel>(new FishForkModel());
             RegisterModel<IFishForkHeadModel>(new FishForkHeadModel());

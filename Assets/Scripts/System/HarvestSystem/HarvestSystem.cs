@@ -32,7 +32,7 @@ namespace daifuDemo
                         (BackPackItemConfig.NormalFishPiecesKey, 2, 3),
                         (BackPackItemConfig.NormalFishPiecesKey, 3, 5)
                     }))
-                .AddHarvestInfos(Config.PteroisKey, new HarvestInfo()
+                .AddHarvestInfos(Config.AggressiveFishKey, new HarvestInfo()
                     .WithCount(new List<(string, int, int)>()
                     {
                         (BackPackItemConfig.PteroisFishPiecesKey, 1, 1),

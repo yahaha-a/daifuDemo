@@ -14,7 +14,7 @@ namespace daifuDemo
 	
 	public partial class TreasureBox : ViewController, IController
 	{
-		public string key = Config.SpiceTreasureChestKey;
+		public string key;
 
 		private BackPackItemType _itemType;
 

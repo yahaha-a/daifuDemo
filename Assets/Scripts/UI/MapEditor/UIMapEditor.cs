@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using QFramework;
+using UnityEngine.SceneManagement;
 
 namespace MapEditor
 {
@@ -39,6 +40,12 @@ namespace MapEditor
 			SaveButton.onClick.AddListener(() =>
 			{
 				SaveMapPanel.Show();
+			});
+			
+			QuitButton.onClick.AddListener(() =>
+			{
+				SceneManager.LoadScene("GameStart");
+				this.CloseSelf();
 			});
 		}
 

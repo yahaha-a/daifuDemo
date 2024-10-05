@@ -14,7 +14,7 @@ namespace daifuDemo
 	
 	public partial class PickUpItem : ViewController, IController
 	{
-		public string key = Config.KelpPlantsKey;
+		public string key;
 		
 		private PickUpItemState _state = PickUpItemState.FreeTime;
 		private void Start()

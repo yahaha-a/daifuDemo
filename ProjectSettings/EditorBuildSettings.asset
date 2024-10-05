@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/GameStart.unity
     guid: 58effc86ae95004478b02e5a828fb69a
   - enabled: 1
+    path: Assets/Scenes/MapEditor.unity
+    guid: ea01bff73dff5fc4f8a7b52ea23801e9
+  - enabled: 1
     path: Assets/Scenes/GameShip.unity
     guid: 977e6c316f5e65c4ea6bae53392e5b2f
   - enabled: 1

@@ -14,7 +14,12 @@ TagManager:
   - Table
   - PlayerInteractionBox
   - KitchenInteractionBox
-  - PickUpItemRoot
+  - DropsRoot
+  - DestructibleRoot
+  - TreasureChestRoot
+  - FishRoot
+  - BarrierRoot
+  - PlayerRoot
   layers:
   - Default
   - TransparentFX

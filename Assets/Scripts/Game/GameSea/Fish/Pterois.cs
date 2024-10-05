@@ -98,7 +98,7 @@ namespace daifuDemo
 
 		private void InitData()
 		{
-			FishKey = Config.PteroisKey;
+			FishKey = Config.AggressiveFishKey;
 			
 			Icon.sprite = this.SendQuery(new FindFishIcon(FishKey));
 			

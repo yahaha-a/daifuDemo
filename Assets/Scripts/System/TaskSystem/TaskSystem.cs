@@ -39,15 +39,15 @@ namespace daifuDemo
             this.AddTask(TaskConfig.CatchOnePteroisKey, new TaskInfo()
                     .WithName("抓一条狮子鱼")
                     .WithDescribe("需要一条狮子鱼")
-                    .AddTaskItems(Config.PteroisKey, "狮子鱼", 1)
+                    .AddTaskItems(Config.AggressiveFishKey, "狮子鱼", 1)
                     .WithNotStartBehavior(null)
                     .WithIfSatisfyReceiveCondition(() => true)
                     .WithExecuteReceiveCondition(null)
                     .WithExecutingBehavior(() => Events.CatchFish.Register(fish =>
                     {
-                        if (fish.FishKey == Config.PteroisKey)
+                        if (fish.FishKey == Config.AggressiveFishKey)
                             TaskNodes[TaskConfig.CatchOnePteroisKey].TaskItems
-                                .FirstOrDefault(item => item.Key == Config.PteroisKey)!.CurrentAmount.Value++;
+                                .FirstOrDefault(item => item.Key == Config.AggressiveFishKey)!.CurrentAmount.Value++;
                     }).AddUnRegister(TaskConfig.CatchOnePteroisKey))
                     .WithIfSatisfyCompleteCondition(() => true)
                     .WithExecuteCompleteCondition(() => _collectionModel.Gold.Value++))

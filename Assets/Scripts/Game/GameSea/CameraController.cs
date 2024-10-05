@@ -10,7 +10,10 @@ namespace daifuDemo
 
 		private void Awake()
 		{
-			_mPlayerTransform = FindObjectOfType<Player>().transform;
+			Events.MapInitializationComplete.Register(() =>
+			{
+				_mPlayerTransform = FindObjectOfType<Player>().transform;
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
 		private void Update()
