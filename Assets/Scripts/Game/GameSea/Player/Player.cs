@@ -78,6 +78,8 @@ namespace daifuDemo
 			this.SendCommand<PlayBreatheCommand>();
 			
 			_playerFsm.Tick();
+
+			_playerModel.CurrentPosition.Value = transform.position;
 		}
 
 		private void SwitchWeapons()

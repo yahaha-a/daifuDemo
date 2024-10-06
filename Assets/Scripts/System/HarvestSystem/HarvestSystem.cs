@@ -25,6 +25,7 @@ namespace daifuDemo
 
         protected override void OnInit()
         {
+            //TODO
             this.AddHarvestInfos(Config.NormalFishKey, new HarvestInfo()
                     .WithCount(new List<(string, int, int)>()
                     {
@@ -44,6 +45,16 @@ namespace daifuDemo
                     {
                         (BackPackItemConfig.KelpKey, 0, 1)
                     }))
+                .AddHarvestInfos(BackPackItemConfig.CopperKey, new HarvestInfo()
+                    .WithCount(new List<(string, int, int)>()
+                    {
+                        (BackPackItemConfig.CopperKey, 0, 1)
+                    }))
+                .AddHarvestInfos(BackPackItemConfig.CordageKey, new HarvestInfo()
+                    .WithCount(new List<(string, int, int)>()
+                    {
+                        (BackPackItemConfig.CordageKey, 0, 1)
+                    }))
                 .AddHarvestInfos(BackPackItemConfig.SaltKey, new HarvestInfo()
                     .WithCount(new List<(string, int, int)>()
                     {
@@ -53,21 +64,13 @@ namespace daifuDemo
                     .WithCount(new List<(string, int, int)>()
                     {
                         (BackPackItemConfig.VinegarKey, 0, 1)
-                    }))
-                .AddHarvestInfos(BackPackItemConfig.CordageKey, new HarvestInfo()
-                    .WithCount(new List<(string, int, int)>()
-                    {
-                        (BackPackItemConfig.CordageKey, 0, 1)
-                    }))
-                .AddHarvestInfos(BackPackItemConfig.CopperKey, new HarvestInfo()
-                    .WithCount(new List<(string, int, int)>()
-                    {
-                        (BackPackItemConfig.CopperKey, 0, 1)
                     }));
             
             var fishSystem = this.GetSystem<IFishSystem>();
 
             var backPackSystem = this.GetSystem<IBackPackSystem>();
+
+            var archiveSystem = this.GetSystem<IArchiveSystem>();
 
             Events.GamePass.Register(() =>
             {
@@ -92,7 +95,9 @@ namespace daifuDemo
                         }
                     }
                 }
-                backPackSystem.SaveData();
+                
+                archiveSystem.SaveData(backPackSystem.ShipBackPackItemList, "ShipBackPackItemList");
+                archiveSystem.SaveData(backPackSystem.SuShiBackPackItemList, "SuShiBackPackItemList");
             });
         }
 

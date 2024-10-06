@@ -162,20 +162,20 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
-    guid: 1926447560
-    name: PteriosFish
+    guid: 833334060
+    name: AggressiveFish
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: PteriosFish
+    - name: AggressiveFish
       frameIndex: 0
       cellRect:
         x: 2
         y: 40
         width: 126
         height: 67
-      spriteId: d68583072cfd37e44ba6697a8182cf5d
+      spriteId: d368eda4d4498f54cb9662e94de1c218
     linkedCells: []
     parentIndex: -1
   platformSettings:

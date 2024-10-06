@@ -46,6 +46,8 @@ namespace daifuDemo
         BindableProperty<PlayState> CurrentState { get; }
         
         BindableProperty<bool> IfAttacking { get; }
+        
+        BindableProperty<Vector2> CurrentPosition { get; }
     }
     
     public class PlayerModel : AbstractModel, IPlayerModel
@@ -87,6 +89,8 @@ namespace daifuDemo
         public BindableProperty<PlayState> CurrentState { get; } = new BindableProperty<PlayState>(PlayState.Swim);
         
         public BindableProperty<bool> IfAttacking { get; } = new BindableProperty<bool>(false);
+
+        public BindableProperty<Vector2> CurrentPosition { get; } = new BindableProperty<Vector2>(Vector2.zero);
 
         public BindableProperty<bool> Invincibility { get; } = new BindableProperty<bool>(false);
 

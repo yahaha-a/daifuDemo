@@ -8,18 +8,16 @@ using QFramework;
 
 namespace daifuDemo
 {
-	public partial class mapTemplete
+	public partial class ObtainItemsTextTemplete
 	{
-		[SerializeField] public UnityEngine.UI.Text mapName;
 
 		public void Clear()
 		{
-			mapName = null;
 		}
 
 		public override string ComponentName
 		{
-			get { return "mapTemplete";}
+			get { return "ObtainItemsTextTemplete";}
 		}
 	}
 }

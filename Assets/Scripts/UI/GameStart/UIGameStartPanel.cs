@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using QFramework;
@@ -16,8 +17,13 @@ namespace daifuDemo
 
 			StartGameButton.onClick.AddListener(() =>
 			{
-				SelectMapPanel.Show();
+				CreateArchivePanel.Show();
 			});
+			
+			SelectArchiveButton.onClick.AddListener((() =>
+			{
+				SelectArchivePanel.Show();
+			}));
 			
 			CreateMapButton.onClick.AddListener(() =>
 			{

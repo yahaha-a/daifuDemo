@@ -25,12 +25,13 @@ namespace daifuDemo
 		private void Update()
 		{
 			var inputHorizontal = Input.GetAxis("Horizontal");
-			var inputVertical = Input.GetAxis("Vertical");
-			
-			var direction = new Vector2(inputHorizontal, inputVertical).normalized;
+    
+			var direction = new Vector2(inputHorizontal, 0).normalized;
+    
 			var playerTargetWalkingSpeed = direction * _speed;
 			_rigidbody2D.velocity = Vector2.Lerp(_rigidbody2D.velocity, playerTargetWalkingSpeed,
 				1 - Mathf.Exp(-Time.deltaTime * 10));
 		}
+
 	}
 }

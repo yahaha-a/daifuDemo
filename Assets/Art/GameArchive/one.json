@@ -1,0 +1,21 @@
+{
+  "BackPackData": [
+    {
+      "BackPackItemKey": "ShipBackPackItemList",
+      "Items": []
+    },
+    {
+      "BackPackItemKey": "SuShiBackPackItemList",
+      "Items": [
+        {
+          "Key": "normalFish_pieces_key",
+          "Value": 15
+        },
+        {
+          "Key": "pterois_fish_key",
+          "Value": 12
+        }
+      ]
+    }
+  ]
+}

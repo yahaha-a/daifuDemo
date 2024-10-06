@@ -6,19 +6,6 @@ using UnityEngine;
 
 namespace daifuDemo
 {
-    [System.Serializable]
-    public class SerializableCurrentOwnMenuItemList
-    {
-        public List<SerializableKeyValuePair> items;
-
-        [System.Serializable]
-        public class SerializableKeyValuePair
-        {
-            public string key;
-            public ICurrentOwnMenuItemInfo Value;
-        }
-    }
-    
     public interface IMenuSystem : ISystem
     {
         Dictionary<string, IMenuItemInfo> MenuItemInfos { get; }
@@ -60,10 +47,6 @@ namespace daifuDemo
         string TakeAFinishedDish();
 
         public string GetARandomDish();
-
-        void SaveData();
-
-        void LoadData();
     }
     
     public class MenuSystem : AbstractSystem, IMenuSystem
@@ -129,8 +112,6 @@ namespace daifuDemo
                         (3, BackPackItemConfig.PteroisFishPiecesKey, 70)
                     }));
 
-            LoadData();
-            
             foreach (var (key, menuItemInfo) in MenuItemInfos)
             {
                 if (!CurrentOwnMenuItems.ContainsKey(key) && menuItemInfo.UnLockNeed == 0)
@@ -198,6 +179,13 @@ namespace daifuDemo
             
             foreach (var (ingredientKey, count) in MenuItemInfos[currentOwnMenuItem.Key.Value].RequiredIngredientsAmount)
             {
+                if (!_backPackSystem.SuShiBackPackItemList.ContainsKey(ingredientKey))
+                {
+                    ifCanMake = false;
+                    canMakeNumber = 0;
+                    break;
+                }
+                
                 if (_backPackSystem.SuShiBackPackItemList[ingredientKey] >= count)
                 {
                     int currentCanMakeNumber = _backPackSystem.SuShiBackPackItemList[ingredientKey] / count;
@@ -395,39 +383,6 @@ namespace daifuDemo
             }
 
             return null;
-        }
-
-        public void SaveData()
-        {
-            SerializableCurrentOwnMenuItemList serializableItemList = new SerializableCurrentOwnMenuItemList
-            {
-                items = CurrentOwnMenuItems.Select(kvp => new SerializableCurrentOwnMenuItemList.SerializableKeyValuePair
-                {
-                    key = kvp.Key,
-                    Value = kvp.Value
-                }).ToList()
-            };
-
-            string currentMenuItemJson = JsonUtility.ToJson(serializableItemList);
-            PlayerPrefs.SetString("currentMenuItemJson_data", currentMenuItemJson);
-        }
-
-        public void LoadData()
-        {
-            string currentMenuItemJson = PlayerPrefs.GetString("currentMenuItemJson_data", "");
-
-            SerializableCurrentOwnMenuItemList loadedItemList =
-                JsonUtility.FromJson<SerializableCurrentOwnMenuItemList>(currentMenuItemJson);
-
-            CurrentOwnMenuItems.Clear();
-
-            if (loadedItemList != null && loadedItemList.items != null)
-            {
-                foreach (var kvp in loadedItemList.items)
-                {
-                    CurrentOwnMenuItems.Add(kvp.key, kvp.Value);
-                }
-            }
         }
     }
 }

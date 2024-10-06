@@ -5,7 +5,7 @@ using QFramework;
 
 namespace daifuDemo
 {
-	// Generate Id:087018d9-c482-4337-9d20-2bf251b9b14e
+	// Generate Id:a4ebd5c4-c798-4952-85a1-607b12ccd52b
 	public partial class UIGameStartPanel
 	{
 		public const string Name = "UIGameStartPanel";
@@ -13,17 +13,23 @@ namespace daifuDemo
 		[SerializeField]
 		public UnityEngine.UI.Button StartGameButton;
 		[SerializeField]
+		public UnityEngine.UI.Button SelectArchiveButton;
+		[SerializeField]
 		public UnityEngine.UI.Button CreateMapButton;
 		[SerializeField]
-		public SelectMapPanel SelectMapPanel;
+		public SelectArchivePanel SelectArchivePanel;
+		[SerializeField]
+		public CreateArchivePanel CreateArchivePanel;
 		
 		private UIGameStartPanelData mPrivateData = null;
 		
 		protected override void ClearUIComponents()
 		{
 			StartGameButton = null;
+			SelectArchiveButton = null;
 			CreateMapButton = null;
-			SelectMapPanel = null;
+			SelectArchivePanel = null;
+			CreateArchivePanel = null;
 			
 			mData = null;
 		}

@@ -1,0 +1,25 @@
+﻿/****************************************************************************
+ * 2024.10 WXH
+ ****************************************************************************/
+
+using UnityEngine;
+using UnityEngine.UI;
+using QFramework;
+
+namespace daifuDemo
+{
+	public partial class archiveTemplete
+	{
+		[SerializeField] public UnityEngine.UI.Text mapName;
+
+		public void Clear()
+		{
+			mapName = null;
+		}
+
+		public override string ComponentName
+		{
+			get { return "archiveTemplete";}
+		}
+	}
+}

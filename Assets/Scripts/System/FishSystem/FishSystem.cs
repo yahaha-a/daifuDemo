@@ -19,6 +19,10 @@ namespace daifuDemo
         private static ResLoader _resLoader = ResLoader.Allocate();
 
         private IBackPackSystem _backPackSystem;
+
+        private ITreasureBoxSystem _treasureBoxSystem;
+
+        private IPlayerModel _playerModel;
         
         //TODO
         public Dictionary<string, IFishInfo> FishInfos { get; } = new Dictionary<string, IFishInfo>()
@@ -43,7 +47,7 @@ namespace daifuDemo
                 .WithPursuitSwimRate(5f)
                 .WithFishName("狮子鱼")
                 .WithFishKey(Config.AggressiveFishKey)
-                .WithFishIcon(_resLoader.LoadSync<Sprite>("PteriosFish"))
+                .WithFishIcon(_resLoader.LoadSync<Sprite>("AggressiveFish"))
                 .WithFishPrefab(_resLoader.LoadSync<GameObject>("AggressiveFish"))
                 .WithFishState(FishState.Swim)
                 .WithSwimRate(4f)
@@ -62,6 +66,8 @@ namespace daifuDemo
         protected override void OnInit()
         {
             _backPackSystem = this.GetSystem<IBackPackSystem>();
+            _treasureBoxSystem = this.GetSystem<ITreasureBoxSystem>();
+            _playerModel = this.GetModel<IPlayerModel>();
             
             Events.WeaponAttackFish.Register((damage, fish) =>
             {
@@ -86,6 +92,12 @@ namespace daifuDemo
                             .WithAmount(1)
                         );
                     }
+                    
+                    Events.ObtainItem?.Trigger(new ObtainItemsInfo()
+                        .WithName("1星" + FishInfos[fishMessage.FishKey].FishName)
+                        .WithIconKey(FishInfos[fishMessage.FishKey].FishKey)
+                        .WithNumber(1)
+                        .WithStartPosition(fish.transform.position));
                 }
             });
 
@@ -110,6 +122,12 @@ namespace daifuDemo
                         .WithAmount(1)
                     );
                 }
+                
+                Events.ObtainItem?.Trigger(new ObtainItemsInfo()
+                    .WithName("3星" + FishInfos[fish.FishKey].FishName)
+                    .WithIconKey(FishInfos[fish.FishKey].FishKey)
+                    .WithNumber(1)
+                    .WithStartPosition(_playerModel.CurrentPosition.Value));
             });
 
             Events.TreasureBoxOpened.Register(treasure =>
@@ -127,6 +145,12 @@ namespace daifuDemo
                         .WithStar(0)
                         .WithAmount(1));
                 }
+                
+                Events.ObtainItem?.Trigger(new ObtainItemsInfo()
+                    .WithName(_backPackSystem.BackPackItemInfos[treasure.backPackItemKey].ItemName)
+                    .WithIconKey(_backPackSystem.BackPackItemInfos[treasure.backPackItemKey].ItemKey)
+                    .WithNumber(_treasureBoxSystem.TreasureItemInfos[treasure.key].Number)
+                    .WithStartPosition(_playerModel.CurrentPosition.Value));
             });
 
             Events.ItemPickUped.Register(item =>
@@ -144,6 +168,12 @@ namespace daifuDemo
                         .WithStar(0)
                         .WithAmount(1));
                 }
+                
+                Events.ObtainItem?.Trigger(new ObtainItemsInfo()
+                    .WithName(_backPackSystem.BackPackItemInfos[item.key].ItemName)
+                    .WithIconKey(_backPackSystem.BackPackItemInfos[item.key].ItemKey)
+                    .WithNumber(1)
+                    .WithStartPosition(item.gameObject.transform.position));
             });
         }
 

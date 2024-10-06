@@ -8,24 +8,24 @@ using QFramework;
 
 namespace daifuDemo
 {
-	public partial class SelectMapPanel
+	public partial class SelectArchivePanel
 	{
 		[SerializeField] public RectTransform archieveRoot;
-		[SerializeField] public mapTemplete mapTemplete;
+		[SerializeField] public archiveTemplete archiveTemplete;
 		[SerializeField] public UnityEngine.UI.Button Confirm;
 		[SerializeField] public UnityEngine.UI.Button Cancel;
 
 		public void Clear()
 		{
 			archieveRoot = null;
-			mapTemplete = null;
+			archiveTemplete = null;
 			Confirm = null;
 			Cancel = null;
 		}
 
 		public override string ComponentName
 		{
-			get { return "SelectMapPanel";}
+			get { return "SelectArchivePanel";}
 		}
 	}
 }

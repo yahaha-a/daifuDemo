@@ -5,19 +5,6 @@ using UnityEngine;
 
 namespace daifuDemo
 {
-    [System.Serializable]
-    public class SerializableBackPackItemList
-    {
-        public List<SerializableKeyValuePair> Items;
-
-        [System.Serializable]
-        public class SerializableKeyValuePair
-        {
-            public string Key;
-            public int Value;
-        }
-    }
-    
     public interface IBackPackSystem : ISystem
     {
         Dictionary<string, IBackPackItemInfo> BackPackItemInfos { get; }
@@ -29,19 +16,18 @@ namespace daifuDemo
         void AddBackPackItemList(string key, int count);
 
         string AccordingItemTypeGetRandomOne(BackPackItemType backPackItemType);
-
-        void SaveData();
-
-        void LoadData();
     }
     
     public class BackPackSystem : AbstractSystem, IBackPackSystem
     {
         private IMenuSystem _menuSystem;
+
+        private IArchiveSystem _archiveSystem;
         
         protected override void OnInit()
         {
             _menuSystem = this.GetSystem<IMenuSystem>();
+            _archiveSystem = this.GetSystem<IArchiveSystem>();
             
             //TODO
             this.AddBackPackItemInfos(BackPackItemConfig.NormalFishPiecesKey, new BackPackItemInfo()
@@ -99,7 +85,11 @@ namespace daifuDemo
                     .WithItemType(BackPackItemType.Tool)
                     .WithItemDescription("常见的道具, 升级武器需要"));
 
-            LoadData();
+            Events.GameStart.Register(() =>
+            {
+                _archiveSystem.LoadData(ShipBackPackItemList, "ShipBackPackItemList");
+                _archiveSystem.LoadData(SuShiBackPackItemList, "SuShiBackPackItemList");
+            });
         }
 
         public Dictionary<string, IBackPackItemInfo> BackPackItemInfos { get; } =
@@ -154,65 +144,6 @@ namespace daifuDemo
             }
 
             return itemList[Random.Range(0, itemList.Count)];
-        }
-        
-        public void SaveData()
-        {
-            SerializableBackPackItemList serializableItemList = new SerializableBackPackItemList
-            {
-                Items = ShipBackPackItemList.Select(kvp => new SerializableBackPackItemList.SerializableKeyValuePair
-                {
-                    Key = kvp.Key,
-                    Value = kvp.Value
-                }).ToList()
-            };
-
-            string shipBackPackItemJson = JsonUtility.ToJson(serializableItemList);
-            PlayerPrefs.SetString("ShipBackPackItemList_data", shipBackPackItemJson);
-
-            serializableItemList = new SerializableBackPackItemList
-            {
-                Items = SuShiBackPackItemList.Select(kvp => new SerializableBackPackItemList.SerializableKeyValuePair
-                {
-                    Key = kvp.Key,
-                    Value = kvp.Value
-                }).ToList()
-            };
-
-            string sushiBackPackItemJson = JsonUtility.ToJson(serializableItemList);
-            PlayerPrefs.SetString("sushiBackPackItemList_data", sushiBackPackItemJson);
-            PlayerPrefs.Save();
-        }
-
-        public void LoadData()
-        {
-            string shipbackPackItemJson = PlayerPrefs.GetString("ShipBackPackItemList_data", "");
-
-            SerializableBackPackItemList loadedItemList =
-                JsonUtility.FromJson<SerializableBackPackItemList>(shipbackPackItemJson);
-
-            ShipBackPackItemList.Clear();
-
-            if (loadedItemList != null && loadedItemList.Items != null)
-            {
-                foreach (var kvp in loadedItemList.Items)
-                {
-                    ShipBackPackItemList.Add(kvp.Key, kvp.Value);
-                }
-            }
-
-            string sushiPackItemJson = PlayerPrefs.GetString("sushiBackPackItemList_data", "");
-
-            loadedItemList = JsonUtility.FromJson<SerializableBackPackItemList>(sushiPackItemJson);
-            SuShiBackPackItemList.Clear();
-
-            if (loadedItemList != null && loadedItemList.Items != null)
-            {
-                foreach (var kvp in loadedItemList.Items)
-                {
-                    SuShiBackPackItemList.Add(kvp.Key, kvp.Value);
-                }
-            }
         }
     }
 }

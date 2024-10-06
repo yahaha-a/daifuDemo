@@ -108,7 +108,7 @@ namespace daifuDemo
 							{
 								self.GetComponent<NormalFish>().StartPosition = item.Position;
 								self.transform.position = GetRandomPositionInCircle(item.Range / 100, item.Position);
-								self.GetComponent<NormalFish>().RangeOfMovement = item.Range;
+								self.GetComponent<NormalFish>().RangeOfMovement = item.Range / 100;
 							});
 						}
 						else if (item.Key == "AggressiveFish")
@@ -117,7 +117,7 @@ namespace daifuDemo
 							{
 								self.GetComponent<Pterois>().StartPosition = item.Position;
 								self.transform.position = GetRandomPositionInCircle(item.Range / 100, item.Position);
-								self.GetComponent<Pterois>().RangeOfMovement = item.Range;
+								self.GetComponent<Pterois>().RangeOfMovement = item.Range / 100;
 							});
 						}
 					}

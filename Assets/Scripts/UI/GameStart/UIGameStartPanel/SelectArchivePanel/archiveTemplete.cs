@@ -10,26 +10,22 @@ using QFramework;
 
 namespace daifuDemo
 {
-	public partial class mapTemplete : UIElement, IController
+	public partial class archiveTemplete : UIElement, IController
 	{
 		public string Name;
 
-		private IGameStartModel _gameStartModel;
+		private IGameGlobalModel _gameGlobalModel;
 		
 		private void Awake()
 		{
-		}
-
-		private void Start()
-		{
-			_gameStartModel = this.GetModel<IGameStartModel>();
-
+			_gameGlobalModel = this.GetModel<IGameGlobalModel>();
+			
 			mapName.text = Name;
 			
-			this.GetComponent<Button>().onClick.AddListener((() =>
+			this.GetComponent<Button>().onClick.AddListener(() =>
 			{
-				_gameStartModel.CurrentSelectMapName.Value = Name;
-			}));
+				_gameGlobalModel.CurrentSelectArchiveName.Value = Name;
+			});
 		}
 
 		protected override void OnBeforeDestroy()

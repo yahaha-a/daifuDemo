@@ -8,7 +8,7 @@ namespace daifuDemo
     public class GameGlobalController : MonoBehaviour, IController
     {
         private UIGameGlobalPanel _uiGameGlobalPanel;
-        
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         static void Initialize()
         {
