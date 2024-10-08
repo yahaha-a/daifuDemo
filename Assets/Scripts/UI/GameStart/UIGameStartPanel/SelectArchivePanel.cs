@@ -29,14 +29,6 @@ namespace daifuDemo
 
 			Confirm.onClick.AddListener(() =>
 			{
-				// if (_gameStartModel.CurrentSelectMapName.Value != null)
-				// {
-				// 	_mapCreateSystem.LoadItemsFromXmlFile(_gameStartModel.CurrentSelectMapName.Value);
-				// 	Events.GameStart?.Trigger();
-				// 	SceneManager.LoadScene("GameShip");
-				// }
-				// _gameStartModel.CurrentSelectMapName.Value = null;
-
 				if (_gameGlobalModel.CurrentSelectArchiveName.Value != null)
 				{
 					_gameGlobalModel.CurrentArchiveName.Value = _gameGlobalModel.CurrentSelectArchiveName.Value;

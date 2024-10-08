@@ -36,6 +36,7 @@ namespace daifuDemo
 
             _collectionModel = this.GetModel<ICollectionModel>();
             
+            //TODO
             this.AddTask(TaskConfig.CatchOnePteroisKey, new TaskInfo()
                     .WithName("抓一条狮子鱼")
                     .WithDescribe("需要一条狮子鱼")

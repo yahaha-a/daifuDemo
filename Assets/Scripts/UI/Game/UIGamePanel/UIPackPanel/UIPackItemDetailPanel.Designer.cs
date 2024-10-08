@@ -1,5 +1,5 @@
 ﻿/****************************************************************************
- * 2024.6 WXH
+ * 2024.10 WXH
  ****************************************************************************/
 
 using UnityEngine;
@@ -8,20 +8,22 @@ using QFramework;
 
 namespace daifuDemo
 {
-	public partial class ItemListPanel
+	public partial class UIPackItemDetailPanel
 	{
-		[SerializeField] public RectTransform ItemListRoot;
-		[SerializeField] public ItemTemplate ItemTemplate;
+		[SerializeField] public UnityEngine.UI.Image Icon;
+		[SerializeField] public UnityEngine.UI.Text Name;
+		[SerializeField] public UnityEngine.UI.Text Detail;
 
 		public void Clear()
 		{
-			ItemListRoot = null;
-			ItemTemplate = null;
+			Icon = null;
+			Name = null;
+			Detail = null;
 		}
 
 		public override string ComponentName
 		{
-			get { return "ItemListPanel";}
+			get { return "UIPackItemDetailPanel";}
 		}
 	}
 }

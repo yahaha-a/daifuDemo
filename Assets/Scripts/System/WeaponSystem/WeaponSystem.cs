@@ -37,6 +37,7 @@ namespace daifuDemo
         {
             _bulletSystem = this.GetSystem<IBulletSystem>();
 
+            //TODO
             this.AddGunInfo(Config.RifleKey, 1, new GunInfo()
                     .WithKey(Config.RifleKey)
                     .WithName("步枪")

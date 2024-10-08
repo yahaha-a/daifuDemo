@@ -37,6 +37,7 @@ namespace daifuDemo
 			Cancel.onClick.AddListener(() =>
 			{
 				ArchiveName.text = null;
+				transform.gameObject.Hide();
 			});
 		}
 

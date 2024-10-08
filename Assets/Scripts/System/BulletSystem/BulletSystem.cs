@@ -18,6 +18,7 @@ namespace daifuDemo
         
         protected override void OnInit()
         {
+            //TODO
             this.AddBulletInfo(Config.RifleKey, BulletAttribute.Normal, 1, new BulletInfo()
                     .WithDamage(5f)
                     .WithSpeed(20f)

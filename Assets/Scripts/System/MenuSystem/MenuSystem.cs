@@ -65,6 +65,7 @@ namespace daifuDemo
 
             _collectionModel = this.GetModel<ICollectionModel>();
 
+            //TODO
             this.AddMenuItemInfos(MenuItemConfig.NormalFishsushiKey, new MenuItemInfo()
                     .WithName("普通鱼寿司")
                     .WithIcon(null)

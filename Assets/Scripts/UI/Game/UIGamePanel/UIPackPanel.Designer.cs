@@ -1,5 +1,5 @@
 ﻿/****************************************************************************
- * 2024.6 WXH
+ * 2024.10 WXH
  ****************************************************************************/
 
 using UnityEngine;
@@ -10,11 +10,15 @@ namespace daifuDemo
 {
 	public partial class UIPackPanel
 	{
-		[SerializeField] public ItemListPanel ItemListPanel;
+		[SerializeField] public RectTransform UIPackItemListRoot;
+		[SerializeField] public UIPackItemTemplate UIPackItemTemplate;
+		[SerializeField] public UIPackItemDetailPanel UIPackItemDetailPanel;
 
 		public void Clear()
 		{
-			ItemListPanel = null;
+			UIPackItemListRoot = null;
+			UIPackItemTemplate = null;
+			UIPackItemDetailPanel = null;
 		}
 
 		public override string ComponentName

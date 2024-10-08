@@ -2,19 +2,19 @@ namespace daifuDemo
 {
     public class BackPackItemConfig
     {
-        public static string NormalFishPiecesKey = "normalFish_pieces_key";
+        public static string NormalFishPiecesKey = "NormalFish";
 
-        public static string PteroisFishPiecesKey = "pterois_fish_key";
-        
+        public static string PteroisFishPiecesKey = "AggressiveFish";
 
-        public static string SaltKey = "Salt_key";
-
-        public static string VinegarKey = "vinegar_key";
-        
         
         public static string KelpKey = "Kelp";
 
         public static string CoralKey = "Coral";
+        
+        
+        public static string SaltKey = "Salt";
+
+        public static string VinegarKey = "Vinegar";
         
         public static string CopperKey = "Copper";
 

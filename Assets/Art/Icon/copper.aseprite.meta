@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: d4e615fc457b032489d179809da6a301
+guid: 06c707e05ffe1e94c823ffe727e2519c
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 2
   userData: 
-  assetBundleName: copper_aseprite
+  assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
   textureImporterSettings:
@@ -35,7 +35,7 @@ ScriptedImporter:
     spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
-    spritePixelsToUnits: 100
+    spritePixelsToUnits: 128
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
     spriteGenerateFallbackPhysicsShape: 0
     generateCubemap: 6
@@ -95,7 +95,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638632400871015076
+  platformSettingsDirtyTick: 638640203221016708
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -119,7 +119,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: copper
+  - name: Clod
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -129,8 +129,8 @@ ScriptedImporter:
       x: 4
       y: 4
       width: 128
-      height: 92
-    spriteID: dc6123ee45b98b047a4fd9c40e76205f
+      height: 128
+    spriteID: 11da87130a6bb994680285baac86ca29
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -140,7 +140,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
   spriteSheetImportData:
-  - name: copper_0
+  - name: Copper_0
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -150,8 +150,8 @@ ScriptedImporter:
       x: 4
       y: 4
       width: 128
-      height: 92
-    spriteID: 2fddf959a3c4bee469e571d336a1aec9
+      height: 127
+    spriteID: c316b13f6e3375840a43d1a2e7cafaa6
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -174,8 +174,8 @@ ScriptedImporter:
         x: 0
         y: 0
         width: 128
-        height: 92
-      spriteId: ae930e63030a3c042839d52edeefab86
+        height: 127
+      spriteId: 53fcbb39fa7183547b2d80b28ed400eb
     linkedCells: []
     parentIndex: -1
   platformSettings:

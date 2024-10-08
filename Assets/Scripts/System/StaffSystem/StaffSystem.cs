@@ -27,6 +27,7 @@ namespace daifuDemo
     {
         protected override void OnInit()
         {
+            //TODO
             this.AddStaffItemInfos(StaffConfig.AaaKey, new StaffInfo()
                     .WithKey(StaffConfig.AaaKey)
                     .WithName("Aaa")

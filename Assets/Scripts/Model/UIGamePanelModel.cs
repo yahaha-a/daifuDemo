@@ -9,6 +9,8 @@ namespace daifuDemo
         BindableProperty<bool> IfUIHarvestPanelShow { get; }
         
         BindableProperty<bool> IfCatchFishPanelShow { get; }
+        
+        BindableProperty<string> CurrentSelectItemKey { get; }
     }
     
     public class UIGamePanelModel : AbstractModel, IUIGamePanelModel
@@ -23,5 +25,7 @@ namespace daifuDemo
         public BindableProperty<bool> IfUIHarvestPanelShow { get; } = new BindableProperty<bool>(false);
         
         public BindableProperty<bool> IfCatchFishPanelShow { get; } = new BindableProperty<bool>(false);
+        
+        public BindableProperty<string> CurrentSelectItemKey { get; } = new BindableProperty<string>(null);
     }
 }

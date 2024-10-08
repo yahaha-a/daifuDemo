@@ -53,5 +53,7 @@ namespace daifuDemo
         public static EasyEvent GameStart = new EasyEvent();
 
         public static EasyEvent<IObtainItemsInfo> ObtainItem = new EasyEvent<IObtainItemsInfo>();
+
+        public static EasyEvent SelectMap = new EasyEvent();
     }
 }

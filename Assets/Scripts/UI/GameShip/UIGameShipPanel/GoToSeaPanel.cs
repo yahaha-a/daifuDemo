@@ -20,7 +20,7 @@ namespace daifuDemo
 			AgreeButton.onClick.AddListener(() =>
 			{
 				uiGameShipPanelModel.IfGotoSeaPanelOpen.Value = false;
-				SceneManager.LoadScene("Game");
+				Events.SelectMap?.Trigger();
 			});
 			
 			CancelButton.onClick.AddListener(() =>

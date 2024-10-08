@@ -53,6 +53,11 @@ namespace daifuDemo
 					GoToSeaPanel.Hide();
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			Events.SelectMap.Register(() =>
+			{
+				SelectMapPanel.Show();
+			});
 		}
 		
 		protected override void OnOpen(IUIData uiData = null)

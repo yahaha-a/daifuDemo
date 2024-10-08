@@ -9,11 +9,11 @@
       "Items": [
         {
           "Key": "normalFish_pieces_key",
-          "Value": 15
+          "Value": 65
         },
         {
           "Key": "pterois_fish_key",
-          "Value": 12
+          "Value": 42
         }
       ]
     }

@@ -35,7 +35,7 @@ ScriptedImporter:
     spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
-    spritePixelsToUnits: 100
+    spritePixelsToUnits: 128
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
     spriteGenerateFallbackPhysicsShape: 0
     generateCubemap: 6
@@ -95,7 +95,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638632403304444612
+  platformSettingsDirtyTick: 638640223347297002
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -140,18 +140,18 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
   spriteSheetImportData:
-  - name: PteriosFish_0
+  - name: AggressiveFish_0
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 126
+      width: 128
       height: 67
-    spriteID: b17feb100faf8e54c984ca6e0ff48f4a
+    spriteID: 5c87293487afbc24e9cf9fe33488fc7a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -171,9 +171,9 @@ ScriptedImporter:
     - name: AggressiveFish
       frameIndex: 0
       cellRect:
-        x: 2
-        y: 40
-        width: 126
+        x: 0
+        y: 32
+        width: 128
         height: 67
       spriteId: d368eda4d4498f54cb9662e94de1c218
     linkedCells: []

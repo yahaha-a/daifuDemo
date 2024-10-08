@@ -1,5 +1,5 @@
 ﻿/****************************************************************************
- * 2024.6 WXH
+ * 2024.10 WXH
  ****************************************************************************/
 
 using UnityEngine;
@@ -8,7 +8,7 @@ using QFramework;
 
 namespace daifuDemo
 {
-	public partial class ItemTemplate
+	public partial class UIPackItemTemplate
 	{
 		[SerializeField] public UnityEngine.UI.Image ItemIcon;
 		[SerializeField] public UnityEngine.UI.Text ItemName;
@@ -25,7 +25,7 @@ namespace daifuDemo
 
 		public override string ComponentName
 		{
-			get { return "ItemTemplate";}
+			get { return "UIPackItemTemplate";}
 		}
 	}
 }

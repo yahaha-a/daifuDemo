@@ -14,12 +14,19 @@ namespace daifuDemo
 	
 	public partial class PickUpItem : ViewController, IController
 	{
+		private static ResLoader _resLoader = ResLoader.Allocate();
+		
 		public string key;
+
+		private IBackPackSystem _backPackSystem;
 		
 		private PickUpItemState _state = PickUpItemState.FreeTime;
 		private void Start()
 		{
-			Icon.sprite = this.SendQuery(new FindStrikeItemIcon(key));
+			_backPackSystem = this.GetSystem<IBackPackSystem>();
+
+			var iconName = _backPackSystem.BackPackItemInfos[key].ItemKey;
+			Icon.sprite = _resLoader.LoadSync<Sprite>(iconName);
 			
 			var playModel = this.GetModel<IPlayerModel>();
 

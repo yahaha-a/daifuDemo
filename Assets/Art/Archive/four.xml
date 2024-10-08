@@ -1,0 +1,18 @@
+<Items>
+  <FishItems />
+  <TreasureChestsItems />
+  <DestructibleItems>
+    <Item key="Copper" serialNumber="6" x="-2" y="0" range="100" number="1" />
+  </DestructibleItems>
+  <BarrierItems>
+    <Item key="Clod" serialNumber="1" x="-4" y="-1" range="100" number="1" />
+    <Item key="Clod" serialNumber="2" x="-3" y="-1" range="100" number="1" />
+    <Item key="Clod" serialNumber="3" x="-2" y="-1" range="100" number="1" />
+    <Item key="Clod" serialNumber="4" x="-1" y="-1" range="100" number="1" />
+    <Item key="Clod" serialNumber="5" x="0" y="-1" range="100" number="1" />
+  </BarrierItems>
+  <RoleItems>
+    <Item key="Dave" serialNumber="7" x="1" y="2" range="100" number="1" />
+  </RoleItems>
+  <DropsItems />
+</Items>

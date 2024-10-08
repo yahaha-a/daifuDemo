@@ -27,6 +27,7 @@ namespace daifuDemo
             _collectionModel = this.GetModel<ICollectionModel>();
             _achievementModel = this.GetModel<IAchievementModel>();
 
+            //TODO
             this.AddAchievementSystem(AchievementConfig.ReceptionTenCustomersKey, new AchievementInfo()
                     .WithName("新店开张")
                     .WithIcon(null)
