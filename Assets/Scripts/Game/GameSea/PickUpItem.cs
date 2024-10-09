@@ -19,14 +19,16 @@ namespace daifuDemo
 		public string key;
 
 		private IBackPackSystem _backPackSystem;
+		private IUtils _utils;
 		
 		private PickUpItemState _state = PickUpItemState.FreeTime;
 		private void Start()
 		{
+			_utils = this.GetUtility<IUtils>();
 			_backPackSystem = this.GetSystem<IBackPackSystem>();
 
 			var iconName = _backPackSystem.BackPackItemInfos[key].ItemKey;
-			Icon.sprite = _resLoader.LoadSync<Sprite>(iconName);
+			Icon.sprite = _utils.AdjustSprite(_resLoader.LoadSync<Texture2D>(iconName));
 			
 			var playModel = this.GetModel<IPlayerModel>();
 

@@ -142,7 +142,7 @@ ScriptedImporter:
   spriteSheetImportData:
   - name: Coral_0
     originalName: 
-    pivot: {x: 0, y: 0}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -150,7 +150,7 @@ ScriptedImporter:
       x: 4
       y: 4
       width: 128
-      height: 129
+      height: 128
     spriteID: 95f6381f5bdb2f54dbe65ca631d07914
     spriteBone: []
     spriteOutline: []

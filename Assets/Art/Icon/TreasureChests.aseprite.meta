@@ -95,7 +95,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638640239808732526
+  platformSettingsDirtyTick: 638640660536644901
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -142,15 +142,15 @@ ScriptedImporter:
   spriteSheetImportData:
   - name: TreasureChests_0
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
-      y: 0
+      y: 4
       width: 128
-      height: 128
+      height: 124
     spriteID: e9433ef75c094d84985966a546a21d74
     spriteBone: []
     spriteOutline: []

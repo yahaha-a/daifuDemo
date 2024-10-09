@@ -142,15 +142,15 @@ ScriptedImporter:
   spriteSheetImportData:
   - name: Wood_0
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
-      y: 0
+      y: 4
       width: 128
-      height: 128
+      height: 124
     spriteID: 3ecb23aa19e9f71498d9702f1d2e3788
     spriteBone: []
     spriteOutline: []

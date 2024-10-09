@@ -8,6 +8,7 @@ namespace daifuDemo
     public interface IUtils : IUtility
     {
         void AdjustContentHeight(RectTransform transform);
+        Sprite AdjustSprite(Texture2D texture);
     }
     
     public class Utils : IUtils
@@ -38,6 +39,13 @@ namespace daifuDemo
             totalHeight += (activeChildAmount - 1) * spacing + topPadding + bottomPadding;
 
             transform.sizeDelta = new Vector2(transform.sizeDelta.x, totalHeight);
+        }
+
+        public Sprite AdjustSprite(Texture2D texture)
+        {
+            float pixelsPerUnit = 128;
+            Sprite newSprite = Sprite.Create(texture, new Rect(0, 0, 128, 128), new Vector2(0.5f, 0.5f), pixelsPerUnit);
+            return newSprite;
         }
     }
 
