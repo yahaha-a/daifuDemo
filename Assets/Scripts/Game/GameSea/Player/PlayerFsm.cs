@@ -140,12 +140,7 @@ namespace daifuDemo
                 .WithFromState(PlayState.Swim)
                 .WithToState(PlayState.UsingGun)
                 .WithWeight(1)
-                .AddConditions(() =>
-                {
-                    return _gunModel.CurrentGunState.Value == GunState.Aim ||
-                           _gunModel.CurrentGunState.Value == GunState.Revolve ||
-                           _gunModel.CurrentGunState.Value == GunState.Shooting;
-                }));
+                .AddConditions(() => _gunModel.CurrentGunState.Value == GunState.Shooting));
             
             AddTransitions(new Transition<PlayState>()
                 .WithFromState(PlayState.Swim)

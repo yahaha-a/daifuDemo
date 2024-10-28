@@ -42,6 +42,7 @@ namespace daifuDemo
 
 			if (timeElapsed >= duration)
 			{
+				_uiGameGlobalPanelModel.CurrentShowObtainItemsCount.Value--;
 				transform.gameObject.DestroySelf();
 			}
 		}

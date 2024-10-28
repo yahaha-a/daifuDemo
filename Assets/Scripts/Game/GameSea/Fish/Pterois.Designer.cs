@@ -1,4 +1,4 @@
-// Generate Id:2fe07369-02eb-4edd-aeed-d1e4fc33a7c2
+// Generate Id:e2db02f0-fb40-45cb-a667-7f065ec4e9cd
 using UnityEngine;
 
 namespace daifuDemo

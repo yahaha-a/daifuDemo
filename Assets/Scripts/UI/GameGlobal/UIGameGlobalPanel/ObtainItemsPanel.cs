@@ -17,19 +17,19 @@ namespace daifuDemo
 		private IGameGlobalModel _gameGlobalModel;
 		private IUIGameGlobalPanelModel _gameGlobalPanelModel;
 
+		private Queue<IObtainItemsInfo> ObtainItems = new Queue<IObtainItemsInfo>();
+
 		private void Start()
 		{
 			_gameGlobalModel = this.GetModel<IGameGlobalModel>();
+			_gameGlobalPanelModel = this.GetModel<IUIGameGlobalPanelModel>();
 
 			_gameGlobalModel.CurrentObtainItem.Register(item =>
 			{
 				if (item != null)
 				{
-					ObtainItemsTextTemplete.InstantiateWithParent(ObtainItemsTextPanel).Self(self =>
-					{
-						self.obtainItemName = item.Name + " +" + item.Number;
-						self.Show();
-					});
+					ObtainItems.Enqueue(item);
+					
 					ObtainItemsIconTemplete.InstantiateWithParent(ObtainItemsIconPanel).Self(self =>
 					{
 						self.transform.position = Camera.main.WorldToScreenPoint(item.StartPosition);
@@ -38,6 +38,24 @@ namespace daifuDemo
 					});
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+		}
+
+		private void Update()
+		{
+			if (ObtainItems.Count > 0 && _gameGlobalPanelModel.CurrentShowObtainItemsCount.Value < 4)
+			{
+				IObtainItemsInfo item = ObtainItems.Dequeue();
+
+				if (item != null)
+				{
+					ObtainItemsTextTemplete.InstantiateWithParent(ObtainItemsTextPanel).Self(self =>
+					{
+						self.obtainItemName = item.Name + " +" + item.Number;
+						self.Show();
+						_gameGlobalPanelModel.CurrentShowObtainItemsCount.Value++;
+					});
+				}
+			}
 		}
 
 		protected override void OnBeforeDestroy()

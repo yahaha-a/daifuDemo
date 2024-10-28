@@ -19,15 +19,18 @@ MonoBehaviour:
     From: 0
     NameToFullName: []
     BindInfos:
-    - TypeName: UnityEngine.Transform
+    - TypeName: SpriteRenderer
       PathToRoot: Icon
       MemberName: Icon
-    ScriptsFolder: Assets/Scripts/MapEditor
-    ClassName: mapEditor
-    Namespace: MapEditor
-    MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace MapEditor\r\n{\r\n\tpublic
-      partial class mapEditor : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
+    - TypeName: CircleCollider2D
+      PathToRoot: HitBox
+      MemberName: HitBox
+    ScriptsFolder: Assets\Scripts\Game\GameSea\Fish
+    ClassName: NormalFish
+    Namespace: daifuDemo
+    MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace daifuDemo\r\n{\r\n\tpublic
+      partial class NormalFish : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
       Code Here\r\n\t\t}\r\n\t}\r\n}\r\n"
-    DesignerCode: "// Generate Id:063ad2db-bbbb-4510-a240-ff974e78a79b\r\nusing UnityEngine;\r\n\r\nnamespace
-      MapEditor\r\n{\r\n\tpublic partial class mapEditor\r\n\t{\r\n\r\n\t\tpublic
-      UnityEngine.Transform Icon;\r\n\r\n\t}\r\n}\r\n"
+    DesignerCode: "// Generate Id:44e7c7ab-ba06-491f-9c60-ae82bea1d534\r\nusing UnityEngine;\r\n\r\nnamespace
+      daifuDemo\r\n{\r\n\tpublic partial class NormalFish\r\n\t{\r\n\r\n\t\tpublic
+      SpriteRenderer Icon;\r\n\r\n\t\tpublic CircleCollider2D HitBox;\r\n\r\n\t}\r\n}\r\n"

@@ -15,7 +15,13 @@ namespace daifuDemo
         
         float FrightenedSwimRate { get; set; }
         
+        float CoolDownTime { get; set; }
+        
+        float CurrentCoolDownTime { get; set; }
+        
         Vector2 CurrentDirection { get; set; }
+        
+        Vector2 TargetDirection { get; set; }
 
         Vector3 StartPosition { get; set; }
 
@@ -31,6 +37,10 @@ namespace daifuDemo
         
         float CurrentStruggleTime { get; set; }
         
+        bool IfStruggle { get; set; }
+        
+        float VisualField { get; set; }
+        
         int Clicks { get; set; }
         
         bool CanSwim { get; set; }
@@ -40,6 +50,8 @@ namespace daifuDemo
         bool DiscoverPlayer { get; set; }
         
         bool HitByBullet { get; set; }
+        
+        Vector2 HitPosition { get; set; }
     }
 
     public interface IAggressiveFish : IFish
@@ -52,6 +64,16 @@ namespace daifuDemo
         
         float CurrentAttackInterval { get; set; }
         
+        Vector2 CurrentAttackTargetPosition { get; set; }
+        
         float AttackRange { get; set; }
+        
+        bool IfAttack { get; set; }
+        
+        float ChargeTime { get; set; }
+        
+        bool IfCharge { get; set; }
+        
+        float CurrentChargeTime { get; set; }
     }
 }

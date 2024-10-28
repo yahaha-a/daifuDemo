@@ -4,9 +4,7 @@ namespace daifuDemo
 {
     public interface IBulletModel : IModel
     {
-        BindableProperty<BulletAttribute> CurrentBulletAttribute { get; }
-        
-        BindableProperty<int> CurrentBulletRank { get; }
+        BindableProperty<BulletType> CurrentBulletType { get; }
     }
     
     public class BulletModel : AbstractModel, IBulletModel
@@ -16,9 +14,8 @@ namespace daifuDemo
             
         }
 
-        public BindableProperty<BulletAttribute> CurrentBulletAttribute { get; } =
-            new BindableProperty<BulletAttribute>(BulletAttribute.Normal);
 
-        public BindableProperty<int> CurrentBulletRank { get; } = new BindableProperty<int>(1);
+        public BindableProperty<BulletType> CurrentBulletType { get; } =
+            new BindableProperty<BulletType>(BulletType.Normal);
     }
 }

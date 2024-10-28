@@ -1,7 +1,6 @@
 <Items>
   <FishItems>
-    <Item key="AggressiveFish" serialNumber="90" x="-3" y="1" range="780" number="1" />
-    <Item key="NormalFish" serialNumber="115" x="13" y="0" range="830" number="5" />
+    <Item key="AggressiveFish" serialNumber="131" x="12" y="-1" range="1320" number="1" />
   </FishItems>
   <TreasureChestsItems>
     <Item key="SpiceTreasureChest" serialNumber="89" x="-6" y="1" range="100" number="1" />

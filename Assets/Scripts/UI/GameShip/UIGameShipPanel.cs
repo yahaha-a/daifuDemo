@@ -54,6 +54,30 @@ namespace daifuDemo
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
+			_uiGameShipPanelModel.IfSelectMapPanelShow.Register(value =>
+			{
+				if (value)
+				{
+					SelectMapPanel.Show();
+				}
+				else
+				{
+					SelectMapPanel.Hide();
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			_uiGameShipPanelModel.IfEquipWeaponPanelOpen.Register(value =>
+			{
+				if (value)
+				{
+					EquipWeaponPanel.Show();
+				}
+				else
+				{
+					EquipWeaponPanel.Hide();
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
 			Events.SelectMap.Register(() =>
 			{
 				SelectMapPanel.Show();

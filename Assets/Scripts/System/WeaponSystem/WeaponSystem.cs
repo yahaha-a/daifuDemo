@@ -8,217 +8,428 @@ namespace daifuDemo
 {
     public interface IWeaponSystem : ISystem
     {
-        Dictionary<(string, int), IGunInfo> GunInfos { get; }
+        Dictionary<(string, int), IWeaponInfo> WeaponInfos { get; }
         
-        Dictionary<(string, int), IMeleeWeaponInfo>  MeleeWeaponInfos { get; }
-        
-        Dictionary<(string, int), IFishForkInfo> FishForkInfos { get; }
-        
-        IWeaponSystem AddGunInfo(string key, int rank, IGunInfo gunInfo);
+        Dictionary<string, int> WeaponOwnInfos { get; }
 
-        IWeaponSystem AddMeleeWeaponInfo(string key, int rank, IMeleeWeaponInfo meleeWeaponInfo);
+        IWeaponSystem AddWeaponInfos(string key, int rank, IWeaponInfo weaponInfo);
 
-        IWeaponSystem AddFishForkInfo(string key, int rank, IFishForkInfo fishForkInfo);
+        List<IWeaponInfo> FindObtainWeaponInfos(EquipWeaponKey weaponKey);
+
+        void UpdateEquipWeapon(EquipWeaponKey weaponKey,
+            BindableProperty<IWeaponItemTempleteInfo> weaponItemTempleteInfo);
     }
     
     public class WeaponSystem : AbstractSystem, IWeaponSystem
     {
+        private IUIGameShipPanelModel _uiGameShipPanelModel;
         private IBulletSystem _bulletSystem;
+        private IArchiveSystem _archiveSystem;
 
-        public Dictionary<(string, int), IGunInfo> GunInfos { get; } = new Dictionary<(string, int), IGunInfo>();
+        public Dictionary<(string, int), IWeaponInfo> WeaponInfos { get; } = new Dictionary<(string, int), IWeaponInfo>();
 
-        public Dictionary<(string, int), IMeleeWeaponInfo> MeleeWeaponInfos { get; } =
-            new Dictionary<(string, int), IMeleeWeaponInfo>();
+        public Dictionary<string, int> WeaponOwnInfos { get; } = new Dictionary<string, int>()
+        {
+            { Config.FishForkKey, 1 },
+            {Config.DaggerKey, 1},
+            { Config.RifleKey, 1 },
+            { Config.ShotgunKey, 1 }
+        };
 
-        public Dictionary<(string, int), IFishForkInfo> FishForkInfos { get; } =
-            new Dictionary<(string, int), IFishForkInfo>();
 
         protected override void OnInit()
         {
+            _uiGameShipPanelModel = this.GetModel<IUIGameShipPanelModel>();
             _bulletSystem = this.GetSystem<IBulletSystem>();
+            _archiveSystem = this.GetSystem<IArchiveSystem>();
+            
+            Events.GameStart.Register(() =>
+            {
+                _archiveSystem.LoadData(WeaponOwnInfos, "WeaponOwnInfos");
+            });
 
             //TODO
-            this.AddGunInfo(Config.RifleKey, 1, new GunInfo()
+            this.AddWeaponInfos(Config.RifleKey, 1, new GunInfo()
                     .WithKey(Config.RifleKey)
+                    .WithType(WeaponType.Gun)
+                    .WithRank(1)
                     .WithName("步枪")
-                    .WithIntervalBetweenShots(0.2f)
-                    .WithRotationRate(100f)
-                    .WithBulletSpawnLocationsAndDirectionsList(new List<(Vector2, float)>()
-                    {
-                        (new Vector2(0, 0), 0f)
-                    }))
-                .AddGunInfo(Config.RifleKey, 2, new GunInfo()
-                    .WithKey(Config.RifleKey)
-                    .WithName("步枪")
-                    .WithIntervalBetweenShots(0.18f)
-                    .WithRotationRate(110f)
-                    .WithBulletSpawnLocationsAndDirectionsList(new List<(Vector2, float)>()
-                    {
-                        (new Vector2(0, 0), 0f)
-                    }))
-                .AddGunInfo(Config.RifleKey, 3, new GunInfo()
-                    .WithKey(Config.RifleKey)
-                    .WithName("步枪")
-                    .WithIntervalBetweenShots(0.16f)
-                    .WithRotationRate(120f)
-                    .WithBulletSpawnLocationsAndDirectionsList(new List<(Vector2, float)>()
-                    {
-                        (new Vector2(0, 0), 0f)
-                    }))
-                .AddGunInfo(Config.RifleKey, 4, new GunInfo()
-                    .WithKey(Config.RifleKey)
-                    .WithName("步枪")
-                    .WithIntervalBetweenShots(0.14f)
-                    .WithRotationRate(130f)
-                    .WithBulletSpawnLocationsAndDirectionsList(new List<(Vector2, float)>()
-                    {
-                        (new Vector2(0, 0), 0f)
-                    }))
-                .AddGunInfo(Config.RifleKey, 5, new GunInfo()
-                    .WithKey(Config.RifleKey)
-                    .WithName("步枪")
-                    .WithIntervalBetweenShots(0.12f)
-                    .WithRotationRate(140f)
-                    .WithBulletSpawnLocationsAndDirectionsList(new List<(Vector2, float)>()
-                    {
-                        (new Vector2(0, 0), 0f)
-                    }))
-                .AddGunInfo(Config.ShotgunKey, 1, new GunInfo()
-                    .WithKey(Config.ShotgunKey)
-                    .WithName("霰弹枪")
+                    .WithIcon(null)
+                    .WithRateOfFire(6f)
+                    .WithAttackRange(6f)
                     .WithIntervalBetweenShots(1f)
-                    .WithRotationRate(120f)
+                    .WithMaximumAmmunition(15)
+                    .WithLoadAmmunitionNeedTime(3f)
                     .WithBulletSpawnLocationsAndDirectionsList(new List<(Vector2, float)>()
                     {
-                        (new Vector2(0, 0), 0f),
-                        (new Vector2(0, 0), 10f),
-                        (new Vector2(0, 0), -10f)
+                        (new Vector2(0, 0), 0f)
                     }))
-                .AddGunInfo(Config.ShotgunKey, 2, new GunInfo()
-                    .WithKey(Config.ShotgunKey)
-                    .WithName("霰弹枪")
-                    .WithIntervalBetweenShots(0.9f)
-                    .WithRotationRate(130f)
+                
+                .AddWeaponInfos(Config.RifleKey, 2, new GunInfo()
+                    .WithKey(Config.RifleKey)
+                    .WithType(WeaponType.Gun)
+                    .WithRank(2)
+                    .WithName("步枪")
+                    .WithIcon(null)
+                    .WithRateOfFire(10f)
+                    .WithAttackRange(6f)
+                    .WithIntervalBetweenShots(1f)
+                    .WithMaximumAmmunition(15)
+                    .WithLoadAmmunitionNeedTime(3f)
                     .WithBulletSpawnLocationsAndDirectionsList(new List<(Vector2, float)>()
                     {
-                        (new Vector2(0, 0), 0f),
-                        (new Vector2(0, 0), 10f),
-                        (new Vector2(0, 0), -10f)
+                        (new Vector2(0, 0), 0f)
                     }))
-                .AddGunInfo(Config.ShotgunKey, 3, new GunInfo()
-                    .WithKey(Config.ShotgunKey)
-                    .WithName("霰弹枪")
-                    .WithIntervalBetweenShots(0.8f)
-                    .WithRotationRate(130f)
+                
+                .AddWeaponInfos(Config.RifleKey, 3, new GunInfo()
+                    .WithKey(Config.RifleKey)
+                    .WithType(WeaponType.Gun)
+                    .WithRank(3)
+                    .WithName("步枪")
+                    .WithIcon(null)
+                    .WithRateOfFire(10f)
+                    .WithAttackRange(10f)
+                    .WithIntervalBetweenShots(1f)
+                    .WithMaximumAmmunition(15)
+                    .WithLoadAmmunitionNeedTime(3f)
                     .WithBulletSpawnLocationsAndDirectionsList(new List<(Vector2, float)>()
                     {
-                        (new Vector2(0, 0), 10f),
-                        (new Vector2(0, 0), 5f),
-                        (new Vector2(0, 0), 0f),
-                        (new Vector2(0, 0), -5f),
-                        (new Vector2(0, 0), -10f)
+                        (new Vector2(0, 0), 0f)
                     }))
-                .AddGunInfo(Config.ShotgunKey, 4, new GunInfo()
-                    .WithKey(Config.ShotgunKey)
-                    .WithName("霰弹枪")
-                    .WithIntervalBetweenShots(0.7f)
-                    .WithRotationRate(140f)
+                
+                .AddWeaponInfos(Config.RifleKey, 4, new GunInfo()
+                    .WithKey(Config.RifleKey)
+                    .WithType(WeaponType.Gun)
+                    .WithRank(4)
+                    .WithName("步枪")
+                    .WithIcon(null)
+                    .WithRateOfFire(10f)
+                    .WithAttackRange(10f)
+                    .WithIntervalBetweenShots(1f)
+                    .WithMaximumAmmunition(15)
+                    .WithLoadAmmunitionNeedTime(3f)
                     .WithBulletSpawnLocationsAndDirectionsList(new List<(Vector2, float)>()
                     {
-                        (new Vector2(0, 0), 10f),
-                        (new Vector2(0, 0), 5f),
-                        (new Vector2(0, 0), 0f),
-                        (new Vector2(0, 0), -5f),
-                        (new Vector2(0, 0), -10f)
+                        (new Vector2(0, 0), 0f)
                     }))
-                .AddGunInfo(Config.ShotgunKey, 5, new GunInfo()
-                    .WithKey(Config.ShotgunKey)
-                    .WithName("霰弹枪")
+                
+                .AddWeaponInfos(Config.RifleKey, 5, new GunInfo()
+                    .WithKey(Config.RifleKey)
+                    .WithType(WeaponType.Gun)
+                    .WithRank(5)
+                    .WithName("步枪")
+                    .WithIcon(null)
+                    .WithRateOfFire(10f)
+                    .WithAttackRange(10f)
                     .WithIntervalBetweenShots(0.5f)
-                    .WithRotationRate(150f)
+                    .WithMaximumAmmunition(15)
+                    .WithLoadAmmunitionNeedTime(3f)
                     .WithBulletSpawnLocationsAndDirectionsList(new List<(Vector2, float)>()
                     {
-                        (new Vector2(0, 0), 15f),
+                        (new Vector2(0, 0), 0f)
+                    }))
+                
+                .AddWeaponInfos(Config.RifleKey, 6, new GunInfo()
+                    .WithKey(Config.RifleKey)
+                    .WithType(WeaponType.Gun)
+                    .WithRank(6)
+                    .WithName("步枪")
+                    .WithIcon(null)
+                    .WithRateOfFire(10f)
+                    .WithAttackRange(10f)
+                    .WithIntervalBetweenShots(0.5f)
+                    .WithMaximumAmmunition(30)
+                    .WithLoadAmmunitionNeedTime(3f)
+                    .WithBulletSpawnLocationsAndDirectionsList(new List<(Vector2, float)>()
+                    {
+                        (new Vector2(0, 0), 0f)
+                    }))
+               
+                
+                
+                .AddWeaponInfos(Config.ShotgunKey, 1, new GunInfo()
+                    .WithKey(Config.ShotgunKey)
+                    .WithType(WeaponType.Gun)
+                    .WithRank(1)
+                    .WithName("霰弹枪")
+                    .WithIcon(null)
+                    .WithRateOfFire(4f)
+                    .WithAttackRange(4f)
+                    .WithIntervalBetweenShots(2f)
+                    .WithMaximumAmmunition(6)
+                    .WithLoadAmmunitionNeedTime(5f)
+                    .WithBulletSpawnLocationsAndDirectionsList(new List<(Vector2, float)>()
+                    {
+                        (new Vector2(0, 0), 0f),
+                        (new Vector2(0, 0), 10f),
+                        (new Vector2(0, 0), -10f)
+                    }))
+                
+                .AddWeaponInfos(Config.ShotgunKey, 2, new GunInfo()
+                    .WithKey(Config.ShotgunKey)
+                    .WithType(WeaponType.Gun)
+                    .WithRank(2)
+                    .WithName("霰弹枪")
+                    .WithIcon(null)
+                    .WithRateOfFire(8f)
+                    .WithAttackRange(4f)
+                    .WithIntervalBetweenShots(2f)
+                    .WithMaximumAmmunition(6)
+                    .WithLoadAmmunitionNeedTime(5f)
+                    .WithBulletSpawnLocationsAndDirectionsList(new List<(Vector2, float)>()
+                    {
+                        (new Vector2(0, 0), 0f),
+                        (new Vector2(0, 0), 10f),
+                        (new Vector2(0, 0), -10f)
+                    }))
+                
+                .AddWeaponInfos(Config.ShotgunKey, 3, new GunInfo()
+                    .WithKey(Config.ShotgunKey)
+                    .WithType(WeaponType.Gun)
+                    .WithRank(3)
+                    .WithName("霰弹枪")
+                    .WithIcon(null)
+                    .WithRateOfFire(8f)
+                    .WithAttackRange(6f)
+                    .WithIntervalBetweenShots(2f)
+                    .WithMaximumAmmunition(6)
+                    .WithLoadAmmunitionNeedTime(5f)
+                    .WithBulletSpawnLocationsAndDirectionsList(new List<(Vector2, float)>()
+                    {
+                        (new Vector2(0, 0), 0f),
+                        (new Vector2(0, 0), 10f),
+                        (new Vector2(0, 0), -10f)
+                    }))
+                
+                .AddWeaponInfos(Config.ShotgunKey, 4, new GunInfo()
+                    .WithKey(Config.ShotgunKey)
+                    .WithType(WeaponType.Gun)
+                    .WithRank(4)
+                    .WithName("霰弹枪")
+                    .WithIcon(null)
+                    .WithRateOfFire(8f)
+                    .WithAttackRange(6f)
+                    .WithIntervalBetweenShots(1.5f)
+                    .WithMaximumAmmunition(6)
+                    .WithLoadAmmunitionNeedTime(5f)
+                    .WithBulletSpawnLocationsAndDirectionsList(new List<(Vector2, float)>()
+                    {
+                        (new Vector2(0, 0), 0f),
+                        (new Vector2(0, 0), 10f),
+                        (new Vector2(0, 0), -10f)
+                    }))
+                
+                .AddWeaponInfos(Config.ShotgunKey, 5, new GunInfo()
+                    .WithKey(Config.ShotgunKey)
+                    .WithType(WeaponType.Gun)
+                    .WithRank(5)
+                    .WithName("霰弹枪")
+                    .WithIcon(null)
+                    .WithRateOfFire(8f)
+                    .WithAttackRange(6f)
+                    .WithIntervalBetweenShots(1.5f)
+                    .WithMaximumAmmunition(9)
+                    .WithLoadAmmunitionNeedTime(5f)
+                    .WithBulletSpawnLocationsAndDirectionsList(new List<(Vector2, float)>()
+                    {
+                        (new Vector2(0, 0), 0f),
+                        (new Vector2(0, 0), 10f),
+                        (new Vector2(0, 0), -10f)
+                    }))
+                
+                .AddWeaponInfos(Config.ShotgunKey, 6, new GunInfo()
+                    .WithKey(Config.ShotgunKey)
+                    .WithType(WeaponType.Gun)
+                    .WithRank(6)
+                    .WithName("霰弹枪")
+                    .WithIcon(null)
+                    .WithRateOfFire(8f)
+                    .WithAttackRange(6f)
+                    .WithIntervalBetweenShots(1.5f)
+                    .WithMaximumAmmunition(15)
+                    .WithLoadAmmunitionNeedTime(5f)
+                    .WithBulletSpawnLocationsAndDirectionsList(new List<(Vector2, float)>()
+                    {
                         (new Vector2(0, 0), 10f),
                         (new Vector2(0, 0), 5f),
                         (new Vector2(0, 0), 0f),
                         (new Vector2(0, 0), -5f),
                         (new Vector2(0, 0), -10f),
-                        (new Vector2(0, 0), -15f)
                     }));
 
-            this.AddMeleeWeaponInfo(Config.DaggerKey, 1, new MeleeWeaponInfo()
+            this.AddWeaponInfos(Config.DaggerKey, 1, new MeleeWeaponInfo()
+                    .WithKey(Config.DaggerKey)
                     .WithName("匕首")
+                    .WithRank(1)
+                    .WithType(WeaponType.MeleeWeapon)
                     .WithDamage(5f)
                     .WithAttackRadius(10f)
                     .WithAttackFrequency(0.5f))
-                .AddMeleeWeaponInfo(Config.DaggerKey, 2, new MeleeWeaponInfo()
+                .AddWeaponInfos(Config.DaggerKey, 2, new MeleeWeaponInfo()
+                    .WithKey(Config.DaggerKey)
                     .WithName("匕首")
+                    .WithRank(2)
+                    .WithType(WeaponType.MeleeWeapon)
                     .WithDamage(6f)
                     .WithAttackRadius(11f)
                     .WithAttackFrequency(0.4f))
-                .AddMeleeWeaponInfo(Config.DaggerKey, 3, new MeleeWeaponInfo()
+                .AddWeaponInfos(Config.DaggerKey, 3, new MeleeWeaponInfo()
+                    .WithKey(Config.DaggerKey)
                     .WithName("匕首")
+                    .WithRank(3)
+                    .WithType(WeaponType.MeleeWeapon)
                     .WithDamage(7f)
                     .WithAttackRadius(12f)
                     .WithAttackFrequency(0.4f))
-                .AddMeleeWeaponInfo(Config.DaggerKey, 4, new MeleeWeaponInfo()
+                .AddWeaponInfos(Config.DaggerKey, 4, new MeleeWeaponInfo()
+                    .WithKey(Config.DaggerKey)
                     .WithName("匕首")
+                    .WithRank(4)
+                    .WithType(WeaponType.MeleeWeapon)
                     .WithDamage(8f)
                     .WithAttackRadius(13f)
                     .WithAttackFrequency(0.3f))
-                .AddMeleeWeaponInfo(Config.DaggerKey, 5, new MeleeWeaponInfo()
+                .AddWeaponInfos(Config.DaggerKey, 5, new MeleeWeaponInfo()
+                    .WithKey(Config.DaggerKey)
                     .WithName("匕首")
+                    .WithRank(5)
+                    .WithType(WeaponType.MeleeWeapon)
                     .WithDamage(10f)
                     .WithAttackRadius(14f)
                     .WithAttackFrequency(0.3f));
 
-            this.AddFishForkInfo(Config.FishForkKey, 1, new FishForkInfo()
-                .WithName("鱼叉")
-                .WithRotationRate(50f)
-                .WithSpeed(30f)
-                .WithFishForkLength(11f))
-            .AddFishForkInfo(Config.FishForkKey, 2, new FishForkInfo()
-                .WithName("鱼叉")
-                .WithRotationRate(55f)
-                .WithSpeed(32f)
-                .WithFishForkLength(12f))
-            .AddFishForkInfo(Config.FishForkKey, 3, new FishForkInfo()
-                .WithName("鱼叉")
-                .WithRotationRate(60f)
-                .WithSpeed(34f)
-                .WithFishForkLength(13f))
-            .AddFishForkInfo(Config.FishForkKey, 4, new FishForkInfo()
-                .WithName("鱼叉")
-                .WithRotationRate(65f)
-                .WithSpeed(36f)
-                .WithFishForkLength(14f))
-            .AddFishForkInfo(Config.FishForkKey, 5, new FishForkInfo()
-                .WithName("鱼叉")
-                .WithRotationRate(70f)
-                .WithSpeed(38f)
-                .WithFishForkLength(15f));
+            this.AddWeaponInfos(Config.FishForkKey, 1, new FishForkInfo()
+                    .WithKey(Config.FishForkKey)
+                    .WithName("普通鱼叉")
+                    .WithRank(1)
+                    .WithType(WeaponType.FishFork)
+                    .WithRotationRate(50f)
+                    .WithSpeed(30f)
+                    .WithFishForkLength(11f))
+                .AddWeaponInfos(Config.FishForkKey, 2, new FishForkInfo()
+                    .WithKey(Config.FishForkKey)
+                    .WithName("普通鱼叉")
+                    .WithRank(2)
+                    .WithType(WeaponType.FishFork)
+                    .WithRotationRate(55f)
+                    .WithSpeed(32f)
+                    .WithFishForkLength(12f))
+                .AddWeaponInfos(Config.FishForkKey, 3, new FishForkInfo()
+                    .WithKey(Config.FishForkKey)
+                    .WithName("普通鱼叉")
+                    .WithRank(3)
+                    .WithType(WeaponType.FishFork)
+                    .WithRotationRate(60f)
+                    .WithSpeed(34f)
+                    .WithFishForkLength(13f))
+                .AddWeaponInfos(Config.FishForkKey, 4, new FishForkInfo()
+                    .WithKey(Config.FishForkKey)
+                    .WithName("普通鱼叉")
+                    .WithRank(4)
+                    .WithType(WeaponType.FishFork)
+                    .WithRotationRate(65f)
+                    .WithSpeed(36f)
+                    .WithFishForkLength(14f))
+                .AddWeaponInfos(Config.FishForkKey, 5, new FishForkInfo()
+                    .WithKey(Config.FishForkKey)
+                    .WithName("普通鱼叉")
+                    .WithRank(5)
+                    .WithType(WeaponType.FishFork)
+                    .WithRotationRate(70f)
+                    .WithSpeed(38f)
+                    .WithFishForkLength(15f));
         }
 
-        public IWeaponSystem AddGunInfo(string key, int rank, IGunInfo gunInfo)
+        public IWeaponSystem AddWeaponInfos(string key, int rank, IWeaponInfo weaponInfo)
         {
-            GunInfos.Add((key, rank), gunInfo);
+            WeaponInfos.Add((key, rank), weaponInfo);
+            return this;
+        }
+
+        public List<IWeaponInfo> FindObtainWeaponInfos(EquipWeaponKey weaponKey)
+        {
+            List<IWeaponInfo> weaponInfos = new List<IWeaponInfo>();
             
-            return this;
+            if (weaponKey == EquipWeaponKey.Null)
+            {
+                return null;
+            }
+            
+            if (weaponKey == EquipWeaponKey.FishFork)
+            {
+                foreach (var (key, rank) in WeaponOwnInfos)
+                {
+                    if (WeaponInfos[(key, rank)] != null && WeaponInfos[(key, rank)].Type == WeaponType.FishFork)
+                    {
+                        weaponInfos.Add(WeaponInfos[(key,rank)]);
+                    }
+                }
+
+                return weaponInfos;
+            }
+            
+            if (weaponKey == EquipWeaponKey.MeleeWeapon)
+            {
+                foreach (var (key, rank) in WeaponOwnInfos)
+                {
+                    if (WeaponInfos[(key, rank)] != null && WeaponInfos[(key, rank)].Type == WeaponType.MeleeWeapon)
+                    {
+                        weaponInfos.Add(WeaponInfos[(key,rank)]);
+                    }
+                }
+                
+                return weaponInfos;
+            }
+            
+            if (weaponKey == EquipWeaponKey.PrimaryWeapon)
+            {
+                foreach (var (key, rank) in WeaponOwnInfos)
+                {
+                    if (WeaponInfos[(key, rank)] != null && WeaponInfos[(key, rank)].Type == WeaponType.Gun)
+                    {
+                        weaponInfos.Add(WeaponInfos[(key,rank)]);
+                    }
+                }
+                
+                return weaponInfos;
+            }
+            
+            if (weaponKey == EquipWeaponKey.SecondaryWeapons)
+            {
+                foreach (var (key, rank) in WeaponOwnInfos)
+                {
+                    if (WeaponInfos[(key, rank)] != null && WeaponInfos[(key, rank)].Type == WeaponType.Gun)
+                    {
+                        weaponInfos.Add(WeaponInfos[(key,rank)]);
+                    }
+                }
+                
+                return weaponInfos;
+            }
+            
+            return null;
         }
 
-        public IWeaponSystem AddMeleeWeaponInfo(string key, int rank, IMeleeWeaponInfo meleeWeaponInfo)
+        public void UpdateEquipWeapon(EquipWeaponKey weaponKey,
+            BindableProperty<IWeaponItemTempleteInfo> weaponItemTempleteInfo)
         {
-            MeleeWeaponInfos.Add((key, rank), meleeWeaponInfo);
-
-            return this;
-        }
-
-        public IWeaponSystem AddFishForkInfo(string key, int rank, IFishForkInfo fishForkInfo)
-        {
-            FishForkInfos.Add((key, rank), fishForkInfo);
-
-            return this;
+            if (_uiGameShipPanelModel.CurrentEquipWeaponKey.Value == weaponKey)
+            {
+                if (weaponItemTempleteInfo.Value == null)
+                {
+                    if (_uiGameShipPanelModel.CurrentSelectWeaponInfo.Value.EquipState.Value == EquipWeaponKey.Null)
+                    {
+                        _uiGameShipPanelModel.CurrentSelectWeaponInfo.Value.WithEquipState(weaponKey);
+                    }
+                }
+                else
+                {
+                    if (_uiGameShipPanelModel.CurrentSelectWeaponInfo.Value.EquipState.Value == weaponKey)
+                    {
+                        _uiGameShipPanelModel.CurrentSelectWeaponInfo.Value.WithEquipState(EquipWeaponKey.Null);
+                    }
+                }
+            }
         }
     }
 }

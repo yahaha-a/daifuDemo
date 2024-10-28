@@ -20,7 +20,7 @@ namespace daifuDemo
 			AgreeButton.onClick.AddListener(() =>
 			{
 				uiGameShipPanelModel.IfGotoSeaPanelOpen.Value = false;
-				Events.SelectMap?.Trigger();
+				uiGameShipPanelModel.IfEquipWeaponPanelOpen.Value = true;
 			});
 			
 			CancelButton.onClick.AddListener(() =>

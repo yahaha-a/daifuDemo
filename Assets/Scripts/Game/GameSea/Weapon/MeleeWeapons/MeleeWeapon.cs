@@ -21,6 +21,8 @@ namespace daifuDemo
 
 		private IMeleeWeaponModel _meleeWeaponModel;
 
+		private IWeaponSystem _weaponSystem;
+
 		private bool _isAttack;
 
 		private void Start()
@@ -28,6 +30,8 @@ namespace daifuDemo
 			_playerModel = this.GetModel<IPlayerModel>();
 
 			_meleeWeaponModel = this.GetModel<IMeleeWeaponModel>();
+
+			_weaponSystem = this.GetSystem<IWeaponSystem>();
 
 			_playerModel.IfLeft.RegisterWithInitValue(value =>
 			{
@@ -96,12 +100,12 @@ namespace daifuDemo
 
 		private void UpdateData()
 		{
-			Damage = this.SendQuery(new FindMeleeWeaponDamage(_meleeWeaponModel.CurrentMeleeWeaponKey.Value,
-				_meleeWeaponModel.CurrentMeleeWeaponRank.Value));
-			AttackRadius = this.SendQuery(new FindMeleeWeaponAttackRadius(_meleeWeaponModel.CurrentMeleeWeaponKey.Value,
-				_meleeWeaponModel.CurrentMeleeWeaponRank.Value));
-			AttackFrequency = this.SendQuery(new FindMeleeWeaponAttackFrequency(
-				_meleeWeaponModel.CurrentMeleeWeaponKey.Value, _meleeWeaponModel.CurrentMeleeWeaponRank.Value));
+			MeleeWeaponInfo currentMeleeWeaponInfo = (MeleeWeaponInfo)_weaponSystem.WeaponInfos[
+				(_meleeWeaponModel.CurrentMeleeWeaponKey.Value, _meleeWeaponModel.CurrentMeleeWeaponRank.Value)];
+
+			Damage = currentMeleeWeaponInfo.Damage;
+			AttackRadius = currentMeleeWeaponInfo.AttackRadius;
+			AttackFrequency = currentMeleeWeaponInfo.AttackFrequency;
 		}
 
 		IEnumerator Attack()

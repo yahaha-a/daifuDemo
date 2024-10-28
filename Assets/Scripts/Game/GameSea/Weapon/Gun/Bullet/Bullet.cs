@@ -1,84 +1,57 @@
 using System;
+using Global;
 using UnityEngine;
 using QFramework;
+using UnityEngine.Serialization;
 
 namespace daifuDemo
 {
 	public partial class Bullet : ViewController, IController
 	{
-		private float _damage;
-
-		private float _speed;
-
-		private float _range;
-		
 		private Vector3 _originPosition;
+		
+		public float damage;
+		
+		public float speed;
 
-		public int Direction;
+		public float range;
 
-		private Rigidbody2D _rigidbody2D;
+		public int direction;
 
-		private IGunModel _gunModel;
-
-		private IBulletModel _bulletModel;
+		public BulletType bulletType;
 
 		private void OnTriggerEnter2D(Collider2D other)
 		{
 			if (other.CompareTag("FishHitBox"))
 			{
-				this.SendCommand(new WeaponAttackFishCommand(_damage, other.transform.parent.gameObject));
-				gameObject.DestroySelf();
+				if (bulletType == BulletType.Normal)
+				{
+					this.SendCommand(new WeaponAttackFishCommand(damage, other.transform.parent.gameObject));
+					gameObject.DestroySelf();
+				}
+				else if (bulletType == BulletType.Hypnosis)
+				{
+					
+				}
 			}
 		}
 
 		private void Start()
 		{
-			_rigidbody2D = GetComponent<Rigidbody2D>();
-			
 			_originPosition = transform.position;
-
-			_gunModel = this.GetModel<IGunModel>();
-
-			_bulletModel = this.GetModel<IBulletModel>();
-
-			_gunModel.CurrentGunKey.RegisterWithInitValue(key =>
-			{
-				_bulletModel.CurrentBulletAttribute.Value = BulletAttribute.Normal;
-				_bulletModel.CurrentBulletRank.Value = 1;
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-
-			_bulletModel.CurrentBulletRank.RegisterWithInitValue(rank =>
-			{
-				UpdateData();
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-			
-			_bulletModel.CurrentBulletAttribute.RegisterWithInitValue(bulletAttribute =>
-			{
-				UpdateData();
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
 		private void Update()
 		{
-			var speed = transform.right.normalized * _speed * Direction;
+			var currentSpeed = transform.right.normalized * speed * direction;
 			var position = transform.position;
-			transform.position = new Vector3(position.x + speed.x * Time.deltaTime,
-				position.y + speed.y * Time.deltaTime, position.z);
+			transform.position = new Vector3(position.x + currentSpeed.x * Time.deltaTime,
+				position.y + currentSpeed.y * Time.deltaTime, position.z);
 				
-			if (Vector3.Distance(transform.position, _originPosition) > _range)
+			if (Vector3.Distance(transform.position, _originPosition) > range)
 			{
 				gameObject.DestroySelf();
 			}
-		}
-
-		private void UpdateData()
-		{
-			_damage = this.SendQuery(new FindBulletDamage(_gunModel.CurrentGunKey.Value,
-				_bulletModel.CurrentBulletAttribute.Value, _bulletModel.CurrentBulletRank.Value));
-			_speed = this.SendQuery(new FindBulletSpeed(_gunModel.CurrentGunKey.Value,
-				_bulletModel.CurrentBulletAttribute.Value, _bulletModel.CurrentBulletRank.Value));
-			_range = this.SendQuery(new FindBulletRange(_gunModel.CurrentGunKey.Value,
-				_bulletModel.CurrentBulletAttribute.Value, _bulletModel.CurrentBulletRank.Value));
 		}
 
 		public IArchitecture GetArchitecture()

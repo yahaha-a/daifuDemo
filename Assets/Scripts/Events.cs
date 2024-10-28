@@ -55,5 +55,9 @@ namespace daifuDemo
         public static EasyEvent<IObtainItemsInfo> ObtainItem = new EasyEvent<IObtainItemsInfo>();
 
         public static EasyEvent SelectMap = new EasyEvent();
+
+        public static EasyEvent<float> FishHitPlayer = new EasyEvent<float>();
+
+        public static EasyEvent LoadMapComplete = new EasyEvent();
     }
 }

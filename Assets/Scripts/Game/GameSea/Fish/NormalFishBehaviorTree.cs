@@ -1,5 +1,7 @@
+using System;
 using QFramework;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace daifuDemo
 {
@@ -20,12 +22,12 @@ namespace daifuDemo
     public interface IFishBehaviorTree<TFish> where TFish : IFish 
     {
         TFish Fish { get; set; }
-        
-        Player Player { get; set; }
     }
     
-    public class NormalFishBehaviorTree<TFish> : BehaviorTree<NormalFishBehaviorTreeEnum>, IFishBehaviorTree<TFish> where TFish : NormalFish
+    public class NormalFishBehaviorTree<TFish> : BehaviorTree<NormalFishBehaviorTreeEnum>, IFishBehaviorTree<TFish>, IController where TFish : NormalFish
     {
+        private IUtils _utils;
+        
         public TFish Fish { get; set; }
         
         public Player Player { get; set; }
@@ -38,6 +40,8 @@ namespace daifuDemo
         
         public override void Init()
         {
+            _utils = this.GetUtility<IUtils>();
+            
             this
                 .AddActionNodeDic(new ActionNode<NormalFishBehaviorTreeEnum>()
                     .WithActionType(NormalFishBehaviorTreeEnum.HpZero)
@@ -75,16 +79,26 @@ namespace daifuDemo
 
                         return BehaviorNodeState.Fail;
                     })
-                    .WithOnSuccessExit(() => {})
+                    .WithOnSuccessExit(() =>
+                    {})
                     .WithOnFailExit(() => {}))
 
                 .AddActionNodeDic(new ActionNode<NormalFishBehaviorTreeEnum>()
                     .WithActionType(NormalFishBehaviorTreeEnum.Struggle)
                     .WithOnUpdate(() =>
                     {
-                        Fish.CurrentStruggleTime += Time.deltaTime;
+                        Fish.State = FishState.Struggle;
                         
-                        if (Fish.CurrentStruggleTime >= Fish.StruggleTime)
+                        Vector2 randomDirection = new Vector3(
+                            Random.Range(-1f, 1f),
+                            Random.Range(-1f, 1f)
+                        ).normalized;
+                        
+                        float currentAmplitude = 0.1f;
+                        Vector2 moveVector = randomDirection * currentAmplitude;
+                        Fish.transform.position = Fish.HitPosition + moveVector;
+                        
+                        if (Fish.CurrentStruggleTime <= 0)
                         {
                             return BehaviorNodeState.Success;
                         }
@@ -94,11 +108,15 @@ namespace daifuDemo
                     .WithOnSuccessExit(() =>
                     {
                         Events.FishEscape?.Trigger(Fish);
+                        Fish.State = FishState.Swim;
                         Fish.HitByFork = false;
-                        Fish.CurrentStruggleTime = 0;
+                        Fish.CurrentStruggleTime = Fish.StruggleTime;
                         Player.ResetFishChallengeClicks();
                     })
-                    .WithOnFailExit(() => {}))
+                    .WithOnFailExit(() =>
+                    {
+                        
+                    }))
                 
                 .AddActionNodeDic(new ActionNode<NormalFishBehaviorTreeEnum>()
                     .WithActionType(NormalFishBehaviorTreeEnum.BeCaught)
@@ -138,20 +156,18 @@ namespace daifuDemo
                     {
                         Fish.CanSwim = true;
                         
-                        if (Vector3.Distance(Fish.transform.position, Fish.StartPosition) >= Fish.RangeOfMovement)
-                        {
-                            Fish.CurrentDirection = -Fish.CurrentDirection;
-                        }
-                        
-                        Fish.CurrentSwimRate = Fish.SwimRate;
-                        Fish.CurrentToggleDirectionTime -= Time.deltaTime;
                         if (Fish.CurrentToggleDirectionTime <= 0)
                         {
                             Fish.CurrentToggleDirectionTime = Fish.ToggleDirectionTime;
-                            Fish.CurrentDirection =
-                                new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+                            Fish.TargetDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+                            while (Fish.TargetDirection.magnitude == 0)
+                            {
+                                Fish.TargetDirection =
+                                    new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+                            }
+                            Fish.CurrentDirection = Fish.TargetDirection;
                         }
-
+                        
                         return BehaviorNodeState.Success;
                     })
                     .WithOnSuccessExit(() => {})
@@ -165,11 +181,24 @@ namespace daifuDemo
                         {
                             return BehaviorNodeState.Success;
                         }
-
-                        return BehaviorNodeState.Fail;
+                        else
+                        {
+                            return BehaviorNodeState.Fail;
+                        }
                     })
                     .WithOnSuccessExit(() => {})
-                    .WithOnFailExit(() => {}))
+                    .WithOnFailExit(() =>
+                    {
+                        if (Vector3.Distance(Fish.transform.position, Fish.StartPosition) >= Fish.RangeOfMovement)
+                        {
+                            Vector3 baseEscapeDirection = -Fish.CurrentDirection;
+                            float randomOffsetX = Random.Range(-0.3f, 0.3f);
+                            float randomOffsetY = Random.Range(-0.3f, 0.3f);
+                            Vector3 randomOffset = new Vector3(randomOffsetX, randomOffsetY, 0);
+                            Fish.CurrentDirection = (baseEscapeDirection + randomOffset).normalized;
+                        }
+                        Fish.CurrentSwimRate = Fish.SwimRate;
+                    }))
 
                 .AddActionNodeDic(new ActionNode<NormalFishBehaviorTreeEnum>()
                     .WithActionType(NormalFishBehaviorTreeEnum.HitByBullet)
@@ -189,12 +218,13 @@ namespace daifuDemo
                     .WithActionType(NormalFishBehaviorTreeEnum.FrightenedSwim)
                     .WithOnUpdate(() =>
                     {
-                        if (Vector3.Distance(Fish.transform.position, Fish.StartPosition) >= Fish.RangeOfMovement)
-                        {
-                            Fish.CurrentDirection = -Fish.CurrentDirection;
-                        }
+                        Vector3 baseEscapeDirection = (Fish.transform.position - Player.transform.position).normalized;
+                        float randomOffsetX = Random.Range(-0.3f, 0.3f);
+                        float randomOffsetY = Random.Range(-0.3f, 0.3f);
+                        Vector3 randomOffset = new Vector3(randomOffsetX, randomOffsetY, 0);
+                        Fish.TargetDirection = (baseEscapeDirection + randomOffset).normalized;
+                        Fish.CurrentDirection = Vector3.Lerp(Fish.CurrentDirection, Fish.TargetDirection, Time.deltaTime * 0.6f);
                         
-                        Fish.CurrentDirection = (Fish.transform.position - Player.transform.position).normalized;
                         Fish.CurrentSwimRate = Fish.FrightenedSwimRate;
 
                         return BehaviorNodeState.Success;
@@ -229,6 +259,11 @@ namespace daifuDemo
                 .EndComposite()
                 .AddAction(NormalFishBehaviorTreeEnum.FrightenedSwim)
             .EndComposite();
+        }
+
+        public IArchitecture GetArchitecture()
+        {
+            return Global.Interface;
         }
     }
 }

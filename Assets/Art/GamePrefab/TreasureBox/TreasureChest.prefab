@@ -188,7 +188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8789718042237969322}
   - component: {fileID: 4917013270035314809}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TreasureChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}

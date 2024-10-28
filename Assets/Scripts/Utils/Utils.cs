@@ -1,13 +1,18 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using QFramework;
 using UnityEngine;
 using UnityEngine.UI;
+using Timer = System.Threading.Timer;
 
 namespace daifuDemo
 {
     public interface IUtils : IUtility
     {
         void AdjustContentHeight(RectTransform transform);
+        
         Sprite AdjustSprite(Texture2D texture);
     }
     
@@ -66,5 +71,7 @@ namespace daifuDemo
                 UnRegisters.Remove(key);
             }
         }
+
+        public static ITimerPool TimerPool = new TimerPool();
     }
 }

@@ -3,70 +3,104 @@ using UnityEngine;
 
 namespace daifuDemo
 {
+    public enum WeaponType
+    {
+        FishFork,
+        Gun,
+        MeleeWeapon
+    }
+    
     public interface IGunInfo
     {
-        string Name { get; }
+        Texture2D Icon { get; }
         
-        string Key { get; }
+        int MaximumAmmunition { get; }
+        
+        float LoadAmmunitionNeedTime { get; }
+        
+        float RateOfFire { get; }
         
         float IntervalBetweenShots { get; }
         
-        float RotationRate { get; }
+        float AttackRange { get; }
         
         List<(Vector2, float)> BulletSpawnLocationsAndDirectionsList { get; }
         
-        IGunInfo WithName(string name);
-        
-        IGunInfo WithKey(string key);
+        IGunInfo WithIcon(Texture2D icon);
+
+        IGunInfo WithMaximumAmmunition(int maximumAmmunition);
+
+        IGunInfo WithLoadAmmunitionNeedTime(float loadAmmunitionNeedTime);
+
+        IGunInfo WithRateOfFire(float rateOfFire);
         
         IGunInfo WithIntervalBetweenShots(float intervalBetweenShots);
-        
-        IGunInfo WithRotationRate(float rotationRate);
 
+        IGunInfo WithAttackRange(float attackRange);
+        
         IGunInfo WithBulletSpawnLocationsAndDirectionsList(
             List<(Vector2, float)> bulletSpawnLocationsAndDirectionsList);
     }
     
-    public class GunInfo : IGunInfo
+    public class GunInfo : WeaponInfo<GunInfo>, IGunInfo
     {
-        public string Name { get; private set; }
-        
-        public string Key { get; private set; }
-        
+        public Texture2D Icon { get; private set; }
+        public int MaximumAmmunition { get; private set; }
+        public float LoadAmmunitionNeedTime { get; private set; }
+        public float RateOfFire { get; private set; }
         public float IntervalBetweenShots { get; private set; }
-        
-        public float RotationRate { get; private set; }
-        
+        public float AttackRange { get; private set; }
         public List<(Vector2, float)> BulletSpawnLocationsAndDirectionsList { get; private set; }
 
-        public IGunInfo WithName(string name)
+        public GunInfo WithIcon(Texture2D icon)
         {
-            Name = name;
+            Icon = icon;
             return this;
         }
 
-        public IGunInfo WithKey(string key)
+        public GunInfo WithMaximumAmmunition(int maximumAmmunition)
         {
-            Key = key;
+            MaximumAmmunition = maximumAmmunition;
             return this;
         }
 
-        public IGunInfo WithIntervalBetweenShots(float intervalBetweenShots)
+        public GunInfo WithLoadAmmunitionNeedTime(float loadAmmunitionNeedTime)
+        {
+            LoadAmmunitionNeedTime = loadAmmunitionNeedTime;
+            return this;
+        }
+
+        public GunInfo WithRateOfFire(float rateOfFire)
+        {
+            RateOfFire = rateOfFire;
+            return this;
+        }
+
+        public GunInfo WithIntervalBetweenShots(float intervalBetweenShots)
         {
             IntervalBetweenShots = intervalBetweenShots;
             return this;
         }
 
-        public IGunInfo WithRotationRate(float rotationRate)
+        public GunInfo WithAttackRange(float attackRange)
         {
-            RotationRate = rotationRate;
+            AttackRange = attackRange;
             return this;
         }
 
-        public IGunInfo WithBulletSpawnLocationsAndDirectionsList(List<(Vector2, float)> bulletSpawnLocationsAndDirectionsList)
+        public GunInfo WithBulletSpawnLocationsAndDirectionsList(List<(Vector2, float)> bulletSpawnLocationsAndDirectionsList)
         {
             BulletSpawnLocationsAndDirectionsList = bulletSpawnLocationsAndDirectionsList;
             return this;
         }
+
+        IGunInfo IGunInfo.WithIcon(Texture2D icon) => WithIcon(icon);
+        IGunInfo IGunInfo.WithMaximumAmmunition(int maximumAmmunition) => WithMaximumAmmunition(maximumAmmunition);
+        IGunInfo IGunInfo.WithLoadAmmunitionNeedTime(float loadAmmunitionNeedTime) => WithLoadAmmunitionNeedTime(loadAmmunitionNeedTime);
+        IGunInfo IGunInfo.WithRateOfFire(float rateOfFire) => WithRateOfFire(rateOfFire);
+        IGunInfo IGunInfo.WithIntervalBetweenShots(float intervalBetweenShots) => WithIntervalBetweenShots(intervalBetweenShots);
+        IGunInfo IGunInfo.WithAttackRange(float attackRange) => WithAttackRange(attackRange);
+        IGunInfo IGunInfo.WithBulletSpawnLocationsAndDirectionsList(List<(Vector2, float)> bulletSpawnLocationsAndDirectionsList) 
+            => WithBulletSpawnLocationsAndDirectionsList(bulletSpawnLocationsAndDirectionsList);
     }
 }

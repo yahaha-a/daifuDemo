@@ -32,6 +32,11 @@ namespace daifuDemo
 
 			_fishSystem = this.GetSystem<IFishSystem>();
 
+			Events.LoadMapComplete.Register(() =>
+			{
+				_player = FindObjectOfType<Player>();
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
 			_playerModel.PlayerOxygen.RegisterWithInitValue(value =>
 			{
 				OxygenValue.text ="氧气\n" + value.ToString("0");
@@ -104,6 +109,16 @@ namespace daifuDemo
 					CatchFishPanel.Hide();
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+			
+			BackPackButton.onClick.AddListener(() =>
+			{
+				this.SendCommand<OpenOrCloseBackpackCommand>();
+			});
+			
+			CloseButton.onClick.AddListener(() =>
+			{
+				this.SendCommand<GamePassCommand>();
+			});
 		}
 		
 		protected override void OnOpen(IUIData uiData = null)

@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4137557553551583984}
   - component: {fileID: 4455687087399311665}
   - component: {fileID: 2288081653795009926}
-  - component: {fileID: 4391709046846162978}
+  - component: {fileID: 1506841101718678542}
   - component: {fileID: 489691711888662366}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Dave
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -80,8 +80,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.9245283, g: 0.8835013, b: 0.41690993, a: 1}
+  m_Sprite: {fileID: -8387949570680539921, guid: dfa7d5c40d1856d44a75f2caac195a2b, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -118,8 +118,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!70 &4391709046846162978
-CapsuleCollider2D:
+--- !u!61 &1506841101718678542
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -151,8 +151,18 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 1.9}
-  m_Direction: 0
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.6875, y: 1}
+    newSize: {x: 1, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.6875, y: 1}
+  m_EdgeRadius: 0
 --- !u!114 &489691711888662366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,7 +194,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 483947448305866052}
-  - component: {fileID: 4991518570821991277}
+  - component: {fileID: 5948432673248384633}
   m_Layer: 0
   m_Name: HurtBox
   m_TagString: PlayerHurtBox
@@ -207,8 +217,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4137557553551583984}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &4991518570821991277
-CapsuleCollider2D:
+--- !u!61 &5948432673248384633
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -239,9 +249,19 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
-  m_Direction: 0
+  m_Offset: {x: 0.0007804632, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.7008897, y: 1}
+  m_EdgeRadius: 0
 --- !u!1001 &6189648123394581753
 PrefabInstance:
   m_ObjectHideFlags: 0

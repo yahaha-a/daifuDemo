@@ -40,6 +40,7 @@ namespace daifuDemo
                         (BackPackItemConfig.PteroisFishPiecesKey, 2, 2),
                         (BackPackItemConfig.PteroisFishPiecesKey, 3, 6)
                     }))
+                
                 .AddHarvestInfos(BackPackItemConfig.KelpKey, new HarvestInfo()
                     .WithCount(new List<(string, int, int)>()
                     {
@@ -50,11 +51,23 @@ namespace daifuDemo
                     {
                         (BackPackItemConfig.CopperKey, 0, 1)
                     }))
+                .AddHarvestInfos(BackPackItemConfig.CoralKey, new HarvestInfo()
+                    .WithCount(new List<(string, int, int)>()
+                    {
+                        (BackPackItemConfig.CoralKey, 0, 1)
+                    }))
+                
                 .AddHarvestInfos(BackPackItemConfig.CordageKey, new HarvestInfo()
                     .WithCount(new List<(string, int, int)>()
                     {
                         (BackPackItemConfig.CordageKey, 0, 1)
                     }))
+                .AddHarvestInfos(BackPackItemConfig.WoodKey, new HarvestInfo()
+                    .WithCount(new List<(string, int, int)>()
+                    {
+                        (BackPackItemConfig.WoodKey, 0, 1)
+                    }))
+                
                 .AddHarvestInfos(BackPackItemConfig.SaltKey, new HarvestInfo()
                     .WithCount(new List<(string, int, int)>()
                     {

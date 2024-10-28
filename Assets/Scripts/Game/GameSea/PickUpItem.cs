@@ -55,6 +55,7 @@ namespace daifuDemo
 				if (other.CompareTag("Player"))
 				{
 					playModel.IfCanPickUp.Value = false;
+					_state = PickUpItemState.FreeTime;
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}

@@ -142,15 +142,15 @@ ScriptedImporter:
   spriteSheetImportData:
   - name: AggressiveFish_0
     originalName: 
-    pivot: {x: 0, y: 0}
-    alignment: 0
+    pivot: {x: 0.4614035, y: 0.2585361}
+    alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
-      y: 4
+      y: 0
       width: 128
-      height: 67
+      height: 124
     spriteID: 5c87293487afbc24e9cf9fe33488fc7a
     spriteBone: []
     spriteOutline: []

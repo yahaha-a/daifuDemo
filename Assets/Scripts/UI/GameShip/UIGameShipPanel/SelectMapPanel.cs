@@ -33,8 +33,8 @@ namespace daifuDemo
 					_uiGameShipPanelModel.CurrentSelectMapName.Value = null;
 					
 					_mapCreateSystem.LoadItemsFromXmlFile(_uiGameShipPanelModel.CurrentMapName.Value);
-					
-					transform.gameObject.Hide();
+
+					_uiGameShipPanelModel.IfSelectMapPanelShow.Value = false;
 					SceneManager.LoadScene("Game");
 				}
 			});
@@ -43,7 +43,7 @@ namespace daifuDemo
 			{
 				_uiGameShipPanelModel.CurrentSelectMapName.Value = null;
 				_uiGameShipPanelModel.CurrentMapName.Value = null;
-				transform.gameObject.Hide();
+				_uiGameShipPanelModel.IfSelectMapPanelShow.Value = false;
 			});
 		}
 

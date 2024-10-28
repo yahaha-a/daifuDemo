@@ -1,3 +1,4 @@
+using Global;
 using QFramework;
 using UnityEngine;
 
@@ -6,10 +7,9 @@ namespace daifuDemo
     public enum GunState
     {
         Ready,
-        Aim,
-        Revolve,
         Shooting,
-        Cooling
+        Cooling,
+        LoadAmmunition
     }
     
     public class GunFsm : AbstractFsm<GunState>, IController
@@ -18,6 +18,12 @@ namespace daifuDemo
         private Transform _bulletTemplate;
         
         private IGunModel _gunModel;
+
+        private IBulletModel _bulletModel;
+
+        private ISingleUseItemsModel _singleUseItemsModel;
+
+        private IBulletSystem _bulletSystem;
 
         public GunFsm(Gun gun, Transform bulletTemplate)
         {
@@ -28,24 +34,18 @@ namespace daifuDemo
         public override void Init()
         {
             _gunModel = this.GetModel<IGunModel>();
+
+            _bulletModel = this.GetModel<IBulletModel>();
+
+            _singleUseItemsModel = this.GetModel<ISingleUseItemsModel>();
+
+            _bulletSystem = this.GetSystem<IBulletSystem>();
             
             AddStates(new State<GunState>()
                 .WithKey(GunState.Ready)
                 .WithOnEnter(() => _gunModel.CurrentGunState.Value = GunState.Ready)
                 .WithOnExit(null)
-                .WithOnTick(null));
-            
-            AddStates(new State<GunState>()
-                .WithKey(GunState.Aim)
-                .WithOnEnter(() => _gunModel.CurrentGunState.Value = GunState.Aim)
-                .WithOnExit(null)
-                .WithOnTick(null));
-            
-            AddStates(new State<GunState>()
-                .WithKey(GunState.Revolve)
-                .WithOnEnter(() => _gunModel.CurrentGunState.Value = GunState.Revolve)
-                .WithOnExit(null)
-                .WithOnTick(Revolve));
+                .WithOnTick(RotateTowardsMouse));
             
             AddStates(new State<GunState>()
                 .WithKey(GunState.Shooting)
@@ -56,56 +56,40 @@ namespace daifuDemo
             AddStates(new State<GunState>()
                 .WithKey(GunState.Cooling)
                 .WithOnEnter(() => _gunModel.CurrentGunState.Value = GunState.Cooling)
-                .WithOnExit(() => _gun.currentIntervalBetweenShots = 0f)
-                .WithOnTick(() => _gun.currentIntervalBetweenShots += Time.deltaTime));
+                .WithOnExit(() => _gunModel.CurrentIntervalBetweenShots.Value = _gunModel.IntervalBetweenShots.Value)
+                .WithOnTick(() =>
+                {
+                    _gunModel.CurrentIntervalBetweenShots.Value -= Time.deltaTime;
+                    RotateTowardsMouse();
+                }));
+            
+            AddStates(new State<GunState>()
+                .WithKey(GunState.LoadAmmunition)
+                .WithOnEnter(() => _gunModel.CurrentGunState.Value = GunState.LoadAmmunition)
+                .WithOnExit(() =>
+                {
+                    _gunModel.CurrentLoadAmmunitionTime.Value = _gunModel.LoadAmmunitionNeedTime.Value;
+                    LoadAmmunition();
+                })
+                .WithOnTick(() =>
+                {
+                    _gunModel.CurrentLoadAmmunitionTime.Value -= Time.deltaTime;
+                    RotateTowardsMouse();
+                }));
 
-
-
+            
+            
             AddTransitions(new Transition<GunState>()
                 .WithFromState(GunState.Ready)
-                .WithToState(GunState.Aim)
-                .WithWeight(1)
-                .AddConditions(() => Input.GetKeyDown(KeyCode.I)));
-            
-            
-            
-            AddTransitions(new Transition<GunState>()
-                .WithFromState(GunState.Aim)
-                .WithToState(GunState.Revolve)
-                .WithWeight(1)
-                .AddConditions(() => Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.C)));
-            
-            AddTransitions(new Transition<GunState>()
-                .WithFromState(GunState.Aim)
-                .WithToState(GunState.Ready)
-                .WithWeight(1)
-                .AddConditions(() => Input.GetKeyUp(KeyCode.I)));
-            
-            AddTransitions(new Transition<GunState>()
-                .WithFromState(GunState.Aim)
                 .WithToState(GunState.Shooting)
-                .WithWeight(1)
-                .AddConditions(() => Input.GetKeyDown(KeyCode.J)));
-            
-            
+                .WithWeight(2)
+                .AddConditions(() => Input.GetMouseButtonDown(0)));
             
             AddTransitions(new Transition<GunState>()
-                .WithFromState(GunState.Revolve)
-                .WithToState(GunState.Shooting)
+                .WithFromState(GunState.Ready)
+                .WithToState(GunState.LoadAmmunition)
                 .WithWeight(1)
-                .AddConditions(() => Input.GetKeyDown(KeyCode.J)));
-            
-            AddTransitions(new Transition<GunState>()
-                .WithFromState(GunState.Revolve)
-                .WithToState(GunState.Aim)
-                .WithWeight(1)
-                .AddConditions(() => Input.GetKeyUp(KeyCode.Z) || Input.GetKeyUp(KeyCode.C)));
-            
-            AddTransitions(new Transition<GunState>()
-                .WithFromState(GunState.Revolve)
-                .WithToState(GunState.Ready)
-                .WithWeight(1)
-                .AddConditions(() => Input.GetKeyUp(KeyCode.I)));
+                .AddConditions(() => Input.GetKeyDown(KeyCode.R)));
             
             
             
@@ -121,51 +105,110 @@ namespace daifuDemo
                 .WithFromState(GunState.Cooling)
                 .WithToState(GunState.Ready)
                 .WithWeight(1)
-                .AddConditions(() => _gun.currentIntervalBetweenShots >= _gun.intervalBetweenShots));
+                .AddConditions(() => _gunModel.CurrentIntervalBetweenShots.Value <= 0));
+            
+            AddTransitions(new Transition<GunState>()
+                .WithFromState(GunState.Cooling)
+                .WithToState(GunState.LoadAmmunition)
+                .WithWeight(2)
+                .AddConditions(() => Input.GetKeyDown(KeyCode.R)));
+            
+            
+            
+            AddTransitions(new Transition<GunState>()
+                .WithFromState(GunState.LoadAmmunition)
+                .WithToState(GunState.Ready)
+                .WithWeight(1)
+                .AddConditions(() => _gunModel.CurrentLoadAmmunitionTime.Value <= 0));
+            
+            AddTransitions(new Transition<GunState>()
+                .WithFromState(GunState.LoadAmmunition)
+                .WithToState(GunState.Shooting)
+                .WithWeight(2)
+                .AddConditions(() => Input.GetMouseButtonDown(0)));
         }
 
-        private void Revolve()
+        private void RotateTowardsMouse()
         {
-            if (Input.GetKey(KeyCode.Z))
-            {
-                if (_gun.transform.eulerAngles.z < 70f || _gun.transform.eulerAngles.z > 289f)
-                {
-                    var rotationAmount = _gun.rotationRate * Time.deltaTime;
-                    _gun.transform.Rotate(new Vector3(0, 0, rotationAmount));
-                }
-            }
-            else if (Input.GetKey(KeyCode.C))
-            {
-                if (_gun.transform.eulerAngles.z < 71f || _gun.transform.eulerAngles.z > 290f)
-                {
-                    var rotationAmount = -_gun.rotationRate * Time.deltaTime;
-                    _gun.transform.Rotate(new Vector3(0, 0, rotationAmount));
-                }
-            }
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    
+            mousePosition.z = 0f;
+
+            Vector3 fishForkPosition = _gun.transform.position;
+
+            Vector3 direction = mousePosition - fishForkPosition;
+
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            _gun.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
         }
 
         private void Shooting()
         {
-            foreach (var (offsetDistance, launchDirection) in _gun.BulletSpawnLocationsAndDirectionsList)
+            if (_gunModel.CurrentAmmunition.Value >= _gunModel.BulletSpawnLocationsAndDirectionsList.Value.Count)
             {
-                _bulletTemplate.InstantiateWithParent(_gun)
-                    .Self(self =>
-                    {
-                        self.position = new Vector3(self.position.x + offsetDistance.x,
-                            self.position.y + offsetDistance.y, self.position.z);
-                        self.Rotate(new Vector3(0, 0, launchDirection));
-								
-                        if (_gun.ifLeft)
+                foreach (var (offsetDistance, launchDirection) in _gunModel.BulletSpawnLocationsAndDirectionsList.Value)
+                {
+                    _bulletTemplate.InstantiateWithParent(_gun)
+                        .Self(self =>
                         {
-                            self.GetComponent<Bullet>().Direction = -1;
-                        }
-                        else
-                        {
-                            self.GetComponent<Bullet>().Direction = 1;
-                        }
-                        self.parent = _gun.flyerRoot.transform;
-                        self.Show();
-                    });
+                            Bullet bullet = self.GetComponent<Bullet>();
+                            bullet.damage = _bulletSystem.BulletInfos[_gunModel.CurrentGunKey.Value]
+                                .Find(item => item.Type == _bulletModel.CurrentBulletType.Value).Damage;
+                            bullet.speed = _gunModel.RateOfFire.Value;
+                            bullet.range = _gunModel.AttackRange.Value;
+                            if (_gunModel.IfLeft.Value)
+                            {
+                                bullet.direction = -1;
+                            }
+                            else
+                            {
+                                bullet.direction = 1;
+                            }
+                            
+                            self.position = new Vector3(self.position.x + offsetDistance.x,
+                                self.position.y + offsetDistance.y, self.position.z);
+                            self.Rotate(new Vector3(0, 0, launchDirection));
+                            self.parent = _gun.flyerRoot.transform;
+                            
+                            self.Show();
+                        });
+                    _gunModel.CurrentAmmunition.Value--;
+                }
+            }
+        }
+
+        private void LoadAmmunition()
+        {
+            if (_gunModel.CurrentGunKey.Value == Config.RifleKey)
+            {
+                var needSupplement = _gunModel.MaximumAmmunition.Value - _gunModel.CurrentAmmunition.Value;
+
+                if (_singleUseItemsModel.RifleBulletCount.Value >= needSupplement)
+                {
+                    _singleUseItemsModel.RifleBulletCount.Value -= needSupplement;
+                    _gunModel.CurrentAmmunition.Value = _gunModel.MaximumAmmunition.Value;
+                }
+                else
+                {
+                    _gunModel.CurrentAmmunition.Value += _singleUseItemsModel.RifleBulletCount.Value;
+                    _singleUseItemsModel.RifleBulletCount.Value = 0;
+                }
+            }
+            else if (_gunModel.CurrentGunKey.Value == Config.ShotgunKey)
+            {
+                var needSupplement = _gunModel.MaximumAmmunition.Value - _gunModel.CurrentAmmunition.Value;
+
+                if (_singleUseItemsModel.ShotgunBulletCount.Value >= needSupplement)
+                {
+                    _singleUseItemsModel.ShotgunBulletCount.Value -= needSupplement;
+                    _gunModel.CurrentAmmunition.Value = _gunModel.MaximumAmmunition.Value;
+                }
+                else
+                {
+                    _gunModel.CurrentAmmunition.Value += _singleUseItemsModel.ShotgunBulletCount.Value;
+                    _singleUseItemsModel.ShotgunBulletCount.Value = 0;
+                }
             }
         }
 

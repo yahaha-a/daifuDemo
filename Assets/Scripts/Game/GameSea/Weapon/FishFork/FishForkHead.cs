@@ -27,6 +27,8 @@ namespace daifuDemo
 
 		private IFishForkHeadModel _fishForkHeadModel;
 
+		private IWeaponSystem _weaponSystem;
+
 		private void OnTriggerEnter2D(Collider2D other)
 		{
 			if (_fishForkHeadState == FishForkHeadState.Fly && other.CompareTag("FishHitBox"))
@@ -46,6 +48,8 @@ namespace daifuDemo
 			_fishForkModel = this.GetModel<IFishForkModel>();
 
 			_fishForkHeadModel = this.GetModel<IFishForkHeadModel>();
+
+			_weaponSystem = this.GetSystem<IWeaponSystem>();
 
 			_fishForkModel.CurrentFishForkKey.RegisterWithInitValue(key =>
 			{
@@ -89,10 +93,11 @@ namespace daifuDemo
 
 		private void UpdateData()
 		{
-			_speed = this.SendQuery(new FindFishForkSpeed(_fishForkModel.CurrentFishForkKey.Value,
-				_fishForkModel.CurrentRank.Value));
-			_fishForkLength = this.SendQuery(new FindFishForkLength(_fishForkModel.CurrentFishForkKey.Value,
-				_fishForkModel.CurrentRank.Value));
+			FishForkInfo currentFishForkInfo =
+				(FishForkInfo)_weaponSystem.WeaponInfos[
+					(_fishForkModel.CurrentFishForkKey.Value, _fishForkModel.CurrentRank.Value)];
+			_speed = currentFishForkInfo.Speed;
+			_fishForkLength = currentFishForkInfo.FishForkLength;
 		}
 
 		public IArchitecture GetArchitecture()

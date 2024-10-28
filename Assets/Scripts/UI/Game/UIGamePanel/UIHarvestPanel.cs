@@ -32,6 +32,7 @@ namespace daifuDemo
 			CloseButton.onClick.AddListener(() =>
 			{
 				_uiGamePanelModel.IfBackPackOpen.Value = false;
+				_uiGamePanelModel.IfUIHarvestPanelShow.Value = false;
 				UIKit.ClosePanel<UIGamePanel>();
 				this.SendCommand<ReloadDataCommand>();
 				SceneManager.LoadScene("GameShip");
@@ -54,6 +55,8 @@ namespace daifuDemo
 						});
 					_harvestItems.Add(harvestFishItemTemplate.gameObject);
 				}
+				
+				this.GetUtility<IUtils>().AdjustContentHeight(HarvestFishRoot);
 
 				if (_backPackSystem.BackPackItemInfos[itemKey].ItemType == BackPackItemType.Ingredient ||
 				    _backPackSystem.BackPackItemInfos[itemKey].ItemType == BackPackItemType.Seasoning)
@@ -68,6 +71,8 @@ namespace daifuDemo
 						});
 					_harvestItems.Add(harvestFoodItemTemplate.gameObject);
 				}
+				
+				this.GetUtility<IUtils>().AdjustContentHeight(HarvestFoodRoot);
 			}
 		}
 

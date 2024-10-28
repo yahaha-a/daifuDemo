@@ -12,14 +12,19 @@ namespace daifuDemo
 {
 	public partial class SettleItemManage : UIElement, IController
 	{
+		private static ResLoader _resLoader = ResLoader.Allocate();
+		
 		public List<SettleItemTemplate> SettleItemTemplateList { get; } = new List<SettleItemTemplate>();
 
 		private IHarvestSystem _harvestSystem;
 
 		private IBackPackSystem _backPackSystem;
 		
+		private IUtils _utils;
+		
 		private void Awake()
 		{
+			_utils = this.GetUtility<IUtils>();
 			_harvestSystem = this.GetSystem<IHarvestSystem>();
 			_backPackSystem = this.GetSystem<IBackPackSystem>();
 		}
@@ -33,6 +38,7 @@ namespace daifuDemo
 					var settleItemTemplate = SettleItemTemplate.InstantiateWithParent(this)
 						.Self(self =>
 						{
+							self.Icon.sprite = _utils.AdjustSprite(_resLoader.LoadSync<Texture2D>(itemKey));
 							self.Name.text = this.SendQuery(new FindBackPackItemName(itemKey));
 							self.Number.text = itemCount.ToString();
 							self.Show();

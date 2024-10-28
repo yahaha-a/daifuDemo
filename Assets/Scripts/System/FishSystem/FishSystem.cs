@@ -23,6 +23,8 @@ namespace daifuDemo
         private ITreasureBoxSystem _treasureBoxSystem;
 
         private IPlayerModel _playerModel;
+
+        private IUtils _utils;
         
         //TODO
         public Dictionary<string, IFishInfo> FishInfos { get; } = new Dictionary<string, IFishInfo>()
@@ -30,33 +32,38 @@ namespace daifuDemo
             {Config.NormalFishKey, new FishInfo()
                 .WithFishName("普通鱼")
                 .WithFishKey(Config.NormalFishKey)
-                .WithFishIcon(_resLoader.LoadSync<Sprite>("NormalFish"))
-                .WithFishPrefab(_resLoader.LoadSync<GameObject>("NormalFish"))
+                .WithFishIcon(_resLoader.LoadSync<Texture2D>(Config.NormalFishKey))
+                .WithFishPrefab(_resLoader.LoadSync<GameObject>(Config.NormalFishKey))
                 .WithFishState(FishState.Swim)
-                .WithSwimRate(3f)
+                .WithSwimRate(2f)
                 .WithFrightenedSwimRate(5f)
-                .WithToggleDirectionTime(5f)
+                .WithCoolDownTime(4f)
+                .WithToggleDirectionTime(4f)
                 .WithHp(20f)
-                .WithStruggleTime(0.5f)
+                .WithStruggleTime(2f)
+                .WithVisualField(4f)
                 .WithClicks(5)
             },
             {Config.AggressiveFishKey, new AggressiveFishInfo()
-                .WithAttackInterval(2f)
-                .WithAttackRange(1f)
+                .WithAttackInterval(3f)
+                .WithAttackRange(3f)
                 .WithDamage(5f)
                 .WithPursuitSwimRate(5f)
+                .WithChargeTime(0.2f)
                 .WithFishName("狮子鱼")
                 .WithFishKey(Config.AggressiveFishKey)
-                .WithFishIcon(_resLoader.LoadSync<Sprite>("AggressiveFish"))
-                .WithFishPrefab(_resLoader.LoadSync<GameObject>("AggressiveFish"))
+                .WithFishIcon(_resLoader.LoadSync<Texture2D>(Config.AggressiveFishKey))
+                .WithFishPrefab(_resLoader.LoadSync<GameObject>(Config.AggressiveFishKey))
                 .WithFishState(FishState.Swim)
-                .WithSwimRate(4f)
-                .WithFrightenedSwimRate(6f)
+                .WithSwimRate(2f)
+                .WithFrightenedSwimRate(8f)
+                .WithCoolDownTime(3f)
                 .WithToggleDirectionTime(3f)
-                .WithHp(10f)
-                .WithFleeHp(5f)
-                .WithStruggleTime(0.5f)
-                .WithClicks(4)
+                .WithHp(30f)
+                .WithFleeHp(15f)
+                .WithStruggleTime(1.5f)
+                .WithVisualField(5f)
+                .WithClicks(6)
             },
         };
 
@@ -68,6 +75,7 @@ namespace daifuDemo
             _backPackSystem = this.GetSystem<IBackPackSystem>();
             _treasureBoxSystem = this.GetSystem<ITreasureBoxSystem>();
             _playerModel = this.GetModel<IPlayerModel>();
+            _utils = this.GetUtility<IUtils>();
             
             Events.WeaponAttackFish.Register((damage, fish) =>
             {
@@ -87,10 +95,11 @@ namespace daifuDemo
                         CaughtItem.Add(fishMessage.FishKey + "_Star" + 1, new CaughtItemInfo()
                             .WithFishKey(fishMessage.FishKey)
                             .WithFishName(FishInfos[fishMessage.FishKey].FishName)
-                            .WithFishIcon(FishInfos[fishMessage.FishKey].FishIcon)
+                            .WithFishIcon(_utils.AdjustSprite(FishInfos[fishMessage.FishKey].FishIcon))
                             .WithStar(1)
                             .WithAmount(1)
                         );
+                        
                     }
                     
                     Events.ObtainItem?.Trigger(new ObtainItemsInfo()
@@ -104,6 +113,7 @@ namespace daifuDemo
             Events.HitFish.Register(fish =>
             {
                 fish.GetComponent<IFish>().HitByFork = true;
+                fish.GetComponent<IFish>().HitPosition = fish.gameObject.transform.position;
             });
 
             Events.CatchFish.Register(fish =>
@@ -117,7 +127,7 @@ namespace daifuDemo
                     CaughtItem.Add(fish.FishKey + "_Star" + 3, new CaughtItemInfo()
                         .WithFishKey(fish.FishKey)
                         .WithFishName(FishInfos[fish.FishKey].FishName)
-                        .WithFishIcon(FishInfos[fish.FishKey].FishIcon)
+                        .WithFishIcon(_utils.AdjustSprite(FishInfos[fish.FishKey].FishIcon))
                         .WithStar(3)
                         .WithAmount(1)
                     );

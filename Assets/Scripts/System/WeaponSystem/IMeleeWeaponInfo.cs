@@ -6,15 +6,11 @@ namespace daifuDemo
 {
     public interface IMeleeWeaponInfo
     {
-        string Name { get; }
-        
         float Damage { get; }
         
         float AttackRadius { get; }
         
         float AttackFrequency { get; }
-        
-        IMeleeWeaponInfo WithName(string name);
         
         IMeleeWeaponInfo WithDamage(float damage);
 
@@ -23,38 +19,34 @@ namespace daifuDemo
         IMeleeWeaponInfo WithAttackFrequency(float attackFrequency);
     }
     
-    public class MeleeWeaponInfo : IMeleeWeaponInfo
+    public class MeleeWeaponInfo : WeaponInfo<MeleeWeaponInfo>, IMeleeWeaponInfo
     {
-        public string Name { get; private set; }
-        
         public float Damage { get; private set; }
         
         public float AttackRadius { get; private set; }
         
         public float AttackFrequency { get; private set; }
-        
-        public IMeleeWeaponInfo WithName(string name)
-        {
-            Name = name;
-            return this;
-        }
 
-        public IMeleeWeaponInfo WithDamage(float damage)
+        public MeleeWeaponInfo WithDamage(float damage)
         {
             Damage = damage;
             return this;
         }
 
-        public IMeleeWeaponInfo WithAttackRadius(float attackRadius)
+        public MeleeWeaponInfo WithAttackRadius(float attackRadius)
         {
             AttackRadius = attackRadius;
             return this;
         }
 
-        public IMeleeWeaponInfo WithAttackFrequency(float attackFrequency)
+        public MeleeWeaponInfo WithAttackFrequency(float attackFrequency)
         {
             AttackFrequency = attackFrequency;
             return this;
         }
+
+        IMeleeWeaponInfo IMeleeWeaponInfo.WithDamage(float damage) => WithDamage(damage);
+        IMeleeWeaponInfo IMeleeWeaponInfo.WithAttackRadius(float attackRadius) => WithAttackRadius(attackRadius);
+        IMeleeWeaponInfo IMeleeWeaponInfo.WithAttackFrequency(float attackFrequency) => WithAttackFrequency(attackFrequency);
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace daifuDemo
 {
-    public class FindFishIcon : AbstractQuery<Sprite>
+    public class FindFishIcon : AbstractQuery<Texture2D>
     {
         private string _fishKey;
         
@@ -12,7 +12,7 @@ namespace daifuDemo
             _fishKey = fishKey;
         }
         
-        protected override Sprite OnDo()
+        protected override Texture2D OnDo()
         {
             var fishSystem = this.GetSystem<IFishSystem>();
             var icon = fishSystem.FishInfos[_fishKey].FishIcon;

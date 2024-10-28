@@ -7,7 +7,6 @@ namespace daifuDemo
     {
         Ready,
         Aim,
-        Revolve,
         Launch,
         Shooting
     }
@@ -45,13 +44,10 @@ namespace daifuDemo
                 .WithKey(FishForkState.Aim)
                 .WithOnEnter(() => _fishForkModel.CurrentFishForkState.Value = FishForkState.Aim)
                 .WithOnExit(null)
-                .WithOnTick(null));
-            
-            AddStates(new State<FishForkState>()
-                .WithKey(FishForkState.Revolve)
-                .WithOnEnter(() => _fishForkModel.CurrentFishForkState.Value = FishForkState.Revolve)
-                .WithOnExit(null)
-                .WithOnTick(Revlove));
+                .WithOnTick(() =>
+                {
+                    RotateTowardsMouse();
+                }));
             
             AddStates(new State<FishForkState>()
                 .WithKey(FishForkState.Launch)
@@ -75,47 +71,21 @@ namespace daifuDemo
                 .WithFromState(FishForkState.Ready)
                 .WithToState(FishForkState.Aim)
                 .WithWeight(1)
-                .AddConditions(() => Input.GetKeyDown(KeyCode.I)));
+                .AddConditions(() => Input.GetMouseButtonDown(1)));
             
             
-            
-            AddTransitions(new Transition<FishForkState>()
-                .WithFromState(FishForkState.Aim)
-                .WithToState(FishForkState.Revolve)
-                .WithWeight(1)
-                .AddConditions(() => Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.C)));
             
             AddTransitions(new Transition<FishForkState>()
                 .WithFromState(FishForkState.Aim)
                 .WithToState(FishForkState.Ready)
                 .WithWeight(1)
-                .AddConditions(() => Input.GetKeyUp(KeyCode.I)));
+                .AddConditions(() => Input.GetMouseButtonUp(1)));
             
             AddTransitions(new Transition<FishForkState>()
                 .WithFromState(FishForkState.Aim)
                 .WithToState(FishForkState.Launch)
                 .WithWeight(1)
-                .AddConditions(() => Input.GetKeyDown(KeyCode.J)));
-            
-            
-            
-            AddTransitions(new Transition<FishForkState>()
-                .WithFromState(FishForkState.Revolve)
-                .WithToState(FishForkState.Launch)
-                .WithWeight(1)
-                .AddConditions(() => Input.GetKeyDown(KeyCode.J)));
-            
-            AddTransitions(new Transition<FishForkState>()
-                .WithFromState(FishForkState.Revolve)
-                .WithToState(FishForkState.Aim)
-                .WithWeight(1)
-                .AddConditions(() => Input.GetKeyUp(KeyCode.Z) || Input.GetKeyUp(KeyCode.C)));
-            
-            AddTransitions(new Transition<FishForkState>()
-                .WithFromState(FishForkState.Revolve)
-                .WithToState(FishForkState.Ready)
-                .WithWeight(1)
-                .AddConditions(() => Input.GetKeyUp(KeyCode.I)));
+                .AddConditions(() => Input.GetMouseButtonDown(0)));
             
             
             
@@ -136,24 +106,19 @@ namespace daifuDemo
             WithIdleState(FishForkState.Ready);
         }
 
-        private void Revlove()
+        private void RotateTowardsMouse()
         {
-            if (Input.GetKey(KeyCode.Z))
-            {
-                if (_fishFork.transform.eulerAngles.z < 70f || _fishFork.transform.eulerAngles.z > 289f)
-                {
-                    var rotationAmount = _fishFork.rotationRate * Time.deltaTime;
-                    _fishFork.transform.Rotate(new Vector3(0, 0, rotationAmount));
-                }
-            }
-            else if (Input.GetKey(KeyCode.C))
-            {
-                if (_fishFork.transform.eulerAngles.z < 71f || _fishFork.transform.eulerAngles.z > 290f)
-                {
-                    var rotationAmount = -_fishFork.rotationRate * Time.deltaTime;
-                    _fishFork.transform.Rotate(new Vector3(0, 0, rotationAmount));
-                }
-            }
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    
+            mousePosition.z = 0f;
+
+            Vector3 fishForkPosition = _fishFork.transform.position;
+
+            Vector3 direction = mousePosition - fishForkPosition;
+
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            _fishFork.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
         }
 
         private void Launch()

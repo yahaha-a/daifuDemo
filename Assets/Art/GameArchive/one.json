@@ -2,7 +2,20 @@
   "BackPackData": [
     {
       "BackPackItemKey": "ShipBackPackItemList",
-      "Items": []
+      "Items": [
+        {
+          "Key": "Cordage",
+          "Value": 50
+        },
+        {
+          "Key": "Copper",
+          "Value": 65
+        },
+        {
+          "Key": "Wood",
+          "Value": 54
+        }
+      ]
     },
     {
       "BackPackItemKey": "SuShiBackPackItemList",
@@ -17,15 +30,23 @@
         },
         {
           "Key": "AggressiveFish",
-          "Value": 6
+          "Value": 134
         },
         {
           "Key": "Vinegar",
-          "Value": 1
+          "Value": 2
         },
         {
           "Key": "NormalFish",
-          "Value": 20
+          "Value": 215
+        },
+        {
+          "Key": "Coral",
+          "Value": 144
+        },
+        {
+          "Key": "Kelp",
+          "Value": 96
         }
       ]
     }

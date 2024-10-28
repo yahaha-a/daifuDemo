@@ -11,6 +11,7 @@ namespace daifuDemo
             var fishForkModel = this.GetModel<IFishForkModel>();
             var fishSystem = this.GetSystem<IFishSystem>();
             var harvestSystem = this.GetSystem<IHarvestSystem>();
+            var mapCreateSystem = this.GetSystem<IMapCreateSystem>();
             
             playModel.CurrentState.Value = PlayState.Swim;
             playModel.NumberOfFish.Value = Config.NumberOfFish;
@@ -20,6 +21,7 @@ namespace daifuDemo
             
             fishSystem.Reload();
             harvestSystem.Reload();
+            mapCreateSystem.Reload();
         }
     }
 }

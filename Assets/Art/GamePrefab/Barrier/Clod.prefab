@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5132235245530188175}
   - component: {fileID: 8331377293193475359}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Box
-  m_TagString: Untagged
+  m_TagString: BarrierBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

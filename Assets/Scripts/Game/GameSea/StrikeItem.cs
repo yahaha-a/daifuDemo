@@ -71,7 +71,20 @@ namespace daifuDemo
 					var pickupItem = _resLoader.LoadSync<GameObject>("DropItem");
 					pickupItem.InstantiateWithParent(dropsRoot.transform).Self(self =>
 					{
-						self.transform.position = this.transform.position + new Vector3(Random.Range(-1f, 1f), 0, 0);
+						self.transform.position = this.transform.position;
+
+						var rb = self.GetComponent<Rigidbody2D>();
+
+						if (rb == null)
+						{
+							rb = self.AddComponent<Rigidbody2D>();
+						}
+
+						float randomX = Random.Range(-1f, 1f);
+						float upwardForce = Random.Range(3f, 5f);
+
+						rb.velocity = new Vector2(randomX, upwardForce);
+
 						self.GetComponent<PickUpItem>().key = _dropItemKey;
 						self.Show();
 					});
@@ -79,6 +92,7 @@ namespace daifuDemo
 				_hitStage.Value++;
 			}
 		}
+
 
 		public IArchitecture GetArchitecture()
 		{

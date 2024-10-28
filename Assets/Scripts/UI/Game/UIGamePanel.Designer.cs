@@ -5,17 +5,21 @@ using QFramework;
 
 namespace daifuDemo
 {
-	// Generate Id:11950e8f-29a5-4bb5-bc00-f5d184a879a2
+	// Generate Id:a8c5c3c7-0223-4bec-8e23-0bc182737f28
 	public partial class UIGamePanel
 	{
 		public const string Name = "UIGamePanel";
 		
 		[SerializeField]
+		public UnityEngine.UI.Text NumberOfFish;
+		[SerializeField]
 		public UnityEngine.UI.Image Oxygen;
 		[SerializeField]
 		public UnityEngine.UI.Text OxygenValue;
 		[SerializeField]
-		public UnityEngine.UI.Text NumberOfFish;
+		public UnityEngine.UI.Button BackPackButton;
+		[SerializeField]
+		public UnityEngine.UI.Button CloseButton;
 		[SerializeField]
 		public UIPackPanel UIPackPanel;
 		[SerializeField]
@@ -24,18 +28,23 @@ namespace daifuDemo
 		public UIHarvestPanel UIHarvestPanel;
 		[SerializeField]
 		public CatchFishPanel CatchFishPanel;
+		[SerializeField]
+		public WeaponPanel WeaponPanel;
 		
 		private UIGamePanelData mPrivateData = null;
 		
 		protected override void ClearUIComponents()
 		{
+			NumberOfFish = null;
 			Oxygen = null;
 			OxygenValue = null;
-			NumberOfFish = null;
+			BackPackButton = null;
+			CloseButton = null;
 			UIPackPanel = null;
 			UISettlePanel = null;
 			UIHarvestPanel = null;
 			CatchFishPanel = null;
+			WeaponPanel = null;
 			
 			mData = null;
 		}

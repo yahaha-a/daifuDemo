@@ -10,7 +10,8 @@ namespace daifuDemo
         Attack,
         Hit,
         Caught,
-        Dead
+        Dead,
+        Struggle
     }
     
     public interface IFishInfo
@@ -19,7 +20,7 @@ namespace daifuDemo
         
         string FishKey { get; }
         
-        Sprite FishIcon { get; }
+        Texture2D FishIcon { get; }
         
         GameObject FishPrefab { get; }
         
@@ -31,6 +32,8 @@ namespace daifuDemo
         
         float FrightenedSwimRate { get; }
         
+        float CoolDownTime { get; }
+        
         float Hp { get; }
         
         float FleeHp { get; }
@@ -39,11 +42,13 @@ namespace daifuDemo
         
         int Clicks { get; }
         
+        float VisualField { get; }
+        
         IFishInfo WithFishName(string fishName);
 
         IFishInfo WithFishKey(string fishKey);
 
-        IFishInfo WithFishIcon(Sprite fishIcon);
+        IFishInfo WithFishIcon(Texture2D fishIcon);
 
         IFishInfo WithFishPrefab(GameObject fishPrefab);
 
@@ -55,6 +60,8 @@ namespace daifuDemo
 
         IFishInfo WithFrightenedSwimRate(float frightenedSwimRate);
 
+        IFishInfo WithCoolDownTime(float coolDownTime);
+
         IFishInfo WithHp(float hp);
 
         IFishInfo WithFleeHp(float fleeHp);
@@ -62,6 +69,8 @@ namespace daifuDemo
         IFishInfo WithStruggleTime(float struggleTime);
 
         IFishInfo WithClicks(int clicks);
+
+        IFishInfo WithVisualField(float visualField);
     }
     
     public class FishInfo : IFishInfo
@@ -70,7 +79,7 @@ namespace daifuDemo
         
         public string FishKey { get; private set; }
         
-        public Sprite FishIcon { get; private set; }
+        public Texture2D FishIcon { get; private set; }
 
         public GameObject FishPrefab { get; private set; }
 
@@ -82,12 +91,16 @@ namespace daifuDemo
         
         public float FrightenedSwimRate { get; private set; }
         
+        public float CoolDownTime { get; private set; }
+
         public float Hp { get; private set; }
         public float FleeHp { get; private set; }
 
         public float StruggleTime { get; private set; }
         
         public int Clicks { get; private set; }
+        
+        public float VisualField { get; private set; }
 
         public IFishInfo WithFishName(string fishName)
         {
@@ -101,7 +114,7 @@ namespace daifuDemo
             return this;
         }
 
-        public IFishInfo WithFishIcon(Sprite fishIcon)
+        public IFishInfo WithFishIcon(Texture2D fishIcon)
         {
             FishIcon = fishIcon;
             return this;
@@ -137,6 +150,12 @@ namespace daifuDemo
             return this;
         }
 
+        public IFishInfo WithCoolDownTime(float coolDownTime)
+        {
+            CoolDownTime = coolDownTime;
+            return this;
+        }
+
         public IFishInfo WithHp(float hp)
         {
             Hp = hp;
@@ -158,6 +177,12 @@ namespace daifuDemo
         public IFishInfo WithClicks(int clicks)
         {
             Clicks = clicks;
+            return this;
+        }
+
+        public IFishInfo WithVisualField(float visualField)
+        {
+            VisualField = visualField;
             return this;
         }
     }

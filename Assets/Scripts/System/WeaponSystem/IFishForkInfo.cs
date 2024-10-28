@@ -2,15 +2,11 @@ namespace daifuDemo
 {
     public interface IFishForkInfo
     {
-        string Name { get; }
-        
         float RotationRate { get; }
         
         float Speed { get; }
         
         float FishForkLength { get; }
-
-        IFishForkInfo WithName(string name);
         
         IFishForkInfo WithRotationRate(float rotationRate);
 
@@ -19,38 +15,45 @@ namespace daifuDemo
         IFishForkInfo WithFishForkLength(float fishForkLength);
     }
     
-    public class FishForkInfo : IFishForkInfo
+    public class FishForkInfo : WeaponInfo<FishForkInfo>, IFishForkInfo
     {
-        public string Name { get; private set; }
-        
         public float RotationRate { get; private set; }
         
         public float Speed { get; private set; }
         
         public float FishForkLength { get; private set; }
 
-        public IFishForkInfo WithName(string name)
-        {
-            Name = name;
-            return this;
-        }
-
-        public IFishForkInfo WithRotationRate(float rotationRate)
+        public FishForkInfo WithRotationRate(float rotationRate)
         {
             RotationRate = rotationRate;
             return this;
         }
 
-        public IFishForkInfo WithSpeed(float speed)
+        public FishForkInfo WithSpeed(float speed)
         {
             Speed = speed;
             return this;
         }
 
-        public IFishForkInfo WithFishForkLength(float fishForkLength)
+        public FishForkInfo WithFishForkLength(float fishForkLength)
         {
             FishForkLength = fishForkLength;
             return this;
+        }
+
+        IFishForkInfo IFishForkInfo.WithRotationRate(float rotationRate)
+        {
+            return WithRotationRate(rotationRate);
+        }
+
+        IFishForkInfo IFishForkInfo.WithSpeed(float speed)
+        {
+            return WithSpeed(speed);
+        }
+
+        IFishForkInfo IFishForkInfo.WithFishForkLength(float fishForkLength)
+        {
+            return WithFishForkLength(fishForkLength);
         }
     }
 }

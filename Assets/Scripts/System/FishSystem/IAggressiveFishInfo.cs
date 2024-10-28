@@ -11,6 +11,8 @@ namespace daifuDemo
         float AttackInterval { get; }
         
         float AttackRange { get; }
+        
+        float ChargeTime { get; }
 
         IAggressiveFishInfo WithDamage(float damage);
 
@@ -19,6 +21,8 @@ namespace daifuDemo
         IAggressiveFishInfo WithAttackInterval(float attackInterval);
 
         IAggressiveFishInfo WithAttackRange(float attackRange);
+
+        IAggressiveFishInfo WithChargeTime(float chargeTime);
     }
 
     public class AggressiveFishInfo : FishInfo, IAggressiveFishInfo
@@ -30,6 +34,8 @@ namespace daifuDemo
         public float AttackInterval { get; private set; }
         
         public float AttackRange { get; private set; }
+
+        public float ChargeTime { get; private set; }
 
         public IAggressiveFishInfo WithDamage(float damage)
         {
@@ -52,6 +58,12 @@ namespace daifuDemo
         public IAggressiveFishInfo WithAttackRange(float attackRange)
         {
             AttackRange = attackRange;
+            return this;
+        }
+
+        public IAggressiveFishInfo WithChargeTime(float chargeTime)
+        {
+            ChargeTime = chargeTime;
             return this;
         }
     }

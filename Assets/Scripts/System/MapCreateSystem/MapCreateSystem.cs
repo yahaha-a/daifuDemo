@@ -11,6 +11,8 @@ namespace daifuDemo
     {
         void LoadItemsFromXmlFile(string name);
 
+        void Reload();
+
         List<IMapCreateItemInfo> GetCreateItemInfos();
     }
 
@@ -37,6 +39,11 @@ namespace daifuDemo
             {
                 Debug.LogError($"File not found at path: {filePath}");
             }
+        }
+
+        public void Reload()
+        {
+            _createItemInfos.Clear();
         }
 
         public List<IMapCreateItemInfo> GetCreateItemInfos()

@@ -54,8 +54,7 @@ namespace daifuDemo
 
 		private void UpdateData()
 		{
-			rotationRate = this.SendQuery(new FindFishForkRotationRate(_fishForkModel.CurrentFishForkKey.Value,
-				_fishForkModel.CurrentRank.Value));
+			
 		}
 
 		public IArchitecture GetArchitecture()

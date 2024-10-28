@@ -1,50 +1,48 @@
 namespace daifuDemo
 {
-    public enum BulletAttribute
+    public enum BulletType
     {
         Normal,
         Hypnosis,
-        ArmorPiercing,
     }
     
     public interface IBulletInfo
     {
+        BulletType Type { get; }
+        
+        string Name { get; }
+        
         float Damage { get; }
-        
-        float Speed { get; }
-        
-        float Range { get; }
 
+        IBulletInfo WithType(BulletType type);
+
+        IBulletInfo WithName(string name);
+        
         IBulletInfo WithDamage(float damage);
-
-        IBulletInfo WithSpeed(float speed);
-
-        IBulletInfo WithRange(float range);
     }
 
     public class BulletInfo : IBulletInfo
     {
+        public BulletType Type { get; private set; }
+        public string Name { get; private set; }
+        
         public float Damage { get; private set; }
-        
-        public float Speed { get; private set; }
-        
-        public float Range { get; private set; }
-        
+
+        public IBulletInfo WithType(BulletType type)
+        {
+            Type = type;
+            return this;
+        }
+
+        public IBulletInfo WithName(string name)
+        {
+            Name = name;
+            return this;
+        }
+
         public IBulletInfo WithDamage(float damage)
         {
             Damage = damage;
-            return this;
-        }
-
-        public IBulletInfo WithSpeed(float speed)
-        {
-            Speed = speed;
-            return this;
-        }
-
-        public IBulletInfo WithRange(float range)
-        {
-            Range = range;
             return this;
         }
     }

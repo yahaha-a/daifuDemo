@@ -15,6 +15,7 @@ namespace daifuDemo
         protected override void Init()
         {
             RegisterUtility<IUtils>(new Utils());
+            RegisterModel<ISingleUseItemsModel>(new SingleUseItemsModel());
             RegisterModel<IGameGlobalModel>(new GameGlobalModel());
             RegisterModel<IUIGameGlobalPanelModel>(new UIGameGlobalPanelModel());
             RegisterModel<IGameStartModel>(new GameStartModel());

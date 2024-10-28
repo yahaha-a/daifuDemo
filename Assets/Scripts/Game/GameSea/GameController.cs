@@ -49,14 +49,6 @@ namespace daifuDemo
 			DestructibleItemPrefab = _resLoader.LoadSync<GameObject>("DestructibleItem");
 			DropItemPrefab = _resLoader.LoadSync<GameObject>("DropItem");
 
-			_playerModel.NumberOfFish.Register(number =>
-			{
-				if (number == 5)
-				{
-					this.SendCommand<GamePassCommand>();
-				}
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-
 			_playerModel.PlayerOxygen.Register(oxygen =>
 			{
 				if (oxygen <= 0)
@@ -79,7 +71,7 @@ namespace daifuDemo
 				this.SendCommand<OpenOrCloseBackpackCommand>();
 			}
 		}
-		
+
 		public void CreateMap()
 		{
 			foreach (var item in _mapCreateSystem.GetCreateItemInfos())
@@ -108,7 +100,7 @@ namespace daifuDemo
 							{
 								self.GetComponent<NormalFish>().StartPosition = item.Position;
 								self.transform.position = GetRandomPositionInCircle(item.Range / 100, item.Position);
-								self.GetComponent<NormalFish>().RangeOfMovement = item.Range / 100;
+								self.GetComponent<NormalFish>().RangeOfMovement = item.Range / 200;
 							});
 						}
 						else if (item.Key == "AggressiveFish")
@@ -117,7 +109,7 @@ namespace daifuDemo
 							{
 								self.GetComponent<Pterois>().StartPosition = item.Position;
 								self.transform.position = GetRandomPositionInCircle(item.Range / 100, item.Position);
-								self.GetComponent<Pterois>().RangeOfMovement = item.Range / 100;
+								self.GetComponent<Pterois>().RangeOfMovement = item.Range / 200;
 							});
 						}
 					}
@@ -147,6 +139,8 @@ namespace daifuDemo
 					});
 				}
 			}
+			
+			Events.LoadMapComplete?.Trigger();
 		}
 		
 		public Vector2 GetRandomPositionInCircle(float range, Vector3 center)
@@ -164,6 +158,48 @@ namespace daifuDemo
 
 			return randomPosition;
 		}
+		
+		private void ClearChildren(Transform parent)
+		{
+			foreach (Transform child in parent)
+			{
+				GameObject.Destroy(child.gameObject);
+			}
+		}
+
+		private void ClearAllRoots()
+		{
+			if (BarrierRoot != null)
+			{
+				ClearChildren(BarrierRoot);
+			}
+    
+			if (PlayerRoot != null)
+			{
+				ClearChildren(PlayerRoot);
+			}
+    
+			if (FishRoot != null)
+			{
+				ClearChildren(FishRoot);
+			}
+    
+			if (TreasureChestRoot != null)
+			{
+				ClearChildren(TreasureChestRoot);
+			}
+    
+			if (DestructibleRoot != null)
+			{
+				ClearChildren(DestructibleRoot);
+			}
+    
+			if (DropsRoot != null)
+			{
+				ClearChildren(DropsRoot);
+			}
+		}
+
 
 		public IArchitecture GetArchitecture()
 		{
