@@ -1648,13 +1648,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7327169744731241909}
   m_TextComponent: {fileID: 4031641881916230834}
   m_Placeholder: {fileID: 5381976237402957813}
-  m_ContentType: 0
+  m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 1
   m_CharacterLimit: 0
   m_OnSubmit:
     m_PersistentCalls:
@@ -1936,7 +1936,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectBulletList: {fileID: 5504007575214124558}
+  CountName: {fileID: 2073667984673898381}
   Count: {fileID: 858586046467287122}
+  AllPrice: {fileID: 7542011778834050447}
   Confirm: {fileID: 6962744787095541398}
 --- !u!1 &1971560043490492990
 GameObject:
@@ -2467,12 +2469,12 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 1
@@ -4263,6 +4265,7 @@ GameObject:
   - component: {fileID: 8071661458765186961}
   - component: {fileID: 8739945886735117421}
   - component: {fileID: 2073667984673898381}
+  - component: {fileID: 2802496353109980485}
   m_Layer: 0
   m_Name: CountName
   m_TagString: Untagged
@@ -4330,7 +4333,23 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u5F39\u836F\u6570\u91CF"
+  m_Text: "\u5F39\u836F\u6570\u91CF: 50"
+--- !u!114 &2802496353109980485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4567018328045538205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d51f3a7c41ab0346b49ae50d456bece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MarkType: 0
+  CustomComponentName: CountName
+  CustomComment: 
+  mComponentName: UnityEngine.UI.Text
 --- !u!1 &4663220637790222036
 GameObject:
   m_ObjectHideFlags: 0
@@ -4666,6 +4685,7 @@ GameObject:
   - component: {fileID: 1211912071275565053}
   - component: {fileID: 2295475660203463567}
   - component: {fileID: 7542011778834050447}
+  - component: {fileID: 4299795854949371408}
   m_Layer: 0
   m_Name: AllPrice
   m_TagString: Untagged
@@ -4733,7 +4753,23 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u603B\u4EF7: 500\u91D1\u5E01"
+  m_Text: "\u603B\u4EF7: 500 \u91D1\u5E01"
+--- !u!114 &4299795854949371408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5253882897840230886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d51f3a7c41ab0346b49ae50d456bece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MarkType: 0
+  CustomComponentName: AllPrice
+  CustomComment: 
+  mComponentName: UnityEngine.UI.Text
 --- !u!1 &5329039701970355127
 GameObject:
   m_ObjectHideFlags: 0
@@ -5041,7 +5077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.82641506, g: 0.82641506, b: 0.82641506, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5061,7 +5097,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u8F93\u5165"
+  m_Text: "\u8D2D\u4E70\u5F39\u836F"
 --- !u!1 &5462286966441332578
 GameObject:
   m_ObjectHideFlags: 0

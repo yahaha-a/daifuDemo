@@ -6,16 +6,46 @@ using UnityEngine.Serialization;
 
 namespace daifuDemo
 {
-	public partial class Gun : ViewController, IController
+	public partial class Gun : ViewController, IController, IWeapon
 	{
+		public string key { get; set; }
+		
+		public int currentRank { get; set; }
+		
+		public string weaponName { get; set; }
+		
+		public Texture2D icon { get; set; }
+		
+		public BulletType bulletType;
+
+		public float rateOfFire;
+
+		public float attackRange;
+
+		public int maximumAmmunition;
+
+		public float intervalBetweenShots;
+
+		public float loadAmmunitionNeedTime;
+
+		public List<(Vector2, float)> bulletSpawnLocationsAndDirectionsList;
+
+		public float currentIntervalBetweenShots;
+
+		public float currentLoadAmmunitionTime;
+
+		public BindableProperty<int> currentAllAmmunition = new BindableProperty<int>(0);
+
+		public BindableProperty<int> currentAmmunition = new BindableProperty<int>(0);
+
+		public bool ifMeetReloadAmmunitionTime = false;
+		
 		public GameObject flyerRoot;
 		
 		private IGunModel _gunModel;
 
 		private IPlayerModel _playerModel;
 
-		private ISingleUseItemsModel _singleUseItemsModel;
-		
 		private IWeaponSystem _weaponSystem;
 
 		private GunFsm _gunFsm;
@@ -28,28 +58,16 @@ namespace daifuDemo
 			
 			_playerModel = this.GetModel<IPlayerModel>();
 
-			_singleUseItemsModel = this.GetModel<ISingleUseItemsModel>();
-			
 			_weaponSystem = this.GetSystem<IWeaponSystem>();
 			
 			flyerRoot = GameObject.FindGameObjectWithTag("FlyerRoot");
-			
-
-			_gunModel.CurrentGunKey.RegisterWithInitValue(key =>
-			{
-				UpdateData();
-			});
-			
-			_gunModel.CurrentRank.RegisterWithInitValue(rank =>
-			{
-				UpdateData();
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-			
 
 			_playerModel.IfLeft.RegisterWithInitValue(value =>
 			{
 				_gunModel.IfLeft.Value = value;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+			InitData();
 		}
 
 		private void Update()
@@ -57,20 +75,21 @@ namespace daifuDemo
 			_gunFsm.Tick();
 		}
 
-		public void UpdateData()
+		public void InitData()
 		{
-			GunInfo currentGunInfo = (GunInfo)_weaponSystem.WeaponInfos[(_gunModel.CurrentGunKey.Value, _gunModel.CurrentRank.Value)];
-			_gunModel.GunName.Value = currentGunInfo.Name;
-			_gunModel.Icon.Value = currentGunInfo.Icon;
-			_gunModel.AttackRange.Value = currentGunInfo.AttackRange;
-			_gunModel.RateOfFire.Value = currentGunInfo.RateOfFire;
-			_gunModel.MaximumAmmunition.Value = currentGunInfo.MaximumAmmunition;
-			_gunModel.LoadAmmunitionNeedTime.Value = currentGunInfo.LoadAmmunitionNeedTime;
-			_gunModel.IntervalBetweenShots.Value = currentGunInfo.IntervalBetweenShots;
-			_gunModel.BulletSpawnLocationsAndDirectionsList.Value = currentGunInfo.BulletSpawnLocationsAndDirectionsList;
+			GunInfo currentGunInfo = (GunInfo)_weaponSystem.WeaponInfos[(key, currentRank)];
+			weaponName = currentGunInfo.Name;
+			icon = currentGunInfo.Icon;
+			attackRange = currentGunInfo.AttackRange;
+			rateOfFire = currentGunInfo.RateOfFire;
+			maximumAmmunition = currentGunInfo.MaximumAmmunition;
+			loadAmmunitionNeedTime = currentGunInfo.LoadAmmunitionNeedTime;
+			intervalBetweenShots = currentGunInfo.IntervalBetweenShots;
+			bulletSpawnLocationsAndDirectionsList = currentGunInfo.BulletSpawnLocationsAndDirectionsList;
 
-			_gunModel.CurrentIntervalBetweenShots.Value = _gunModel.IntervalBetweenShots.Value;
-			_gunModel.CurrentLoadAmmunitionTime.Value = _gunModel.LoadAmmunitionNeedTime.Value;
+			currentIntervalBetweenShots = intervalBetweenShots;
+			currentLoadAmmunitionTime = loadAmmunitionNeedTime;
+			currentAmmunition = currentAllAmmunition;
 		}
 
 		public IArchitecture GetArchitecture()

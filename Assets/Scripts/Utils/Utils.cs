@@ -15,7 +15,7 @@ namespace daifuDemo
         
         Sprite AdjustSprite(Texture2D texture);
     }
-    
+
     public class Utils : IUtils
     {
         public Dictionary<string, IUnRegister> UnRegisterList { get; }
@@ -30,7 +30,7 @@ namespace daifuDemo
             float topPadding = verticalLayoutGroup.padding.top;
             float bottomPadding = verticalLayoutGroup.padding.bottom;
             float spacing = verticalLayoutGroup.spacing;
-            
+
             foreach (Transform child in transform)
             {
                 if (child.gameObject.activeSelf)

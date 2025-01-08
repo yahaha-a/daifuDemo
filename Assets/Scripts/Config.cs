@@ -60,6 +60,7 @@ namespace Global
         public static string RifleKey = "rifle_weapon";
 
         public static string ShotgunKey = "shotgun_weapon";
+        
 
         public static string CustomerKey = "customer_key";
     }

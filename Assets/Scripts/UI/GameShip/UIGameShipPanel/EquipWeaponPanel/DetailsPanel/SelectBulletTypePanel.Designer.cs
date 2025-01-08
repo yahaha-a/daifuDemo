@@ -1,5 +1,5 @@
 ﻿/****************************************************************************
- * 2024.10 WXH
+ * 2024.11 WXH
  ****************************************************************************/
 
 using UnityEngine;
@@ -11,13 +11,17 @@ namespace daifuDemo
 	public partial class SelectBulletTypePanel
 	{
 		[SerializeField] public UnityEngine.UI.Dropdown SelectBulletList;
+		[SerializeField] public UnityEngine.UI.Text CountName;
 		[SerializeField] public UnityEngine.UI.InputField Count;
+		[SerializeField] public UnityEngine.UI.Text AllPrice;
 		[SerializeField] public UnityEngine.UI.Button Confirm;
 
 		public void Clear()
 		{
 			SelectBulletList = null;
+			CountName = null;
 			Count = null;
+			AllPrice = null;
 			Confirm = null;
 		}
 

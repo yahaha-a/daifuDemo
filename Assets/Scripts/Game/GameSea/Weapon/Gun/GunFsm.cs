@@ -7,6 +7,7 @@ namespace daifuDemo
     public enum GunState
     {
         Ready,
+        Aim,
         Shooting,
         Cooling,
         LoadAmmunition
@@ -15,13 +16,12 @@ namespace daifuDemo
     public class GunFsm : AbstractFsm<GunState>, IController
     {
         private Gun _gun;
+        
         private Transform _bulletTemplate;
         
         private IGunModel _gunModel;
 
         private IBulletModel _bulletModel;
-
-        private ISingleUseItemsModel _singleUseItemsModel;
 
         private IBulletSystem _bulletSystem;
 
@@ -37,8 +37,6 @@ namespace daifuDemo
 
             _bulletModel = this.GetModel<IBulletModel>();
 
-            _singleUseItemsModel = this.GetModel<ISingleUseItemsModel>();
-
             _bulletSystem = this.GetSystem<IBulletSystem>();
             
             AddStates(new State<GunState>()
@@ -46,6 +44,15 @@ namespace daifuDemo
                 .WithOnEnter(() => _gunModel.CurrentGunState.Value = GunState.Ready)
                 .WithOnExit(null)
                 .WithOnTick(RotateTowardsMouse));
+
+            AddStates(new State<GunState>()
+                .WithKey(GunState.Aim)
+                .WithOnEnter(() => _gunModel.CurrentGunState.Value = GunState.Aim)
+                .WithOnExit(null)
+                .WithOnTick(() =>
+                {
+                    RotateTowardsMouse();
+                }));
             
             AddStates(new State<GunState>()
                 .WithKey(GunState.Shooting)
@@ -56,10 +63,10 @@ namespace daifuDemo
             AddStates(new State<GunState>()
                 .WithKey(GunState.Cooling)
                 .WithOnEnter(() => _gunModel.CurrentGunState.Value = GunState.Cooling)
-                .WithOnExit(() => _gunModel.CurrentIntervalBetweenShots.Value = _gunModel.IntervalBetweenShots.Value)
+                .WithOnExit(() => _gun.currentIntervalBetweenShots = _gun.intervalBetweenShots)
                 .WithOnTick(() =>
                 {
-                    _gunModel.CurrentIntervalBetweenShots.Value -= Time.deltaTime;
+                    _gun.currentIntervalBetweenShots -= Time.deltaTime;
                     RotateTowardsMouse();
                 }));
             
@@ -68,13 +75,19 @@ namespace daifuDemo
                 .WithOnEnter(() => _gunModel.CurrentGunState.Value = GunState.LoadAmmunition)
                 .WithOnExit(() =>
                 {
-                    _gunModel.CurrentLoadAmmunitionTime.Value = _gunModel.LoadAmmunitionNeedTime.Value;
-                    LoadAmmunition();
+                    _gun.currentLoadAmmunitionTime = _gun.loadAmmunitionNeedTime;
+                    _gun.ifMeetReloadAmmunitionTime = false;
                 })
                 .WithOnTick(() =>
                 {
-                    _gunModel.CurrentLoadAmmunitionTime.Value -= Time.deltaTime;
+                    _gun.currentLoadAmmunitionTime -= Time.deltaTime;
                     RotateTowardsMouse();
+
+                    if (_gun.currentLoadAmmunitionTime <= 0)
+                    {
+                        _gun.ifMeetReloadAmmunitionTime = true;
+                        LoadAmmunition();
+                    }
                 }));
 
             
@@ -82,14 +95,40 @@ namespace daifuDemo
             AddTransitions(new Transition<GunState>()
                 .WithFromState(GunState.Ready)
                 .WithToState(GunState.Shooting)
-                .WithWeight(2)
+                .WithWeight(3)
                 .AddConditions(() => Input.GetMouseButtonDown(0)));
+
+            AddTransitions(new Transition<GunState>()
+                .WithFromState(GunState.Ready)
+                .WithToState(GunState.Aim)
+                .WithWeight(2)
+                .AddConditions(() => Input.GetMouseButtonDown(1)));
             
             AddTransitions(new Transition<GunState>()
                 .WithFromState(GunState.Ready)
                 .WithToState(GunState.LoadAmmunition)
                 .WithWeight(1)
+                .AddConditions(() => _gun.currentAmmunition.Value != _gun.maximumAmmunition && Input.GetKeyDown(KeyCode.R)));
+
+            
+
+            AddTransitions(new Transition<GunState>()
+                .WithFromState(GunState.Aim)
+                .WithToState(GunState.Shooting)
+                .WithWeight(3)
+                .AddConditions(() => Input.GetMouseButtonDown(0)));
+
+            AddTransitions(new Transition<GunState>()
+                .WithFromState(GunState.Aim)
+                .WithToState(GunState.LoadAmmunition)
+                .WithWeight(2)
                 .AddConditions(() => Input.GetKeyDown(KeyCode.R)));
+            
+            AddTransitions(new Transition<GunState>()
+                .WithFromState(GunState.Aim)
+                .WithToState(GunState.Ready)
+                .WithWeight(1)
+                .AddConditions(() => Input.GetMouseButtonUp(1)));
             
             
             
@@ -103,60 +142,70 @@ namespace daifuDemo
             
             AddTransitions(new Transition<GunState>()
                 .WithFromState(GunState.Cooling)
-                .WithToState(GunState.Ready)
-                .WithWeight(1)
-                .AddConditions(() => _gunModel.CurrentIntervalBetweenShots.Value <= 0));
-            
-            AddTransitions(new Transition<GunState>()
-                .WithFromState(GunState.Cooling)
                 .WithToState(GunState.LoadAmmunition)
                 .WithWeight(2)
                 .AddConditions(() => Input.GetKeyDown(KeyCode.R)));
             
+            AddTransitions(new Transition<GunState>()
+                .WithFromState(GunState.Cooling)
+                .WithToState(GunState.Ready)
+                .WithWeight(1)
+                .AddConditions(() => _gun.currentIntervalBetweenShots <= 0));
             
+            
+            
+            AddTransitions(new Transition<GunState>()
+                .WithFromState(GunState.LoadAmmunition)
+                .WithToState(GunState.Shooting)
+                .WithWeight(3)
+                .AddConditions(() => Input.GetMouseButtonDown(0)));
+            
+            AddTransitions(new Transition<GunState>()
+                .WithFromState(GunState.LoadAmmunition)
+                .WithToState(GunState.Aim)
+                .WithWeight(2)
+                .AddConditions(() => Input.GetMouseButtonDown(1)));
             
             AddTransitions(new Transition<GunState>()
                 .WithFromState(GunState.LoadAmmunition)
                 .WithToState(GunState.Ready)
                 .WithWeight(1)
-                .AddConditions(() => _gunModel.CurrentLoadAmmunitionTime.Value <= 0));
-            
-            AddTransitions(new Transition<GunState>()
-                .WithFromState(GunState.LoadAmmunition)
-                .WithToState(GunState.Shooting)
-                .WithWeight(2)
-                .AddConditions(() => Input.GetMouseButtonDown(0)));
+                .AddConditions(() => _gun.ifMeetReloadAmmunitionTime));
         }
 
         private void RotateTowardsMouse()
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    
             mousePosition.z = 0f;
-
-            Vector3 fishForkPosition = _gun.transform.position;
-
-            Vector3 direction = mousePosition - fishForkPosition;
+            Vector3 gunPosition = _gun.transform.position;
+            Vector3 direction = mousePosition - gunPosition;
+    
+            if (_gunModel.IfLeft.Value)
+            {
+                direction.x = -direction.x;
+                direction.y = -direction.y;
+            }
 
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            angle = Mathf.Clamp(angle, -60f, 60f);
 
             _gun.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
         }
 
         private void Shooting()
         {
-            if (_gunModel.CurrentAmmunition.Value >= _gunModel.BulletSpawnLocationsAndDirectionsList.Value.Count)
+            if (_gun.currentAmmunition.Value >= _gun.bulletSpawnLocationsAndDirectionsList.Count)
             {
-                foreach (var (offsetDistance, launchDirection) in _gunModel.BulletSpawnLocationsAndDirectionsList.Value)
+                foreach (var (offsetDistance, launchDirection) in _gun.bulletSpawnLocationsAndDirectionsList)
                 {
                     _bulletTemplate.InstantiateWithParent(_gun)
                         .Self(self =>
                         {
                             Bullet bullet = self.GetComponent<Bullet>();
-                            bullet.damage = _bulletSystem.BulletInfos[_gunModel.CurrentGunKey.Value]
+                            bullet.damage = _bulletSystem.BulletInfos[_gun.key]
                                 .Find(item => item.Type == _bulletModel.CurrentBulletType.Value).Damage;
-                            bullet.speed = _gunModel.RateOfFire.Value;
-                            bullet.range = _gunModel.AttackRange.Value;
+                            bullet.speed = _gun.rateOfFire;
+                            bullet.range = _gun.attackRange;
                             if (_gunModel.IfLeft.Value)
                             {
                                 bullet.direction = -1;
@@ -173,42 +222,24 @@ namespace daifuDemo
                             
                             self.Show();
                         });
-                    _gunModel.CurrentAmmunition.Value--;
+                    _gun.currentAmmunition.Value--;
                 }
             }
         }
 
         private void LoadAmmunition()
         {
-            if (_gunModel.CurrentGunKey.Value == Config.RifleKey)
-            {
-                var needSupplement = _gunModel.MaximumAmmunition.Value - _gunModel.CurrentAmmunition.Value;
+            var needSupplement = _gun.maximumAmmunition - _gun.currentAmmunition.Value;
 
-                if (_singleUseItemsModel.RifleBulletCount.Value >= needSupplement)
-                {
-                    _singleUseItemsModel.RifleBulletCount.Value -= needSupplement;
-                    _gunModel.CurrentAmmunition.Value = _gunModel.MaximumAmmunition.Value;
-                }
-                else
-                {
-                    _gunModel.CurrentAmmunition.Value += _singleUseItemsModel.RifleBulletCount.Value;
-                    _singleUseItemsModel.RifleBulletCount.Value = 0;
-                }
+            if (_gun.currentAllAmmunition.Value >= needSupplement)
+            {
+                _gun.currentAllAmmunition.Value -= needSupplement;
+                _gun.currentAmmunition.Value = _gun.maximumAmmunition;
             }
-            else if (_gunModel.CurrentGunKey.Value == Config.ShotgunKey)
+            else
             {
-                var needSupplement = _gunModel.MaximumAmmunition.Value - _gunModel.CurrentAmmunition.Value;
-
-                if (_singleUseItemsModel.ShotgunBulletCount.Value >= needSupplement)
-                {
-                    _singleUseItemsModel.ShotgunBulletCount.Value -= needSupplement;
-                    _gunModel.CurrentAmmunition.Value = _gunModel.MaximumAmmunition.Value;
-                }
-                else
-                {
-                    _gunModel.CurrentAmmunition.Value += _singleUseItemsModel.ShotgunBulletCount.Value;
-                    _singleUseItemsModel.ShotgunBulletCount.Value = 0;
-                }
+                _gun.currentAmmunition.Value += _gun.currentAllAmmunition.Value;
+                _gun.currentAllAmmunition.Value = 0;
             }
         }
 

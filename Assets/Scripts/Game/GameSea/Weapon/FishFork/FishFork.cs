@@ -6,25 +6,45 @@ using UnityEngine.Serialization;
 
 namespace daifuDemo
 {
-	public partial class FishFork : ViewController, IController
+	public partial class FishFork : ViewController, IController, IWeapon
 	{
-		public bool ifLeft;
+		public string key { get; set; }
+		
+		public int currentRank { get; set; }
+		
+		public string weaponName { get; set; }
+		
+		public Texture2D icon { get; set; }
 
-		public float rotationRate;
+		public float launchSpeed;
+
+		public float fishForkLength;
+		
+		public float chargingTime;
+
+		public float currentChargingTime;
+
+		public float currentFishForkLength;
+		
+		public bool ifLeft;
 
 		private IPlayerModel _playerModel;
 
 		private IFishForkModel _fishForkModel;
 
+		private IWeaponSystem _weaponSystem;
+
 		private FishForkFsm _fishForkFsm;
 
 		private void Start()
 		{
-			_fishForkFsm = new FishForkFsm(this, FishForkHeadTemplate);
+			_fishForkFsm = new FishForkFsm(this);
 			
 			_playerModel = this.GetModel<IPlayerModel>();
 
 			_fishForkModel = this.GetModel<IFishForkModel>();
+
+			_weaponSystem = this.GetSystem<IWeaponSystem>();
 
 			_playerModel.IfLeft.RegisterWithInitValue(value =>
 			{
@@ -35,16 +55,8 @@ namespace daifuDemo
 			{
 				_fishForkModel.IfFishForkHeadExist.Value = false;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-
-			_fishForkModel.CurrentFishForkKey.RegisterWithInitValue(key =>
-			{
-				UpdateData();
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-
-			_fishForkModel.CurrentRank.RegisterWithInitValue(rank =>
-			{
-				UpdateData();
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+			
+			InitData();
 		}
 
 		private void Update()
@@ -52,9 +64,12 @@ namespace daifuDemo
 			_fishForkFsm.Tick();
 		}
 
-		private void UpdateData()
+		private void InitData()
 		{
-			
+			FishForkInfo fishForkInfo = (FishForkInfo)_weaponSystem.WeaponInfos[(key, currentRank)];
+			launchSpeed = fishForkInfo.LaunchSpeed;
+			fishForkLength = fishForkInfo.FishForkLength;
+			chargingTime = fishForkInfo.ChargingTime;
 		}
 
 		public IArchitecture GetArchitecture()

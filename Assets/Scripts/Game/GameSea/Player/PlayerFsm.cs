@@ -75,7 +75,7 @@ namespace daifuDemo
                 .WithOnExit(null)
                 .WithOnTick(() =>
                 {
-                    if (Input.GetKeyDown(KeyCode.J))
+                    if (Input.GetMouseButtonDown(0))
                     {
                         _playerModel.FishingChallengeClicks.Value++;
                     }

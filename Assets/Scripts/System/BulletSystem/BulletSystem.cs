@@ -17,47 +17,32 @@ namespace daifuDemo
         
         private IBulletModel _bulletModel;
 
-        private ISingleUseItemsModel _singleUseItemsModel;
-        
         protected override void OnInit()
         {
             //TODO
-            this.AddBulletInfo(Config.FishForkKey, new BulletInfo()
+            this.AddBulletInfo(Config.RifleKey, new BulletInfo()
                     .WithType(BulletType.Normal)
                     .WithName("普通步枪子弹")
-                    .WithDamage(5f))
-                .AddBulletInfo(Config.FishForkKey, new BulletInfo()
+                    .WithDamage(5f)
+                    .WithPrice(10f))
+                .AddBulletInfo(Config.RifleKey, new BulletInfo()
                     .WithType(BulletType.Hypnosis)
                     .WithName("催眠步枪子弹")
-                    .WithDamage(4f))
+                    .WithDamage(4f)
+                    .WithPrice(20f))
                 .AddBulletInfo(Config.ShotgunKey, new BulletInfo()
                     .WithType(BulletType.Normal)
                     .WithName("普通霞弹枪子弹")
-                    .WithDamage(3f))
+                    .WithDamage(3f)
+                    .WithPrice(5f))
                 .AddBulletInfo(Config.ShotgunKey, new BulletInfo()
                     .WithType(BulletType.Hypnosis)
                     .WithName("催眠霞弹枪子弹")
-                    .WithDamage(2f));
+                    .WithDamage(2f)
+                    .WithPrice(10f));
 
             _gunModel = this.GetModel<IGunModel>();
             _bulletModel = this.GetModel<IBulletModel>();
-            _singleUseItemsModel = this.GetModel<ISingleUseItemsModel>();
-
-            _singleUseItemsModel.RifleBulletCount.RegisterWithInitValue(count =>
-            {
-                if (_gunModel.CurrentGunKey.Value == Config.RifleKey)
-                {
-                    _gunModel.CurrentAllAmmunition.Value = count;
-                }
-            });
-
-            _singleUseItemsModel.ShotgunBulletCount.RegisterWithInitValue(count =>
-            {
-                if (_gunModel.CurrentGunKey.Value == Config.ShotgunKey)
-                {
-                    _gunModel.CurrentAllAmmunition.Value = count;
-                }
-            });
         }
 
         public IBulletInfo GetBulletInfo(string key, BulletType type)

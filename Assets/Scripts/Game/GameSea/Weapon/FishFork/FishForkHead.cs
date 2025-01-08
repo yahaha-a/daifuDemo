@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using QFramework;
 using Unity.VisualScripting;
+using UnityEngine.Serialization;
 
 namespace daifuDemo
 {
@@ -13,9 +14,9 @@ namespace daifuDemo
 	
 	public partial class FishForkHead : ViewController, IController
 	{
-		private float _speed;
+		public float speed;
 
-		private float _fishForkLength;
+		public float fishForkLength;
 		
 		private Rigidbody2D _rigidbody2D;
 
@@ -50,16 +51,6 @@ namespace daifuDemo
 			_fishForkHeadModel = this.GetModel<IFishForkHeadModel>();
 
 			_weaponSystem = this.GetSystem<IWeaponSystem>();
-
-			_fishForkModel.CurrentFishForkKey.RegisterWithInitValue(key =>
-			{
-				UpdateData();
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-
-			_fishForkModel.CurrentRank.RegisterWithInitValue(rank =>
-			{
-				UpdateData();
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 			
 			Events.CatchFish.Register(fish =>
 			{
@@ -78,26 +69,17 @@ namespace daifuDemo
 		{
 			if (_fishForkHeadState == FishForkHeadState.Fly)
 			{
-				var speed = transform.right.normalized * _speed * _fishForkHeadModel.FishForkHeadDirection;
+				var speed = transform.right.normalized * this.speed * _fishForkHeadModel.FishForkHeadDirection;
 				var position = transform.position;
 				transform.position = new Vector3(position.x + speed.x * Time.deltaTime,
 					position.y + speed.y * Time.deltaTime, position.z);
 				
-				if (Vector3.Distance(transform.position, _originPosition) > _fishForkLength)
+				if (Vector3.Distance(transform.position, _originPosition) > fishForkLength)
 				{
 					Events.FishForkHeadDestroy?.Trigger();
 					gameObject.DestroySelf();
 				}
 			}
-		}
-
-		private void UpdateData()
-		{
-			FishForkInfo currentFishForkInfo =
-				(FishForkInfo)_weaponSystem.WeaponInfos[
-					(_fishForkModel.CurrentFishForkKey.Value, _fishForkModel.CurrentRank.Value)];
-			_speed = currentFishForkInfo.Speed;
-			_fishForkLength = currentFishForkInfo.FishForkLength;
 		}
 
 		public IArchitecture GetArchitecture()

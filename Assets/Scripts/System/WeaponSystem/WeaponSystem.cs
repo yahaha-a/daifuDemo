@@ -11,13 +11,19 @@ namespace daifuDemo
         Dictionary<(string, int), IWeaponInfo> WeaponInfos { get; }
         
         Dictionary<string, int> WeaponOwnInfos { get; }
-
+        
+        Dictionary<EquipWeaponKey, GameObject> CurrentEquipWeapons { get; }
+        
         IWeaponSystem AddWeaponInfos(string key, int rank, IWeaponInfo weaponInfo);
 
         List<IWeaponInfo> FindObtainWeaponInfos(EquipWeaponKey weaponKey);
 
         void UpdateEquipWeapon(EquipWeaponKey weaponKey,
             BindableProperty<IWeaponItemTempleteInfo> weaponItemTempleteInfo);
+
+        void SwitchWeapons(EquipWeaponKey key);
+
+        void Reload();
     }
     
     public class WeaponSystem : AbstractSystem, IWeaponSystem
@@ -31,11 +37,13 @@ namespace daifuDemo
         public Dictionary<string, int> WeaponOwnInfos { get; } = new Dictionary<string, int>()
         {
             { Config.FishForkKey, 1 },
-            {Config.DaggerKey, 1},
+            { Config.DaggerKey, 1 },
             { Config.RifleKey, 1 },
             { Config.ShotgunKey, 1 }
         };
 
+        public Dictionary<EquipWeaponKey, GameObject> CurrentEquipWeapons { get; } =
+            new Dictionary<EquipWeaponKey, GameObject>();
 
         protected override void OnInit()
         {
@@ -259,85 +267,77 @@ namespace daifuDemo
 
             this.AddWeaponInfos(Config.DaggerKey, 1, new MeleeWeaponInfo()
                     .WithKey(Config.DaggerKey)
-                    .WithName("匕首")
-                    .WithRank(1)
                     .WithType(WeaponType.MeleeWeapon)
+                    .WithRank(1)
+                    .WithName("匕首")
+                    .WithIcon(null)
                     .WithDamage(5f)
                     .WithAttackRadius(10f)
-                    .WithAttackFrequency(0.5f))
+                    .WithAttackFrequency(1f))
                 .AddWeaponInfos(Config.DaggerKey, 2, new MeleeWeaponInfo()
                     .WithKey(Config.DaggerKey)
-                    .WithName("匕首")
-                    .WithRank(2)
                     .WithType(WeaponType.MeleeWeapon)
-                    .WithDamage(6f)
-                    .WithAttackRadius(11f)
-                    .WithAttackFrequency(0.4f))
+                    .WithRank(2)
+                    .WithName("匕首")
+                    .WithIcon(null)
+                    .WithDamage(10f)
+                    .WithAttackRadius(10f)
+                    .WithAttackFrequency(1f))
                 .AddWeaponInfos(Config.DaggerKey, 3, new MeleeWeaponInfo()
                     .WithKey(Config.DaggerKey)
-                    .WithName("匕首")
-                    .WithRank(3)
                     .WithType(WeaponType.MeleeWeapon)
-                    .WithDamage(7f)
-                    .WithAttackRadius(12f)
-                    .WithAttackFrequency(0.4f))
+                    .WithRank(3)
+                    .WithName("匕首")
+                    .WithIcon(null)
+                    .WithDamage(10f)
+                    .WithAttackRadius(15f)
+                    .WithAttackFrequency(1f))
                 .AddWeaponInfos(Config.DaggerKey, 4, new MeleeWeaponInfo()
                     .WithKey(Config.DaggerKey)
-                    .WithName("匕首")
+                    .WithType(WeaponType.MeleeWeapon)
                     .WithRank(4)
-                    .WithType(WeaponType.MeleeWeapon)
-                    .WithDamage(8f)
-                    .WithAttackRadius(13f)
-                    .WithAttackFrequency(0.3f))
-                .AddWeaponInfos(Config.DaggerKey, 5, new MeleeWeaponInfo()
-                    .WithKey(Config.DaggerKey)
                     .WithName("匕首")
-                    .WithRank(5)
-                    .WithType(WeaponType.MeleeWeapon)
+                    .WithIcon(null)
                     .WithDamage(10f)
-                    .WithAttackRadius(14f)
-                    .WithAttackFrequency(0.3f));
+                    .WithAttackRadius(15f)
+                    .WithAttackFrequency(0.5f));
 
             this.AddWeaponInfos(Config.FishForkKey, 1, new FishForkInfo()
                     .WithKey(Config.FishForkKey)
                     .WithName("普通鱼叉")
                     .WithRank(1)
                     .WithType(WeaponType.FishFork)
-                    .WithRotationRate(50f)
-                    .WithSpeed(30f)
-                    .WithFishForkLength(11f))
+                    .WithIcon(null)
+                    .WithLaunchSpeed(30f)
+                    .WithFishForkLength(10f)
+                    .WithChargingTime(3f))
                 .AddWeaponInfos(Config.FishForkKey, 2, new FishForkInfo()
                     .WithKey(Config.FishForkKey)
                     .WithName("普通鱼叉")
                     .WithRank(2)
                     .WithType(WeaponType.FishFork)
-                    .WithRotationRate(55f)
-                    .WithSpeed(32f)
-                    .WithFishForkLength(12f))
+                    .WithIcon(null)
+                    .WithLaunchSpeed(40f)
+                    .WithFishForkLength(10f)
+                    .WithChargingTime(3f))
                 .AddWeaponInfos(Config.FishForkKey, 3, new FishForkInfo()
                     .WithKey(Config.FishForkKey)
                     .WithName("普通鱼叉")
                     .WithRank(3)
                     .WithType(WeaponType.FishFork)
-                    .WithRotationRate(60f)
-                    .WithSpeed(34f)
-                    .WithFishForkLength(13f))
+                    .WithIcon(null)
+                    .WithLaunchSpeed(40f)
+                    .WithFishForkLength(15f)
+                    .WithChargingTime(3f))
                 .AddWeaponInfos(Config.FishForkKey, 4, new FishForkInfo()
                     .WithKey(Config.FishForkKey)
                     .WithName("普通鱼叉")
                     .WithRank(4)
                     .WithType(WeaponType.FishFork)
-                    .WithRotationRate(65f)
-                    .WithSpeed(36f)
-                    .WithFishForkLength(14f))
-                .AddWeaponInfos(Config.FishForkKey, 5, new FishForkInfo()
-                    .WithKey(Config.FishForkKey)
-                    .WithName("普通鱼叉")
-                    .WithRank(5)
-                    .WithType(WeaponType.FishFork)
-                    .WithRotationRate(70f)
-                    .WithSpeed(38f)
-                    .WithFishForkLength(15f));
+                    .WithIcon(null)
+                    .WithLaunchSpeed(40f)
+                    .WithFishForkLength(15f)
+                    .WithChargingTime(2f));
         }
 
         public IWeaponSystem AddWeaponInfos(string key, int rank, IWeaponInfo weaponInfo)
@@ -430,6 +430,32 @@ namespace daifuDemo
                     }
                 }
             }
+        }
+
+        public void SwitchWeapons(EquipWeaponKey key)
+        {
+            foreach (var (equipWeaponKey, gameObject) in CurrentEquipWeapons)
+            {
+                if (equipWeaponKey == key)
+                {
+                    if (gameObject != null)
+                    {
+                        gameObject.Show();
+                    }
+                }
+                else
+                {
+                    if (gameObject != null)
+                    {
+                        gameObject.Hide();
+                    }
+                }
+            }
+        }
+
+        public void Reload()
+        {
+            CurrentEquipWeapons.Clear();
         }
     }
 }

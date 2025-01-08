@@ -12,6 +12,10 @@ namespace daifuDemo
         
         int Rank { get; }
         
+        BulletType BulletType { get; }
+        
+        BindableProperty<int> AmmunitionNumber { get; set; }
+        
         IWeaponItemTempleteInfo WithKey(string key);
 
         IWeaponItemTempleteInfo WithName(string name);
@@ -19,6 +23,10 @@ namespace daifuDemo
         IWeaponItemTempleteInfo WithEquipState(EquipWeaponKey state);
 
         IWeaponItemTempleteInfo WithRank(int rank);
+
+        IWeaponItemTempleteInfo WithBulletType(BulletType type);
+
+        IWeaponItemTempleteInfo WithAmmunitionNumber(int ammunitionNumber);
     }
 
     public class WeaponItemTempleteInfo : IWeaponItemTempleteInfo
@@ -31,6 +39,10 @@ namespace daifuDemo
             new BindableProperty<EquipWeaponKey>(EquipWeaponKey.Null);
 
         public int Rank { get; private set; }
+        
+        public BulletType BulletType { get; private set; }
+
+        public BindableProperty<int> AmmunitionNumber { get; set; } = new BindableProperty<int>(0);
 
         public IWeaponItemTempleteInfo WithKey(string key)
         {
@@ -53,6 +65,18 @@ namespace daifuDemo
         public IWeaponItemTempleteInfo WithRank(int rank)
         {
             Rank = rank;
+            return this;
+        }
+
+        public IWeaponItemTempleteInfo WithBulletType(BulletType type)
+        {
+            BulletType = type;
+            return this;
+        }
+
+        public IWeaponItemTempleteInfo WithAmmunitionNumber(int ammunitionNumber)
+        {
+            AmmunitionNumber.Value = ammunitionNumber;
             return this;
         }
     }

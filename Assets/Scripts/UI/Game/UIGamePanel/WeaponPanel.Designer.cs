@@ -1,5 +1,5 @@
 ﻿/****************************************************************************
- * 2024.10 WXH
+ * 2024.11 WXH
  ****************************************************************************/
 
 using UnityEngine;
@@ -10,21 +10,17 @@ namespace daifuDemo
 {
 	public partial class WeaponPanel
 	{
-		[SerializeField] public UnityEngine.UI.Button FishFork;
-		[SerializeField] public UnityEngine.UI.Button Knife;
-		[SerializeField] public UnityEngine.UI.Button PrimaryWeapon;
-		[SerializeField] public UnityEngine.UI.Text Name;
-		[SerializeField] public UnityEngine.UI.Text Ammunition;
-		[SerializeField] public UnityEngine.UI.Button SecondaryWeapons;
+		[SerializeField] public FishForkButton FishForkButton;
+		[SerializeField] public MeleeWeaponButton MeleeWeaponButton;
+		[SerializeField] public PrimaryWeaponButton PrimaryWeaponButton;
+		[SerializeField] public SecondaryWeaponButton SecondaryWeaponButton;
 
 		public void Clear()
 		{
-			FishFork = null;
-			Knife = null;
-			PrimaryWeapon = null;
-			Name = null;
-			Ammunition = null;
-			SecondaryWeapons = null;
+			FishForkButton = null;
+			MeleeWeaponButton = null;
+			PrimaryWeaponButton = null;
+			SecondaryWeaponButton = null;
 		}
 
 		public override string ComponentName

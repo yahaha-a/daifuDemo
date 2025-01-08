@@ -12,8 +12,6 @@ namespace daifuDemo
     
     public interface IGunInfo
     {
-        Texture2D Icon { get; }
-        
         int MaximumAmmunition { get; }
         
         float LoadAmmunitionNeedTime { get; }
@@ -26,8 +24,6 @@ namespace daifuDemo
         
         List<(Vector2, float)> BulletSpawnLocationsAndDirectionsList { get; }
         
-        IGunInfo WithIcon(Texture2D icon);
-
         IGunInfo WithMaximumAmmunition(int maximumAmmunition);
 
         IGunInfo WithLoadAmmunitionNeedTime(float loadAmmunitionNeedTime);
@@ -44,19 +40,12 @@ namespace daifuDemo
     
     public class GunInfo : WeaponInfo<GunInfo>, IGunInfo
     {
-        public Texture2D Icon { get; private set; }
         public int MaximumAmmunition { get; private set; }
         public float LoadAmmunitionNeedTime { get; private set; }
         public float RateOfFire { get; private set; }
         public float IntervalBetweenShots { get; private set; }
         public float AttackRange { get; private set; }
         public List<(Vector2, float)> BulletSpawnLocationsAndDirectionsList { get; private set; }
-
-        public GunInfo WithIcon(Texture2D icon)
-        {
-            Icon = icon;
-            return this;
-        }
 
         public GunInfo WithMaximumAmmunition(int maximumAmmunition)
         {
@@ -94,7 +83,6 @@ namespace daifuDemo
             return this;
         }
 
-        IGunInfo IGunInfo.WithIcon(Texture2D icon) => WithIcon(icon);
         IGunInfo IGunInfo.WithMaximumAmmunition(int maximumAmmunition) => WithMaximumAmmunition(maximumAmmunition);
         IGunInfo IGunInfo.WithLoadAmmunitionNeedTime(float loadAmmunitionNeedTime) => WithLoadAmmunitionNeedTime(loadAmmunitionNeedTime);
         IGunInfo IGunInfo.WithRateOfFire(float rateOfFire) => WithRateOfFire(rateOfFire);

@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5379703065786998688}
   - component: {fileID: 2103439904434384845}
   - component: {fileID: 6362589667704605793}
-  - component: {fileID: 4137550267329140716}
   - component: {fileID: 6891323515147649064}
   - component: {fileID: 5576281961985381905}
+  - component: {fileID: 1251038889119807538}
   m_Layer: 0
   m_Name: BulletTemplate
   m_TagString: Untagged
@@ -30,8 +30,8 @@ Transform:
   m_GameObject: {fileID: 3799357788743073220}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.445, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.5, z: 1}
+  m_LocalPosition: {x: 0.95, y: 0, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4186932216232051565}
@@ -102,27 +102,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Namespace: daifuDemo
   ScriptName: Bullet
-  ScriptsFolder: Assets/Scripts/Game/Weapon/Gun/Bullet
+  ScriptsFolder: Assets\Scripts\Game\GameSea\Weapon\Gun\Bullet
   GeneratePrefab: 0
   PrefabFolder: Assets/Art/Prefab
   ArchitectureFullTypeName: 
-  Direction: 0
---- !u!114 &4137550267329140716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3799357788743073220}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d51f3a7c41ab0346b49ae50d456bece, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MarkType: 0
-  CustomComponentName: Bullet
-  CustomComment: 
-  mComponentName: UnityEngine.Transform
+  damage: 0
+  speed: 0
+  range: 0
+  direction: 0
+  bulletType: 0
 --- !u!61 &6891323515147649064
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -195,6 +183,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &1251038889119807538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3799357788743073220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d51f3a7c41ab0346b49ae50d456bece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MarkType: 0
+  CustomComponentName: BulletTemplate
+  CustomComment: 
+  mComponentName: UnityEngine.Transform
 --- !u!1 &4135016611323560722
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,9 +208,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4186932216232051565}
-  - component: {fileID: 8814909127468239406}
-  - component: {fileID: 839254950901671452}
-  - component: {fileID: 269755950967350869}
+  - component: {fileID: 9185297966529254437}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -223,20 +225,81 @@ Transform:
   m_GameObject: {fileID: 4135016611323560722}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.55, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.2, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5500341750137940484}
   - {fileID: 5379703065786998688}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &8814909127468239406
-SpriteRenderer:
+--- !u!114 &9185297966529254437
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4135016611323560722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a1b73ddfd14951b890a09e32bcda09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Namespace: daifuDemo
+  ScriptName: Gun
+  ScriptsFolder: Assets/Scripts/Game/GameSea/Weapon/Gun
+  GeneratePrefab: 0
+  PrefabFolder: Assets/Art/Prefab
+  ArchitectureFullTypeName: 
+  bulletType: 0
+  rateOfFire: 0
+  attackRange: 0
+  maximumAmmunition: 0
+  intervalBetweenShots: 0
+  loadAmmunitionNeedTime: 0
+  currentIntervalBetweenShots: 0
+  currentLoadAmmunitionTime: 0
+  flyerRoot: {fileID: 0}
+  BulletTemplate: {fileID: 5379703065786998688}
+--- !u!1 &7662816504834692445
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5500341750137940484}
+  - component: {fileID: 6116793001743276015}
+  m_Layer: 0
+  m_Name: Icon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5500341750137940484
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7662816504834692445}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.7, y: 0, z: 0}
+  m_LocalScale: {x: 0.7, y: 0.2, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4186932216232051565}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &6116793001743276015
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7662816504834692445}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -272,7 +335,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.18166599, g: 0.7132075, b: 0.19144328, a: 1}
+  m_Color: {r: 0.4566037, g: 0.20590243, b: 0.20590243, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -282,38 +345,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &839254950901671452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4135016611323560722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5a1b73ddfd14951b890a09e32bcda09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Namespace: daifuDemo
-  ScriptName: Rifle
-  ScriptsFolder: Assets\Scripts\Game\Weapon\Gun
-  GeneratePrefab: 0
-  PrefabFolder: Assets/Art/Prefab
-  ArchitectureFullTypeName: 
-  BulletTemplate: {fileID: 5379703065786998688}
---- !u!114 &269755950967350869
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4135016611323560722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d51f3a7c41ab0346b49ae50d456bece, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MarkType: 0
-  CustomComponentName: Gun
-  CustomComment: 
-  mComponentName: daifuDemo.Gun

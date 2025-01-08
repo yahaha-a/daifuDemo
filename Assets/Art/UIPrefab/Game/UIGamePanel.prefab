@@ -92,6 +92,102 @@ MonoBehaviour:
   CustomComponentName: ItemIcon
   CustomComment: 
   mComponentName: UnityEngine.UI.Image
+--- !u!1 &179680820029373016
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1355155957480214241}
+  - component: {fileID: 2595242029718493122}
+  - component: {fileID: 6268717289473282769}
+  - component: {fileID: 6298368671763169561}
+  m_Layer: 0
+  m_Name: Type
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1355155957480214241
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179680820029373016}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1007248569330385365}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -10, y: -5}
+  m_SizeDelta: {x: 100, y: -10}
+  m_Pivot: {x: 1, y: 0.5}
+--- !u!222 &2595242029718493122
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179680820029373016}
+  m_CullTransparentMesh: 1
+--- !u!114 &6268717289473282769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179680820029373016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 25
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 40
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "\u666E\u901A\u5B50\u5F39"
+--- !u!114 &6298368671763169561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179680820029373016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d51f3a7c41ab0346b49ae50d456bece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MarkType: 0
+  CustomComponentName: SecondaryWeaponType
+  CustomComment: 
+  mComponentName: UnityEngine.UI.Text
 --- !u!1 &418936823201823296
 GameObject:
   m_ObjectHideFlags: 0
@@ -1178,6 +1274,102 @@ MonoBehaviour:
   CustomComponentName: HarvestFishRoot
   CustomComment: 
   mComponentName: RectTransform
+--- !u!1 &2188381481093830777
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6469370188180281222}
+  - component: {fileID: 1856411948922042437}
+  - component: {fileID: 1397874783234984632}
+  - component: {fileID: 4806596245213008829}
+  m_Layer: 0
+  m_Name: Type
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6469370188180281222
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2188381481093830777}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3903825596455391730}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -10, y: -5}
+  m_SizeDelta: {x: 100, y: -10}
+  m_Pivot: {x: 1, y: 0.5}
+--- !u!222 &1856411948922042437
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2188381481093830777}
+  m_CullTransparentMesh: 1
+--- !u!114 &1397874783234984632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2188381481093830777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 25
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 40
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "\u666E\u901A\u5B50\u5F39"
+--- !u!114 &4806596245213008829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2188381481093830777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d51f3a7c41ab0346b49ae50d456bece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MarkType: 0
+  CustomComponentName: PrimaryWeaponType
+  CustomComment: 
+  mComponentName: UnityEngine.UI.Text
 --- !u!1 &2226086377748036648
 GameObject:
   m_ObjectHideFlags: 0
@@ -1295,7 +1487,7 @@ GameObject:
   - component: {fileID: 1720434579151721973}
   - component: {fileID: 8901215249323511558}
   - component: {fileID: 6588943983509572482}
-  - component: {fileID: 85443812917463655}
+  - component: {fileID: 4093155760655144544}
   m_Layer: 0
   m_Name: Name
   m_TagString: Untagged
@@ -1364,7 +1556,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u971E\u5F39\u67AA"
---- !u!114 &85443812917463655
+--- !u!114 &4093155760655144544
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1377,7 +1569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MarkType: 0
-  CustomComponentName: Name
+  CustomComponentName: SecondaryWeaponName
   CustomComment: 
   mComponentName: UnityEngine.UI.Text
 --- !u!1 &2715624285335234091
@@ -1715,9 +1907,9 @@ GameObject:
   - component: {fileID: 2289886374743119512}
   - component: {fileID: 6510550522063816833}
   - component: {fileID: 3659137877104076949}
-  - component: {fileID: 1219852135732346656}
+  - component: {fileID: -3725261490965976575}
   m_Layer: 0
-  m_Name: Knife
+  m_Name: MeleeWeaponButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1825,7 +2017,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1219852135732346656
+--- !u!114 &-3725261490965976575
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1834,13 +2026,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3111987796730644192}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d51f3a7c41ab0346b49ae50d456bece, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b5a13704e47c604586fc6163d870788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MarkType: 0
-  CustomComponentName: FishFork (1)
-  CustomComment: 
-  mComponentName: UnityEngine.UI.Button
+  Name: {fileID: 5521171286163803905}
 --- !u!1 &3127207991860104663
 GameObject:
   m_ObjectHideFlags: 0
@@ -2002,6 +2191,7 @@ GameObject:
   - component: {fileID: 9053171746631151389}
   - component: {fileID: 4578078056836938879}
   - component: {fileID: 5521171286163803905}
+  - component: {fileID: 7853777548960876704}
   m_Layer: 0
   m_Name: Name
   m_TagString: Untagged
@@ -2070,6 +2260,22 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u5200"
+--- !u!114 &7853777548960876704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3341161301775526090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d51f3a7c41ab0346b49ae50d456bece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MarkType: 0
+  CustomComponentName: MeleeWeaponName
+  CustomComment: 
+  mComponentName: UnityEngine.UI.Text
 --- !u!1 &3373890386095742206
 GameObject:
   m_ObjectHideFlags: 0
@@ -2984,9 +3190,9 @@ GameObject:
   - component: {fileID: 787084114976711328}
   - component: {fileID: 7324236770773858908}
   - component: {fileID: 8400941682501193955}
-  - component: {fileID: 3528037956095777743}
+  - component: {fileID: -6361558215494903691}
   m_Layer: 0
-  m_Name: FishFork
+  m_Name: FishForkButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3094,7 +3300,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3528037956095777743
+--- !u!114 &-6361558215494903691
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3103,13 +3309,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4587796300447137446}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d51f3a7c41ab0346b49ae50d456bece, type: 3}
+  m_Script: {fileID: 11500000, guid: 2746e3eb4e1c2b94cb68b1b6a9f64d42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MarkType: 0
-  CustomComponentName: FishFork
-  CustomComment: 
-  mComponentName: UnityEngine.UI.Button
+  Name: {fileID: 8102564482777173257}
 --- !u!1 &4607513944713601234
 GameObject:
   m_ObjectHideFlags: 0
@@ -3485,9 +3688,9 @@ GameObject:
   - component: {fileID: 7522894609406757468}
   - component: {fileID: 5979055703168341784}
   - component: {fileID: 1306693435917893683}
-  - component: {fileID: 4850342321081989245}
+  - component: {fileID: 9192503296266127434}
   m_Layer: 0
-  m_Name: SecondaryWeapons
+  m_Name: SecondaryWeaponButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3506,6 +3709,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1720434579151721973}
+  - {fileID: 1355155957480214241}
   - {fileID: 4868878571371953576}
   m_Father: {fileID: 7352275557982675509}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3596,7 +3800,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4850342321081989245
+--- !u!114 &9192503296266127434
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3605,13 +3809,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5193490234035964235}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d51f3a7c41ab0346b49ae50d456bece, type: 3}
+  m_Script: {fileID: 11500000, guid: 2198967111b165f4298192c5c702dc2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MarkType: 0
-  CustomComponentName: FishFork (3)
-  CustomComment: 
-  mComponentName: UnityEngine.UI.Button
+  Name: {fileID: 6588943983509572482}
+  Type: {fileID: 6268717289473282769}
+  Ammunition: {fileID: 9071438059720496499}
 --- !u!1 &5225930431554214192
 GameObject:
   m_ObjectHideFlags: 0
@@ -5253,7 +5456,7 @@ MonoBehaviour:
   UISettlePanel: {fileID: 4310071345578131205}
   UIHarvestPanel: {fileID: 5401239478156445543}
   CatchFishPanel: {fileID: -2908396864511534183}
-  WeaponPanel: {fileID: 920432285604247182}
+  WeaponPanel: {fileID: 7899594769831646145}
 --- !u!1 &7079328491160243010
 GameObject:
   m_ObjectHideFlags: 0
@@ -6587,9 +6790,9 @@ GameObject:
   - component: {fileID: 1278586930560176016}
   - component: {fileID: 6766935318958908191}
   - component: {fileID: 174238662636243313}
-  - component: {fileID: 9335790951086271}
+  - component: {fileID: 2482054323698694739}
   m_Layer: 0
-  m_Name: PrimaryWeapon
+  m_Name: PrimaryWeaponButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6608,6 +6811,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7057372617560622927}
+  - {fileID: 6469370188180281222}
   - {fileID: 801910060821463137}
   m_Father: {fileID: 7352275557982675509}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6698,7 +6902,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &9335790951086271
+--- !u!114 &2482054323698694739
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6707,13 +6911,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8698579643529861894}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d51f3a7c41ab0346b49ae50d456bece, type: 3}
+  m_Script: {fileID: 11500000, guid: 8026857e98e862148899a517444e1f5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MarkType: 0
-  CustomComponentName: FishFork (2)
-  CustomComment: 
-  mComponentName: UnityEngine.UI.Button
+  Name: {fileID: 86667935223506961}
+  Type: {fileID: 1397874783234984632}
+  Ammunition: {fileID: 1813672620541623983}
 --- !u!1 &8702468520668350248
 GameObject:
   m_ObjectHideFlags: 0
@@ -6798,7 +7001,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7352275557982675509}
-  - component: {fileID: 920432285604247182}
+  - component: {fileID: 7899594769831646145}
   m_Layer: 0
   m_Name: WeaponPanel
   m_TagString: Untagged
@@ -6829,7 +7032,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &920432285604247182
+--- !u!114 &7899594769831646145
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6841,12 +7044,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 436f3de67e786774e8da6fadce3d0f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FishFork: {fileID: 8400941682501193955}
-  Knife: {fileID: 3659137877104076949}
-  PrimaryWeapon: {fileID: 174238662636243313}
-  Name: {fileID: 6588943983509572482}
-  Ammunition: {fileID: 9071438059720496499}
-  SecondaryWeapons: {fileID: 1306693435917893683}
+  FishForkButton: {fileID: -6361558215494903691}
+  MeleeWeaponButton: {fileID: -3725261490965976575}
+  PrimaryWeaponButton: {fileID: 2482054323698694739}
+  SecondaryWeaponButton: {fileID: 9192503296266127434}
 --- !u!1 &9147872147891967576
 GameObject:
   m_ObjectHideFlags: 0
@@ -6858,6 +7059,7 @@ GameObject:
   - component: {fileID: 326066949407650514}
   - component: {fileID: 6073448078338350238}
   - component: {fileID: 8102564482777173257}
+  - component: {fileID: 1717010010066493461}
   m_Layer: 0
   m_Name: Name
   m_TagString: Untagged
@@ -6926,3 +7128,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u9C7C\u53C9"
+--- !u!114 &1717010010066493461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9147872147891967576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d51f3a7c41ab0346b49ae50d456bece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MarkType: 0
+  CustomComponentName: FishForkName
+  CustomComment: 
+  mComponentName: UnityEngine.UI.Text

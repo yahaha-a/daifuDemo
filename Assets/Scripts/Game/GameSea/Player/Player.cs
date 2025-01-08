@@ -14,6 +14,8 @@ namespace daifuDemo
 
 		private IFishForkModel _fishForkModel;
 
+		private IWeaponSystem _weaponSystem;
+
 		private PlayerFsm _playerFsm;
 		
 		public int GetFishChallengeClicks => _playerModel.FishingChallengeClicks.Value;
@@ -28,6 +30,8 @@ namespace daifuDemo
 			_playerModel = this.GetModel<IPlayerModel>();
 
 			_fishForkModel = this.GetModel<IFishForkModel>();
+
+			_weaponSystem = this.GetSystem<IWeaponSystem>();
 			
 			mRigidbody2D = GetComponent<Rigidbody2D>();
 
@@ -48,26 +52,9 @@ namespace daifuDemo
 				_playerModel.IfCatchingFish.Value = false;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
-			_playerModel.CurrentWeaponType.RegisterWithInitValue(type =>
+			_playerModel.CurrentWeaponType.RegisterWithInitValue(key =>
 			{
-				if (type == WeaponTypes.FishFork)
-				{
-					FishFork.Show();
-					Gun.Hide();
-					MeleeWeapon.Hide();
-				}
-				else if (type == WeaponTypes.Gun)
-				{
-					FishFork.Hide();
-					Gun.Show();
-					MeleeWeapon.Hide();
-				}
-				else if (type == WeaponTypes.MeleeWeapon)
-				{
-					FishFork.Hide();
-					Gun.Hide();
-					MeleeWeapon.Show();
-				}
+				_weaponSystem.SwitchWeapons(key);
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
@@ -86,15 +73,19 @@ namespace daifuDemo
 		{
 			if (Input.GetKeyDown(KeyCode.Alpha1))
 			{
-				_playerModel.CurrentWeaponType.Value = WeaponTypes.FishFork;
+				_playerModel.CurrentWeaponType.Value = EquipWeaponKey.FishFork;
 			}
 			else if (Input.GetKeyDown(KeyCode.Alpha2))
 			{
-				_playerModel.CurrentWeaponType.Value = WeaponTypes.Gun;
+				_playerModel.CurrentWeaponType.Value = EquipWeaponKey.MeleeWeapon;
 			}
 			else if (Input.GetKeyDown(KeyCode.Alpha3))
 			{
-				_playerModel.CurrentWeaponType.Value = WeaponTypes.MeleeWeapon;
+				_playerModel.CurrentWeaponType.Value = EquipWeaponKey.PrimaryWeapon;
+			}
+			else if (Input.GetKeyDown(KeyCode.Alpha4))
+			{
+				_playerModel.CurrentWeaponType.Value = EquipWeaponKey.SecondaryWeapons;
 			}
 		}
 

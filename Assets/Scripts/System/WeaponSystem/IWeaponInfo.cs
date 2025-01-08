@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace daifuDemo
 {
     public interface IWeaponInfo
@@ -9,7 +11,9 @@ namespace daifuDemo
         WeaponType Type { get; }
         
         int Rank { get; }
-
+        
+        Texture2D Icon { get; }
+        
         IWeaponInfo WithKey(string key);
         
         IWeaponInfo WithName(string name);
@@ -17,6 +21,8 @@ namespace daifuDemo
         IWeaponInfo WithType(WeaponType type);
 
         IWeaponInfo WithRank(int rank);
+
+        IWeaponInfo WithIcon(Texture2D icon);
     }
     
     public class WeaponInfo<T> : IWeaponInfo where T : WeaponInfo<T>
@@ -28,6 +34,8 @@ namespace daifuDemo
         public WeaponType Type { get; private set; }
         
         public int Rank { get; private set; }
+        
+        public Texture2D Icon { get; private set; }
 
         public T WithKey(string key)
         {
@@ -53,6 +61,12 @@ namespace daifuDemo
             return (T)this;
         }
 
+        public T WithIcon(Texture2D icon)
+        {
+            Icon = icon;
+            return (T)this;
+        }
+
         IWeaponInfo IWeaponInfo.WithKey(string key)
         {
             return WithKey(key);
@@ -71,6 +85,11 @@ namespace daifuDemo
         IWeaponInfo IWeaponInfo.WithRank(int rank)
         {
             return WithRank(rank);
+        }
+
+        IWeaponInfo IWeaponInfo.WithIcon(Texture2D icon)
+        {
+            return WithIcon(icon);
         }
     }
 }

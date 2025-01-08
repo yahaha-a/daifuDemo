@@ -19,18 +19,15 @@ MonoBehaviour:
     From: 0
     NameToFullName: []
     BindInfos:
-    - TypeName: SpriteRenderer
-      PathToRoot: Icon
-      MemberName: Icon
-    - TypeName: CircleCollider2D
-      PathToRoot: HitBox
-      MemberName: HitBox
-    ScriptsFolder: Assets\Scripts\Game\GameSea\Fish
-    ClassName: NormalFish
+    - TypeName: UnityEngine.Transform
+      PathToRoot: BulletTemplate
+      MemberName: BulletTemplate
+    ScriptsFolder: Assets/Scripts/Game/GameSea/Weapon/Gun
+    ClassName: Gun
     Namespace: daifuDemo
     MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace daifuDemo\r\n{\r\n\tpublic
-      partial class NormalFish : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
+      partial class Gun : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
       Code Here\r\n\t\t}\r\n\t}\r\n}\r\n"
-    DesignerCode: "// Generate Id:44e7c7ab-ba06-491f-9c60-ae82bea1d534\r\nusing UnityEngine;\r\n\r\nnamespace
-      daifuDemo\r\n{\r\n\tpublic partial class NormalFish\r\n\t{\r\n\r\n\t\tpublic
-      SpriteRenderer Icon;\r\n\r\n\t\tpublic CircleCollider2D HitBox;\r\n\r\n\t}\r\n}\r\n"
+    DesignerCode: "// Generate Id:ba85be52-4baf-4746-ad1b-b6f0675363e5\r\nusing UnityEngine;\r\n\r\nnamespace
+      daifuDemo\r\n{\r\n\tpublic partial class Gun\r\n\t{\r\n\r\n\t\tpublic UnityEngine.Transform
+      BulletTemplate;\r\n\r\n\t}\r\n}\r\n"

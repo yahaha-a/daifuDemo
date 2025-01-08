@@ -4,13 +4,6 @@ using UnityEngine;
 
 namespace daifuDemo
 {
-    public enum WeaponTypes
-    {
-        FishFork,
-        Gun,
-        MeleeWeapon
-    }
-    
     public interface IPlayerModel : IModel
     {
         BindableProperty<int> NumberOfFish { get; }
@@ -25,7 +18,7 @@ namespace daifuDemo
 
         BindableProperty<float> OxygenIntervalTime { get; }
         
-        BindableProperty<WeaponTypes> CurrentWeaponType { get; }
+        BindableProperty<EquipWeaponKey> CurrentWeaponType { get; }
         
         BindableProperty<bool> IfChestOpening { get; }
         
@@ -67,8 +60,8 @@ namespace daifuDemo
         public BindableProperty<float> OxygenIntervalTime { get; } =
             new BindableProperty<float>(Config.OxygenIntervalTime);
 
-        public BindableProperty<WeaponTypes> CurrentWeaponType { get; } =
-            new BindableProperty<WeaponTypes>(WeaponTypes.FishFork);
+        public BindableProperty<EquipWeaponKey> CurrentWeaponType { get; } =
+            new BindableProperty<EquipWeaponKey>(EquipWeaponKey.FishFork);
 
         public BindableProperty<bool> IfChestOpening { get; } = new BindableProperty<bool>(false);
 

@@ -2,36 +2,30 @@ namespace daifuDemo
 {
     public interface IFishForkInfo
     {
-        float RotationRate { get; }
-        
-        float Speed { get; }
+        float LaunchSpeed { get; }
         
         float FishForkLength { get; }
         
-        IFishForkInfo WithRotationRate(float rotationRate);
-
-        IFishForkInfo WithSpeed(float speed);
+        float ChargingTime { get; }
+        
+        IFishForkInfo WithLaunchSpeed(float launchSpeed);
 
         IFishForkInfo WithFishForkLength(float fishForkLength);
+
+        IFishForkInfo WithChargingTime(float chargingTime);
     }
     
     public class FishForkInfo : WeaponInfo<FishForkInfo>, IFishForkInfo
     {
-        public float RotationRate { get; private set; }
-        
-        public float Speed { get; private set; }
+        public float LaunchSpeed { get; private set; }
         
         public float FishForkLength { get; private set; }
+        
+        public float ChargingTime { get; private set; }
 
-        public FishForkInfo WithRotationRate(float rotationRate)
+        public FishForkInfo WithLaunchSpeed(float launchSpeed)
         {
-            RotationRate = rotationRate;
-            return this;
-        }
-
-        public FishForkInfo WithSpeed(float speed)
-        {
-            Speed = speed;
+            LaunchSpeed = launchSpeed;
             return this;
         }
 
@@ -41,19 +35,25 @@ namespace daifuDemo
             return this;
         }
 
-        IFishForkInfo IFishForkInfo.WithRotationRate(float rotationRate)
+        public FishForkInfo WithChargingTime(float chargingTime)
         {
-            return WithRotationRate(rotationRate);
+            ChargingTime = chargingTime;
+            return this;
         }
 
-        IFishForkInfo IFishForkInfo.WithSpeed(float speed)
+        IFishForkInfo IFishForkInfo.WithLaunchSpeed(float launchSpeed)
         {
-            return WithSpeed(speed);
+            return WithLaunchSpeed(launchSpeed);
         }
 
         IFishForkInfo IFishForkInfo.WithFishForkLength(float fishForkLength)
         {
             return WithFishForkLength(fishForkLength);
+        }
+        
+        IFishForkInfo IFishForkInfo.WithChargingTime(float chargingTime)
+        {
+            return WithChargingTime(chargingTime);
         }
     }
 }

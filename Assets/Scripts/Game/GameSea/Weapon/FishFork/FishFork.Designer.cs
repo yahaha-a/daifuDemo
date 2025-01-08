@@ -1,4 +1,4 @@
-// Generate Id:7f4386ac-3866-4b38-b506-17710034577c
+// Generate Id:4e5f6037-43f6-465d-908c-62d1e0ae59a6
 using UnityEngine;
 
 namespace daifuDemo
@@ -6,7 +6,7 @@ namespace daifuDemo
 	public partial class FishFork
 	{
 
-		public Transform FishForkHeadTemplate;
+		public UnityEngine.Transform FishForkHeadTemplate;
 
 	}
 }

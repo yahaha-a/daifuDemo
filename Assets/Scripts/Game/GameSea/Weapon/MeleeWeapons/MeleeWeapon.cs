@@ -5,8 +5,16 @@ using QFramework;
 
 namespace daifuDemo
 {
-	public partial class MeleeWeapon : ViewController, IController
+	public partial class MeleeWeapon : ViewController, IController, IWeapon
 	{
+		public string key { get; set; }
+		
+		public int currentRank { get; set; }
+		
+		public string weaponName { get; set; }
+		
+		public Texture2D icon { get; set; }
+		
 		public bool IfLeft { get; private set; } = false;
 
 		public float Damage { get; private set; }
@@ -153,6 +161,5 @@ namespace daifuDemo
 		{
 			return Global.Interface;
 		}
-
 	}
 }

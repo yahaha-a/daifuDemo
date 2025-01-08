@@ -5,15 +5,15 @@
       "Items": [
         {
           "Key": "Cordage",
-          "Value": 50
+          "Value": 53
         },
         {
           "Key": "Copper",
-          "Value": 65
+          "Value": 66
         },
         {
           "Key": "Wood",
-          "Value": 54
+          "Value": 58
         }
       ]
     },
@@ -30,11 +30,11 @@
         },
         {
           "Key": "AggressiveFish",
-          "Value": 134
+          "Value": 146
         },
         {
           "Key": "Vinegar",
-          "Value": 2
+          "Value": 3
         },
         {
           "Key": "NormalFish",
