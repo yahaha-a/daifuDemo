@@ -1,15 +1,18 @@
+using QFramework;
 using UnityEngine;
 
 namespace daifuDemo
 {
     public interface IWeapon
     {
-        public string key { get; }
+        public string key { get; set; }
 
-        public int currentRank { get; }
+        public BindableProperty<int> currentRank { get; set; }
         
-        public string weaponName { get; }
+        public int MaxRank { get; set; }
 
-        public Texture2D icon { get; }
+        public string weaponName { get; set; }
+
+        public Texture2D icon { get; set; }
     }
 }

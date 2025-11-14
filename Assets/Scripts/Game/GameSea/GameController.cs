@@ -169,9 +169,10 @@ namespace daifuDemo
 				{
 					var fishFork = self.GetComponent<FishFork>();
 					fishFork.key = _uiGameShipPanelModel.CurrentEquipFishFork.Value.Key;
-					fishFork.currentRank = _uiGameShipPanelModel.CurrentEquipFishFork.Value.Rank;
 					fishFork.weaponName = _uiGameShipPanelModel.CurrentEquipFishFork.Value.Name;
+					fishFork.currentRank.Value = 1;
 					_weaponSystem.CurrentEquipWeapons.Add(EquipWeaponKey.FishFork, self);
+					fishFork.InitData();
 				});
 			}
 			else
@@ -185,9 +186,10 @@ namespace daifuDemo
 				{
 					var meleeWeapon = self.GetComponent<MeleeWeapon>();
 					meleeWeapon.key = _uiGameShipPanelModel.CurrentEquipMeleeWeapon.Value.Key;
-					meleeWeapon.currentRank = _uiGameShipPanelModel.CurrentEquipMeleeWeapon.Value.Rank;
 					meleeWeapon.weaponName = _uiGameShipPanelModel.CurrentEquipMeleeWeapon.Value.Name;
+					meleeWeapon.currentRank.Value = 1;
 					_weaponSystem.CurrentEquipWeapons.Add(EquipWeaponKey.MeleeWeapon, self);
+					meleeWeapon.InitData();
 				});
 			}
 			else
@@ -201,11 +203,13 @@ namespace daifuDemo
 				{
 					var gun = self.GetComponent<Gun>();
 					gun.key = _uiGameShipPanelModel.CurrentEquipPrimaryWeapon.Value.Key;
-					gun.currentRank = _uiGameShipPanelModel.CurrentEquipPrimaryWeapon.Value.Rank;
+					gun.bulletType = _uiGameShipPanelModel.CurrentEquipPrimaryWeapon.Value.CurrentBulletInfo.Type;
 					gun.weaponName = _uiGameShipPanelModel.CurrentEquipPrimaryWeapon.Value.Name;
 					gun.currentAllAmmunition.Value = 
-						_uiGameShipPanelModel.CurrentEquipPrimaryWeapon.Value.AmmunitionNumber.Value;
+						_uiGameShipPanelModel.CurrentEquipPrimaryWeapon.Value.CurrentBulletInfo.InitNumber;
+					gun.currentRank.Value = 1;
 					_weaponSystem.CurrentEquipWeapons.Add(EquipWeaponKey.PrimaryWeapon, self);
+					gun.InitData();
 				});
 			}
 			else
@@ -219,11 +223,13 @@ namespace daifuDemo
 				{
 					var gun = self.GetComponent<Gun>();
 					gun.key = _uiGameShipPanelModel.CurrentEquipSecondaryWeapons.Value.Key;
-					gun.currentRank = _uiGameShipPanelModel.CurrentEquipSecondaryWeapons.Value.Rank;
-					gun.currentAllAmmunition.Value =
-						_uiGameShipPanelModel.CurrentEquipSecondaryWeapons.Value.AmmunitionNumber.Value;
+					gun.bulletType = _uiGameShipPanelModel.CurrentEquipSecondaryWeapons.Value.CurrentBulletInfo.Type;
 					gun.weaponName = _uiGameShipPanelModel.CurrentEquipSecondaryWeapons.Value.Name;
+					gun.currentAllAmmunition.Value =
+						_uiGameShipPanelModel.CurrentEquipSecondaryWeapons.Value.CurrentBulletInfo.InitNumber;
+					gun.currentRank.Value = 1;
 					_weaponSystem.CurrentEquipWeapons.Add(EquipWeaponKey.SecondaryWeapons, self);
+					gun.InitData();
 				});
 			}
 			else

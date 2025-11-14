@@ -1,5 +1,5 @@
 ﻿/****************************************************************************
- * 2024.11 WXH
+ * 2025.3 WXH
  ****************************************************************************/
 
 using UnityEngine;
@@ -10,10 +10,12 @@ namespace daifuDemo
 {
 	public partial class MeleeWeaponButton
 	{
+		[SerializeField] public UnityEngine.UI.Text Level;
 		[SerializeField] public UnityEngine.UI.Text Name;
 
 		public void Clear()
 		{
+			Level = null;
 			Name = null;
 		}
 

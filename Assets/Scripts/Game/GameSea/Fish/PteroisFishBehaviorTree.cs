@@ -78,7 +78,7 @@ namespace daifuDemo
                     })
                     .WithOnSuccessExit(() =>
                     {
-                        Debug.Log("被鱼叉击中");
+                        // Debug.Log("被鱼叉击中");
                         Fish.CanSwim = false;
                     })
                     .WithOnFailExit(() => {}))
@@ -107,7 +107,7 @@ namespace daifuDemo
                     })
                     .WithOnSuccessExit(() =>
                     {
-                        Debug.Log("挣脱");
+                        // Debug.Log("挣脱");
                         Events.FishEscape?.Trigger(Fish);
                         
                         Fish.IfStruggle = false;
@@ -135,7 +135,7 @@ namespace daifuDemo
                     })
                     .WithOnSuccessExit(() =>
                     {
-                        Debug.Log("被抓");
+                        // Debug.Log("被抓");
                         _playerModel.FishingChallengeClicks.Value = 0;
 
                         ActionKit.OnUpdate.Register(() =>
@@ -169,7 +169,7 @@ namespace daifuDemo
                     })
                     .WithOnSuccessExit(() =>
                     {
-                        Debug.Log("血量低");
+                        // Debug.Log("血量低");
                         Fish.CanSwim = true;
                         Fish.CurrentSwimRate = Fish.FrightenedSwimRate;
                     })
@@ -188,7 +188,7 @@ namespace daifuDemo
                     })
                     .WithOnSuccessExit(() =>
                     {
-                        Debug.Log("被子弹击中");
+                        // Debug.Log("被子弹击中");
                         Fish.CanSwim = true;
                         Fish.CurrentSwimRate = Fish.FrightenedSwimRate;
                     })
@@ -207,7 +207,10 @@ namespace daifuDemo
                         
                         return BehaviorNodeState.Success;
                     })
-                    .WithOnSuccessExit(() => {Debug.Log("逃跑");})
+                    .WithOnSuccessExit(() =>
+                    {
+                        // Debug.Log("逃跑");
+                    })
                     .WithOnFailExit(() => {}))
 
                 .AddActionNodeDic(new ActionNode<PteroisBehaviorTreeEnum>()
@@ -223,12 +226,15 @@ namespace daifuDemo
                     })
                     .WithOnSuccessExit(() =>
                     {
-                        Debug.Log("发现玩家");
+                        // Debug.Log("发现玩家");
                         Fish.CurrentDirection = (_playerModel.CurrentPosition.Value - (Vector2)Fish.transform.position).normalized;
                         Fish.CurrentSwimRate = Fish.PursuitSwimRate;
                         
                     })
-                    .WithOnFailExit(() => {Debug.Log("没发现玩家");}))
+                    .WithOnFailExit(() =>
+                    {
+                        // Debug.Log("没发现玩家");
+                    }))
 
                 .AddActionNodeDic(new ActionNode<PteroisBehaviorTreeEnum>()
                     .WithActionType(PteroisBehaviorTreeEnum.Chase)
@@ -244,7 +250,7 @@ namespace daifuDemo
                     })
                     .WithOnSuccessExit(() =>
                     {
-                        Debug.Log("准备攻击");
+                        // Debug.Log("准备攻击");
                         Fish.CanSwim = false;
                     })
                     .WithOnFailExit(() => {}))
@@ -263,7 +269,7 @@ namespace daifuDemo
                     })
                     .WithOnSuccessExit(() =>
                     {
-                        Debug.LogWarning("攻击");
+                        // Debug.LogWarning("攻击");
                         Fish.IfAttack = true;
                         Fish.CurrentAttackInterval = Fish.AttackInterval;
                         Fish.CurrentChargeTime = Fish.ChargeTime;
@@ -275,7 +281,7 @@ namespace daifuDemo
                     .WithActionType(PteroisBehaviorTreeEnum.Swim)
                     .WithOnUpdate(() =>
                     {
-                        Debug.Log("游动");
+                        // Debug.Log("游动");
                         Fish.CanSwim = true;
                         Fish.CurrentSwimRate = Fish.SwimRate;
                         

@@ -39,6 +39,7 @@ namespace daifuDemo
 			
 			Events.HitFish.Register(fish =>
 			{
+				_playerModel.MaxFishingChallengeClicks.Value = fish.GetComponent<IFish>().Clicks;
 				_playerModel.IfCatchingFish.Value = true;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
@@ -51,7 +52,7 @@ namespace daifuDemo
 			{
 				_playerModel.IfCatchingFish.Value = false;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-
+			
 			_playerModel.CurrentWeaponType.RegisterWithInitValue(key =>
 			{
 				_weaponSystem.SwitchWeapons(key);
@@ -66,7 +67,10 @@ namespace daifuDemo
 			
 			_playerFsm.Tick();
 
-			_playerModel.CurrentPosition.Value = transform.position;
+			if (_playerModel.CurrentState.Value == PlayState.Swim)
+			{
+				_playerModel.CurrentPosition.Value = transform.position;
+			}
 		}
 
 		private void SwitchWeapons()

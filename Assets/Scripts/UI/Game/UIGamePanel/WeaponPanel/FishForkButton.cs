@@ -25,6 +25,18 @@ namespace daifuDemo
 			{
 				var weapon = _weaponSystem.CurrentEquipWeapons[EquipWeaponKey.FishFork].GetComponent<FishFork>();
 				Name.text = weapon.weaponName;
+				
+				weapon.currentRank.Register(rank =>
+				{
+					if (rank == weapon.MaxRank)
+					{
+						Level.text = "Lv.Max";
+					}
+					else
+					{
+						Level.text = "Lv." + rank;
+					}
+				}).UnRegisterWhenGameObjectDestroyed(gameObject);
 			}
 			else
 			{

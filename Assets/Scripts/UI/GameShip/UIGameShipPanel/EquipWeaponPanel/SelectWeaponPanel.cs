@@ -32,7 +32,6 @@ namespace daifuDemo
 				IWeaponItemTempleteInfo weaponItemTempleteInfo = new WeaponItemTempleteInfo();
 				weaponItemTempleteInfo.WithKey(weaponInfo.Key);
 				weaponItemTempleteInfo.WithName(weaponInfo.Name);
-				weaponItemTempleteInfo.WithRank(weaponInfo.Rank);
 				_weaponItemTempleteInfos.Add(weaponItemTempleteInfo);
 			}
 

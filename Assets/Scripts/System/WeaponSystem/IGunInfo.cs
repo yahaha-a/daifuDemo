@@ -22,6 +22,8 @@ namespace daifuDemo
         
         float AttackRange { get; }
         
+        IndicatorType IndicatorType { get; }
+        
         List<(Vector2, float)> BulletSpawnLocationsAndDirectionsList { get; }
         
         IGunInfo WithMaximumAmmunition(int maximumAmmunition);
@@ -34,6 +36,8 @@ namespace daifuDemo
 
         IGunInfo WithAttackRange(float attackRange);
         
+        IGunInfo WithIndicatorType(IndicatorType indicatorType);
+        
         IGunInfo WithBulletSpawnLocationsAndDirectionsList(
             List<(Vector2, float)> bulletSpawnLocationsAndDirectionsList);
     }
@@ -45,6 +49,7 @@ namespace daifuDemo
         public float RateOfFire { get; private set; }
         public float IntervalBetweenShots { get; private set; }
         public float AttackRange { get; private set; }
+        public IndicatorType IndicatorType { get; private set; }
         public List<(Vector2, float)> BulletSpawnLocationsAndDirectionsList { get; private set; }
 
         public GunInfo WithMaximumAmmunition(int maximumAmmunition)
@@ -77,6 +82,12 @@ namespace daifuDemo
             return this;
         }
 
+        public GunInfo WithIndicatorType(IndicatorType indicatorType)
+        {
+            IndicatorType = indicatorType;
+            return this;
+        }
+
         public GunInfo WithBulletSpawnLocationsAndDirectionsList(List<(Vector2, float)> bulletSpawnLocationsAndDirectionsList)
         {
             BulletSpawnLocationsAndDirectionsList = bulletSpawnLocationsAndDirectionsList;
@@ -88,6 +99,7 @@ namespace daifuDemo
         IGunInfo IGunInfo.WithRateOfFire(float rateOfFire) => WithRateOfFire(rateOfFire);
         IGunInfo IGunInfo.WithIntervalBetweenShots(float intervalBetweenShots) => WithIntervalBetweenShots(intervalBetweenShots);
         IGunInfo IGunInfo.WithAttackRange(float attackRange) => WithAttackRange(attackRange);
+        IGunInfo IGunInfo.WithIndicatorType(IndicatorType indicatorType) => WithIndicatorType(indicatorType);
         IGunInfo IGunInfo.WithBulletSpawnLocationsAndDirectionsList(List<(Vector2, float)> bulletSpawnLocationsAndDirectionsList) 
             => WithBulletSpawnLocationsAndDirectionsList(bulletSpawnLocationsAndDirectionsList);
     }

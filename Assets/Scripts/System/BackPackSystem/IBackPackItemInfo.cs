@@ -4,6 +4,7 @@ namespace daifuDemo
 {
     public enum BackPackItemType
     {
+        WeaponLevel,
         Fish,
         Ingredient,
         Seasoning,

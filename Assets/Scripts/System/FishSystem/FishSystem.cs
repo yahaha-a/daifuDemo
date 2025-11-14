@@ -40,6 +40,7 @@ namespace daifuDemo
                 .WithCoolDownTime(4f)
                 .WithToggleDirectionTime(4f)
                 .WithHp(20f)
+                .WithFleeHp(5f)
                 .WithStruggleTime(2f)
                 .WithVisualField(4f)
                 .WithClicks(5)
@@ -60,7 +61,7 @@ namespace daifuDemo
                 .WithCoolDownTime(3f)
                 .WithToggleDirectionTime(3f)
                 .WithHp(30f)
-                .WithFleeHp(15f)
+                .WithFleeHp(5f)
                 .WithStruggleTime(1.5f)
                 .WithVisualField(5f)
                 .WithClicks(6)
@@ -142,6 +143,11 @@ namespace daifuDemo
 
             Events.TreasureBoxOpened.Register(treasure =>
             {
+                if (treasure.itemType == BackPackItemType.WeaponLevel)
+                {
+                    return;
+                }
+                
                 if (CaughtItem.ContainsKey(treasure.backPackItemKey))
                 {
                     CaughtItem[treasure.backPackItemKey].Amount += 1;

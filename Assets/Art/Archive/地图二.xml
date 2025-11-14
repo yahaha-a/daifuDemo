@@ -1,0 +1,35 @@
+<Items>
+  <FishItems />
+  <TreasureChestsItems />
+  <DestructibleItems />
+  <BarrierItems>
+    <Item key="Clod" serialNumber="1" x="-5" y="3" range="100" number="1" />
+    <Item key="Clod" serialNumber="2" x="-4" y="3" range="100" number="1" />
+    <Item key="Clod" serialNumber="3" x="-3" y="3" range="100" number="1" />
+    <Item key="Clod" serialNumber="4" x="-2" y="3" range="100" number="1" />
+    <Item key="Clod" serialNumber="5" x="-1" y="3" range="100" number="1" />
+    <Item key="Clod" serialNumber="6" x="0" y="3" range="100" number="1" />
+    <Item key="Clod" serialNumber="7" x="1" y="3" range="100" number="1" />
+    <Item key="Clod" serialNumber="8" x="2" y="3" range="100" number="1" />
+    <Item key="Clod" serialNumber="9" x="-5" y="2" range="100" number="1" />
+    <Item key="Clod" serialNumber="10" x="-5" y="1" range="100" number="1" />
+    <Item key="Clod" serialNumber="11" x="-5" y="0" range="100" number="1" />
+    <Item key="Clod" serialNumber="12" x="-5" y="-1" range="100" number="1" />
+    <Item key="Clod" serialNumber="13" x="-5" y="-2" range="100" number="1" />
+    <Item key="Clod" serialNumber="14" x="-5" y="-3" range="100" number="1" />
+    <Item key="Clod" serialNumber="15" x="-4" y="-3" range="100" number="1" />
+    <Item key="Clod" serialNumber="16" x="-3" y="-3" range="100" number="1" />
+    <Item key="Clod" serialNumber="17" x="-2" y="-3" range="100" number="1" />
+    <Item key="Clod" serialNumber="18" x="-1" y="-3" range="100" number="1" />
+    <Item key="Clod" serialNumber="19" x="0" y="-3" range="100" number="1" />
+    <Item key="Clod" serialNumber="20" x="1" y="-3" range="100" number="1" />
+    <Item key="Clod" serialNumber="21" x="2" y="-3" range="100" number="1" />
+    <Item key="Clod" serialNumber="22" x="2" y="2" range="100" number="1" />
+    <Item key="Clod" serialNumber="23" x="2" y="1" range="100" number="1" />
+    <Item key="Clod" serialNumber="24" x="2" y="0" range="100" number="1" />
+    <Item key="Clod" serialNumber="25" x="2" y="-1" range="100" number="1" />
+    <Item key="Clod" serialNumber="26" x="2" y="-2" range="100" number="1" />
+  </BarrierItems>
+  <RoleItems />
+  <DropsItems />
+</Items>

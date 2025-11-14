@@ -5,7 +5,7 @@ using QFramework;
 
 namespace daifuDemo
 {
-	// Generate Id:345d01e8-4390-478d-8c35-2fd1a74ad788
+	// Generate Id:c9f5677f-dde4-419d-b6b0-ea7639e2df1a
 	public partial class UIGamePanel
 	{
 		public const string Name = "UIGamePanel";
@@ -21,15 +21,17 @@ namespace daifuDemo
 		[SerializeField]
 		public UnityEngine.UI.Button CloseButton;
 		[SerializeField]
+		public WeaponPanel WeaponPanel;
+		[SerializeField]
 		public UIPackPanel UIPackPanel;
 		[SerializeField]
 		public UISettlePanel UISettlePanel;
 		[SerializeField]
 		public UIHarvestPanel UIHarvestPanel;
 		[SerializeField]
-		public CatchFishPanel CatchFishPanel;
+		public CounterPanel CounterPanel;
 		[SerializeField]
-		public WeaponPanel WeaponPanel;
+		public WeaponUpgradePanel WeaponUpgradePanel;
 		
 		private UIGamePanelData mPrivateData = null;
 		
@@ -40,11 +42,12 @@ namespace daifuDemo
 			OxygenValue = null;
 			BackPackButton = null;
 			CloseButton = null;
+			WeaponPanel = null;
 			UIPackPanel = null;
 			UISettlePanel = null;
 			UIHarvestPanel = null;
-			CatchFishPanel = null;
-			WeaponPanel = null;
+			CounterPanel = null;
+			WeaponUpgradePanel = null;
 			
 			mData = null;
 		}

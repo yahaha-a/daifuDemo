@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1521ef171813e9543b0ddd4522126871
+guid: 4600a79c2f045544ca7c3b4a1bbd08dd
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -8,6 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  importerVersion: 2
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
@@ -77,6 +78,7 @@ ScriptedImporter:
     defaultPivotSpace: 0
     defaultPivotAlignment: 7
     customPivotPosition: {x: 0.5, y: 0.5}
+    mosaicPadding: 4
     spritePadding: 0
     generateModelPrefab: 1
     generateAnimationClips: 1
@@ -89,13 +91,14 @@ ScriptedImporter:
     defaultPivotSpace: 0
     defaultPivotAlignment: 7
     customPivotPosition: {x: 0.5, y: 0.5}
+    mosaicPadding: 4
     spritePadding: 0
     generateModelPrefab: 1
     generateAnimationClips: 1
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638640225179730479
+  platformSettingsDirtyTick: 638640223347297002
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -103,6 +106,7 @@ ScriptedImporter:
     pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 0
@@ -119,18 +123,19 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: NormalFish
+  - name: PteriosFish
     originalName: 
-    pivot: {x: 0.53097343, y: -1.0930233}
+    pivot: {x: 0.49206352, y: -0.5970149}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 113
-      height: 43
-    spriteID: f42661491e9397947969fad0530a9d57
+      width: 126
+      height: 67
+    spriteID: d68583072cfd37e44ba6697a8182cf5d
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -140,18 +145,19 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
   spriteSheetImportData:
-  - name: NormalFish_0
+  - name: AggressiveFish_0
     originalName: 
-    pivot: {x: 0, y: 0}
-    alignment: 0
+    pivot: {x: 0.4614035, y: 0.2585361}
+    alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
     rect:
       serializedVersion: 2
       x: 4
-      y: 4
+      y: 0
       width: 128
-      height: 49
-    spriteID: c8be2f18b0e6ea74a886c5665b4882f4
+      height: 124
+    spriteID: 5c87293487afbc24e9cf9fe33488fc7a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -162,20 +168,26 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
-    guid: 607227635
-    name: NormalFish
+    uuid:
+      value0: 716123868
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: 716123868
+    name: AggressiveFish
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
     - name: NormalFish
       frameIndex: 0
+      additiveSortOrder: 0
       cellRect:
         x: 0
-        y: 43
+        y: 32
         width: 128
-        height: 49
-      spriteId: f42661491e9397947969fad0530a9d57
+        height: 67
+      spriteId: d368eda4d4498f54cb9662e94de1c218
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -215,6 +227,8 @@ ScriptedImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     androidETC2FallbackOverride: 0
+  generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 128, y: 128}
+  previousTextureSize: {x: 256, y: 128}

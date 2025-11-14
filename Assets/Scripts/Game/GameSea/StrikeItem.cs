@@ -83,7 +83,7 @@ namespace daifuDemo
 						float randomX = Random.Range(-1f, 1f);
 						float upwardForce = Random.Range(3f, 5f);
 
-						rb.velocity = new Vector2(randomX, upwardForce);
+						rb.linearVelocity = new Vector2(randomX, upwardForce);
 
 						self.GetComponent<PickUpItem>().key = _dropItemKey;
 						self.Show();

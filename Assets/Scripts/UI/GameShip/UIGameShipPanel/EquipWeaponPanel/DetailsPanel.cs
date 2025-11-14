@@ -23,12 +23,31 @@ namespace daifuDemo
 
 		private void Start()
 		{
-			_uiGameShipPanelModel.CurrentSelectWeaponInfo.Register(weaponInfo =>
+			_uiGameShipPanelModel.CurrentEquipWeaponKey.RegisterWithInitValue(value =>
+			{
+				if (value == EquipWeaponKey.FishFork)
+				{
+					SelectBulletTypePanel.Hide();
+				}
+				else if (value == EquipWeaponKey.MeleeWeapon)
+				{
+					SelectBulletTypePanel.Hide();
+				}
+				else if (value == EquipWeaponKey.PrimaryWeapon)
+				{
+					SelectBulletTypePanel.Show();
+				}
+				else if (value == EquipWeaponKey.SecondaryWeapons)
+				{
+					SelectBulletTypePanel.Show();
+				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+			
+			_uiGameShipPanelModel.CurrentSelectWeaponInfo.RegisterWithInitValue(weaponInfo =>
 			{
 				if (weaponInfo != null)
 				{
 					Name.text = weaponInfo.Name;
-					Rank.text = "Lv. " + weaponInfo.Rank;
 				}
 			});
 			

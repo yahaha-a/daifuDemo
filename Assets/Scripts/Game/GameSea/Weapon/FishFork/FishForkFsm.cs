@@ -47,7 +47,7 @@ namespace daifuDemo
                     _fishForkModel.CurrentFishForkState.Value = FishForkState.Ready;
                     _fishFork.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 })
-                .WithOnExit(null)
+                .WithOnExit(null) 
                 .WithOnTick(null));
             
             AddStates(new State<FishForkState>()
@@ -70,11 +70,13 @@ namespace daifuDemo
                         _fishFork.currentFishForkLength + 1f, 1f, 120, 60);
                     if (_fishFork.ifLeft)
                     {
-                        _indicatorSystem.CreateLine(_attackRangeIndicator.lineRender, _fishFork.currentFishForkLength, 0.2f, -_fishFork.transform.right, _fishFork.FishForkHeadTemplate.position);
+                        _indicatorSystem.CreateLine(_attackRangeIndicator.lineRender, _fishFork.currentFishForkLength,
+                            0.2f, -_fishFork.transform.right, _fishFork.FishForkHeadTemplate.position);
                     }
                     else
                     {
-                        _indicatorSystem.CreateLine(_attackRangeIndicator.lineRender, _fishFork.currentFishForkLength, 0.2f, _fishFork.transform.right, _fishFork.FishForkHeadTemplate.position);
+                        _indicatorSystem.CreateLine(_attackRangeIndicator.lineRender, _fishFork.currentFishForkLength,
+                            0.2f, _fishFork.transform.right, _fishFork.FishForkHeadTemplate.position);
                     }
                 }));
             

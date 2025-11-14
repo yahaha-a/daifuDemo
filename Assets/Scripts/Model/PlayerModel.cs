@@ -24,6 +24,8 @@ namespace daifuDemo
         
         BindableProperty<float> OpenChestSeconds { get; }
         
+        BindableProperty<float> CurrentOpenChestNeedSeconds { get; }
+        
         BindableProperty<int> MaxFishingChallengeClicks { get; }
         
         BindableProperty<int> FishingChallengeClicks { get; }
@@ -66,6 +68,8 @@ namespace daifuDemo
         public BindableProperty<bool> IfChestOpening { get; } = new BindableProperty<bool>(false);
 
         public BindableProperty<float> OpenChestSeconds { get; } = new BindableProperty<float>(0f);
+        
+        public BindableProperty<float> CurrentOpenChestNeedSeconds { get; } = new BindableProperty<float>(0f);
 
         public BindableProperty<int> MaxFishingChallengeClicks { get; } = new BindableProperty<int>(0);
 

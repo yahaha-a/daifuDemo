@@ -35,8 +35,6 @@ namespace daifuDemo
         
         BindableProperty<IBulletInfo> CurrentSelectBulletInfo { get; }
         
-        BindableProperty<int> CurrentInputAmmunitionNumber { get; }
-        
         BindableProperty<IWeaponItemTempleteInfo> CurrentEquipFishFork { get; }
         
         BindableProperty<IWeaponItemTempleteInfo> CurrentEquipMeleeWeapon { get; }
@@ -78,8 +76,6 @@ namespace daifuDemo
             new BindableProperty<IWeaponItemTempleteInfo>(null);
 
         public BindableProperty<IBulletInfo> CurrentSelectBulletInfo { get; } = new BindableProperty<IBulletInfo>(null);
-
-        public BindableProperty<int> CurrentInputAmmunitionNumber { get; } = new BindableProperty<int>(0);
 
         public BindableProperty<IWeaponItemTempleteInfo> CurrentEquipFishFork { get; } =
             new BindableProperty<IWeaponItemTempleteInfo>(null);

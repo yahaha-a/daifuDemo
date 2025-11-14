@@ -1,5 +1,5 @@
 ﻿/****************************************************************************
- * 2024.11 WXH
+ * 2025.2 WXH
  ****************************************************************************/
 
 using UnityEngine;
@@ -11,8 +11,6 @@ namespace daifuDemo
 	public partial class DetailsPanel
 	{
 		[SerializeField] public UnityEngine.UI.Text Name;
-		[SerializeField] public UnityEngine.UI.Text Rank;
-		[SerializeField] public UnityEngine.UI.Button Upgrade;
 		[SerializeField] public SelectBulletTypePanel SelectBulletTypePanel;
 		[SerializeField] public UnityEngine.UI.Button Equip;
 		[SerializeField] public UnityEngine.UI.Text EquipText;
@@ -20,8 +18,6 @@ namespace daifuDemo
 		public void Clear()
 		{
 			Name = null;
-			Rank = null;
-			Upgrade = null;
 			SelectBulletTypePanel = null;
 			Equip = null;
 			EquipText = null;

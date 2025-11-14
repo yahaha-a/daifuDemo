@@ -22,21 +22,21 @@ namespace daifuDemo
 		
 		protected override void OnInit(IUIData uiData = null)
 		{
-			_player = FindObjectOfType<Player>();
-			
 			mData = uiData as UIGamePanelData ?? new UIGamePanelData();
+			
+			_player = FindObjectOfType<Player>();
 
 			_playerModel = this.GetModel<IPlayerModel>();
 
 			_uiGamePanelModel = this.GetModel<IUIGamePanelModel>();
 
 			_fishSystem = this.GetSystem<IFishSystem>();
-
+			
 			Events.LoadMapComplete.Register(() =>
 			{
 				_player = FindObjectOfType<Player>();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-
+			
 			_playerModel.PlayerOxygen.RegisterWithInitValue(value =>
 			{
 				OxygenValue.text ="氧气\n" + value.ToString("0");
@@ -46,7 +46,7 @@ namespace daifuDemo
 			{
 				NumberOfFish.text = "捕获数量:" + value.ToString();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-
+			
 			_uiGamePanelModel.IfBackPackOpen.Register(value =>
 			{
 				if (value)
@@ -64,13 +64,6 @@ namespace daifuDemo
 				UISettlePanel.Show();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
-
-			Events.HitFish.Register(fish =>
-			{
-				_uiGamePanelModel.IfCatchFishPanelShow.Value = true;
-				_playerModel.MaxFishingChallengeClicks.Value = fish.GetComponent<IFish>().Clicks;
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-
 			_uiGamePanelModel.IfUIHarvestPanelShow.Register(value =>
 			{
 				if (value)
@@ -82,31 +75,30 @@ namespace daifuDemo
 					UIHarvestPanel.Hide();
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-
-			_uiGamePanelModel.IfCatchFishPanelShow.Register(value =>
+			
+			_playerModel.CurrentPosition.Register(value =>
 			{
-				if (value)
+				Vector3 screenPosition = Camera.main.WorldToScreenPoint(value);
+				CounterPanel.GetComponent<RectTransform>().position = screenPosition + new Vector3(-20, 80, 0);
+				WeaponUpgradePanel.GetComponent<RectTransform>().position = screenPosition + new Vector3(70, 50, 0);
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+			
+			_uiGamePanelModel.CurrentCounterPanelState.Register(state =>
+			{
+				switch (state)
 				{
-					Vector3 playerWorldPosition = _player.transform.position;
-					Vector2 screenPosition = Camera.main.WorldToScreenPoint(playerWorldPosition);
-					Vector3 uiPosition;
-
-					if (_playerModel.IfLeft.Value)
-					{
-						uiPosition = screenPosition + new Vector2(100, 0);
-					}
-					else
-					{
-						uiPosition = screenPosition + new Vector2(-100, 0);
-					}
-					
-					CatchFishPanel.GetComponent<RectTransform>().position = uiPosition;
-					
-					CatchFishPanel.Show();
-				}
-				else
-				{
-					CatchFishPanel.Hide();
+					case CounterPanelState.Hide:
+						CounterPanel.Hide();
+						break;
+					case CounterPanelState.CatchFish:
+						CounterPanel.Show();
+						break;
+					case CounterPanelState.OpenTreasure:
+						CounterPanel.Show();
+						break;
+					case CounterPanelState.Reloading:
+						CounterPanel.Show();
+						break;
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 			

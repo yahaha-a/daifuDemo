@@ -46,8 +46,6 @@ namespace daifuDemo
 
         public static EasyEvent Attack = new EasyEvent();
 
-        public static EasyEvent Attack2 = new EasyEvent();
-
         public static EasyEvent MapInitializationComplete = new EasyEvent();
 
         public static EasyEvent GameStart = new EasyEvent();
@@ -59,5 +57,7 @@ namespace daifuDemo
         public static EasyEvent<float> FishHitPlayer = new EasyEvent<float>();
 
         public static EasyEvent LoadMapComplete = new EasyEvent();
+        
+        public static EasyEvent<float, string> ShowUpgradeDetails = new EasyEvent<float, string>();
     }
 }

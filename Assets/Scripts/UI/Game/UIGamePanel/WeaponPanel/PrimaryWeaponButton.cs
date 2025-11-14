@@ -38,13 +38,25 @@ namespace daifuDemo
 						break;
 				}
 
-				weapon.currentAllAmmunition.Register(value =>
+				weapon.currentAllAmmunition.RegisterWithInitValue(value =>
 				{
 					Ammunition.text = weapon.currentAmmunition + " / " + weapon.currentAllAmmunition;
 				}).UnRegisterWhenGameObjectDestroyed(gameObject);
-				weapon.currentAmmunition.Register(value =>
+				weapon.currentAmmunition.RegisterWithInitValue(value =>
 				{
 					Ammunition.text = weapon.currentAmmunition + " / " + weapon.currentAllAmmunition;
+				}).UnRegisterWhenGameObjectDestroyed(gameObject);
+				
+				weapon.currentRank.Register(rank =>
+				{
+					if (rank == weapon.MaxRank)
+					{
+						Level.text = "Lv.Max";
+					}
+					else
+					{
+						Level.text = "Lv." + rank;
+					}
 				}).UnRegisterWhenGameObjectDestroyed(gameObject);
 			}
 			else

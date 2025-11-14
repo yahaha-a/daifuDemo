@@ -12,6 +12,8 @@ namespace daifuDemo
         
         int Rank { get; }
         
+        int MaxRank { get; }
+        
         Texture2D Icon { get; }
         
         IWeaponInfo WithKey(string key);
@@ -21,6 +23,8 @@ namespace daifuDemo
         IWeaponInfo WithType(WeaponType type);
 
         IWeaponInfo WithRank(int rank);
+        
+        IWeaponInfo WithMaxRank(int maxRank);
 
         IWeaponInfo WithIcon(Texture2D icon);
     }
@@ -35,6 +39,8 @@ namespace daifuDemo
         
         public int Rank { get; private set; }
         
+        public int MaxRank { get; private set; }
+
         public Texture2D Icon { get; private set; }
 
         public T WithKey(string key)
@@ -58,6 +64,12 @@ namespace daifuDemo
         public T WithRank(int rank)
         {
             Rank = rank;
+            return (T)this;
+        }
+
+        public T WithMaxRank(int maxRank)
+        {
+            MaxRank = maxRank;
             return (T)this;
         }
 
@@ -85,6 +97,11 @@ namespace daifuDemo
         IWeaponInfo IWeaponInfo.WithRank(int rank)
         {
             return WithRank(rank);
+        }
+
+        IWeaponInfo IWeaponInfo.WithMaxRank(int maxRank)
+        {
+            return WithMaxRank(maxRank);
         }
 
         IWeaponInfo IWeaponInfo.WithIcon(Texture2D icon)

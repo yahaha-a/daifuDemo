@@ -137,6 +137,11 @@ namespace daifuDemo
 
         public string AccordingItemTypeGetRandomOne(BackPackItemType backPackItemType)
         {
+            if (backPackItemType == BackPackItemType.WeaponLevel)
+            {
+                return null;
+            }
+            
             List<string> itemList = new List<string>();
             foreach (var (key, backPackItemInfo) in BackPackItemInfos)
             {

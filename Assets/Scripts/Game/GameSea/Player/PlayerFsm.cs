@@ -21,6 +21,7 @@ namespace daifuDemo
         private IPlayerModel _playerModel;
         private IFishForkModel _fishForkModel;
         private IGunModel _gunModel;
+        private IUIGamePanelModel _uiGamePanelModel;
 
         public PlayerFsm(Player player)
         {
@@ -32,6 +33,7 @@ namespace daifuDemo
             _playerModel = this.GetModel<IPlayerModel>();
             _fishForkModel = this.GetModel<IFishForkModel>();
             _gunModel = this.GetModel<IGunModel>();
+            _uiGamePanelModel = this.GetModel<IUIGamePanelModel>();
 
             AddStates(new State<PlayState>()
                 .WithKey(PlayState.Swim)
@@ -41,7 +43,7 @@ namespace daifuDemo
                 })
                 .WithOnExit(() =>
                 {
-                    _player.mRigidbody2D.velocity = Vector2.zero;
+                    _player.mRigidbody2D.linearVelocity = Vector2.zero;
                 })
                 .WithOnTick(() =>
                 {
@@ -71,14 +73,20 @@ namespace daifuDemo
                 .WithOnEnter(() =>
                 {
                     _playerModel.CurrentState.Value = PlayState.CatchFish;
+                    _uiGamePanelModel.CurrentCounterPanelState.Value = CounterPanelState.CatchFish;
                 })
-                .WithOnExit(null)
+                .WithOnExit(() =>
+                {
+                    _uiGamePanelModel.CurrentCounterPanelState.Value = CounterPanelState.Hide;
+                })
                 .WithOnTick(() =>
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
                         _playerModel.FishingChallengeClicks.Value++;
                     }
+                    _uiGamePanelModel.CurrentCounter.Value = (float)_playerModel.FishingChallengeClicks.Value /
+                                                             (float)_playerModel.MaxFishingChallengeClicks.Value;
                 }));
             
             AddStates(new State<PlayState>()
@@ -86,34 +94,28 @@ namespace daifuDemo
                 .WithOnEnter(() =>
                 {
                     _playerModel.CurrentState.Value = PlayState.Attack;
+                    Events.Attack?.Trigger();
                 })
                 .WithOnExit(null)
-                .WithOnTick(() =>
-                {
-                    if (Input.GetKeyDown(KeyCode.J))
-                    {
-                        Events.Attack?.Trigger();
-                    }
-
-                    if (Input.GetKeyDown(KeyCode.K))
-                    {
-                        Events.Attack2?.Trigger();
-                    }
-                }));
+                .WithOnTick(null));
             
             AddStates(new State<PlayState>()
                 .WithKey(PlayState.OpeningTreasureChests)
                 .WithOnEnter(() =>
                 {
                     _playerModel.CurrentState.Value = PlayState.OpeningTreasureChests;
+                    _uiGamePanelModel.CurrentCounterPanelState.Value = CounterPanelState.OpenTreasure;
                 })
                 .WithOnExit(() =>
                 {
                     _playerModel.OpenChestSeconds.Value = 0;
+                    _uiGamePanelModel.CurrentCounterPanelState.Value = CounterPanelState.Hide;
                 })
                 .WithOnTick(() =>
                 {
                     _playerModel.OpenChestSeconds.Value += Time.deltaTime;
+                    _uiGamePanelModel.CurrentCounter.Value = _playerModel.OpenChestSeconds.Value /
+                                                             _playerModel.CurrentOpenChestNeedSeconds.Value;
                 }));
             
             AddStates(new State<PlayState>()
@@ -123,10 +125,7 @@ namespace daifuDemo
                     _playerModel.CurrentState.Value = PlayState.PickingUp;
                 })
                 .WithOnExit(null)
-                .WithOnTick(() =>
-                {
-                    
-                }));
+                .WithOnTick(null));
 
 
             
@@ -141,18 +140,14 @@ namespace daifuDemo
                 .WithToState(PlayState.UsingGun)
                 .WithWeight(1)
                 .AddConditions(() => _gunModel.CurrentGunState.Value == GunState.Shooting));
-            
+
             AddTransitions(new Transition<PlayState>()
                 .WithFromState(PlayState.Swim)
                 .WithToState(PlayState.Attack)
                 .WithWeight(1)
-                .AddConditions(() => Input.GetKeyDown(KeyCode.J) && !_playerModel.IfAttacking.Value));
-            
-            AddTransitions(new Transition<PlayState>()
-                .WithFromState(PlayState.Swim)
-                .WithToState(PlayState.Attack)
-                .WithWeight(1)
-                .AddConditions(() => Input.GetKeyDown(KeyCode.K) && !_playerModel.IfAttacking.Value));
+                .AddConditions(() =>
+                    _playerModel.CurrentWeaponType.Value == EquipWeaponKey.MeleeWeapon &&
+                    !_playerModel.IfAttacking.Value && Input.GetMouseButtonDown(0)));
             
             AddTransitions(new Transition<PlayState>()
                 .WithFromState(PlayState.Swim)
@@ -246,7 +241,7 @@ namespace daifuDemo
 				
             var direction = new Vector2(inputHorizontal, inputVertical).normalized;
             var playerTargetWalkingSpeed = direction * Config.PlayerWalkingRate;
-            _player.mRigidbody2D.velocity = Vector2.Lerp(_player.mRigidbody2D.velocity,
+            _player.mRigidbody2D.linearVelocity = Vector2.Lerp(_player.mRigidbody2D.linearVelocity,
                 playerTargetWalkingSpeed, 1 - Mathf.Exp(-Time.deltaTime * 10));
         }
 

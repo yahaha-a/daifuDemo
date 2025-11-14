@@ -34,8 +34,11 @@ namespace MapEditor
 
             _mapEditorModel.CurrentArchiveName.Register(name =>
             {
-                _mapEditorSystem.LoadItemsFromXml(name);
-                _mapEditorModel.CurrentSerialNumber.Value = _mapEditorSystem.GetMaxSerialNumberInXml(name) + 1;
+                if (name != null)
+                {
+                    _mapEditorSystem.LoadItemsFromXml(name);
+                    _mapEditorModel.CurrentSerialNumber.Value = _mapEditorSystem.GetMaxSerialNumberInXml(name) + 1;
+                }
             }).UnRegisterWhenGameObjectDestroyed(gameObject);
             
             this.GetModel<IMapEditorModel>().CurrentMapEditorName.RegisterWithInitValue(name =>
@@ -96,8 +99,8 @@ namespace MapEditor
                     this.GetModel<IMapEditorModel>().CurrentSelectRange.Value -= 10f;
                 }
             }
-            
-            if (Input.GetMouseButtonDown(0) && IfCanCreate())
+
+            if (Input.GetMouseButton(0) && IfCanCreate())
             {
                 if (_mapEditorSystem._mapEditorInfos[_mapEditorModel.CurrentMapEditorName.Value].OptionType ==
                     OptionType.Null)

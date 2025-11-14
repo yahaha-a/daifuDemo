@@ -14,6 +14,8 @@ namespace daifuDemo
         
         float Damage { get; }
         
+        int InitNumber { get; }
+        
         float Price { get; }
 
         IBulletInfo WithType(BulletType type);
@@ -21,6 +23,8 @@ namespace daifuDemo
         IBulletInfo WithName(string name);
         
         IBulletInfo WithDamage(float damage);
+        
+        IBulletInfo WithInitNumber(int initNumber);
 
         IBulletInfo WithPrice(float price);
     }
@@ -32,6 +36,8 @@ namespace daifuDemo
         
         public float Damage { get; private set; }
         
+        public int InitNumber { get; private set; }
+
         public float Price { get; private set; }
 
         public IBulletInfo WithType(BulletType type)
@@ -49,6 +55,12 @@ namespace daifuDemo
         public IBulletInfo WithDamage(float damage)
         {
             Damage = damage;
+            return this;
+        }
+
+        public IBulletInfo WithInitNumber(int initNumber)
+        {
+            InitNumber = initNumber;
             return this;
         }
 

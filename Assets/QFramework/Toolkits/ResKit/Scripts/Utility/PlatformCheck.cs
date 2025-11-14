@@ -1,6 +1,6 @@
 /****************************************************************************
  * Copyright (c) 2021 ~ 2022 liangxiegame UNDER MIT License
- * 
+ *
  * https://qframework.cn
  * https://github.com/liangxiegame/QFramework
  * https://gitee.com/liangxiegame/QFramework
@@ -72,9 +72,29 @@ namespace QFramework
             }
         }
 
-        public static bool IsWebGL
+        public static bool IsOSX
         {
-            get { return Application.platform == RuntimePlatform.WebGLPlayer; }
+            get
+            {
+                bool retValue = false;
+#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+                retValue = true;
+#endif
+                return retValue;
+            }
+        }
+
+        public static bool IsWebGL => Application.platform == RuntimePlatform.WebGLPlayer;
+
+        public static bool IsWeixinMiniGame
+        {
+            get
+            {
+#if TUANJIE_WEIXINMINIGAME
+                return Application.platform == RuntimePlatform.WeixinMiniGamePlayer;
+#endif
+                return false;
+            }
         }
     }
 }

@@ -5,15 +5,15 @@
       "Items": [
         {
           "Key": "Cordage",
-          "Value": 53
+          "Value": 89
         },
         {
           "Key": "Copper",
-          "Value": 66
+          "Value": 126
         },
         {
           "Key": "Wood",
-          "Value": 58
+          "Value": 86
         }
       ]
     },
@@ -30,23 +30,27 @@
         },
         {
           "Key": "AggressiveFish",
-          "Value": 146
+          "Value": 286
         },
         {
           "Key": "Vinegar",
-          "Value": 3
+          "Value": 8
         },
         {
           "Key": "NormalFish",
-          "Value": 215
+          "Value": 281
         },
         {
           "Key": "Coral",
-          "Value": 144
+          "Value": 225
         },
         {
           "Key": "Kelp",
-          "Value": 96
+          "Value": 168
+        },
+        {
+          "Key": "Salt",
+          "Value": 2
         }
       ]
     }

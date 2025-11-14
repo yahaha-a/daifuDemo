@@ -4,24 +4,55 @@ using UnityEngine;
 
 namespace MapEditor
 {
-    public class CameraController : MonoBehaviour
+    public class CameraController : MonoBehaviour, IController
     {
+        private IMapEditorModel _mapEditorModel;
+        private IMapEditorSystem _mapEditorSystem;
+        
+        private Vector3 _dragOrigin;
+        public float zoomSpeed = 2.0f;
+        public float minZoom = 5.0f;
+        public float maxZoom = 10.0f;
+        
         private void Start()
         {
+            _mapEditorModel = this.GetModel<IMapEditorModel>();
+            _mapEditorSystem = this.GetSystem<IMapEditorSystem>();
+            
             MapEditorEvents.LoadArchive.Register(() =>
             {
                 transform.position = new Vector3(0, 0, -10);
             }).UnRegisterWhenGameObjectDestroyed(gameObject);
         }
 
-        private void Update()
+        void Update()
         {
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
+            if (Input.GetMouseButtonDown(2))
+            {
+                _dragOrigin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            }
 
-            Vector3 moveDirection = new Vector3(horizontal, vertical, 0);
+            if (Input.GetMouseButton(2))
+            {
+                Vector3 difference = _dragOrigin - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                transform.position += difference;
+            }
 
-            transform.position += moveDirection * 5 * Time.deltaTime;
+            if (_mapEditorSystem._mapEditorInfos[_mapEditorModel.CurrentMapEditorName.Value].OptionType !=
+                OptionType.Range)
+            {
+                float scroll = Input.GetAxis("Mouse ScrollWheel");
+                if (scroll != 0)
+                {
+                    Camera.main.orthographicSize -= scroll * zoomSpeed;
+                    Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, minZoom, maxZoom);
+                }
+            }
+        }
+
+        public IArchitecture GetArchitecture()
+        {
+            return MapEditorGlobal.Interface;
         }
     }
 }

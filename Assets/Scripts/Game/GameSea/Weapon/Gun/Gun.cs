@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Global;
 using UnityEngine;
@@ -10,8 +11,10 @@ namespace daifuDemo
 	{
 		public string key { get; set; }
 		
-		public int currentRank { get; set; }
+		public BindableProperty<int> currentRank { get; set; } = new BindableProperty<int>();
 		
+		public int MaxRank { get; set; }
+
 		public string weaponName { get; set; }
 		
 		public Texture2D icon { get; set; }
@@ -27,6 +30,8 @@ namespace daifuDemo
 		public float intervalBetweenShots;
 
 		public float loadAmmunitionNeedTime;
+
+		public IndicatorType indicatorType;
 
 		public List<(Vector2, float)> bulletSpawnLocationsAndDirectionsList;
 
@@ -58,16 +63,17 @@ namespace daifuDemo
 			
 			_playerModel = this.GetModel<IPlayerModel>();
 
-			_weaponSystem = this.GetSystem<IWeaponSystem>();
-			
 			flyerRoot = GameObject.FindGameObjectWithTag("FlyerRoot");
 
 			_playerModel.IfLeft.RegisterWithInitValue(value =>
 			{
 				_gunModel.IfLeft.Value = value;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-
-			InitData();
+			
+			currentRank.Register(rank =>
+			{
+				InitData();
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
 		private void Update()
@@ -77,7 +83,9 @@ namespace daifuDemo
 
 		public void InitData()
 		{
-			GunInfo currentGunInfo = (GunInfo)_weaponSystem.WeaponInfos[(key, currentRank)];
+			_weaponSystem = this.GetSystem<IWeaponSystem>();
+			GunInfo currentGunInfo = (GunInfo)_weaponSystem.WeaponInfos[(key, currentRank.Value)];
+			
 			weaponName = currentGunInfo.Name;
 			icon = currentGunInfo.Icon;
 			attackRange = currentGunInfo.AttackRange;
@@ -85,11 +93,23 @@ namespace daifuDemo
 			maximumAmmunition = currentGunInfo.MaximumAmmunition;
 			loadAmmunitionNeedTime = currentGunInfo.LoadAmmunitionNeedTime;
 			intervalBetweenShots = currentGunInfo.IntervalBetweenShots;
+			indicatorType = currentGunInfo.IndicatorType;
 			bulletSpawnLocationsAndDirectionsList = currentGunInfo.BulletSpawnLocationsAndDirectionsList;
+			MaxRank = currentGunInfo.MaxRank;
 
 			currentIntervalBetweenShots = intervalBetweenShots;
 			currentLoadAmmunitionTime = loadAmmunitionNeedTime;
-			currentAmmunition = currentAllAmmunition;
+
+			if (currentAllAmmunition.Value - maximumAmmunition >= 0)
+			{
+				currentAmmunition.Value = maximumAmmunition;
+				currentAllAmmunition.Value -= maximumAmmunition;
+			}
+			else
+			{
+				currentAmmunition.Value = currentAllAmmunition.Value;
+				currentAllAmmunition.Value = 0;
+			}
 		}
 
 		public IArchitecture GetArchitecture()

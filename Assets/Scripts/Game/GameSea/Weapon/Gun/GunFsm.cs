@@ -16,14 +16,15 @@ namespace daifuDemo
     public class GunFsm : AbstractFsm<GunState>, IController
     {
         private Gun _gun;
-        
         private Transform _bulletTemplate;
+        private AttackRangeIndicator _attackRangeIndicator;
         
         private IGunModel _gunModel;
-
         private IBulletModel _bulletModel;
+        private IUIGamePanelModel _uiGamePanelModel;
 
         private IBulletSystem _bulletSystem;
+        private IIndicatorSystem _indicatorSystem;
 
         public GunFsm(Gun gun, Transform bulletTemplate)
         {
@@ -34,11 +35,14 @@ namespace daifuDemo
         public override void Init()
         {
             _gunModel = this.GetModel<IGunModel>();
-
             _bulletModel = this.GetModel<IBulletModel>();
+            _uiGamePanelModel = this.GetModel<IUIGamePanelModel>();
 
             _bulletSystem = this.GetSystem<IBulletSystem>();
+            _indicatorSystem = this.GetSystem<IIndicatorSystem>();
             
+            _attackRangeIndicator = _indicatorSystem.CreateIndicator(_bulletTemplate);
+
             AddStates(new State<GunState>()
                 .WithKey(GunState.Ready)
                 .WithOnEnter(() => _gunModel.CurrentGunState.Value = GunState.Ready)
@@ -47,11 +51,44 @@ namespace daifuDemo
 
             AddStates(new State<GunState>()
                 .WithKey(GunState.Aim)
-                .WithOnEnter(() => _gunModel.CurrentGunState.Value = GunState.Aim)
-                .WithOnExit(null)
+                .WithOnEnter(() =>
+                {
+                    _gunModel.CurrentGunState.Value = GunState.Aim;
+                    _attackRangeIndicator.Show();
+                })
+                .WithOnExit(() =>
+                {
+                    _attackRangeIndicator.Hide();
+                })
                 .WithOnTick(() =>
                 {
                     RotateTowardsMouse();
+                    if (_gun.indicatorType == IndicatorType.Line)
+                    {
+                        if (_gunModel.IfLeft.Value)
+                        {
+                            _indicatorSystem.CreateLine(_attackRangeIndicator.lineRender, _gun.attackRange,
+                                0.05f, -_gun.transform.right, _bulletTemplate.position);
+                        }
+                        else
+                        {
+                            _indicatorSystem.CreateLine(_attackRangeIndicator.lineRender, _gun.attackRange,
+                                0.05f, _gun.transform.right, _bulletTemplate.position);
+                        }
+                    }
+                    else if (_gun.indicatorType == IndicatorType.Sector)
+                    {
+                        if (_gunModel.IfLeft.Value)
+                        {
+                            _indicatorSystem.CreateMoveSectorMesh(_attackRangeIndicator.mesh, _bulletTemplate.position,
+                                -_gun.transform.right, 1f, 0f, 40f, 100);
+                        }
+                        else
+                        {
+                            _indicatorSystem.CreateMoveSectorMesh(_attackRangeIndicator.mesh, _bulletTemplate.position,
+                                _gun.transform.right, 1f, 0f, 40f, 100);
+                        }
+                    }
                 }));
             
             AddStates(new State<GunState>()
@@ -72,11 +109,16 @@ namespace daifuDemo
             
             AddStates(new State<GunState>()
                 .WithKey(GunState.LoadAmmunition)
-                .WithOnEnter(() => _gunModel.CurrentGunState.Value = GunState.LoadAmmunition)
+                .WithOnEnter(() =>
+                {
+                    _gunModel.CurrentGunState.Value = GunState.LoadAmmunition;
+                    _uiGamePanelModel.CurrentCounterPanelState.Value = CounterPanelState.Reloading;
+                })
                 .WithOnExit(() =>
                 {
                     _gun.currentLoadAmmunitionTime = _gun.loadAmmunitionNeedTime;
                     _gun.ifMeetReloadAmmunitionTime = false;
+                    _uiGamePanelModel.CurrentCounterPanelState.Value = CounterPanelState.Hide;
                 })
                 .WithOnTick(() =>
                 {
@@ -88,6 +130,9 @@ namespace daifuDemo
                         _gun.ifMeetReloadAmmunitionTime = true;
                         LoadAmmunition();
                     }
+
+                    _uiGamePanelModel.CurrentCounter.Value =
+                        (_gun.loadAmmunitionNeedTime - _gun.currentLoadAmmunitionTime) / _gun.loadAmmunitionNeedTime;
                 }));
 
             
@@ -122,7 +167,7 @@ namespace daifuDemo
                 .WithFromState(GunState.Aim)
                 .WithToState(GunState.LoadAmmunition)
                 .WithWeight(2)
-                .AddConditions(() => Input.GetKeyDown(KeyCode.R)));
+                .AddConditions(() => _gun.currentAmmunition.Value != _gun.maximumAmmunition && Input.GetKeyDown(KeyCode.R)));
             
             AddTransitions(new Transition<GunState>()
                 .WithFromState(GunState.Aim)
@@ -144,7 +189,7 @@ namespace daifuDemo
                 .WithFromState(GunState.Cooling)
                 .WithToState(GunState.LoadAmmunition)
                 .WithWeight(2)
-                .AddConditions(() => Input.GetKeyDown(KeyCode.R)));
+                .AddConditions(() => _gun.currentAmmunition.Value != _gun.maximumAmmunition && Input.GetKeyDown(KeyCode.R)));
             
             AddTransitions(new Transition<GunState>()
                 .WithFromState(GunState.Cooling)

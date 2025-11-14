@@ -2,6 +2,7 @@ using System;
 using Global;
 using UnityEngine;
 using QFramework;
+using UnityEngine.Serialization;
 
 namespace daifuDemo
 {
@@ -16,7 +17,7 @@ namespace daifuDemo
 	{
 		public string key;
 
-		private BackPackItemType _itemType;
+		public BackPackItemType itemType;
 
 		public string backPackItemKey;
 
@@ -40,7 +41,7 @@ namespace daifuDemo
 			
 			_openNeedSeconds = _treasureBoxSystem.FindTreasureItemInfo(key).OpenNeedSeconds;
 			
-			_itemType = _treasureBoxSystem.FindTreasureItemInfo(key).PossessionItemType;
+			itemType = _treasureBoxSystem.FindTreasureItemInfo(key).PossessionItemType;
 			
 			_playerModel.OpenChestSeconds.Register(seconds =>
 			{
@@ -49,7 +50,7 @@ namespace daifuDemo
 					if (seconds >= _openNeedSeconds)
 					{
 						_treasureBoxState = TreasureBoxState.Opened;
-						backPackItemKey = _backPackSystem.AccordingItemTypeGetRandomOne(_itemType);
+						backPackItemKey = _backPackSystem.AccordingItemTypeGetRandomOne(itemType);
 						Events.TreasureBoxOpened?.Trigger(this);
 						_playerModel.IfChestOpening.Value = false;
 						this.gameObject.DestroySelf();
@@ -62,6 +63,7 @@ namespace daifuDemo
 				if (other.CompareTag("Player") && _treasureBoxState == TreasureBoxState.FreeTime)
 				{
 					_playerModel.IfCanOpenTreasureChests.Value = true;
+					_playerModel.CurrentOpenChestNeedSeconds.Value = _openNeedSeconds;
 					_treasureBoxState = TreasureBoxState.Opening;
 				}
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);

@@ -29,7 +29,7 @@ namespace daifuDemo
 			var direction = new Vector2(inputHorizontal, 0).normalized;
     
 			var playerTargetWalkingSpeed = direction * _speed;
-			_rigidbody2D.velocity = Vector2.Lerp(_rigidbody2D.velocity, playerTargetWalkingSpeed,
+			_rigidbody2D.linearVelocity = Vector2.Lerp(_rigidbody2D.linearVelocity, playerTargetWalkingSpeed,
 				1 - Mathf.Exp(-Time.deltaTime * 10));
 		}
 

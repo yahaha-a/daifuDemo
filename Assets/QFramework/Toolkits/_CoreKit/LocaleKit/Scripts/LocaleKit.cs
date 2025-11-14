@@ -1,5 +1,5 @@
 ﻿/****************************************************************************
- * Copyright (c) 2015 - 2022 liangxiegame UNDER MIT License
+ * Copyright (c) 2015 - 2024 liangxiegame UNDER MIT License
  * 
  * http://qframework.cn
  * https://github.com/liangxiegame/QFramework
@@ -13,7 +13,6 @@ namespace QFramework
 {
     public class LocaleKit : Architecture<LocaleKit>
     {
-
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void AutoInit()
         {
@@ -21,9 +20,13 @@ namespace QFramework
             // if config is created
             if (Config)
             {
-                var @interface = LocaleKit.Interface;
-                Debug.Log(@interface + ": inited");
+                InitArchitecture();
             }
+        }
+
+        public static void ReInit()
+        {
+            (Interface as LocaleKit)?.Init();
         }
         
         protected override void Init()
@@ -35,19 +38,18 @@ namespace QFramework
                 languageIndex = 0;
             }
 
-            CurrentLanguage = Config.LanguageDefines[languageIndex].Language;
+            mCurrentLanguage.Value = Config.LanguageDefines[languageIndex].Language;
         }
 
-        public static Language CurrentLanguage { get; private set; }
+        private static readonly BindableProperty<Language> mCurrentLanguage = new BindableProperty<Language>(Language.English);
+        public static IReadonlyBindableProperty<Language> CurrentLanguage => mCurrentLanguage ;
 
         public static Action<string, int> SaveCommand = (key, languageIndex) =>
             PlayerPrefs.SetInt(key, languageIndex);
 
         public static Func<string, int, int> LoadCommand = (key, defaultLanguageIndex) =>
             PlayerPrefs.GetInt(key, defaultLanguageIndex);
-
-        public static readonly EasyEvent OnLanguageChanged = new EasyEvent();
-
+        
 
         private static LanguageDefineConfig mConfig;
 
@@ -57,7 +59,7 @@ namespace QFramework
 
         public static Language GetNextLanguage()
         {
-            var languageIndex = (int)CurrentLanguage;
+            var languageIndex = Config.LanguageDefines.FindIndex(l => l.Language == CurrentLanguage.Value);
             languageIndex++;
 
             if (languageIndex >= Config.LanguageDefines.Count)
@@ -65,13 +67,12 @@ namespace QFramework
                 languageIndex = 0;
             }
 
-            return (Language)languageIndex;
+            return Config.LanguageDefines[languageIndex].Language;
         }
 
         public static void ChangeLanguage(Language language)
         {
-            CurrentLanguage = language;
-            OnLanguageChanged?.Trigger();
+            mCurrentLanguage.Value = language;
             SaveCommand("CURRENT_LANGUAGE_INDEX", Config.LanguageDefines.FindIndex(l => l.Language == language));
         }
     }

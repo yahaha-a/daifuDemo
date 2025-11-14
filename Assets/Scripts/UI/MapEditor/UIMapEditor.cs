@@ -44,6 +44,7 @@ namespace MapEditor
 			
 			QuitButton.onClick.AddListener(() =>
 			{
+				_mapEditorModel.CurrentArchiveName.Value = null;
 				SceneManager.LoadScene("GameStart");
 				this.CloseSelf();
 			});

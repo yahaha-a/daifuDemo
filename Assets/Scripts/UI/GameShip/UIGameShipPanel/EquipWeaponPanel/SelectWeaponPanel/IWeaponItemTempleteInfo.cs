@@ -10,11 +10,7 @@ namespace daifuDemo
         
         BindableProperty<EquipWeaponKey> EquipState { get; }
         
-        int Rank { get; }
-        
-        BulletType BulletType { get; }
-        
-        BindableProperty<int> AmmunitionNumber { get; set; }
+        IBulletInfo CurrentBulletInfo { get; }
         
         IWeaponItemTempleteInfo WithKey(string key);
 
@@ -22,11 +18,7 @@ namespace daifuDemo
 
         IWeaponItemTempleteInfo WithEquipState(EquipWeaponKey state);
 
-        IWeaponItemTempleteInfo WithRank(int rank);
-
-        IWeaponItemTempleteInfo WithBulletType(BulletType type);
-
-        IWeaponItemTempleteInfo WithAmmunitionNumber(int ammunitionNumber);
+        IWeaponItemTempleteInfo WithBullet(IBulletInfo info);
     }
 
     public class WeaponItemTempleteInfo : IWeaponItemTempleteInfo
@@ -38,11 +30,7 @@ namespace daifuDemo
         public BindableProperty<EquipWeaponKey> EquipState { get; private set; } =
             new BindableProperty<EquipWeaponKey>(EquipWeaponKey.Null);
 
-        public int Rank { get; private set; }
-        
-        public BulletType BulletType { get; private set; }
-
-        public BindableProperty<int> AmmunitionNumber { get; set; } = new BindableProperty<int>(0);
+        public IBulletInfo CurrentBulletInfo { get; private set; }
 
         public IWeaponItemTempleteInfo WithKey(string key)
         {
@@ -62,21 +50,9 @@ namespace daifuDemo
             return this;
         }
 
-        public IWeaponItemTempleteInfo WithRank(int rank)
+        public IWeaponItemTempleteInfo WithBullet(IBulletInfo info)
         {
-            Rank = rank;
-            return this;
-        }
-
-        public IWeaponItemTempleteInfo WithBulletType(BulletType type)
-        {
-            BulletType = type;
-            return this;
-        }
-
-        public IWeaponItemTempleteInfo WithAmmunitionNumber(int ammunitionNumber)
-        {
-            AmmunitionNumber.Value = ammunitionNumber;
+            CurrentBulletInfo = info;
             return this;
         }
     }

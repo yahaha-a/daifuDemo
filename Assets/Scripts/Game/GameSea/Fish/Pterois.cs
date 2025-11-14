@@ -78,8 +78,6 @@ namespace daifuDemo
 
 		private PteroisFishBehaviorTree<Pterois> _bt;
 
-		private Player _player;
-
 		private IPlayerModel _playerModel;
 
 		private IUtils _utils;
@@ -193,7 +191,6 @@ namespace daifuDemo
 		{
 			FishKey = Config.AggressiveFishKey;
 			
-			_player = FindObjectOfType<Player>().GetComponent<Player>();
 			_playerModel = this.GetModel<IPlayerModel>();
 			_utils = this.GetUtility<IUtils>();
 			

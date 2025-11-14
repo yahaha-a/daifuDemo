@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -40,17 +41,21 @@ namespace QFramework
             540 - (2 * margin));
 
         public bool OpenInAwake = false;
-
+        
+        
         void Awake()
         {
-            ConsoleKit.InitModules();
+            ConsoleKit.Modules.ForEach(m => m.OnInit());
             this.showGUI = OpenInAwake;
             DontDestroyOnLoad(this);
+
+            mIndex = ConsoleKit.GetDefaultIndex();
         }
 
         void OnDestroy()
         {
-            ConsoleKit.DestroyModules();
+            ConsoleKit.Modules.ForEach(m => m.OnDestroy());
+            ConsoleKit.RemoveAllModules();
         }
 
         void Update()
@@ -75,30 +80,18 @@ namespace QFramework
         }
 
         private int mIndex = 0;
+        
 
         void OnGUI()
         {
-            if (!this.showGUI)
+            if (!showGUI)
                 return;
 
-            if (this.onGUICallback != null)
-                this.onGUICallback();
+            if (onGUICallback != null)
+                onGUICallback();
 
             var cachedMatrix = GUI.matrix;
             IMGUIHelper.SetDesignResolution(960, 540);
-
-            if (GUI.Button(new Rect(100, 100, 100, 50), "清空数据"))
-            {
-                PlayerPrefs.DeleteAll();
-
-                Directory.Delete(Application.persistentDataPath, true);
-#if UNITY_EDITOR
-                EditorApplication.isPlaying = false;
-#else
-                Application.Quit ();
-#endif
-            }
-
             windowRect = GUILayout.Window(int.MaxValue / 2, windowRect, DrawConsoleWindow, "控制台");
             GUI.matrix = cachedMatrix;
         }

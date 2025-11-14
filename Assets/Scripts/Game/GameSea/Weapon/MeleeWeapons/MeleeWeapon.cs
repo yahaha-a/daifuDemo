@@ -8,9 +8,11 @@ namespace daifuDemo
 	public partial class MeleeWeapon : ViewController, IController, IWeapon
 	{
 		public string key { get; set; }
+
+		public BindableProperty<int> currentRank { get; set; } = new BindableProperty<int>();
 		
-		public int currentRank { get; set; }
-		
+		public int MaxRank { get; set; }
+
 		public string weaponName { get; set; }
 		
 		public Texture2D icon { get; set; }
@@ -37,50 +39,12 @@ namespace daifuDemo
 		{
 			_playerModel = this.GetModel<IPlayerModel>();
 
-			_meleeWeaponModel = this.GetModel<IMeleeWeaponModel>();
-
-			_weaponSystem = this.GetSystem<IWeaponSystem>();
-
 			_playerModel.IfLeft.RegisterWithInitValue(value =>
 			{
 				IfLeft = value;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 
-			_meleeWeaponModel.CurrentMeleeWeaponKey.RegisterWithInitValue(key =>
-			{
-				UpdateData();
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-
-			_meleeWeaponModel.CurrentMeleeWeaponRank.RegisterWithInitValue(rank =>
-			{
-				UpdateData();
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-
 			Events.Attack.Register(() =>
-			{
-				var fishes = GameObject.FindGameObjectsWithTag("Fish");
-
-				foreach (var fish in fishes)
-				{
-					var distance = Vector2.Distance(fish.transform.position, transform.position);
-					if (distance <= AttackRadius)
-					{
-						var direction = fish.transform.position - transform.position;
-						var angle = Vector2.Angle(direction, _menchoDirection);
-						if (angle <= 60f)
-						{
-							this.SendCommand(new WeaponAttackFishCommand(Damage, fish));
-						}
-					}
-				}
-
-				ActionKit.Delay(AttackFrequency, () =>
-				{
-					_playerModel.IfAttacking.Value = false;
-				}).Start(this);
-			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-
-			Events.Attack2.Register(() =>
 			{
 				if (!_isAttack)
 				{
@@ -91,6 +55,11 @@ namespace daifuDemo
 						_playerModel.IfAttacking.Value = false;
 					}).Start(this);
 				}
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
+			
+			currentRank.Register(rank =>
+			{
+				InitData();
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
@@ -106,14 +75,17 @@ namespace daifuDemo
 			}
 		}
 
-		private void UpdateData()
+		public void InitData()
 		{
+			_weaponSystem = this.GetSystem<IWeaponSystem>();
+			_meleeWeaponModel = this.GetModel<IMeleeWeaponModel>();
 			MeleeWeaponInfo currentMeleeWeaponInfo = (MeleeWeaponInfo)_weaponSystem.WeaponInfos[
 				(_meleeWeaponModel.CurrentMeleeWeaponKey.Value, _meleeWeaponModel.CurrentMeleeWeaponRank.Value)];
 
 			Damage = currentMeleeWeaponInfo.Damage;
 			AttackRadius = currentMeleeWeaponInfo.AttackRadius;
 			AttackFrequency = currentMeleeWeaponInfo.AttackFrequency;
+			MaxRank = currentMeleeWeaponInfo.MaxRank;
 		}
 
 		IEnumerator Attack()

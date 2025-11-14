@@ -10,7 +10,9 @@ namespace daifuDemo
 	{
 		public string key { get; set; }
 		
-		public int currentRank { get; set; }
+		public BindableProperty<int> currentRank { get; set; } = new BindableProperty<int>();
+		
+		public int MaxRank { get; set; }
 		
 		public string weaponName { get; set; }
 		
@@ -44,8 +46,6 @@ namespace daifuDemo
 
 			_fishForkModel = this.GetModel<IFishForkModel>();
 
-			_weaponSystem = this.GetSystem<IWeaponSystem>();
-
 			_playerModel.IfLeft.RegisterWithInitValue(value =>
 			{
 				ifLeft = value;
@@ -55,8 +55,11 @@ namespace daifuDemo
 			{
 				_fishForkModel.IfFishForkHeadExist.Value = false;
 			}).UnRegisterWhenGameObjectDestroyed(gameObject);
-			
-			InitData();
+
+			currentRank.Register(rank =>
+			{
+				InitData();
+			}).UnRegisterWhenGameObjectDestroyed(gameObject);
 		}
 
 		private void Update()
@@ -64,12 +67,15 @@ namespace daifuDemo
 			_fishForkFsm.Tick();
 		}
 
-		private void InitData()
+		public void InitData()
 		{
-			FishForkInfo fishForkInfo = (FishForkInfo)_weaponSystem.WeaponInfos[(key, currentRank)];
+			_weaponSystem = this.GetSystem<IWeaponSystem>();
+			FishForkInfo fishForkInfo = (FishForkInfo)_weaponSystem.WeaponInfos[(key, currentRank.Value)];
+			
 			launchSpeed = fishForkInfo.LaunchSpeed;
 			fishForkLength = fishForkInfo.FishForkLength;
 			chargingTime = fishForkInfo.ChargingTime;
+			MaxRank = fishForkInfo.MaxRank;
 		}
 
 		public IArchitecture GetArchitecture()

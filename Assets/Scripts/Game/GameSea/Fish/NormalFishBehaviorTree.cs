@@ -14,6 +14,7 @@ namespace daifuDemo
         BeCaught,
         
         HpZero,
+        HpLack,
         HitByFork,
         DiscoverPlayer,
         HitByBullet
@@ -26,21 +27,18 @@ namespace daifuDemo
     
     public class NormalFishBehaviorTree<TFish> : BehaviorTree<NormalFishBehaviorTreeEnum>, IFishBehaviorTree<TFish>, IController where TFish : NormalFish
     {
-        private IUtils _utils;
-        
         public TFish Fish { get; set; }
         
-        public Player Player { get; set; }
+        private IPlayerModel _playerModel;
         
-        public NormalFishBehaviorTree(TFish fish, Player player)
+        public NormalFishBehaviorTree(TFish fish)
         {
             Fish = fish;
-            Player = player;
         }
         
         public override void Init()
         {
-            _utils = this.GetUtility<IUtils>();
+            _playerModel = this.GetModel<IPlayerModel>();
             
             this
                 .AddActionNodeDic(new ActionNode<NormalFishBehaviorTreeEnum>()
@@ -49,18 +47,23 @@ namespace daifuDemo
                     {
                         if (Fish.Hp <= 0)
                         {
-                            Fish.CanSwim = false;
                             return BehaviorNodeState.Success;
                         }
 
                         return BehaviorNodeState.Fail;
                     })
-                    .WithOnSuccessExit(() => {})
+                    .WithOnSuccessExit(() =>
+                    {
+                        Fish.CanSwim = false;
+                    })
                     .WithOnFailExit(() => {}))
 
                 .AddActionNodeDic(new ActionNode<NormalFishBehaviorTreeEnum>()
                     .WithActionType(NormalFishBehaviorTreeEnum.Die)
-                    .WithOnUpdate(null)
+                    .WithOnUpdate(() =>
+                    {
+                        return BehaviorNodeState.Success;
+                    })
                     .WithOnSuccessExit(() =>
                     {
                         Fish.gameObject.DestroySelf();
@@ -73,21 +76,23 @@ namespace daifuDemo
                     {
                         if (Fish.HitByFork)
                         {
-                            Fish.CanSwim = false;
                             return BehaviorNodeState.Success;
                         }
 
                         return BehaviorNodeState.Fail;
                     })
                     .WithOnSuccessExit(() =>
-                    {})
+                    {
+                        // Debug.Log("被鱼叉击中");
+                        Fish.CanSwim = false;
+                    })
                     .WithOnFailExit(() => {}))
 
                 .AddActionNodeDic(new ActionNode<NormalFishBehaviorTreeEnum>()
                     .WithActionType(NormalFishBehaviorTreeEnum.Struggle)
                     .WithOnUpdate(() =>
                     {
-                        Fish.State = FishState.Struggle;
+                        Fish.IfStruggle = true;
                         
                         Vector2 randomDirection = new Vector3(
                             Random.Range(-1f, 1f),
@@ -107,11 +112,15 @@ namespace daifuDemo
                     })
                     .WithOnSuccessExit(() =>
                     {
+                        // Debug.Log("挣脱");
                         Events.FishEscape?.Trigger(Fish);
-                        Fish.State = FishState.Swim;
+                        
+                        Fish.IfStruggle = false;
                         Fish.HitByFork = false;
+                        Fish.CanSwim = true;
                         Fish.CurrentStruggleTime = Fish.StruggleTime;
-                        Player.ResetFishChallengeClicks();
+                        
+                        _playerModel.FishingChallengeClicks.Value = 0;
                     })
                     .WithOnFailExit(() =>
                     {
@@ -122,7 +131,7 @@ namespace daifuDemo
                     .WithActionType(NormalFishBehaviorTreeEnum.BeCaught)
                     .WithOnUpdate(() =>
                     {
-                        if (Player.GetFishChallengeClicks >= Fish.Clicks)
+                        if (_playerModel.FishingChallengeClicks.Value >= Fish.Clicks)
                         {
                             return BehaviorNodeState.Success;
                         }
@@ -131,11 +140,12 @@ namespace daifuDemo
                     })
                     .WithOnSuccessExit(() =>
                     {
-                        Player.ResetFishChallengeClicks();
-                        
+                        // Debug.Log("被抓");
+                        _playerModel.FishingChallengeClicks.Value = 0;
+
                         ActionKit.OnUpdate.Register(() =>
                         {
-                            if (Vector3.Distance(Player.transform.position, Fish.transform.position) <= 1f)
+                            if (Vector3.Distance(_playerModel.CurrentPosition.Value, Fish.transform.position) <= 1f)
                             {
                                 Events.CatchFish?.Trigger(Fish);
                                 Fish.SendCommand<FishCountAddOneCommand>();
@@ -144,19 +154,105 @@ namespace daifuDemo
                             else
                             {
                                 var position = Fish.transform.position;
-                                Fish.transform.position = Vector3.Lerp(position, Player.transform.position, 1 - Mathf.Exp(-Time.deltaTime * 30));
+                                Fish.transform.position = Vector3.Lerp(position, _playerModel.CurrentPosition.Value,
+                                    1 - Mathf.Exp(-Time.deltaTime * 30));
                             }
                         }).UnRegisterWhenGameObjectDestroyed(Fish.gameObject);
                     })
                     .WithOnFailExit(() => {}))
+                
+                .AddActionNodeDic(new ActionNode<NormalFishBehaviorTreeEnum>()
+                    .WithActionType(NormalFishBehaviorTreeEnum.HpLack)
+                    .WithOnUpdate(() =>
+                    {
+                        if (Fish.Hp <= Fish.FleeHp)
+                        {
+                            return BehaviorNodeState.Success;
+                        }
+                        
+                        return BehaviorNodeState.Fail;
+                    })
+                    .WithOnSuccessExit(() =>
+                    {
+                        // Debug.Log("血量低");
+                        Fish.CanSwim = true;
+                        Fish.CurrentSwimRate = Fish.FrightenedSwimRate;
+                    })
+                    .WithOnFailExit(() => {}))
 
+                .AddActionNodeDic(new ActionNode<NormalFishBehaviorTreeEnum>()
+                    .WithActionType(NormalFishBehaviorTreeEnum.HitByBullet)
+                    .WithOnUpdate(() =>
+                    {
+                        if (Fish.HitByBullet)
+                        {
+                            return BehaviorNodeState.Success;
+                        }
+
+                        return BehaviorNodeState.Fail;
+                    })
+                    .WithOnSuccessExit(() =>
+                    {
+                        // Debug.Log("被子弹击中");
+                        Fish.CanSwim = true;
+                        Fish.CurrentSwimRate = Fish.FrightenedSwimRate;
+                    })
+                    .WithOnFailExit(() => {}))
+                
+                .AddActionNodeDic(new ActionNode<NormalFishBehaviorTreeEnum>()
+                    .WithActionType(NormalFishBehaviorTreeEnum.FrightenedSwim)
+                    .WithOnUpdate(() =>
+                    {
+                        Fish.TargetDirection = ((Vector2)Fish.transform.position - _playerModel.CurrentPosition.Value).normalized;
+                        Fish.CurrentDirection = Vector2.Lerp(Fish.CurrentDirection, Fish.TargetDirection, Time.deltaTime * 0.6f);
+                        
+                        return BehaviorNodeState.Success;
+                    })
+                    .WithOnSuccessExit(() =>
+                    {
+                        // Debug.Log("逃跑");
+                    })
+                    .WithOnFailExit(() => {}))
+                
+                .AddActionNodeDic(new ActionNode<NormalFishBehaviorTreeEnum>()
+                    .WithActionType(NormalFishBehaviorTreeEnum.DiscoverPlayer)
+                    .WithOnUpdate(() =>
+                    {
+                        if (Fish.DiscoverPlayer)
+                        {
+                            return BehaviorNodeState.Success;
+                        }
+                        
+                        return BehaviorNodeState.Fail;
+                    })
+                    .WithOnSuccessExit(() =>
+                    {
+                        // Debug.Log("发现玩家");
+                        Fish.CurrentSwimRate = Fish.FrightenedSwimRate;
+                        
+                    })
+                    .WithOnFailExit(() =>
+                    {
+                        // Debug.Log("没发现玩家");
+                    }))
+                
                 .AddActionNodeDic(new ActionNode<NormalFishBehaviorTreeEnum>()
                     .WithActionType(NormalFishBehaviorTreeEnum.Swim)
                     .WithOnUpdate(() =>
                     {
+                        // Debug.Log("游动");
                         Fish.CanSwim = true;
+                        Fish.CurrentSwimRate = Fish.SwimRate;
                         
-                        if (Fish.CurrentToggleDirectionTime <= 0)
+                        if (Vector3.Distance(Fish.transform.position, Fish.StartPosition) >= Fish.RangeOfMovement)
+                        {
+                            Vector3 baseEscapeDirection = -Fish.CurrentDirection;
+                            float randomOffsetX = Random.Range(-0.3f, 0.3f);
+                            float randomOffsetY = Random.Range(-0.3f, 0.3f);
+                            Vector3 randomOffset = new Vector3(randomOffsetX, randomOffsetY, 0);
+                            Fish.CurrentDirection = (baseEscapeDirection + randomOffset).normalized;
+                        }
+                        else if (Fish.CurrentToggleDirectionTime <= 0)
                         {
                             Fish.CurrentToggleDirectionTime = Fish.ToggleDirectionTime;
                             Fish.TargetDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
@@ -171,93 +267,37 @@ namespace daifuDemo
                         return BehaviorNodeState.Success;
                     })
                     .WithOnSuccessExit(() => {})
-                    .WithOnFailExit(() => {}))
-
-                .AddActionNodeDic(new ActionNode<NormalFishBehaviorTreeEnum>()
-                    .WithActionType(NormalFishBehaviorTreeEnum.DiscoverPlayer)
-                    .WithOnUpdate(() =>
-                    {
-                        if (Fish.DiscoverPlayer)
-                        {
-                            return BehaviorNodeState.Success;
-                        }
-                        else
-                        {
-                            return BehaviorNodeState.Fail;
-                        }
-                    })
-                    .WithOnSuccessExit(() => {})
-                    .WithOnFailExit(() =>
-                    {
-                        if (Vector3.Distance(Fish.transform.position, Fish.StartPosition) >= Fish.RangeOfMovement)
-                        {
-                            Vector3 baseEscapeDirection = -Fish.CurrentDirection;
-                            float randomOffsetX = Random.Range(-0.3f, 0.3f);
-                            float randomOffsetY = Random.Range(-0.3f, 0.3f);
-                            Vector3 randomOffset = new Vector3(randomOffsetX, randomOffsetY, 0);
-                            Fish.CurrentDirection = (baseEscapeDirection + randomOffset).normalized;
-                        }
-                        Fish.CurrentSwimRate = Fish.SwimRate;
-                    }))
-
-                .AddActionNodeDic(new ActionNode<NormalFishBehaviorTreeEnum>()
-                    .WithActionType(NormalFishBehaviorTreeEnum.HitByBullet)
-                    .WithOnUpdate(() =>
-                    {
-                        if (Fish.HitByBullet)
-                        {
-                            return BehaviorNodeState.Success;
-                        }
-
-                        return BehaviorNodeState.Fail;
-                    })
-                    .WithOnSuccessExit(() => {})
-                    .WithOnFailExit(() => {}))
-
-                .AddActionNodeDic(new ActionNode<NormalFishBehaviorTreeEnum>()
-                    .WithActionType(NormalFishBehaviorTreeEnum.FrightenedSwim)
-                    .WithOnUpdate(() =>
-                    {
-                        Vector3 baseEscapeDirection = (Fish.transform.position - Player.transform.position).normalized;
-                        float randomOffsetX = Random.Range(-0.3f, 0.3f);
-                        float randomOffsetY = Random.Range(-0.3f, 0.3f);
-                        Vector3 randomOffset = new Vector3(randomOffsetX, randomOffsetY, 0);
-                        Fish.TargetDirection = (baseEscapeDirection + randomOffset).normalized;
-                        Fish.CurrentDirection = Vector3.Lerp(Fish.CurrentDirection, Fish.TargetDirection, Time.deltaTime * 0.6f);
-                        
-                        Fish.CurrentSwimRate = Fish.FrightenedSwimRate;
-
-                        return BehaviorNodeState.Success;
-                    })
-                    .WithOnSuccessExit(() => {})
                     .WithOnFailExit(() => {}));
             
             CreateSequence()
                 .CreateInverter()
-                    .CreateSelector()
-                        .CreateSequence()
-                            .AddAction(NormalFishBehaviorTreeEnum.HpZero)
-                            .AddAction(NormalFishBehaviorTreeEnum.Die)
-                        .EndComposite()
-                        .CreateSequence()
-                            .AddAction(NormalFishBehaviorTreeEnum.HitByFork)
-                            .CreateInverter()
-                                .CreateSelector()
-                                    .AddAction(NormalFishBehaviorTreeEnum.Struggle)
-                                    .AddAction(NormalFishBehaviorTreeEnum.BeCaught)
-                                .EndComposite()
-                            .EndDecorator()
-                        .EndComposite()
+                    .CreateSequence()
+                        .AddAction(NormalFishBehaviorTreeEnum.HpZero)
+                        .AddAction(NormalFishBehaviorTreeEnum.Die)
                     .EndComposite()
                 .EndDecorator()
-                .CreateSequence()
-                    .AddAction(NormalFishBehaviorTreeEnum.Swim)
-                    .CreateSelector()
-                        .AddAction(NormalFishBehaviorTreeEnum.DiscoverPlayer)
-                        .AddAction(NormalFishBehaviorTreeEnum.HitByBullet)
+                .CreateInverter()
+                    .CreateSequence()
+                        .AddAction(NormalFishBehaviorTreeEnum.HitByFork)
+                        .CreateInverter()
+                            .CreateSelector()
+                                .AddAction(NormalFishBehaviorTreeEnum.Struggle)
+                                .AddAction(NormalFishBehaviorTreeEnum.BeCaught)
+                            .EndComposite()
+                        .EndDecorator()
                     .EndComposite()
-                .EndComposite()
-                .AddAction(NormalFishBehaviorTreeEnum.FrightenedSwim)
+                .EndDecorator()
+                .CreateInverter()
+                    .CreateSequence()
+                        .CreateSelector()
+                            .AddAction(NormalFishBehaviorTreeEnum.DiscoverPlayer)
+                            .AddAction(NormalFishBehaviorTreeEnum.HpLack)
+                            .AddAction(NormalFishBehaviorTreeEnum.HitByBullet)
+                        .EndComposite()
+                        .AddAction(NormalFishBehaviorTreeEnum.FrightenedSwim)
+                    .EndComposite()
+                .EndDecorator()
+                .AddAction(NormalFishBehaviorTreeEnum.Swim)
             .EndComposite();
         }
 

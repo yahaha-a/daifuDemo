@@ -14,6 +14,7 @@ namespace Global
         
         ToolTreasureChest,
         SpiceTreasureChest,
+        WeaponLevelTreasureChest,
         
         Kelp,
         Coral,
@@ -44,6 +45,8 @@ namespace Global
         public static string ToolTreasureChestKey = "ToolTreasureChest";
         
         public static string SpiceTreasureChestKey = "SpiceTreasureChest";
+
+        public static string WeaponLevelTreasureChestKey = "WeaponLevelTreasureChest";
         
         
         public static string CopperOreKey = "Copper";

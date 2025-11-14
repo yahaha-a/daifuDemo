@@ -1999,7 +1999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MarkType: 0
-  CustomComponentName: 
+  CustomComponentName: QuitButton
   CustomComment: 
   mComponentName: UnityEngine.UI.Button
 --- !u!1 &3951153802766941535

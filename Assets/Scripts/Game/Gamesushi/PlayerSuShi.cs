@@ -49,7 +49,7 @@ namespace daifuDemo
 			
 			var direction = new Vector2(inputHorizontal, inputVertical).normalized;
 			var playerTargetWalkingSpeed = direction * _speed;
-			Rigidbody2d.velocity = playerTargetWalkingSpeed;
+			Rigidbody2d.linearVelocity = playerTargetWalkingSpeed;
 
 			if (_iPlayerSuShiModel.IfCanTakeFinishDish.Value)
 			{

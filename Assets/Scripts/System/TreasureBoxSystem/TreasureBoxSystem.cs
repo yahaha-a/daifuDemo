@@ -28,6 +28,11 @@ namespace daifuDemo
                     .WithName("调料宝箱")
                     .WithOpenNeedSeconds(3f)
                     .WithPossessionItemType(BackPackItemType.Seasoning)
+                    .WithNumber(1))
+                .AddTreasureItemInfos(Config.WeaponLevelTreasureChestKey, new TreasureItemInfo()
+                    .WithName("武器等级宝箱")
+                    .WithOpenNeedSeconds(4f)
+                    .WithPossessionItemType(BackPackItemType.WeaponLevel)
                     .WithNumber(1));
         }
 

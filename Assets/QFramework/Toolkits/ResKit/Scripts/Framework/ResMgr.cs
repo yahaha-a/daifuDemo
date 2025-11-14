@@ -15,7 +15,7 @@ namespace QFramework
     using System.Collections.Generic;
     using UnityEngine;
 
-    [MonoSingletonPath("[Framework]/ResMgr")]
+    [MonoSingletonPath("QFramework/ResKit/ResManager")]
     public class ResMgr : MonoBehaviour,ISingleton
     {
         public static ResMgr Instance => MonoSingletonProperty<ResMgr>.Instance;
@@ -136,6 +136,9 @@ namespace QFramework
             }
             else
             {
+#if UNITY_WEBGL
+                LogKit.E("WebGL 请使用异步初始化: ResKit.InitAsync. Please use async init api: ResKit.InitAsync in WebGL Platform");
+#endif
                 AssetBundleSettings.AssetBundleConfigFile.Reset();
 
                 var outResult = new List<string>();

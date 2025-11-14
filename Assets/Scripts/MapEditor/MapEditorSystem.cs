@@ -106,6 +106,15 @@ namespace MapEditor
                         .WithCreateItemType(CreateItemType.TreasureChests)
                         .WithName("调味品宝箱")
                 },
+
+                {
+                    CreateItemName.WeaponLevelTreasureChest,
+                    new MapEditorInfo()
+                        .WithKey(CreateItemName.WeaponLevelTreasureChest)
+                        .WithOptionType(OptionType.Single)
+                        .WithCreateItemType(CreateItemType.TreasureChests)
+                        .WithName("武器等级宝箱")
+                },
                 
                 {
                     CreateItemName.Kelp,
